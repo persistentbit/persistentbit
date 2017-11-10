@@ -10,13 +10,51 @@
     </modules>
     <packaging>pom</packaging>
 
+    <!-- *********************    GENERAL INFO  -->
+
     <name>persistentbit</name>
-    <url>http://maven.apache.org</url>
+    <description>
+        A Collection of Simple, general purpose java libraries and maven plugins.
+    </description>
+
+    <developers>
+        <developer>
+            <name>Peter Muys</name>
+            <email>peter@petermuys.com</email>
+            <organization>Muys Software</organization>
+        </developer>
+    </developers>
+    <inceptionYear>2017</inceptionYear>
+
+
+
+
+    <licenses>
+        <license>
+            <name>EPL</name>
+            <url>http://opensource.org/licenses/eclipse-1.0.php</url>
+        </license>
+    </licenses>
+
+    <url>https://github.com/persistentbit/persistentbit.git</url>
+
+
+    <!-- *********************    SOURCE CONTROL  -->
+
+    <scm>
+        <connection>scm:git:git@github.com:persistentbit/persistentbit.git</connection>
+        <url>scm:git:git@github.com:persistentbit/persistentbit.git</url>
+        <developerConnection>scm:git:git@github.com:persistentbit/persistentbit.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <!-- *********************   PROPERTIES  -->
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <!-- *********************    BUILD SETTINGS -->
     <build>
         <plugins>
             <plugin>
