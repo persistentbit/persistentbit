@@ -13,5 +13,12 @@
     <name>persistent-core</name>
     <url>http://maven.apache.org</url>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-doc-annotations</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 
 </project>

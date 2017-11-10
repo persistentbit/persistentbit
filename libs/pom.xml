@@ -16,5 +16,9 @@
 
     <modules>
         <module>persistent-core</module>
+        <module>persistent-json</module>
+        <module>persistent-doc-annotations</module>
+        <module>persistent-parser</module>
+        <module>persistent-test</module>
     </modules>
 </project>
