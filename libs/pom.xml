@@ -1,0 +1,20 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>persistentbit</artifactId>
+        <groupId>com.persistentbit</groupId>
+        <version>2.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>persistent-libs</artifactId>
+    <packaging>pom</packaging>
+
+    <name>persistent-libs</name>
+    <url>http://maven.apache.org</url>
+
+
+    <modules>
+        <module>persistent-core</module>
+    </modules>
+</project>
