@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.persistentbit</groupId>
+        <artifactId>persistentbit</artifactId>
+        <version>2.0-SNAPSHOT</version>
+        <relativePath>../..</relativePath>
+    </parent>
+    <packaging>jar</packaging>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>persistent-javadocgen-maven-plugin-tests</artifactId>
+    <build>
+
+
+        <plugins>
+            <plugin>
+                <groupId>com.persistentbit</groupId>
+                <artifactId>persistent-javacodegen-maven-plugin</artifactId>
+                <version>${project.version}</version>
+                <!--
+                    Added this execution so that the code will be
+                    generated before compile and we can see if there
+                    are errors in the generated code
+                -->
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>
+                                generate-caseclasses
+                            </goal>
+                        </goals>
+                        <phase>
+                            process-sources
+                        </phase>
+                    </execution>
+
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-javacodegen-annotations</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+</project>
