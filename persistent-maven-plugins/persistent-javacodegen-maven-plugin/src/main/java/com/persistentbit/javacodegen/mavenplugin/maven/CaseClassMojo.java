@@ -8,7 +8,6 @@ import com.persistentbit.core.logging.printing.LogPrintToString;
 import com.persistentbit.javacodegen.mavenplugin.CaseClassCodeGenerator;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
-import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
@@ -35,30 +34,26 @@ public class CaseClassMojo extends AbstractMojo{
 	@Parameter(property = "project",required = true, readonly = true)
 	MavenProject project;
 
-	public void execute()  throws MojoExecutionException, MojoFailureException {
+	@Override
+	public void execute()  throws MojoExecutionException {
 		try{
-			project.getCompileSourceRoots().stream().forEach(srcRoot -> {
+			project.getCompileSourceRoots().forEach(srcRoot -> {
 
 				File srcRootFile = new File(srcRoot);
 
 				PList<CaseClassCodeGenerator.CaseClassGenResult> result =
 					CaseClassCodeGenerator.makeCaseClassesRecursive(srcRootFile.toPath()).orElseThrow();
 
-				result.filter(res -> res.getResult().isEmpty() == false).forEach(ccGenResult -> {
-					ccGenResult.getResult().ifFailure(fail -> {
-						if(fail.getException() instanceof ParseProblemException){
-							ParseProblemException parseProblem = (ParseProblemException)fail.getException();
-							for(Problem problem : parseProblem.getProblems()){
-								getLog().error("Error reading source " + ccGenResult.getFile() + ": " + problem.getVerboseMessage());
-							}
-						} else {
-							getLog().error("Failed converting " + ccGenResult.getFile(), fail.getException());
+				result.filter(res -> res.getResult().isEmpty() == false).forEach(ccGenResult -> ccGenResult.getResult().ifFailure(fail -> {
+					if(fail.getException() instanceof ParseProblemException){
+						ParseProblemException parseProblem = (ParseProblemException)fail.getException();
+						for(Problem problem : parseProblem.getProblems()){
+							getLog().error("Error reading source " + ccGenResult.getFile() + ": " + problem.getVerboseMessage());
 						}
-					}).ifPresent(success -> {
-						getLog().info("Regenerated " + ccGenResult.getFile());
-					});
-
-				});
+					} else {
+						getLog().error("Failed converting " + ccGenResult.getFile(), fail.getException());
+					}
+				}).ifPresent(success -> getLog().info("Regenerated " + ccGenResult.getFile())));
 			});
 		}catch(Exception le){
 			LogPrintToString lp = new LogPrintToString();
@@ -66,7 +61,7 @@ public class CaseClassMojo extends AbstractMojo{
 			getLog().error(lp.getLogString());
 			throw new MojoExecutionException("Error while generating code:" + le.getMessage());
 		}
-		project.getCompileSourceRoots().stream()
+		project.getCompileSourceRoots()
 			.forEach(srcRoot -> getLog().info("Got src root " + srcRoot));
 		/*
 		try{

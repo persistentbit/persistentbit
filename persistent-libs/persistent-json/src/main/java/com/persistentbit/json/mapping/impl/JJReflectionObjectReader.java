@@ -307,11 +307,11 @@ public class JJReflectionObjectReader implements JJObjectReader, JJDescriber{
 			JJNodeObject jobj = (JJNodeObject) node;
 
 			try {
-				Object result = null;
+				Object result;
 				if(constructor == null) {
 					l.info("No Constructor found for " + type);
 					l.info("Trying to invoke the default constructor...");
-					result = objectClass.newInstance();
+					result = objectClass.getDeclaredConstructor().newInstance();
 				}
 				else {
 					Object[] args = new Object[constructorProperities.size()];
@@ -343,7 +343,7 @@ public class JJReflectionObjectReader implements JJObjectReader, JJDescriber{
 		private final String propName;
 		private final String javaName;
 		private final PropertySetter setter;
-		private PropertyReader propertyReader = null;
+		private PropertyReader propertyReader;
 
 		public PropertyDef(String propName, String javaName, PropertySetter setter) {
 			this.propName = propName;
