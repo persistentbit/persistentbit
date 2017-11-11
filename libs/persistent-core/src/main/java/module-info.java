@@ -5,8 +5,8 @@
  * @since 11/11/17
  */
 module persistent.core {
-	requires persistent.doc.annotations;
-	requires persistent.code.annotations;
+	requires transitive persistent.doc.annotations;
+	requires transitive persistent.code.annotations;
 	requires java.logging;
 
 	exports com.persistentbit.core;

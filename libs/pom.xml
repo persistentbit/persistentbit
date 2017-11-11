@@ -22,5 +22,7 @@
         <module>persistent-test</module>
         <module>persistent-core-tests</module>
         <module>persistent-code-annotations</module>
+        <module>persistent-javacodegen</module>
+        <module>persistent-javacodegen-annotations</module>
     </modules>
 </project>
