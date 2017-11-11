@@ -81,7 +81,12 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
+
                     <release>9</release>
+                    <!--  We need to put the source and target because intellij doesn't pick up the release config -->
+                    <source>9</source>
+                    <target>9</target>
+
                     <parameters>true</parameters>
                     <failOnWarning>true</failOnWarning>
                 </configuration>

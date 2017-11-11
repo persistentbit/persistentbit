@@ -1,7 +1,7 @@
 package com.persistentbit.core.resources;
 
 import com.persistentbit.core.collections.PByteList;
-import com.persistentbit.core.function.Memoizer;
+import com.persistentbit.core.caching.Memoizer;
 import com.persistentbit.core.result.Result;
 
 import java.io.File;

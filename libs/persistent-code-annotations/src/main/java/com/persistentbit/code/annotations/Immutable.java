@@ -1,4 +1,4 @@
-package com.persistentbit.core;
+package com.persistentbit.code.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,12 +6,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotation to mark a field orOf parameter as Nullable
+ * Annotation that marks a class or property as Immutable
  *
  * @author Peter Muys
- * @since 18/03/2016
+ * @since 11/07/2016
  */
-@Target({ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Nullable{
+@Target({ElementType.FIELD, ElementType.TYPE})
+public @interface Immutable{
 }

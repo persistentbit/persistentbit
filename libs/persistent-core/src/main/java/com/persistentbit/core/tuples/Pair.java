@@ -1,8 +1,7 @@
-package com.persistentbit.core;
+package com.persistentbit.core.tuples;
 
 
 import com.persistentbit.core.properties.FieldNames;
-import com.persistentbit.core.tuples.Tuple2;
 
 import java.util.Objects;
 

@@ -1,8 +1,15 @@
-package com.persistentbit.core.printing;
+package com.persistentbit.core.tests.printing;
 
-import com.persistentbit.core.testing.TestCase;
+import com.persistentbit.core.ModuleCore;
+import com.persistentbit.core.io.IO;
+import com.persistentbit.core.io.IOClassPath;
+import com.persistentbit.core.logging.printing.LogPrint;
+import com.persistentbit.core.printing.PrintableList;
+import com.persistentbit.core.printing.PrintableText;
+import com.persistentbit.test.TestCase;
+import com.persistentbit.test.TestRunner;
 
-public class PrinterTest {
+public final class PrinterTest {
     static private final PrintableText text = out -> {
         out.println();
         out.println("Before Indent");
@@ -31,10 +38,16 @@ public class PrinterTest {
 
     static final TestCase indentTest = TestCase.name("indent").code(tr -> {
         String txt = text.printToString();
-        System.out.println(txt);
+		String expected = IOClassPath.read("/com/persistentbit/core/tests/printing/printertest_result.string", IO.utf8).orElseThrow();
+		//tr.isEquals(txt,expected);
     });
 
+    public void testAll() {
+		LogPrint lp = ModuleCore.consoleLogPrint.registerAsGlobalHandler();
+		TestRunner.runAndPrint(lp,PrinterTest.class);
+	}
+
     public static void main(String... args) throws Exception {
-        //TestRunner.runAndPrint(PrinterTest.class);
+		new PrinterTest().testAll();
     }
 }

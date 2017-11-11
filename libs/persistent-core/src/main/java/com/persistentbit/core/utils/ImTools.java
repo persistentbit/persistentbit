@@ -1,15 +1,15 @@
 package com.persistentbit.core.utils;
 
 
-import com.persistentbit.core.NotNullable;
-import com.persistentbit.core.Nullable;
-import com.persistentbit.core.Pair;
+import com.persistentbit.code.annotations.NotNullable;
+import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.core.collections.PMap;
 import com.persistentbit.core.collections.PStream;
 import com.persistentbit.core.lenses.Lens;
 import com.persistentbit.core.properties.FieldNames;
 import com.persistentbit.core.properties.PropertyGetter;
 import com.persistentbit.core.properties.PropertyGetterField;
+import com.persistentbit.core.tuples.Pair;
 
 import java.lang.reflect.*;
 import java.util.*;

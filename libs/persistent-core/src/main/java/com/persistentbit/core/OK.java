@@ -1,6 +1,7 @@
 package com.persistentbit.core;
 
 import com.persistentbit.core.result.Result;
+import com.persistentbit.core.result.Success;
 
 /**
  * Instance value representing a OK result value.<br>
@@ -14,7 +15,7 @@ public final class OK {
      */
     public static final OK inst   = new OK();
     /**
-     * An OK {@link com.persistentbit.core.result.Success} {@link Result}
+     * An OK {@link Success} {@link Result}
      */
     public static final Result<OK> result = Result.success(OK.inst);
 

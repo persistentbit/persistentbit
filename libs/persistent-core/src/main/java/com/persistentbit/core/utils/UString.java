@@ -1,7 +1,7 @@
 package com.persistentbit.core.utils;
 
-import com.persistentbit.core.NotNullable;
-import com.persistentbit.core.Nullable;
+import com.persistentbit.code.annotations.NotNullable;
+import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PStream;
 import com.persistentbit.core.logging.Log;

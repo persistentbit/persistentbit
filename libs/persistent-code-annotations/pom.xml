@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>persistent-doc-annotations</artifactId>
-    <packaging>jar</packaging>
+    <artifactId>persistent-code-annotations</artifactId>
+
 
 </project>

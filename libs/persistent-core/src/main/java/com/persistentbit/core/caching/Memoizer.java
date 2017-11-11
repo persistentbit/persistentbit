@@ -1,4 +1,4 @@
-package com.persistentbit.core.function;
+package com.persistentbit.core.caching;
 
 import com.persistentbit.core.collections.PStream;
 import com.persistentbit.core.utils.TimeMeasurement;

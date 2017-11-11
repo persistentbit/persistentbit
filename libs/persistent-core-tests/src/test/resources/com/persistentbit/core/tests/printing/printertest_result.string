@@ -1,0 +1,21 @@
+
+Before Indent
+	First indent
+	And The last Line
+		The second indent
+		Before BulletList
+			* dit is bullet1
+			  en de 2e lijn in bullet1
+
+
+			* dit is bullet 2
+			  en de 2e lijn in bullet 2
+			  en de 3e lijn in bullet 2
+
+
+
+		After BulletList
+
+	After second indent, in first
+
+After first indent

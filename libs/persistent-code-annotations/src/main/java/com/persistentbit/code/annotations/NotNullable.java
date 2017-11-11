@@ -1,4 +1,4 @@
-package com.persistentbit.core;
+package com.persistentbit.code.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

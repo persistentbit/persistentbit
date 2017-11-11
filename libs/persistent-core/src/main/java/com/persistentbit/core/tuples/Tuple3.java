@@ -1,7 +1,7 @@
 package com.persistentbit.core.tuples;
 
-import com.persistentbit.core.Immutable;
-import com.persistentbit.core.Nullable;
+import com.persistentbit.code.annotations.Immutable;
+import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.core.function.Function3;
 import com.persistentbit.core.properties.FieldNames;
 
