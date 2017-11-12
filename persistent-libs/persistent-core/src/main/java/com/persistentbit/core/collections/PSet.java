@@ -59,7 +59,7 @@ public class PSet<T> extends AbstractPStreamDirect<T, PSet<T>> implements IPSet<
 
 	@Override
 	public PStream<T> lazy() {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
 				return PSet.this.iterator();

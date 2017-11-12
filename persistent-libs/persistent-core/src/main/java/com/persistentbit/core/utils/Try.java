@@ -19,7 +19,7 @@ public class Try {
     }
 
     static public void run(TryRun run){
-        run(run,(e) -> new RuntimeException(e));
+        run(run, RuntimeException::new);
     }
     static public void run(TryRun run, Function<Exception,? extends RuntimeException> ex){
         try{
@@ -30,7 +30,7 @@ public class Try {
     }
 
     static public <T> T runGet(TryRunGet<T> runGet){
-        return runGet(runGet,(e) -> new RuntimeException(e));
+        return runGet(runGet, RuntimeException::new);
     }
 
     static public <T> T runGet(TryRunGet<T> runGet, Function<Exception,? extends RuntimeException> ex){

@@ -21,8 +21,8 @@ import java.util.function.Predicate;
 @DUsesClass(value = Result.EmptyException.class,label = "throws")
 public class Empty<T> extends Result<T>{
 
-    private Throwable exception;
-    private LogEntry log;
+    private final Throwable exception;
+    private final LogEntry  log;
 
     public Empty(Throwable e, LogEntry log) {
         this.exception = Objects.requireNonNull(e);

@@ -24,7 +24,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default PStream<T> clear() {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
 				return Collections.emptyIterator();
@@ -38,12 +38,12 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 		if(count < 0) {
 			throw new IndexOutOfBoundsException("count can't be < 0: " + count);
 		}
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 
 
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					final Iterator<T> master = PStreamWithDefaults.this.iterator();
 					int cnt = count;
 
@@ -68,7 +68,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default PStream<T> until(Predicate<T> until) {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public boolean isInfinite() {
 				return false;
@@ -76,7 +76,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					final Iterator<T> master = PStreamWithDefaults.this.iterator();
 					T lastValue;
 					boolean gotNext;
@@ -111,7 +111,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default PStream<T> filter(Predicate<? super T> p) {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public boolean isInfinite() {
 				return PStreamWithDefaults.this.isInfinite();
@@ -151,7 +151,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default PStream<Tuple2<HeadMiddleEnd, T>> headMiddleEnd() {
-		return new AbstractPStreamLazy<Tuple2<HeadMiddleEnd, T>>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public boolean isInfinite() {
 				return PStreamWithDefaults.this.isInfinite();
@@ -160,7 +160,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 			@Override
 			public Iterator<Tuple2<HeadMiddleEnd, T>> iterator() {
 				Iterator<T> it = PStreamWithDefaults.this.iterator();
-				return new Iterator<Tuple2<HeadMiddleEnd, T>>(){
+				return new Iterator<>(){
 					private HeadMiddleEnd current;
 
 					@Override
@@ -199,7 +199,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default <Z> PStream<Tuple2<Z, T>> zip(PStream<Z> zipStream) {
-		return new AbstractPStreamLazy<Tuple2<Z, T>>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public boolean isInfinite() {
 				return PStreamWithDefaults.this.isInfinite() && zipStream.isInfinite();
@@ -209,7 +209,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 			public Iterator<Tuple2<Z, T>> iterator() {
 				Iterator<Z> iz = zipStream.iterator();
 				Iterator<T> it = PStreamWithDefaults.this.iterator();
-				return new Iterator<Tuple2<Z, T>>(){
+				return new Iterator<>(){
 
 					@Override
 					public boolean hasNext() {
@@ -255,7 +255,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 	@Override
 	default PStream<T> sorted(Comparator<? super T> comp) {
 		if(isInfinite()) { throw new InfinitePStreamException(); }
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			private List<T> sorted;
 
 			@Override
@@ -418,7 +418,6 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 	}
 
 	@Override
-	@SuppressWarnings("OptionalGetWithoutIsPresent")
 	default T head() {
 		return headOpt().get();
 	}
@@ -431,7 +430,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 	@Override
 	default <R> PStream<R> map(Function<? super T, ? extends R> mapper) {
 
-		return new AbstractPStreamLazy<R>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public boolean isInfinite() {
 				return PStreamWithDefaults.this.isInfinite();
@@ -440,7 +439,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 			@Override
 			public Iterator<R> iterator() {
 
-				return new Iterator<R>(){
+				return new Iterator<>(){
 					Iterator<T> master;
 
 					@Override
@@ -491,11 +490,11 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 	default PStream<T> dropLast() {
 		if(isInfinite()) { throw new InfinitePStreamException();}
 
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					final Iterator<T> master = PStreamWithDefaults.this.iterator();
 					boolean hasValue = master.hasNext();
 					T value = (hasValue ? master.next() : null);
@@ -520,10 +519,10 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default PStream<T> replaceFirst(T original, T newOne) {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					boolean found;
 					Iterator<T> master;
 
@@ -554,7 +553,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 		if(isEmpty()) {
 			throw new IllegalStateException("Tail of empty stream");
 		}
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public boolean isInfinite() {
 				return PStreamWithDefaults.this.isInfinite();
@@ -647,11 +646,11 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 	default PStream<T> plus(T value) {
 		if(isInfinite()) { throw new InfinitePStreamException(); }
 
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					final Iterator<T> master = PStreamWithDefaults.this.iterator();
 					boolean valueAdded;
 
@@ -731,7 +730,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default PStream<T> distinct() {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
 				Set<T> lookup = new HashSet<>();
@@ -751,7 +750,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 	@Override
 	default PStream<T> duplicates() {
 		if(isInfinite()) { throw new InfinitePStreamException();}
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
 				Set<T>         lookup = new HashSet<>();
@@ -814,7 +813,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default <X> PStream<X> flatten() {
-		return new AbstractPStreamLazy<X>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<X> iterator() {
 				return new FlattenIterator<>(PStreamWithDefaults.this.iterator());
@@ -844,10 +843,10 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default PStream<T> peek(Consumer<? super T> consumer) {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					Iterator<T> master;
 
 					@Override
@@ -875,7 +874,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 	@Override
 	default PStream<T> limitOnPreviousValue(Predicate<T> stopOnCondition) {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public boolean isInfinite() {
 				return false;
@@ -884,7 +883,7 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 			@Override
 			public Iterator<T> iterator() {
 
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					Iterator<T> master;
 					T prevValue;
 					boolean hasNext = true;

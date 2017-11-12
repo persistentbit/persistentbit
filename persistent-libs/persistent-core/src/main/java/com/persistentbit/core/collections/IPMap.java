@@ -1,6 +1,8 @@
 package com.persistentbit.core.collections;
 
+import com.persistentbit.core.result.Empty;
 import com.persistentbit.core.result.Result;
+import com.persistentbit.core.result.Success;
 import com.persistentbit.core.tuples.Tuple2;
 
 import java.util.Map;
@@ -94,7 +96,7 @@ public interface IPMap<K, V> extends PStream<Tuple2<K, V>>{
   /**
    * Get the value for a key as a {@link Result}
    * @param key The key to find
-   * @return A {@link com.persistentbit.core.result.Success} with the value or an {@link com.persistentbit.core.result.Empty}
+   * @return A {@link Success} with the value or an {@link Empty}
    */
   Result<V> getResult(Object key);
 

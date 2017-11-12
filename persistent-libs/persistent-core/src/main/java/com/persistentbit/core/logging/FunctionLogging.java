@@ -30,6 +30,7 @@ public class FunctionLogging extends AbstractLogEntryLogging {
 	public LogEntryFunction getLog(){
 		return this.entry;
 	}
+	@Override
 	public Nothing add(LogEntry logEntry){
 		if(logEntry != null){
 			map(entry -> entry.append(logEntry) );

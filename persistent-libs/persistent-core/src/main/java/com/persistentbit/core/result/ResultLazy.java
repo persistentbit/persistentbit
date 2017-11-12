@@ -14,7 +14,7 @@ import java.util.function.*;
  * @since 4/01/2017
  * @see Result
  */
-public class ResultLazy<T> extends Result<T>{
+public final class ResultLazy<T> extends Result<T>{
 
 	private Supplier<Result<T>> supplier;
 	private Result<T>           value;

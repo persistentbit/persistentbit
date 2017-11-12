@@ -67,7 +67,6 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 			return this;
 		}
 
-		@SuppressWarnings("unchecked")
 		public <R> Result<R> code(FunctionLogging.LoggedFunction<Result<R>> code) {
 			try {
 				Result<R> result = code.run(this);
@@ -86,7 +85,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 			try {
 				Result<R> result = code.run(this);
 				functionDoneTimestamp(System.currentTimeMillis());
-				functionResult(result.map(r -> resultValueMapper.apply(r)));
+				functionResult(result.map(resultValueMapper::apply));
 				return result.mapLog(resultLog ->
 					entry.append(resultLog)
 				);
@@ -332,6 +331,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 	 * @param mapper The Log mapper
 	 * @return a new Result
 	 */
+	@Override
 	public abstract Result<T> mapLog(Function<LogEntry, LogEntry> mapper);
 
 	/**
@@ -498,7 +498,6 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 	 *
 	 * @return an {@link Empty}
 	 */
-	@SuppressWarnings("unchecked")
 	public static <U> Empty<U> empty() {
 		return empty("Empty value");
 	}
@@ -523,6 +522,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 		return new Empty<>(cause, LogEntryEmpty.inst);
 	}
 
+	@SuppressWarnings("OptionalUsedAsFieldOrParameterType")
 	public static <U> Result<U> fromOpt(Optional<U> optValue) {
 		if(optValue == null) {
 			return Result.<U>failure("optValue is null").logFunction("null");
@@ -669,7 +669,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 					.withParams(parameters)
 					.withResultValue(this.toString())
 				;
-		return mapLog(l -> fun.append(l));
+		return mapLog(fun::append);
 	}
 
 
@@ -677,7 +677,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 	public static <T> Result<PStream<T>> fromSequence(PStream<Result<T>> stream) {
 		Optional<Result<T>> optWrong = stream.find(Result::isError);
 		LogCollector        lc       = new LogCollector();
-		stream.forEach(item -> lc.add(item));
+		stream.forEach(lc::add);
 		Result<PStream<T>> result;
 		if(optWrong.isPresent()) {
 			result = optWrong.get()
@@ -696,7 +696,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 	}
 
 	public static <T> Result<List<T>> fromSequence(List<Result<T>> list){
-		Optional<Result<T>> optWrong =  list.stream().filter(res -> res.isError()).findFirst();
+		Optional<Result<T>> optWrong =  list.stream().filter(Result::isError).findFirst();
 		if(optWrong.isPresent()) {
 			return optWrong.get()
 					.flatMapFailure(f -> Result.failure(

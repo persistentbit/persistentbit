@@ -15,7 +15,7 @@ public abstract class AbstractLogEntryLogging {
 
 	protected final int stackEntryIndex;
 
-	public AbstractLogEntryLogging(int stackEntryIndex) {
+	protected AbstractLogEntryLogging(int stackEntryIndex) {
 		this.stackEntryIndex = stackEntryIndex;
 	}
 

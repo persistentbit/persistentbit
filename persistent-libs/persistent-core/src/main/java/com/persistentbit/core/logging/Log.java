@@ -26,7 +26,6 @@ public class Log{
 				throw new LoggedException(e, getLog());
 			}
 		}
-		@SuppressWarnings("unchecked")
 		public  <R> R code(FunctionLogging.LoggedFunction<R> code){
 			try{
 				R result = code.run(this);

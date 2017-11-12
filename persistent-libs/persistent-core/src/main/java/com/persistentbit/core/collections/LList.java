@@ -128,7 +128,6 @@ public abstract class LList<E> extends AbstractIPList<E, LList<E>> implements Se
   public abstract Optional<E> headOpt();
 
   @Override
-  @SuppressWarnings("OptionalGetWithoutIsPresent")
   public LList<E> tail() {
 	return tailOption().get();
   }
@@ -180,27 +179,27 @@ public abstract class LList<E> extends AbstractIPList<E, LList<E>> implements Se
 
 	@Override
 	public Iterator<E> iterator() {
-	  return new Iterator<E>(){
-		private LList<E> next;
+	  return new Iterator<>(){
+		  private LList<E> next;
 
-		@Override
-		public boolean hasNext() {
-		  if(next == null) {
-			return true;
+		  @Override
+		  public boolean hasNext() {
+			  if(next == null) {
+				  return true;
+			  }
+			  return next.isEmpty() == false;
 		  }
-		  return next.isEmpty() == false;
-		}
 
-		@Override
-		public E next() {
-		  if(next == null) {
-			next = tail;
-			return head;
+		  @Override
+		  public E next() {
+			  if(next == null) {
+				  next = tail;
+				  return head;
+			  }
+			  E item = next.head();
+			  next = next.tail();
+			  return item;
 		  }
-		  E item = next.head();
-		  next = next.tail();
-		  return item;
-		}
 	  };
 	}
 

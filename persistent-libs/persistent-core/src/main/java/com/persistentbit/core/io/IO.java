@@ -30,26 +30,27 @@ public final class IO {
 
 
 	public static FilterWriter createIndentFilterWriter(Writer writer, String indentString, boolean indentFirstLine, String newLineString){
-        return IOFiles.createFilterWriter(writer,new Function<String,String>(){
+        return IOFiles.createFilterWriter(writer, new Function<>(){
 
-            private boolean prevNl = indentFirstLine;
-            @Override
-            public String apply(String s) {
-                if(s.isEmpty()){
-                    return s;
-                }
-                if(prevNl){
-                    s = indentString + s;
-                }
-                prevNl = s.endsWith(newLineString);
-                if(prevNl){
-                    s = s.substring(0,s.length()- newLineString.length());
-                    return s.replace(newLineString, newLineString + indentString) + newLineString;
-                }
-                return s.replace(newLineString,newLineString +  indentString);
+			private boolean prevNl = indentFirstLine;
 
-            }
-        });
+			@Override
+			public String apply(String s) {
+				if(s.isEmpty()) {
+					return s;
+				}
+				if(prevNl) {
+					s = indentString + s;
+				}
+				prevNl = s.endsWith(newLineString);
+				if(prevNl) {
+					s = s.substring(0, s.length() - newLineString.length());
+					return s.replace(newLineString, newLineString + indentString) + newLineString;
+				}
+				return s.replace(newLineString, newLineString + indentString);
+
+			}
+		});
     }
     public static FilterWriter createIndentFilterWriter(Writer writer, String indentString, boolean indentFirstLine){
         return createIndentFilterWriter(writer,indentString,indentFirstLine, System.lineSeparator());
@@ -130,7 +131,7 @@ public final class IO {
 	 * @return The File or a failure
 	 */
 	public static Result<File> asFile(URI uri){
-		return asPath(uri).map(p -> p.toFile());
+		return asPath(uri).map(Path::toFile);
 
 	}
 	/**
@@ -180,8 +181,8 @@ public final class IO {
 	 *     <li>$name</li>
 	 *     <li>%name%</li>
 	 * </ul>
-	 * Non matchin names are replaced with an empty value
-	 * @param source The String to expaned
+	 * Non matching names are replaced with an empty value
+	 * @param source The String to expand
 	 * @return The expanded string.
 	 */
     public static String replaceEnvVars(String source){
@@ -195,7 +196,7 @@ public final class IO {
 		  	.apply(source);
 	}
 
-    public static void main(String... args) throws Exception {
+    public static void main(String... args) {
         Result<PList<Path>> files = IOFiles.getAllFiles("${FENIKS_HOME}/**/devdocs/src/main/**/*.ddoc");
         ModuleCore.consoleLogPrint.print(files.getLog());
         files.orElseThrow();
@@ -222,7 +223,7 @@ public final class IO {
 					continue;
 				}
 				if(element.equals("..")) {
-					if(elements.size() == 0) {
+					if(elements.isEmpty()) {
 						return Result.failure("Invalid: " + sub + ", not enough base parts in " + baseName);
 					}
 					elements.remove(elements.size() - 1);

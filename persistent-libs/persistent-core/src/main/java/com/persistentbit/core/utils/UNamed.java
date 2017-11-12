@@ -19,17 +19,17 @@ public class UNamed {
 	 * @return The wrapped predicate
 	 */
     public static <R>Predicate<R> namedPredicate(String name, Predicate<R> pred){
-        return new Predicate<R>() {
-            @Override
-            public boolean test(R r) {
-                return pred.test(r);
-            }
+        return new Predicate<>(){
+			@Override
+			public boolean test(R r) {
+				return pred.test(r);
+			}
 
-            @Override
-            public String toString() {
-                return name;
-            }
-        };
+			@Override
+			public String toString() {
+				return name;
+			}
+		};
     }
 
 	/**
@@ -42,16 +42,16 @@ public class UNamed {
 	 * @see #namedPredicate(String, Predicate)
 	 */
     public static <T,R> Function<T,R> namedFunction(String name, Function<T,R> function){
-        return new Function<T, R>() {
-            @Override
-            public R apply(T t) {
-                return function.apply(t);
-            }
+        return new Function<>(){
+			@Override
+			public R apply(T t) {
+				return function.apply(t);
+			}
 
-            @Override
-            public String toString() {
-                return name;
-            }
-        };
+			@Override
+			public String toString() {
+				return name;
+			}
+		};
     }
 }

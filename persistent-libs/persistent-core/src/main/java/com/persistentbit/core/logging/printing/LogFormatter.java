@@ -14,8 +14,8 @@ import com.persistentbit.doc.annotations.DAggregateOf;
 @DAggregateOf(value = SpecificExceptionPrinter.class,otherLabel = "exceptionPrinters")
 @DAggregateOf(value = SpecificLogPrinter.class,otherLabel = "logPrinters")
 public final class LogFormatter{
-    private POrderedMap<Class, SpecificExceptionPrinter> exceptionPrinters;
-    private POrderedMap<Class, SpecificLogPrinter>          logPrinters;
+    private final POrderedMap<Class, SpecificExceptionPrinter> exceptionPrinters;
+    private final POrderedMap<Class, SpecificLogPrinter>       logPrinters;
 
     private LogFormatter(POrderedMap<Class, SpecificExceptionPrinter> exceptionPrinters,
                          POrderedMap<Class, SpecificLogPrinter> logPrinters

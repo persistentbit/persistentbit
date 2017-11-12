@@ -308,10 +308,10 @@ public final class UString{
 		String str = org.substring(0, Math.min(org.length(),maxLength-1));
 
 		String kleiner = str;
-		while(kleiner.length() != 0 && "\t\n\r ".contains(kleiner.substring(kleiner.length()-1)) == false){
+		while(!kleiner.isEmpty() && "\t\n\r ".contains(kleiner.substring(kleiner.length()-1)) == false){
 			kleiner = kleiner.substring(0,kleiner.length()-1);
 		}
-		if(kleiner.length() == 0){
+		if(kleiner.isEmpty()){
 			kleiner = str;
 		}
 		return kleiner + continueString;
@@ -336,7 +336,7 @@ public final class UString{
 				"(?<=\\-)|(?<=\\s)",
 				false,
 				maxLength,
-				s -> s.trim()
+				String::trim
 		);
 
 	}
@@ -425,14 +425,14 @@ public final class UString{
 
 
 	/**
-	 * Convert a String to a Searchable version without accents,spaces, all uppercasel
+	 * Convert a String to a Searchable version without accents,spaces, all uppercase
 	 * @param normalString The String to convert
 	 * @return The Searchable version.
 	 */
 	public static String createSearchableString(String normalString)
 	{
 		Objects.requireNonNull(normalString, "omschrijving");
-		if(normalString.trim().length() == 0){
+		if(normalString.trim().isEmpty()){
 			return "";
 		}
 		String alfaKey;
@@ -455,9 +455,8 @@ public final class UString{
 		if (normalized.length > alfaKey.length())//accented letters vervangen door gewone letters (bv é -> e)
 		{
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < normalized.length; i++)
-			{
-				String str = Character.toString(normalized[i]);
+			for(char aNormalized : normalized) {
+				String str = Character.toString(aNormalized);
 				str = str.replaceAll("\\W", "");//de accented vervangen door een lege string
 				sb.append(str);
 			}

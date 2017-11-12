@@ -31,31 +31,31 @@ public final class POrderedMap<K, V> extends AbstractPStreamDirect<Tuple2<K, V>,
 
     @Override
     public PStream<Tuple2<K, V>> lazy() {
-        return new AbstractPStreamLazy<Tuple2<K, V>>() {
-            @Override
-            public Iterator<Tuple2<K, V>> iterator() {
-                return POrderedMap.this.iterator();
-            }
+        return new AbstractPStreamLazy<>(){
+			@Override
+			public Iterator<Tuple2<K, V>> iterator() {
+				return POrderedMap.this.iterator();
+			}
 
-        };
+		};
     }
 
     @Override
     public Iterator<Tuple2<K, V>> iterator() {
-        return new Iterator<Tuple2<K, V>>() {
-            private final Iterator<K> keys = order.iterator();
+        return new Iterator<>(){
+			private final Iterator<K> keys = order.iterator();
 
-            @Override
-            public boolean hasNext() {
-                return keys.hasNext();
-            }
+			@Override
+			public boolean hasNext() {
+				return keys.hasNext();
+			}
 
-            @Override
-            public Tuple2<K, V> next() {
-                K key = keys.next();
-                return new PMapEntry<>(key, map.get(key));
-            }
-        };
+			@Override
+			public Tuple2<K, V> next() {
+				K key = keys.next();
+				return new PMapEntry<>(key, map.get(key));
+			}
+		};
     }
 
     @Override

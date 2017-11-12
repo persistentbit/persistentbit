@@ -97,7 +97,7 @@ public class Tuple4<T1, T2, T3, T4> implements Comparable<Tuple4<T1, T2, T3, T4>
     }
 
     @Override
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    @SuppressWarnings({"unchecked"})
     public int compareTo(Tuple4<T1, T2, T3, T4> o) {
         int r = this.dropLast().compareTo(o.dropLast());
         if (r != 0) {

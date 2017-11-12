@@ -44,7 +44,6 @@ public final class PMap<K, V> extends AbstractPStreamDirect<Tuple2<K, V>, PMap<K
 	this.root = root;
   }
 
-  @SuppressWarnings("MethodOnlyUsedFromInnerClass")
   private static MapNode[] cloneAndSet(MapNode[] array, int i, MapNode a) {
 	MapNode[] clone = array.clone();
 	clone[i] = a;
@@ -57,7 +56,6 @@ public final class PMap<K, V> extends AbstractPStreamDirect<Tuple2<K, V>, PMap<K
 	return clone;
   }
 
-  @SuppressWarnings("MethodOnlyUsedFromInnerClass")
   private static Object[] cloneAndSet(Object[] array, int i, Object a, int j,
 									  Object b
   ) {
@@ -75,7 +73,6 @@ public final class PMap<K, V> extends AbstractPStreamDirect<Tuple2<K, V>, PMap<K
 	return newArray;
   }
 
-  @SuppressWarnings("MethodOnlyUsedFromInnerClass")
   private static MapNode createNode(int shift, Object key1, Object val1,
 									int key2hash, Object key2, Object val2
   ) {
@@ -103,11 +100,11 @@ public final class PMap<K, V> extends AbstractPStreamDirect<Tuple2<K, V>, PMap<K
 
   @Override
   public PStream<Tuple2<K, V>> lazy() {
-	return new AbstractPStreamLazy<Tuple2<K, V>>(){
-	  @Override
-	  public Iterator<Tuple2<K, V>> iterator() {
-		return PMap.this.iterator();
-	  }
+	return new AbstractPStreamLazy<>(){
+		@Override
+		public Iterator<Tuple2<K, V>> iterator() {
+			return PMap.this.iterator();
+		}
 
 	};
 

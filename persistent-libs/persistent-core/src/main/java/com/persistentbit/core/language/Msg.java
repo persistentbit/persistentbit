@@ -12,7 +12,7 @@ import java.util.Optional;
  * If the {@link Locale} is not defined then the text is seen as a key value
  * that can be looked up somewhere else.
  */
-public class Msg {
+public final class Msg {
     static public Locale nlBE = new Locale("nl","BE");
     static public Locale nlNL = new Locale("nl","NL");
 

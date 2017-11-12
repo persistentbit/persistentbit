@@ -27,7 +27,7 @@ public final class UNumber{
 		}
 		return convertToInteger(value)
 			.verify(ival -> ival >= Byte.MIN_VALUE && ival <= Byte.MAX_VALUE, "value out of range for byte: " + value)
-			.map(ival -> ival.byteValue());
+			.map(Integer::byteValue);
 	}
 
 	public static Result<Short> convertToShort(Number value) {
@@ -39,7 +39,7 @@ public final class UNumber{
 		}
 		return convertToInteger(value)
 			.verify(ival -> ival >= Short.MIN_VALUE && ival <= Short.MAX_VALUE, "value out of range for short: " + value)
-			.map(ival -> ival.shortValue());
+			.map(Integer::shortValue);
 	}
 
 	public static Result<Integer> convertToInteger(Number value) {
@@ -51,7 +51,7 @@ public final class UNumber{
 		}
 		return convertToLong(value)
 			.verify(ival -> ival >= Integer.MIN_VALUE && ival <= Integer.MAX_VALUE, "value out of range for integer: " + value)
-			.map(ival -> ival.intValue());
+			.map(Long::intValue);
 	}
 
 	public static Result<Long> convertToLong(Number value) {
@@ -162,7 +162,7 @@ public final class UNumber{
 			.failure("Don't know how to convert a " + value.getClass().getSimpleName() + " to a" + cls.getName());
 	}
 
-	private static PMap<Tuple2<Class, Class>, Class> unifyLookup = PMap.<Tuple2<Class, Class>, Class>empty()
+	private static final PMap<Tuple2<Class, Class>, Class> unifyLookup = PMap.<Tuple2<Class, Class>, Class>empty()
 		.put(Tuple2.of(Byte.class, Short.class), Short.class)
 		.put(Tuple2.of(Byte.class, Integer.class), Integer.class)
 		.put(Tuple2.of(Byte.class, Long.class), Long.class)

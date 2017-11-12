@@ -148,7 +148,7 @@ public final class PByteList extends AbstractIPList<Byte, PByteList> implements 
 
 	@Override
 	public Iterator<Byte> iterator() {
-		return new Iterator<Byte>(){
+		return new Iterator<>(){
 			int index;
 
 			@Override

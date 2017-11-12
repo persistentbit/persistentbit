@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.function.BiFunction;
 
 /**
- * Utilitiy class to dynamically find java Executables(Method/Constructors) by resolved argument values.
+ * Utility class to dynamically find java Executables(Method/Constructors) by resolved argument values.
  *
  * @author petermuys
  * @since 2/03/17
@@ -29,6 +29,7 @@ public class JavaExecutableFinder{
 		full, partial, not
 	}
 
+	@FunctionalInterface
 	public interface Caster extends BiFunction<Object, Class, Optional<Object>>{
 
 	}
@@ -123,7 +124,7 @@ public class JavaExecutableFinder{
 		}
 		if(cls.isAssignableFrom(Set.class)) {
 			if(value instanceof IPSet) {
-				return Optional.of(((IPSet) value).pset().toSet());
+				return Optional.of(((PStream) value).pset().toSet());
 			}
 		}
 
@@ -181,7 +182,7 @@ public class JavaExecutableFinder{
 			}
 			otherPossibles = otherPossibles.plus(first);
 
-			//otherPosibles is now all methods with the same number of arguments
+			//otherPossibles is now all methods with the same number of arguments
 			//So we have to select the correct one for the argument types;
 
 			Class[] argClasses = new Class[resolvedArgs.length];
@@ -273,7 +274,7 @@ public class JavaExecutableFinder{
 	) {
 		if(mr._1 == JavaExecutableFinder.MatchLevel.not) {
 			String args   = PStream.from(arguments).toString(", ");
-			String params = PStream.from(types).map(v -> v.getName()).toString(", ");
+			String params = PStream.from(types).map(Class::getName).toString(", ");
 			return Result.failure("Can't match parameters (" + args + ") with (" + params + ")");
 		}
 		return OK.result;

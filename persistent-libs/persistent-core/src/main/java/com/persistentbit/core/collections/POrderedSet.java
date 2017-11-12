@@ -56,7 +56,7 @@ public final class POrderedSet<T> extends AbstractPStreamDirect<T, POrderedSet<T
 
 	@Override
 	public PStream<T> lazy() {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
 				return POrderedSet.this.iterator();

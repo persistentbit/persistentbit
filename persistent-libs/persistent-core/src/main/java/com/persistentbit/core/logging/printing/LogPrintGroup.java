@@ -12,7 +12,7 @@ import com.persistentbit.core.logging.entries.LogEntry;
  */
 public class LogPrintGroup implements LogPrint{
 
-    private PList<LogPrint> items;
+    private final PList<LogPrint> items;
 
     public LogPrintGroup(PList<LogPrint> items) {
         this.items = items;

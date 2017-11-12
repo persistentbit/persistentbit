@@ -109,8 +109,7 @@ public class Tuple3<T1, T2, T3> implements Comparable<Tuple3<T1, T2, T3>>, Seria
             if (this._3 == null) {
                 return o._3 == null ? 0 : -1;
             }
-            //noinspection ConstantConditions
-            return ((Comparable) this._3).compareTo(o._3);
+			return ((Comparable) this._3).compareTo(o._3);
         }
     }
 

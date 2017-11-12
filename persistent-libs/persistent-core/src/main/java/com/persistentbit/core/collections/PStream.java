@@ -51,10 +51,10 @@ public interface PStream<T> extends Iterable<T>{
 
 	@SafeVarargs
 	static <T> PStream<T> val(T... values) {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					int i;
 
 					@Override
@@ -90,10 +90,10 @@ public interface PStream<T> extends Iterable<T>{
 		if(iter instanceof Collection) {
 			Collection col = (Collection) iter;
 			Object[]   arr = col.toArray();
-			return new AbstractPStreamLazy<T>(){
+			return new AbstractPStreamLazy<>(){
 				@Override
 				public Iterator<T> iterator() {
-					return new Iterator<T>(){
+					return new Iterator<>(){
 						int i;
 
 						@Override
@@ -133,10 +133,10 @@ public interface PStream<T> extends Iterable<T>{
 
 		Object[] fixed = new Object[values.length];
 		System.arraycopy(values, 0, fixed, 0, values.length);
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					int i;
 
 					@Override
@@ -176,7 +176,7 @@ public interface PStream<T> extends Iterable<T>{
 
 
 	static <T> PStream<T> sequence(T start, Function<T, T> next) {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 
 			@Override
 			public boolean isInfinite() {
@@ -185,7 +185,7 @@ public interface PStream<T> extends Iterable<T>{
 
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					T v = start;
 
 					@Override
@@ -211,7 +211,7 @@ public interface PStream<T> extends Iterable<T>{
 	}
 
 	static <T> PStream<T> repeatValue(T value) {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public boolean isInfinite() {
 				return true;
@@ -219,7 +219,7 @@ public interface PStream<T> extends Iterable<T>{
 
 			@Override
 			public Iterator<T> iterator() {
-				return new Iterator<T>(){
+				return new Iterator<>(){
 					@Override
 					public boolean hasNext() {
 						return true;
@@ -562,7 +562,7 @@ public interface PStream<T> extends Iterable<T>{
 	<R> R fold(R init, Function<R, Function<T, R>> f);
 
 	/**
-	 * Apply a binary operation to the inital value of this PStream and all the others, starting from the right
+	 * Apply a binary operation to the initial value of this PStream and all the others, starting from the right
 	 * <pre>{@code
 	 *   PStream.val(1, 2, 3).foldRight("0",i -> s -> "(" + i + " + " +  s + ")")) == (1 + (2 + (3 + 0)))
 	 * }</pre>

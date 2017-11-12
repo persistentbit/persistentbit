@@ -12,7 +12,7 @@ import java.nio.charset.Charset;
 import java.util.Properties;
 
 /**
- * Utiltity class for reading streams, files,...
+ * Utility class for reading streams, files,...
  *
  * @author petermuys
  * @since 15/04/17

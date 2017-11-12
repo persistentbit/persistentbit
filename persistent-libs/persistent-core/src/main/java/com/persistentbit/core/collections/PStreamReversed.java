@@ -8,7 +8,7 @@ import java.util.List;
  * @author Peter Muys
  * @since 6/07/16
  */
-class PStreamReversed<T> extends AbstractPStreamLazy<T>{
+public class PStreamReversed<T> extends AbstractPStreamLazy<T>{
 
   private final PStream<T> master;
   private List<T> rev;
@@ -27,20 +27,20 @@ class PStreamReversed<T> extends AbstractPStreamLazy<T>{
 	if(rev == null) {
 	  rev = master.list();
 	}
-	return new Iterator<T>(){
-	  int i = rev.size() - 1;
+	return new Iterator<>(){
+		int i = rev.size() - 1;
 
-	  @Override
-	  public boolean hasNext() {
-		return i >= 0;
-	  }
+		@Override
+		public boolean hasNext() {
+			return i >= 0;
+		}
 
-	  @Override
-	  public T next() {
-		T res = rev.get(i);
-		i--;
-		return res;
-	  }
+		@Override
+		public T next() {
+			T res = rev.get(i);
+			i--;
+			return res;
+		}
 	};
   }
 

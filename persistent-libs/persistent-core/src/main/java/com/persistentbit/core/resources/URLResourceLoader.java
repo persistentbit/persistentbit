@@ -11,7 +11,7 @@ import com.persistentbit.core.result.Result;
  * @author petermuys
  * @since 6/02/17
  */
-public class URLResourceLoader implements ResourceLoader{
+public final class URLResourceLoader implements ResourceLoader{
 
 
 	private URLResourceLoader() {

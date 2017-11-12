@@ -12,7 +12,7 @@ import java.util.function.Supplier;
  * @author petermuys
  * @since 7/11/16
  */
-public class PBitList  extends AbstractIPList<Boolean, PBitList> implements Serializable{
+public final class PBitList  extends AbstractIPList<Boolean, PBitList> implements Serializable{
 
 	private static final PBitList emptyInstance = new PBitList(0,new byte[0]);
 	private final int bitSize;
@@ -29,7 +29,7 @@ public class PBitList  extends AbstractIPList<Boolean, PBitList> implements Seri
 	}
 
 	public String toBinaryString() {
-		StringBuffer sb = new StringBuffer(bitSize);
+		StringBuilder sb = new StringBuilder(bitSize);
 		for(Boolean b : this){
 			sb.append(b ? '1' : '0');
 		}
@@ -115,7 +115,7 @@ public class PBitList  extends AbstractIPList<Boolean, PBitList> implements Seri
 
 	@Override
 	public Iterator<Boolean> iterator() {
-		return new Iterator<Boolean>(){
+		return new Iterator<>(){
 			int index;
 
 			@Override

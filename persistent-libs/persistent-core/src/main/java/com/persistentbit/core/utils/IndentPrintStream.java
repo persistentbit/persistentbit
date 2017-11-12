@@ -14,7 +14,7 @@ import java.util.Objects;
  * @since 20/12/2016
  * @see IndentOutputStream
  */
-public class IndentPrintStream extends PrintStream{
+public final class IndentPrintStream extends PrintStream{
     private final IndentOutputStream indentOutputStream;
 
     private IndentPrintStream(IndentOutputStream out, Charset encoding) throws UnsupportedEncodingException {

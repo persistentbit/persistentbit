@@ -57,7 +57,7 @@ public final class UReflect{
 		}
 		if(t instanceof ParameterizedType){
 			ParameterizedType pt = (ParameterizedType)t;
-			return typeToSimpleString(pt.getRawType()) + PStream.from(pt.getActualTypeArguments()).map(v -> typeToSimpleString(v)).toString("<",", ",">");
+			return typeToSimpleString(pt.getRawType()) + PStream.from(pt.getActualTypeArguments()).map(UReflect::typeToSimpleString).toString("<", ", ", ">");
 		}
 		if(t instanceof GenericArrayType){
 			GenericArrayType gat = (GenericArrayType) t;

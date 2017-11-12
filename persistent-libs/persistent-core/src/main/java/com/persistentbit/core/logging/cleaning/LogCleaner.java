@@ -14,7 +14,7 @@ import java.util.Optional;
  */
 
 public final class LogCleaner{
-    private POrderedMap<Class,SpecificLogCleaner> cleaners;
+    private final POrderedMap<Class,SpecificLogCleaner> cleaners;
 
     private LogCleaner(POrderedMap<Class, SpecificLogCleaner> cleaners) {
         this.cleaners = cleaners;

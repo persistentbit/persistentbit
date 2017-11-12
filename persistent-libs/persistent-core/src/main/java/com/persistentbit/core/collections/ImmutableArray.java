@@ -45,7 +45,7 @@ public final class ImmutableArray<T> extends AbstractIPList<T, ImmutableArray<T>
 
 	public static <R> ImmutableArray<R> from(PStream<R> stream) {
 		Object[] arr = new Object[stream.size()];
-		return new ImmutableArray<R>(stream.toArray(arr));
+		return new ImmutableArray<>(stream.toArray(arr));
 	}
 
 	public static <R> ImmutableArray<R> from(Collection<R> collection) {
@@ -83,7 +83,7 @@ public final class ImmutableArray<T> extends AbstractIPList<T, ImmutableArray<T>
 		Object[] newData = newArray(data.length + addArray.length + 1, data);
 		newData[0] = first;
 		System.arraycopy(addArray, 0, newData, data.length + 1, addArray.length);
-		return new ImmutableArray<T>(newData, OK.inst);
+		return new ImmutableArray<>(newData, OK.inst);
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public final class ImmutableArray<T> extends AbstractIPList<T, ImmutableArray<T>
 
 	@Override
 	public Iterator<T> iterator() {
-		return new Iterator<T>(){
+		return new Iterator<>(){
 			int index;
 
 			@Override
@@ -131,7 +131,7 @@ public final class ImmutableArray<T> extends AbstractIPList<T, ImmutableArray<T>
 
 			@Override
 			public T next() {
-				return (T)data[index++];
+				return (T) data[index++];
 			}
 		};
 	}

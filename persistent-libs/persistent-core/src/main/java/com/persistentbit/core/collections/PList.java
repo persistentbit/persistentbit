@@ -147,7 +147,7 @@ public class PList<T> extends AbstractIPList<T, PList<T>> implements Serializabl
 	}
 
 	public Iterator<T> rangedIterator(final int start, final int end) {
-		return new Iterator<T>(){
+		return new Iterator<>(){
 			int i = start;
 			int base = i - (i % 32);
 			Object[] array = (start < size()) ? arrayFor(i) : null;
@@ -486,7 +486,7 @@ public class PList<T> extends AbstractIPList<T, PList<T>> implements Serializabl
 
 	@Override
 	public <R> PStream<R> mapExc(ThrowingFunction<? super T, ? extends R, Exception> mapper) {
-		return map(ThrowingFunction.createNonChecked(value -> mapper.apply(value)));
+		return map(ThrowingFunction.createNonChecked(mapper::apply));
 	}
 
 	private void writeObject(ObjectOutputStream out) throws IOException {

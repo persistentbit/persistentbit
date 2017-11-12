@@ -15,15 +15,16 @@ import java.util.function.Function;
  * @since 26/12/16
  */
 
-public class Memoizer<T, R> implements Function<T, R>{
+public final class Memoizer<T, R> implements Function<T, R>{
 
-	private final Map<T, R> cache = new ConcurrentHashMap();
+	private final Map<T, R> cache = new ConcurrentHashMap<>();
 	private final Function<T, R> f;
 
 	private Memoizer(Function<T, R> f) {
 		this.f = f;
 	}
 
+	@Override
 	public R apply(T value) {
 		return cache.computeIfAbsent(value, f);
 	}
