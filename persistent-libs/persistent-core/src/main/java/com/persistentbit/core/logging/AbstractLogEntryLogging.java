@@ -92,7 +92,7 @@ public abstract class AbstractLogEntryLogging {
 			return "<Message to string failed for class " + message.getClass() + ">";
 		}
 	}
-	public static  final String objectsToString(Object...others){
+	public static  String objectsToString(Object...others){
 		String res = "";
 		for(Object param : others){
 			if(res.isEmpty() == false){

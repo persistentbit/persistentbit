@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.persistentbit</groupId>
         <artifactId>persistentbit</artifactId>
-        <version>2.0-SNAPSHOT</version>
+        <version>3.0-SNAPSHOT</version>
         <relativePath>../..</relativePath>
     </parent>
     <packaging>jar</packaging>
