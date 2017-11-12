@@ -18,6 +18,7 @@ import java.util.function.Predicate;
  * @see ClassPathResourceLoader
  * @since 6/02/17
  */
+@FunctionalInterface
 public interface ResourceLoader extends Function<String, Result<PByteList>>{
 
 	ResourceLoader empty = name -> Result.empty("Resource '" + name + "' not found");
@@ -45,7 +46,7 @@ public interface ResourceLoader extends Function<String, Result<PByteList>>{
 	 */
 	default ResourceLoader cached() {
 		ResourceLoader                      self     = this;
-		Function<String, Result<PByteList>> memoizer = Memoizer.of(this::apply);
+		Function<String, Result<PByteList>> memoizer = Memoizer.of(this);
 		return new ResourceLoader(){
 			@Override
 			public Result<PByteList> apply(String name) {
@@ -113,7 +114,7 @@ public interface ResourceLoader extends Function<String, Result<PByteList>>{
 	/**
 	 * Try this loader and if the result is not a success, try loading the resource using the supplied loader
 	 *
-	 * @param resourceLoader The loader to try afther this
+	 * @param resourceLoader The loader to try after this
 	 *
 	 * @return the new Resource loader
 	 */

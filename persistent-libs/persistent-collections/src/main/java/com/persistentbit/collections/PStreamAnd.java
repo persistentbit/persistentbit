@@ -23,19 +23,19 @@ class PStreamAnd<T> extends AbstractPStreamLazy<T>{
 
 	Iterator<T> i1 = left.iterator();
 	Iterator<T> i2 = right.iterator();
-	return new Iterator<T>(){
-	  @Override
-	  public boolean hasNext() {
-		return i1.hasNext() || i2.hasNext();
-	  }
-
-	  @Override
-	  public T next() {
-		if(i1.hasNext()) {
-		  return i1.next();
+	return new Iterator<>(){
+		@Override
+		public boolean hasNext() {
+			return i1.hasNext() || i2.hasNext();
 		}
-		return i2.next();
-	  }
+
+		@Override
+		public T next() {
+			if(i1.hasNext()) {
+				return i1.next();
+			}
+			return i2.next();
+		}
 	};
   }
 

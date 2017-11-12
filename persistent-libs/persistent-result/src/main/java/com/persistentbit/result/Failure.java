@@ -89,6 +89,7 @@ public class Failure<T> extends Result<T>{
 		return false;
 	}
 
+	@Override
 	public T orElseThrow() {
 		if(log.isEmpty()) {
 			throw new FailureException(exception);

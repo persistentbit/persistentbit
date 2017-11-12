@@ -92,7 +92,7 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Comparable<Tuple7<T1,
 	}
 
 	@Override
-	@SuppressWarnings({"unchecked", "ConstantConditions"})
+	@SuppressWarnings({"unchecked"})
 	public int compareTo(Tuple7<T1, T2, T3, T4, T5, T6, T7> o) {
 		int r = this.dropLast().compareTo(o.dropLast());
 		if(r != 0) {

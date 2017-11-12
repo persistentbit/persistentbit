@@ -14,11 +14,11 @@ import java.util.function.Function;
  * @author Peter Muys
  * @since 20/12/2016
  */
-public class IndentOutputStream extends FilterOutputStream{
+public final class IndentOutputStream extends FilterOutputStream{
     private String prefix = "";
     private final Function<String,String> doIndent;
     private final Function<String,String> doOutdent;
-    private boolean prevNewLine = false;
+    private boolean prevNewLine;
     private IndentOutputStream(OutputStream out, Function<String,String> indent, Function<String,String> outdent) {
         super(Objects.requireNonNull(out));
         this.doIndent = Objects.requireNonNull(indent);
@@ -50,8 +50,8 @@ public class IndentOutputStream extends FilterOutputStream{
     public void write(int b) throws IOException {
         if(prevNewLine){
             byte[] prefixBytes = prefix.getBytes();
-            for(int t=0; t<prefixBytes.length; t++){
-                super.write(prefixBytes[t]);
+            for(byte prefixByte : prefixBytes) {
+                super.write(prefixByte);
             }
             prevNewLine = false;
         }

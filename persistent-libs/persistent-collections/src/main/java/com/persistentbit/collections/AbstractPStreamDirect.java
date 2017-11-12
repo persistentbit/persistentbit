@@ -44,7 +44,7 @@ abstract class AbstractPStreamDirect<T, IMP extends PStream<T>> extends Abstract
 
 	@Override
 	public PStream<T> lazy() {
-		return new AbstractPStreamLazy<T>(){
+		return new AbstractPStreamLazy<>(){
 			@Override
 			public Iterator<T> iterator() {
 				return AbstractPStreamDirect.this.iterator();

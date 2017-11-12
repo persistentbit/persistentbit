@@ -6,7 +6,7 @@ package com.persistentbit.functions;
  * @author petermuys
  * @since 28/12/16
  */
-public class Nothing{
+public final class Nothing{
 
 	public static final Nothing inst = new Nothing();
 

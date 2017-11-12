@@ -16,8 +16,8 @@ import java.util.function.*;
  * @author Peter Muys
  * @since 4/01/2017
  */
-public class ResultAsync<T> extends Result<T>{
-    private CompletableFuture<Result<T>> future;
+public final class ResultAsync<T> extends Result<T>{
+    private final CompletableFuture<Result<T>> future;
 
     private ResultAsync(CompletableFuture<Result<T>> future){
         this.future = future;
@@ -76,7 +76,7 @@ public class ResultAsync<T> extends Result<T>{
 
     @Override
     public Result<T> cleanLogsOnPresent() {
-        return new ResultAsync<>(future.thenApplyAsync(r -> r.cleanLogsOnPresent()));
+        return new ResultAsync<>(future.thenApplyAsync(Result::cleanLogsOnPresent));
     }
 
     @Override

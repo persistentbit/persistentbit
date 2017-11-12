@@ -55,7 +55,7 @@ public abstract class Either<T, U> implements Serializable{
 
 		private final T value;
 
-		public Left(T value) {
+		private Left(T value) {
 			this.value = Objects.requireNonNull(value);
 		}
 
@@ -122,7 +122,7 @@ public abstract class Either<T, U> implements Serializable{
 
 		private final U value;
 
-		public Right(U value) {
+		private Right(U value) {
 			this.value = Objects.requireNonNull(value);
 		}
 

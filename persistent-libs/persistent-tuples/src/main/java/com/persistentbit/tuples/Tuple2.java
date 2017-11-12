@@ -89,7 +89,7 @@ public class Tuple2<T1, T2> implements Comparable<Tuple2<T1, T2>>, Serializable{
     }
 
     @Override
-    @SuppressWarnings({"unchecked", "ConstantConditions"})
+    @SuppressWarnings({"unchecked"})
     public int compareTo(Tuple2<T1, T2> o) {
         Comparable<T1> c1 = (Comparable<T1>) _1;
         if (c1 == null) {

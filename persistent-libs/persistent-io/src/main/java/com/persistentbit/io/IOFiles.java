@@ -142,15 +142,15 @@ public final class IOFiles{
 	 */
 	public static Result<File> getSystemTempDir() {
 		return Result.success(new File(System.getProperty("java.io.tmpdir")))
-			.verify(f -> f.exists(), "Temp directory does not exist")
-			.verify(f -> f.canWrite(), "Can't write in Temp directory")
+			.verify(File::exists, "Temp directory does not exist")
+			.verify(File::canWrite, "Can't write in Temp directory")
 			.logFunction();
 	}
 
 	public static Result<File> getUserHomeDir() {
 		return Result.success(new File(System.getProperty("user.home")))
-			.verify(f -> f.exists(), "User home directory does not exist")
-			.verify(f -> f.canWrite(), "Can't write to the user home directory")
+			.verify(File::exists, "User home directory does not exist")
+			.verify(File::canWrite, "Can't write to the user home directory")
 			.logFunction();
 	}
 
@@ -271,10 +271,10 @@ public final class IOFiles{
 	public static Result<PList<Path>> findPathsInTree(Path root, Predicate<Path> filter){
 		return Result.function(root,filter).code(l -> {
 			List<Path> files = new ArrayList<>();
-			Files.walkFileTree(root,new SimpleFileVisitor<Path>(){
+			Files.walkFileTree(root, new SimpleFileVisitor<>(){
 				@Override
 				public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-					if(filter.test(file)){
+					if(filter.test(file)) {
 						files.add(file);
 					}
 					return FileVisitResult.CONTINUE;

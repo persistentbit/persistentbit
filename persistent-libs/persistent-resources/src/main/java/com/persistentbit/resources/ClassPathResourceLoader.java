@@ -11,7 +11,7 @@ import com.persistentbit.result.Result;
  * @author petermuys
  * @since 6/02/17
  */
-public class ClassPathResourceLoader implements ResourceLoader{
+public final class ClassPathResourceLoader implements ResourceLoader{
 
 
 	private ClassPathResourceLoader() {
