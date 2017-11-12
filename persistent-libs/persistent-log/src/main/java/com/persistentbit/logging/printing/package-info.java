@@ -1,0 +1,9 @@
+/**
+ * Printers for {@link com.persistentbit.core.logging.entries.LogEntry} trees
+ *
+ * @author petermuys
+ * @since 3/04/17
+ */
+@DSupport
+package com.persistentbit.logging.printing;
+

@@ -24,5 +24,7 @@
         <module>persistent-code-annotations</module>
         <module>persistent-javacodegen</module>
         <module>persistent-javacodegen-annotations</module>
+        <module>persistent-log</module>
+        <module>persistent-printable</module>
     </modules>
 </project>
