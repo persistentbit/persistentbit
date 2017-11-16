@@ -1,7 +1,7 @@
 package com.persistentbit.core.io;
 
 import com.persistentbit.core.OK;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 
 import java.io.FileOutputStream;
 import java.io.InputStream;

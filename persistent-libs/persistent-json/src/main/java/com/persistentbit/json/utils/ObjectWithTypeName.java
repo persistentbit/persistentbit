@@ -1,6 +1,6 @@
 package com.persistentbit.json.utils;
 
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 
 /**
  * @author Peter Muys

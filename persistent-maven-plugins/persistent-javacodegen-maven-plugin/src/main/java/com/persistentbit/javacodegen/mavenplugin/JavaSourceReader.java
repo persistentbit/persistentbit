@@ -15,8 +15,8 @@ import com.persistentbit.core.exceptions.ToDo;
 import com.persistentbit.core.io.IO;
 import com.persistentbit.core.io.IOFiles;
 import com.persistentbit.core.io.IORead;
-import com.persistentbit.core.result.Result;
-import com.persistentbit.core.utils.UString;
+import com.persistentbit.result.Result;
+import com.persistentbit.string.UString;
 import com.persistentbit.javacodegen.*;
 
 import java.nio.file.Path;

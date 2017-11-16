@@ -1,7 +1,7 @@
 package com.persistentbit.core.utils;
 
 import com.persistentbit.core.collections.PMap;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.logging.Log;
 import com.persistentbit.tuples.Tuple2;
 

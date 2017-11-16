@@ -1,6 +1,6 @@
 package com.persistentbit.core.collections;
 
-import com.persistentbit.core.function.ThrowingFunction;
+import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.tuples.Tuple2;
 
 import java.util.Comparator;

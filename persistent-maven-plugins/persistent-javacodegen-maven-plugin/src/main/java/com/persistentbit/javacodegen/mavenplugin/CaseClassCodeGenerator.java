@@ -4,7 +4,7 @@ import com.persistentbit.core.OK;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.io.IO;
 import com.persistentbit.core.io.IOFiles;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.javacodegen.JClass;
 import com.persistentbit.javacodegen.JJavaFile;
 

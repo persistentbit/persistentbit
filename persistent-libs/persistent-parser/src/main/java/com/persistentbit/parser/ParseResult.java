@@ -2,7 +2,7 @@ package com.persistentbit.parser;
 
 import com.persistentbit.core.exceptions.ToDo;
 import com.persistentbit.parser.source.Source;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 
 import java.util.Objects;
 import java.util.function.Function;

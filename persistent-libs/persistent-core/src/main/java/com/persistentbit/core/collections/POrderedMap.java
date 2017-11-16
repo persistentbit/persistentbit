@@ -1,6 +1,6 @@
 package com.persistentbit.core.collections;
 
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.tuples.Tuple2;
 
 import java.util.Iterator;

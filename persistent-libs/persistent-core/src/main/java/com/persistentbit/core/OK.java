@@ -1,7 +1,7 @@
 package com.persistentbit.core;
 
-import com.persistentbit.core.result.Result;
-import com.persistentbit.core.result.Success;
+import com.persistentbit.result.Result;
+import com.persistentbit.result.Success;
 
 /**
  * Instance value representing a OK result value.<br>

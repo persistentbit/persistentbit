@@ -2,9 +2,9 @@ package com.persistentbit.core.io;
 
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.result.Empty;
-import com.persistentbit.core.result.Result;
-import com.persistentbit.core.result.Success;
+import com.persistentbit.result.Empty;
+import com.persistentbit.result.Result;
+import com.persistentbit.result.Success;
 
 import java.io.File;
 import java.io.InputStream;

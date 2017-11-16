@@ -1,6 +1,6 @@
 package com.persistentbit.core.utils;
 
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 
 import java.io.FilterOutputStream;
 import java.io.IOException;

@@ -3,8 +3,8 @@ package com.persistentbit.parser.source;
 import com.persistentbit.core.io.IO;
 import com.persistentbit.core.io.IORead;
 import com.persistentbit.parser.Parser;
-import com.persistentbit.core.result.Result;
-import com.persistentbit.core.utils.UString;
+import com.persistentbit.result.Result;
+import com.persistentbit.string.UString;
 
 import java.io.File;
 import java.net.URL;

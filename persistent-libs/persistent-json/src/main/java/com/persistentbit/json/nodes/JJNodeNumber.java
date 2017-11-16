@@ -1,6 +1,6 @@
 package com.persistentbit.json.nodes;
 
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.core.utils.UNumber;
 
 import java.util.function.Function;

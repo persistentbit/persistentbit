@@ -3,7 +3,7 @@ package com.persistentbit.json.nodes;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PStream;
 import com.persistentbit.core.collections.PStreamable;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 
 import java.util.Iterator;
 import java.util.Objects;

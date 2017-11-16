@@ -1,6 +1,6 @@
 package com.persistentbit.test;
 
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.core.utils.UNumber;
 import com.persistentbit.logging.AbstractLogEntryLogging;
 import com.persistentbit.logging.LoggedException;

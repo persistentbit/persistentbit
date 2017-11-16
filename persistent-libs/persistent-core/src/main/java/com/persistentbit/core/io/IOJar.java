@@ -1,7 +1,7 @@
 package com.persistentbit.core.io;
 
 import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 
 import java.io.File;
 import java.nio.file.Path;

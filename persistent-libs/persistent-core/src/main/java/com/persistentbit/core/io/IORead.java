@@ -2,8 +2,8 @@ package com.persistentbit.core.io;
 
 import com.persistentbit.core.collections.PByteList;
 import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.result.Result;
-import com.persistentbit.core.utils.UString;
+import com.persistentbit.result.Result;
+import com.persistentbit.string.UString;
 
 import java.io.*;
 import java.net.URL;

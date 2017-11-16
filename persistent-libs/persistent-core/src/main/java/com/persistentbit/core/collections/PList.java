@@ -1,7 +1,7 @@
 package com.persistentbit.core.collections;
 
 
-import com.persistentbit.core.function.ThrowingFunction;
+import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.doc.annotations.DAggregate;
 import com.persistentbit.doc.annotations.DUsedByClass;
 

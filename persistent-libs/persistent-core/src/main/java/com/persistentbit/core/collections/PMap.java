@@ -1,7 +1,7 @@
 package com.persistentbit.core.collections;
 
 
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.doc.annotations.DComposite;
 import com.persistentbit.doc.annotations.DUsedByClass;
 import com.persistentbit.tuples.Tuple2;

@@ -3,7 +3,7 @@ package com.persistentbit.parser;
 import com.persistentbit.core.OK;
 import com.persistentbit.parser.source.Source;
 import com.persistentbit.core.utils.UNumber;
-import com.persistentbit.core.utils.UString;
+import com.persistentbit.string.UString;
 
 import java.math.BigDecimal;
 import java.util.function.Predicate;

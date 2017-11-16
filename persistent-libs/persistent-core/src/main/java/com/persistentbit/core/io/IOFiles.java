@@ -2,11 +2,11 @@ package com.persistentbit.core.io;
 
 import com.persistentbit.core.OK;
 import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.core.utils.TimeMeasurement;
-import com.persistentbit.core.utils.UNamed;
+import com.persistentbit.functions.UNamed;
 import com.persistentbit.core.utils.UNumber;
-import com.persistentbit.core.utils.UString;
+import com.persistentbit.string.UString;
 
 import java.io.File;
 import java.io.FilterWriter;

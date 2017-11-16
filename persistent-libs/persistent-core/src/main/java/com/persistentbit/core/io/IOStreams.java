@@ -1,10 +1,10 @@
 package com.persistentbit.core.io;
 
 import com.persistentbit.core.OK;
-import com.persistentbit.core.function.ThrowingFunction;
-import com.persistentbit.core.function.ThrowingSupplier;
-import com.persistentbit.core.result.Failure;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.functions.ThrowingSupplier;
+import com.persistentbit.result.Failure;
+import com.persistentbit.result.Result;
 import com.persistentbit.logging.Log;
 
 import java.io.*;

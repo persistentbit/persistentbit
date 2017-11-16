@@ -1,7 +1,7 @@
 package com.persistentbit.json.mapping.impl;
 
 import com.persistentbit.core.collections.*;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.json.mapping.impl.custom.*;
 import com.persistentbit.logging.entries.LogEntry;
 

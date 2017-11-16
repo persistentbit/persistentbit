@@ -1,7 +1,7 @@
 package com.persistentbit.core.collections;
 
 import com.persistentbit.core.io.IOCopy;
-import com.persistentbit.core.utils.UString;
+import com.persistentbit.string.UString;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

@@ -1,6 +1,6 @@
 package com.persistentbit.json.security;
 
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.json.mapping.impl.JJsonException;
 import com.persistentbit.json.nodes.*;
 

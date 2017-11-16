@@ -2,13 +2,13 @@ package com.persistentbit.javacodegen.maven.plugin.tests;
 
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.core.utils.builders.NOT;
-import com.persistentbit.javacodegen.annotations.NoWith;
+
 import java.lang.SuppressWarnings;
-import com.persistentbit.core.function.ThrowingFunction;
-import com.persistentbit.core.utils.UString;
-import com.persistentbit.javacodegen.annotations.NoGet;
+import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.string.UString;
+
 import java.util.Objects;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.core.utils.builders.SET;

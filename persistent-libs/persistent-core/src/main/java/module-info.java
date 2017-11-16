@@ -9,6 +9,9 @@ module persistent.core {
 	requires transitive persistent.code.annotations;
 	requires transitive persistent.log;
 	requires transitive persistent.tuples;
+	requires transitive persistent.result;
+	requires transitive persistent.string;
+	requires transitive persistent.functions;
 	requires java.logging;
 
 	exports com.persistentbit.core;

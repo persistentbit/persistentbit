@@ -5,7 +5,7 @@ import com.persistentbit.core.collections.IPMap;
 import com.persistentbit.core.collections.IPSet;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 import com.persistentbit.tuples.Tuple2;
 
 import java.lang.reflect.Array;

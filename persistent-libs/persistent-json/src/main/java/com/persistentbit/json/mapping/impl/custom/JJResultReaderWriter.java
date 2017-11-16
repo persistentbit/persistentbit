@@ -1,10 +1,10 @@
 package com.persistentbit.json.mapping.impl.custom;
 
 
-import com.persistentbit.core.result.Empty;
-import com.persistentbit.core.result.Failure;
-import com.persistentbit.core.result.Result;
-import com.persistentbit.core.result.Success;
+import com.persistentbit.result.Empty;
+import com.persistentbit.result.Failure;
+import com.persistentbit.result.Result;
+import com.persistentbit.result.Success;
 import com.persistentbit.core.utils.UReflect;
 import com.persistentbit.json.mapping.JJReader;
 import com.persistentbit.json.mapping.JJWriter;

@@ -3,7 +3,7 @@ package com.persistentbit.core.resources;
 import com.persistentbit.core.collections.PByteList;
 import com.persistentbit.core.io.IO;
 import com.persistentbit.core.io.IORead;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 
 /**
  * TODOC

@@ -5,7 +5,7 @@ import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PSet;
 import com.persistentbit.core.utils.BaseValueClass;
 import com.persistentbit.core.utils.NoEqual;
-import com.persistentbit.core.utils.UString;
+import com.persistentbit.string.UString;
 import com.persistentbit.javacodegen.annotations.*;
 
 import java.util.Optional;

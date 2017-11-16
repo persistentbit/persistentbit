@@ -3,7 +3,7 @@ package com.persistentbit.json.nodes;
 
 import com.persistentbit.core.lenses.Lens;
 import com.persistentbit.core.lenses.LensImpl;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.result.Result;
 
 import java.util.function.Function;
 
