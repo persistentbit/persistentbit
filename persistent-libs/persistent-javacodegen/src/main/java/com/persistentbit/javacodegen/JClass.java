@@ -5,7 +5,6 @@ import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PSet;
 import com.persistentbit.core.exceptions.ToDo;
 import com.persistentbit.core.function.ThrowingFunction;
-import com.persistentbit.core.printing.PrintableText;
 import com.persistentbit.core.result.Result;
 import com.persistentbit.core.utils.BaseValueClass;
 import com.persistentbit.core.utils.NoToString;
@@ -13,6 +12,7 @@ import com.persistentbit.core.utils.UString;
 import com.persistentbit.core.utils.builders.NOT;
 import com.persistentbit.core.utils.builders.SET;
 import com.persistentbit.javacodegen.annotations.*;
+import com.persistentbit.printable.PrintableText;
 
 import java.util.Arrays;
 import java.util.Objects;

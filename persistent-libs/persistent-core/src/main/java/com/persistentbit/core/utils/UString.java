@@ -4,8 +4,8 @@ import com.persistentbit.code.annotations.NotNullable;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.logging.Log;
 import com.persistentbit.core.result.Result;
+import com.persistentbit.logging.Log;
 
 import java.text.Normalizer;
 import java.util.Objects;

@@ -1,9 +1,9 @@
 package com.persistentbit.json.mapping.impl;
 
 import com.persistentbit.core.collections.*;
-import com.persistentbit.core.logging.entries.LogEntry;
 import com.persistentbit.core.result.Result;
 import com.persistentbit.json.mapping.impl.custom.*;
+import com.persistentbit.logging.entries.LogEntry;
 
 import java.lang.reflect.Field;
 import java.sql.Time;

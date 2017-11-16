@@ -3,9 +3,9 @@ package com.persistentbit.javacodegen;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PSet;
-import com.persistentbit.core.printing.PrintableText;
 import com.persistentbit.core.utils.BaseValueClass;
 import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.printable.PrintableText;
 
 import java.util.Objects;
 import java.util.Optional;

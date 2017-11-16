@@ -3,8 +3,8 @@ package com.persistentbit.javacodegen;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PSet;
-import com.persistentbit.core.printing.PrintableText;
 import com.persistentbit.core.utils.BaseValueClass;
+import com.persistentbit.printable.PrintableText;
 
 import java.util.Objects;
 
@@ -16,14 +16,14 @@ import java.util.Objects;
  */
 public class JMethod extends BaseValueClass{
 
-	private final String name;
+	private final String        name;
 	@Nullable
-	private final String resultType;
+	private final String        resultType;
 	@Nullable
 	private final PrintableText definition;
 	private final boolean       isStatic;
 	private final boolean       isFinal;
-	private final AccessLevel accessLevel;
+	private final AccessLevel   accessLevel;
 
 	@Nullable
 	private final String doc;

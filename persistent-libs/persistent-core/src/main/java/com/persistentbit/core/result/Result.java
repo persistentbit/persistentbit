@@ -2,19 +2,19 @@ package com.persistentbit.core.result;
 
 import com.persistentbit.core.collections.PStream;
 import com.persistentbit.core.function.ThrowingFunction;
-import com.persistentbit.core.logging.FunctionLogging;
-import com.persistentbit.core.logging.LogCollector;
-import com.persistentbit.core.logging.LoggedException;
-import com.persistentbit.core.logging.LoggedValue;
-import com.persistentbit.core.logging.entries.LogContext;
-import com.persistentbit.core.logging.entries.LogEntry;
-import com.persistentbit.core.logging.entries.LogEntryEmpty;
-import com.persistentbit.core.logging.entries.LogEntryFunction;
 import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.core.tuples.Tuple3;
 import com.persistentbit.core.tuples.Tuple4;
 import com.persistentbit.core.utils.UString;
 import com.persistentbit.doc.annotations.DInfo;
+import com.persistentbit.logging.FunctionLogging;
+import com.persistentbit.logging.LogCollector;
+import com.persistentbit.logging.LoggedException;
+import com.persistentbit.logging.LoggedValue;
+import com.persistentbit.logging.entries.LogContext;
+import com.persistentbit.logging.entries.LogEntry;
+import com.persistentbit.logging.entries.LogEntryEmpty;
+import com.persistentbit.logging.entries.LogEntryFunction;
 
 import java.io.Serializable;
 import java.util.List;

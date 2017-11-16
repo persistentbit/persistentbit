@@ -1,8 +1,8 @@
 package com.persistentbit.javacodegen;
 
 import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.printing.PrintableText;
 import com.persistentbit.core.utils.BaseValueClass;
+import com.persistentbit.printable.PrintableText;
 
 /**
  * TODOC
@@ -26,7 +26,7 @@ public class JEnumInstance extends BaseValueClass{
 	public JEnumInstance addArgument(String value){
 		return copyWith("arguments",arguments.plus(value));
 	}
-	public PrintableText	print(){
+	public PrintableText print(){
 		return out -> {
 			String res = name;
 			if(arguments.isEmpty() == false){

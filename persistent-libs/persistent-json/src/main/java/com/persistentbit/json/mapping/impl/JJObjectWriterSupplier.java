@@ -3,9 +3,9 @@ package com.persistentbit.json.mapping.impl;
 
 import com.persistentbit.code.annotations.Immutable;
 import com.persistentbit.core.collections.*;
-import com.persistentbit.core.logging.entries.*;
 import com.persistentbit.core.result.Result;
 import com.persistentbit.json.mapping.impl.custom.*;
+import com.persistentbit.logging.entries.*;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;

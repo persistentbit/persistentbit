@@ -1,10 +1,11 @@
 package com.persistentbit.core.result;
 
-import com.persistentbit.core.logging.Log;
-import com.persistentbit.core.logging.LoggedException;
-import com.persistentbit.core.logging.entries.LogEntry;
+
 import com.persistentbit.doc.annotations.DComposite;
 import com.persistentbit.doc.annotations.DUsesClass;
+import com.persistentbit.logging.Log;
+import com.persistentbit.logging.LoggedException;
+import com.persistentbit.logging.entries.LogEntry;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -18,7 +19,7 @@ public class Failure<T> extends Result<T>{
 
 	private final Throwable exception;
 	@DComposite
-	private final LogEntry log;
+	private final LogEntry  log;
 
 
 	public Failure(Throwable exception, LogEntry log) {

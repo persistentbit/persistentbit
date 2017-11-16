@@ -1,14 +1,13 @@
 package com.persistentbit.test;
 
-import com.persistentbit.core.Nothing;
-import com.persistentbit.core.logging.AbstractLogEntryLogging;
-import com.persistentbit.core.logging.LoggedException;
-import com.persistentbit.core.logging.entries.LogEntry;
-import com.persistentbit.core.logging.entries.LogEntryException;
-import com.persistentbit.core.logging.entries.LogEntryFunction;
-import com.persistentbit.core.logging.printing.LogPrint;
 import com.persistentbit.core.result.Result;
 import com.persistentbit.core.utils.UNumber;
+import com.persistentbit.logging.AbstractLogEntryLogging;
+import com.persistentbit.logging.LoggedException;
+import com.persistentbit.logging.entries.LogEntry;
+import com.persistentbit.logging.entries.LogEntryException;
+import com.persistentbit.logging.entries.LogEntryFunction;
+import com.persistentbit.logging.printing.LogPrint;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -31,9 +30,9 @@ public final class TestRunner extends AbstractLogEntryLogging{
 	}
 
 	@Override
-	public Nothing add(LogEntry logEntry) {
+	public Void add(LogEntry logEntry) {
 		entry = entry.append(logEntry);
-		return Nothing.inst;
+		return null;
 	}
 
 	public static void runAndPrint(LogPrint logPrint, TestCase testCase) {

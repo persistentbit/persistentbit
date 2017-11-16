@@ -1,11 +1,11 @@
 package com.persistentbit.core.tests.printing;
 
-import com.persistentbit.core.ModuleCore;
 import com.persistentbit.core.io.IO;
 import com.persistentbit.core.io.IOClassPath;
-import com.persistentbit.core.logging.printing.LogPrint;
-import com.persistentbit.core.printing.PrintableList;
-import com.persistentbit.core.printing.PrintableText;
+import com.persistentbit.logging.ModuleLogging;
+import com.persistentbit.logging.printing.LogPrint;
+import com.persistentbit.printable.PrintableList;
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
 
@@ -43,7 +43,7 @@ public final class PrinterTest {
     });
 
     public void testAll() {
-		LogPrint lp = ModuleCore.consoleLogPrint.registerAsGlobalHandler();
+		LogPrint lp = ModuleLogging.consoleLogPrint.registerAsGlobalHandler();
 		TestRunner.runAndPrint(lp,PrinterTest.class);
 	}
 

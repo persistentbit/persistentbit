@@ -1,12 +1,13 @@
 package com.persistentbit.json.mapping.impl.custom;
 
-import com.persistentbit.core.logging.entries.LogEntry;
+
 import com.persistentbit.json.mapping.JJWriter;
 import com.persistentbit.json.mapping.impl.JJObjectWriter;
 import com.persistentbit.json.mapping.impl.JJReflectionObjectWriter;
 import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJNodeObject;
 import com.persistentbit.json.nodes.JJNodeString;
+import com.persistentbit.logging.entries.LogEntry;
 
 
 /**

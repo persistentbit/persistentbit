@@ -1,9 +1,9 @@
 package com.persistentbit.core.io;
 
-import com.persistentbit.core.ModuleCore;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.result.Result;
 import com.persistentbit.core.utils.UString;
+import com.persistentbit.logging.ModuleLogging;
 
 import java.io.File;
 import java.io.FilterWriter;
@@ -197,7 +197,7 @@ public final class IO {
 
     public static void main(String... args) throws Exception {
         Result<PList<Path>> files = IOFiles.getAllFiles("${FENIKS_HOME}/**/devdocs/src/main/**/*.ddoc");
-        ModuleCore.consoleLogPrint.print(files.getLog());
+        ModuleLogging.consoleLogPrint.print(files.getLog());
         files.orElseThrow();
     }
 

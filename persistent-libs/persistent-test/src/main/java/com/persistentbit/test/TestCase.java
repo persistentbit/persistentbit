@@ -2,8 +2,8 @@ package com.persistentbit.test;
 
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.logging.entries.LogContext;
 import com.persistentbit.core.result.Result;
+import com.persistentbit.logging.entries.LogContext;
 
 import java.lang.reflect.Modifier;
 import java.util.Objects;
@@ -22,9 +22,9 @@ import java.util.function.Supplier;
 public final class TestCase{
 
 	private final LogContext context;
-	private final String name;
-	private final String info;
-	private final TestCode testCode;
+	private final String     name;
+	private final String     info;
+	private final TestCode   testCode;
 
 	private TestCase(String name, String info, LogContext context, TestCode testCode) {
 		this.name = Objects.requireNonNull(name);

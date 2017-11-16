@@ -4,14 +4,14 @@ import com.persistentbit.core.collections.PByteList;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PMap;
 import com.persistentbit.core.collections.PSet;
-import com.persistentbit.core.logging.entries.LogContext;
-import com.persistentbit.core.logging.entries.LogEntryMessage;
-import com.persistentbit.core.logging.entries.LogMessageLevel;
 import com.persistentbit.core.result.Result;
 import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.json.mapping.JJMapper;
 import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.tests.examples.JJTest;
+import com.persistentbit.logging.entries.LogContext;
+import com.persistentbit.logging.entries.LogEntryMessage;
+import com.persistentbit.logging.entries.LogMessageLevel;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
 

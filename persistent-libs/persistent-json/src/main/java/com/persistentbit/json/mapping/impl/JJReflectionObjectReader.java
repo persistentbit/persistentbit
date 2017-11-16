@@ -1,7 +1,6 @@
 package com.persistentbit.json.mapping.impl;
 
 import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.logging.Log;
 import com.persistentbit.core.properties.FieldNames;
 import com.persistentbit.core.properties.PropertySetter;
 import com.persistentbit.core.properties.PropertySetterField;
@@ -15,6 +14,7 @@ import com.persistentbit.json.mapping.description.JJTypeSignature;
 import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJNodeNull;
 import com.persistentbit.json.nodes.JJNodeObject;
+import com.persistentbit.logging.Log;
 
 import java.lang.reflect.*;
 import java.util.*;

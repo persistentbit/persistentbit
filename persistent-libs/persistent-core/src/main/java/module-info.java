@@ -7,6 +7,7 @@
 module persistent.core {
 	requires transitive persistent.doc.annotations;
 	requires transitive persistent.code.annotations;
+	requires transitive persistent.log;
 	requires java.logging;
 
 	exports com.persistentbit.core;
@@ -20,12 +21,7 @@ module persistent.core {
 	exports com.persistentbit.core.keyvalue;
 	exports com.persistentbit.core.language;
 	exports com.persistentbit.core.lenses;
-	exports com.persistentbit.core.logging;
-	exports com.persistentbit.core.logging.entries;
-	exports com.persistentbit.core.logging.printing;
-	exports com.persistentbit.core.logging.cleaning;
 	exports com.persistentbit.core.patternmatching;
-	exports com.persistentbit.core.printing;
 	exports com.persistentbit.core.properties;
 	exports com.persistentbit.core.resources;
 	exports com.persistentbit.core.result;

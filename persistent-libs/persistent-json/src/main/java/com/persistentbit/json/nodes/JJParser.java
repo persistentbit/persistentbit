@@ -2,8 +2,8 @@ package com.persistentbit.json.nodes;
 
 import com.persistentbit.core.collections.POrderedMap;
 import com.persistentbit.core.io.IOStreams;
-import com.persistentbit.core.logging.Log;
 import com.persistentbit.core.result.Result;
+import com.persistentbit.logging.Log;
 
 import java.io.File;
 import java.io.IOException;

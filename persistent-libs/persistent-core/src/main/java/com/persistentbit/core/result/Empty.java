@@ -1,10 +1,10 @@
 package com.persistentbit.core.result;
 
 
-import com.persistentbit.core.logging.Log;
-import com.persistentbit.core.logging.LoggedException;
-import com.persistentbit.core.logging.entries.LogEntry;
 import com.persistentbit.doc.annotations.DUsesClass;
+import com.persistentbit.logging.Log;
+import com.persistentbit.logging.LoggedException;
+import com.persistentbit.logging.entries.LogEntry;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -22,7 +22,7 @@ import java.util.function.Predicate;
 public class Empty<T> extends Result<T>{
 
     private Throwable exception;
-    private LogEntry log;
+    private LogEntry  log;
 
     public Empty(Throwable e, LogEntry log) {
         this.exception = Objects.requireNonNull(e);

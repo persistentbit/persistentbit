@@ -1,7 +1,7 @@
 package com.persistentbit.javacodegen;
 
-import com.persistentbit.core.printing.PrintableText;
 import com.persistentbit.core.utils.BaseValueClass;
+import com.persistentbit.printable.PrintableText;
 
 /**
  * TODOC

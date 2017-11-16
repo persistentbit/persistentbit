@@ -24,6 +24,11 @@
             <artifactId>persistent-code-annotations</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-log</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>

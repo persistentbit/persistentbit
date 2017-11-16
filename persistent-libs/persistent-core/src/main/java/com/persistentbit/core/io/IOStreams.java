@@ -3,9 +3,9 @@ package com.persistentbit.core.io;
 import com.persistentbit.core.OK;
 import com.persistentbit.core.function.ThrowingFunction;
 import com.persistentbit.core.function.ThrowingSupplier;
-import com.persistentbit.core.logging.Log;
 import com.persistentbit.core.result.Failure;
 import com.persistentbit.core.result.Result;
+import com.persistentbit.logging.Log;
 
 import java.io.*;
 import java.nio.charset.Charset;

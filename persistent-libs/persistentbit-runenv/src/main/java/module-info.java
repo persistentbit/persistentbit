@@ -3,6 +3,6 @@
  * @author petermuys
  * @since 16/11/17
  */
-module persistentbit.runenv {
+module persistent.runenv {
 	exports com.persistentbit.runenv;
 }

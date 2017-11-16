@@ -6,5 +6,6 @@
  */
 module persistent.test {
 	requires persistent.core;
+	requires transitive persistent.log;
 	exports com.persistentbit.test;
 }
