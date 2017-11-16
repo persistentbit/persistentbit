@@ -1,7 +1,11 @@
 package com.persistentbit.logging.entries;
 
-import com.persistentbit.core.collections.PList;
 
+import com.persistentbit.code.annotations.Nullable;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -11,32 +15,54 @@ import java.util.Optional;
  * @since 30/12/16
  */
 public class LogEntryGroup extends AbstractLogEntry{
-	private final PList<LogEntry> entries;
+	@Nullable
+	private final List<LogEntry> entries;
+	private final int size;
 
-	public LogEntryGroup(PList<LogEntry> entries) {
+	public LogEntryGroup(@Nullable List<LogEntry> entries) {
 		this.entries = entries;
+		this.size = entries == null ? 0 : entries.size();
 	}
 
 
 
 	public static LogEntryGroup empty() {
-		return new LogEntryGroup(PList.empty());
+		return new LogEntryGroup(null);
 	}
 
 	@Override
 	public LogEntryGroup append(LogEntry other) {
-		return other.isEmpty() ? this : new LogEntryGroup(this.entries.plus(other));
+		if(other.isEmpty()){
+			return this;
+		}
+		if(size == 0){
+			List<LogEntry> newList = new ArrayList<>();
+			newList.add(other);
+			return new LogEntryGroup(newList);
+		}
+		synchronized(entries){
+			if(entries.size() == size){
+				entries.add(other);
+				return new LogEntryGroup(entries);
+			}
+			List<LogEntry> newList = entries.subList(0,size);
+			newList.add(other);
+			return new LogEntryGroup(newList);
+		}
 	}
 
 	@Override
 	public Optional<LogContext> getContext() {
-		return entries.isEmpty()
-				? Optional.empty()
-				: entries.headOpt().flatMap(LogEntry::getContext);
+		if(size == 0){
+			return Optional.empty();
+		}
+		return entries.get(0).getContext();
 	}
 
-	public PList<LogEntry> getEntries() {
-		return entries;
+	public List<LogEntry> getEntries() {
+		return entries == null
+			? Collections.emptyList()
+			: Collections.unmodifiableList(entries);
 	}
 
 

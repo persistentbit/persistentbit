@@ -3,6 +3,7 @@ package com.persistentbit.logging;
 import com.persistentbit.logging.cleaning.LogCleaner;
 import com.persistentbit.logging.entries.*;
 import com.persistentbit.logging.printing.*;
+import com.persistentbit.runenv.UOS;
 
 import java.util.Optional;
 
@@ -50,9 +51,9 @@ public class ModuleLogging{
 		return LogCleaner.create()
 						 .orIf(LogEntryEmpty.class,(rc, le)-> Optional.empty())
 						 .orIf(LogEntryGroup.class,(LogCleaner rc, LogEntryGroup le) ->
-							 le.getEntries()
+							 le.getEntries().stream()
 							   .map(e -> rc.clean(e).orElse(null))
-							   .filterNulls().isEmpty()
+							   .allMatch(i -> i == null)
 								 ? Optional.<LogEntry>empty()
 								 : Optional.<LogEntry>of(le)
 						 )

@@ -1,8 +1,8 @@
 package com.persistentbit.logging;
 
-import com.persistentbit.core.Nothing;
-import com.persistentbit.core.logging.entries.LogEntry;
-import com.persistentbit.core.logging.entries.LogEntryFunction;
+
+import com.persistentbit.logging.entries.LogEntry;
+import com.persistentbit.logging.entries.LogEntryFunction;
 
 import java.util.function.Function;
 
@@ -30,11 +30,11 @@ public class FunctionLogging extends AbstractLogEntryLogging {
 	public LogEntryFunction getLog(){
 		return this.entry;
 	}
-	public Nothing add(LogEntry logEntry){
+	public Void add(LogEntry logEntry){
 		if(logEntry != null){
 			map(entry -> entry.append(logEntry) );
 		}
-		return Nothing.inst;
+		return null;
 	}
 
 

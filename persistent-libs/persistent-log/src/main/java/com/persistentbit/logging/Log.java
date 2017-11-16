@@ -1,7 +1,8 @@
 package com.persistentbit.logging;
 
-import com.persistentbit.core.logging.entries.LogContext;
-import com.persistentbit.core.logging.entries.LogEntryFunction;
+
+import com.persistentbit.logging.entries.LogContext;
+import com.persistentbit.logging.entries.LogEntryFunction;
 
 /**
  * TODOC

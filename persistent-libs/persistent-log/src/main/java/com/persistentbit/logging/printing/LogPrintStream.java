@@ -1,6 +1,7 @@
 package com.persistentbit.logging.printing;
 
-import com.persistentbit.core.logging.entries.LogEntry;
+
+import com.persistentbit.logging.entries.LogEntry;
 
 import java.io.PrintStream;
 import java.util.function.Supplier;

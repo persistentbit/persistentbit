@@ -7,3 +7,4 @@
 @DSupport
 package com.persistentbit.logging.entries;
 
+import com.persistentbit.doc.annotations.DSupport;

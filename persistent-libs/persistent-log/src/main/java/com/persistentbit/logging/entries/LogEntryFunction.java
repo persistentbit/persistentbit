@@ -1,6 +1,7 @@
 package com.persistentbit.logging.entries;
 
-import com.persistentbit.core.logging.AbstractLogEntryLogging;
+
+import com.persistentbit.logging.AbstractLogEntryLogging;
 
 import java.util.Optional;
 

@@ -1,8 +1,9 @@
 package com.persistentbit.logging.cleaning;
 
-import com.persistentbit.core.collections.POrderedMap;
-import com.persistentbit.core.logging.entries.LogEntry;
 
+import com.persistentbit.logging.entries.LogEntry;
+
+import java.util.LinkedHashMap;
 import java.util.Optional;
 
 /**
@@ -14,29 +15,34 @@ import java.util.Optional;
  */
 
 public final class LogCleaner{
-    private POrderedMap<Class,SpecificLogCleaner> cleaners;
+    private LinkedHashMap<Class,SpecificLogCleaner> cleaners;
 
-    private LogCleaner(POrderedMap<Class, SpecificLogCleaner> cleaners) {
+    private LogCleaner(LinkedHashMap<Class, SpecificLogCleaner> cleaners) {
         this.cleaners = cleaners;
     }
 
 
     public static LogCleaner create() {
-        return new LogCleaner(POrderedMap.empty());
+        return new LogCleaner(new LinkedHashMap<>());
     }
 
     @SuppressWarnings("unchecked")
     public Optional<LogEntry> clean(LogEntry logEntry){
-        return cleaners.getOpt(logEntry.getClass())
-                .map(slc -> slc.clean(this,logEntry))
-                .orElseGet(()->
-                        cleaners.find(t -> t._1.isAssignableFrom(logEntry.getClass()))
-                                .map(t -> t._2.clean(this, logEntry))
-                                .orElse(Optional.of(logEntry))
-                );
+        SpecificLogCleaner cleaner = cleaners.get(logEntry.getClass());
+        if(cleaner != null){
+            return cleaner.clean(this,logEntry);
+        }
+        return cleaners.entrySet().stream()
+            .filter(kv -> kv.getKey().isAssignableFrom(logEntry.getClass()))
+            .findFirst()
+            .map(t -> t.getValue().clean(this,logEntry))
+            .orElseGet(() -> Optional.of(logEntry));
+
     }
 
     public <L extends LogEntry> LogCleaner orIf(Class<L> cls, SpecificLogCleaner<L> cleaner){
-        return new LogCleaner(cleaners.put(cls, cleaner));
+        LinkedHashMap<Class,SpecificLogCleaner> newMap = new LinkedHashMap<>(cleaners);
+        newMap.put(cls,cleaner);
+        return new LogCleaner(newMap);
     }
 }

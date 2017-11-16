@@ -1,9 +1,9 @@
 package com.persistentbit.logging;
 
-import com.persistentbit.core.Nothing;
-import com.persistentbit.core.logging.entries.LogEntry;
-import com.persistentbit.core.logging.entries.LogEntryEmpty;
+
 import com.persistentbit.doc.annotations.DAggregate;
+import com.persistentbit.logging.entries.LogEntry;
+import com.persistentbit.logging.entries.LogEntryEmpty;
 
 
 /**
@@ -23,9 +23,9 @@ public class LogCollector extends AbstractLogEntryLogging{
     }
 
     @Override
-    public Nothing add(LogEntry logEntry) {
+    public Void add(LogEntry logEntry) {
         this.entry = this.entry.append(logEntry);
-        return Nothing.inst;
+        return null;
     }
 
     public LogEntry getEntry() {

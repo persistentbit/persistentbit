@@ -1,11 +1,13 @@
 package com.persistentbit.logging.printing;
 
-import com.persistentbit.core.logging.entries.LogEntry;
+import com.persistentbit.logging.entries.LogEntry;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+
+
 
 /**
  * A LogPrintGroup contains a list of {@link LogPrint} printers.<br>

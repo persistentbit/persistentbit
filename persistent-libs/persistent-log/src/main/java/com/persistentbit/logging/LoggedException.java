@@ -1,9 +1,12 @@
 package com.persistentbit.logging;
 
 
+import com.persistentbit.doc.annotations.DAggregate;
+import com.persistentbit.doc.annotations.DSupport;
 import com.persistentbit.logging.entries.LogEntry;
 import com.persistentbit.logging.printing.LogEntryDefaultFormatting;
 import com.persistentbit.logging.printing.SpecificExceptionPrinter;
+import com.persistentbit.printable.PrintableText;
 
 /**
  * @author petermuys

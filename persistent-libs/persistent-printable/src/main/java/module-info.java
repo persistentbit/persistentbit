@@ -5,4 +5,5 @@
  * @since 12/11/17
  */
 module persistent.printable {
+	exports com.persistentbit.printable;
 }

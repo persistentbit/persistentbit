@@ -1,13 +1,13 @@
 package com.persistentbit.logging.printing;
 
-import com.persistentbit.core.io.IOFiles;
-import com.persistentbit.core.io.IOStreams;
-import com.persistentbit.core.logging.entries.LogEntry;
-import com.persistentbit.core.printing.PrintableText;
 
-import java.io.File;
-import java.io.Writer;
+import com.persistentbit.logging.entries.LogEntry;
+import com.persistentbit.printable.PrintableText;
+
+import java.io.*;
 import java.nio.charset.Charset;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.function.Function;
 
 /**
@@ -37,9 +37,18 @@ public class LogPrintToFile implements LogPrint{
     }
 
     public static Function<Object,File> dayFileSupplier(File rootPath, String prefix, String postfix){
-        return value -> IOFiles.createDayFile(rootPath,prefix,postfix)
-							   .logFunction(rootPath,prefix,postfix)
-							   .orElseThrow();
+		return value -> {
+			if(rootPath.exists() == false){
+				if(rootPath.mkdirs() == false){
+					throw new RuntimeException("Can't create dayFile path: " + rootPath);
+				}
+			}
+			if(rootPath.isDirectory() == false){
+				throw new RuntimeException("Not a directory: " + rootPath);
+			}
+			return new File(rootPath,prefix + LocalDate.now().format(DateTimeFormatter.ISO_LOCAL_DATE) + postfix);
+		};
+
     }
 
 
@@ -64,8 +73,7 @@ public class LogPrintToFile implements LogPrint{
                     currentWriter = null;
                 }
                 currentFile = null;
-
-                currentWriter = IOStreams.fileToWriter(f, charset,true).orElseThrow();
+				currentWriter = new OutputStreamWriter(new FileOutputStream(f,true),charset);
                 currentFile = f;
             }
             if(currentWriter != null) {

@@ -1,7 +1,8 @@
 package com.persistentbit.logging;
 
-import com.persistentbit.core.Nothing;
+
 import com.persistentbit.doc.annotations.DUsesClass;
+import com.persistentbit.logging.entries.*;
 
 /**
  * TODOC
@@ -19,7 +20,7 @@ public abstract class AbstractLogEntryLogging {
 	}
 
 
-	public abstract Nothing add(LogEntry logEntry);
+	public abstract Void add(LogEntry logEntry);
 
 	public <WL extends LoggedValue> WL add(WL withLogs){
 		LogEntry le = withLogs.getLog();
@@ -30,50 +31,50 @@ public abstract class AbstractLogEntryLogging {
 	}
 
 
-	public Nothing info(Object message){
+	public Void info(Object message){
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(LogEntryMessage.of(LogMessageLevel.info, new LogContext(ste), objectToString(message)));
 	}
-	public Nothing info(String message, Object value){
+	public Void info(String message, Object value){
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(LogEntryMessage.of(LogMessageLevel.info, new LogContext(ste), objectToString(message) + ": " + objectToString(message)));
 	}
-	public Nothing info(String message, Object value, Object...otherValues){
+	public Void info(String message, Object value, Object...otherValues){
 		StackTraceElement ste    = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		String            values = objectToString(value) + ", " + objectsToString(otherValues);
 		return add(LogEntryMessage.of(LogMessageLevel.info, new LogContext(ste), objectToString(message) + ": " + values));
 	}
-	public Nothing important(Object message){
+	public Void important(Object message){
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(LogEntryMessage.of(LogMessageLevel.important, new LogContext(ste), objectToString(message)));
 	}
-	public Nothing important(String message, Object value){
+	public Void important(String message, Object value){
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(LogEntryMessage.of(LogMessageLevel.important, new LogContext(ste), objectToString(message) + ": " + objectToString(message)));
 	}
-	public Nothing important(String message, Object value, Object...otherValues){
+	public Void important(String message, Object value, Object...otherValues){
 		StackTraceElement ste    = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		String            values = objectToString(value) + ", " + objectsToString(otherValues);
 		return add(LogEntryMessage.of(LogMessageLevel.important, new LogContext(ste), objectToString(message) + ": " + values));
 	}
-	public Nothing warning(Object message){
+	public Void warning(Object message){
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(LogEntryMessage.of(LogMessageLevel.warning, new LogContext(ste), objectToString(message)));
 	}
-	public Nothing warning(String message, Object value){
+	public Void warning(String message, Object value){
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(LogEntryMessage.of(LogMessageLevel.warning, new LogContext(ste), objectToString(message) + ": " + objectToString(message)));
 	}
-	public Nothing error(Object message){
+	public Void error(Object message){
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(LogEntryMessage.of(LogMessageLevel.error, new LogContext(ste), objectToString(message)));
 	}
-	public Nothing error(String message, Object value){
+	public Void error(String message, Object value){
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(LogEntryMessage.of(LogMessageLevel.error, new LogContext(ste), objectToString(message) + ": " + objectToString(message)));
 	}
 
-	public Nothing exception(Throwable cause) {
+	public Void exception(Throwable cause) {
 		StackTraceElement ste = Thread.currentThread().getStackTrace()[stackEntryIndex];
 		return add(new LogEntryException(new LogContext(ste), cause));
 	}

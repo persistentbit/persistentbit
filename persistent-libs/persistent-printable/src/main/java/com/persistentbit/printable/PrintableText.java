@@ -1,8 +1,8 @@
 package com.persistentbit.printable;
 
 
-
 import java.io.StringWriter;
+import java.io.Writer;
 
 /**
  * TODO: Add comment
@@ -16,20 +16,20 @@ public interface PrintableText{
     void print(PrintTextWriter out);
 
     default String printToString(){
-        return Log.function().code(l -> {
-            StringWriter    stringWriter = new StringWriter();
-            PrintTextWriter pw           = new PrintTextWriter(stringWriter);
-            print(pw);
-            pw.flush();
-            return stringWriter.toString();
-        });
+        StringWriter    stringWriter = new StringWriter();
+        PrintTextWriter pw           = new PrintTextWriter(stringWriter);
+        print(pw);
+        pw.flush();
+        return stringWriter.toString();
+
     }
 
 
     static PrintableText indent(String indentString, boolean indentFirstLine, PrintableText pt) {
         return printer -> {
             printer.flush();
-            PrintTextWriter pw = new PrintTextWriter(IO.createIndentFilterWriter(printer,indentString,indentFirstLine));
+            Writer indentWriter = new IndentFilterWriter(printer,indentString,indentFirstLine,System.lineSeparator());
+            PrintTextWriter pw = new PrintTextWriter(indentWriter);
             pt.print(pw);
             pw.flush();
         };

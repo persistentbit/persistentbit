@@ -1,7 +1,8 @@
 package com.persistentbit.logging.printing;
 
-import com.persistentbit.core.logging.entries.LogEntry;
-import com.persistentbit.core.printing.PrintableText;
+
+import com.persistentbit.logging.entries.LogEntry;
+import com.persistentbit.printable.PrintableText;
 
 /**
  * TODOC

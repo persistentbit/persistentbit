@@ -1,8 +1,8 @@
 package com.persistentbit.logging;
 
 
-import com.persistentbit.core.logging.entries.LogEntry;
 import com.persistentbit.doc.annotations.DAggregateOf;
+import com.persistentbit.logging.entries.LogEntry;
 
 import java.util.function.Function;
 

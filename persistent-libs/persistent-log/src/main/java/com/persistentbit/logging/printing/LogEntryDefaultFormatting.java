@@ -1,6 +1,6 @@
 package com.persistentbit.logging.printing;
 
-import com.persistentbit.core.utils.AnsiColor;
+
 
 import java.time.Instant;
 import java.time.LocalDateTime;

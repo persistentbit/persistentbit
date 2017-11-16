@@ -1,9 +1,11 @@
 package com.persistentbit.logging.printing;
 
-import com.persistentbit.core.collections.POrderedMap;
-import com.persistentbit.core.logging.entries.LogEntry;
-import com.persistentbit.core.printing.PrintableText;
+
 import com.persistentbit.doc.annotations.DAggregateOf;
+import com.persistentbit.logging.entries.LogEntry;
+import com.persistentbit.printable.PrintableText;
+
+import java.util.LinkedHashMap;
 
 /**
  * Printer for {@link LogEntry} values
@@ -14,18 +16,18 @@ import com.persistentbit.doc.annotations.DAggregateOf;
 @DAggregateOf(value = SpecificExceptionPrinter.class,otherLabel = "exceptionPrinters")
 @DAggregateOf(value = SpecificLogPrinter.class,otherLabel = "logPrinters")
 public final class LogFormatter{
-    private POrderedMap<Class, SpecificExceptionPrinter> exceptionPrinters;
-    private POrderedMap<Class, SpecificLogPrinter>          logPrinters;
+    private final LinkedHashMap<Class, SpecificExceptionPrinter> exceptionPrinters;
+    private final LinkedHashMap<Class, SpecificLogPrinter>         logPrinters;
 
-    private LogFormatter(POrderedMap<Class, SpecificExceptionPrinter> exceptionPrinters,
-                         POrderedMap<Class, SpecificLogPrinter> logPrinters
+    private LogFormatter(LinkedHashMap<Class, SpecificExceptionPrinter> exceptionPrinters,
+                         LinkedHashMap<Class, SpecificLogPrinter> logPrinters
     ) {
         this.exceptionPrinters = exceptionPrinters;
         this.logPrinters = logPrinters;
     }
 
     private LogFormatter() {
-        this(POrderedMap.empty(),POrderedMap.empty());
+        this(new LinkedHashMap<>(), new LinkedHashMap<>());
     }
 
     public static LogFormatter create() {
@@ -34,38 +36,47 @@ public final class LogFormatter{
 
 
     public <T extends LogEntry> LogFormatter logIf(Class<T> logEntry, SpecificLogPrinter<T> specificLogPrinter) {
-        return new LogFormatter(exceptionPrinters, logPrinters.put(logEntry, specificLogPrinter));
+        LinkedHashMap<Class, SpecificLogPrinter> newMap = new LinkedHashMap<>(logPrinters);
+        newMap.put(logEntry,specificLogPrinter);
+        return new LogFormatter(exceptionPrinters, newMap);
     }
 
     public <T extends Throwable> LogFormatter logIf(Class<T> exception,
 													SpecificExceptionPrinter<T> specificExceptionPrinter
     ) {
-        return new LogFormatter(exceptionPrinters.put(exception, specificExceptionPrinter), logPrinters);
+        LinkedHashMap<Class, SpecificExceptionPrinter> newMap = new LinkedHashMap<>(exceptionPrinters);
+        newMap.put(exception,specificExceptionPrinter);
+        return new LogFormatter(newMap, logPrinters);
     }
 
+    @SuppressWarnings("unchecked")
     public PrintableText printableLog(LogEntry logEntry){
         if(logEntry == null){
             return null;
         }
-        return logPrinters.getOpt(logEntry.getClass())
-                .map(slp -> slp.asPrintable(logEntry,this))
-                .orElseGet(()->
-                    logPrinters.find(t -> t._1.isAssignableFrom(logEntry.getClass()))
-                            .map(t -> t._2.asPrintable(logEntry,this))
-                            .orElse(PrintableText.from(logEntry))
-                );
+        SpecificLogPrinter slp = logPrinters.get(logEntry.getClass());
+        if(slp != null){
+            return slp.asPrintable(logEntry,this);
+        }
+        return logPrinters.entrySet().stream()
+            .filter(keyValue -> keyValue.getKey().isAssignableFrom(logEntry.getClass()))
+            .findFirst()
+            .map(kv -> kv.getValue().asPrintable(logEntry,this))
+            .orElseGet(()-> PrintableText.from(logEntry));
 
     }
-
+    @SuppressWarnings("unchecked")
     public PrintableText printableException(Throwable exception){
+        SpecificExceptionPrinter sep = exceptionPrinters.get(exception.getClass());
+        if(sep != null){
+            return sep.asPrintable(exception,this);
+        }
+        return exceptionPrinters.entrySet().stream()
+            .filter(keyValue -> keyValue.getKey().isAssignableFrom(exception.getClass()))
+            .findFirst()
+            .map(kv -> kv.getValue().asPrintable(exception,this))
+            .orElseGet(()-> PrintableText.from(exception));
 
-        return exceptionPrinters.getOpt(exception.getClass())
-                .map(slp -> slp.asPrintable(exception,this))
-                .orElseGet(()->
-                        exceptionPrinters.find(t -> t._1.isAssignableFrom(exception.getClass()))
-                                .map(t -> t._2.asPrintable(exception,this))
-                                .orElse(PrintableText.from(exception))
-                );
     }
 
 }

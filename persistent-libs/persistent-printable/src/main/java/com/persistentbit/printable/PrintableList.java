@@ -1,7 +1,9 @@
 package com.persistentbit.printable;
 
-import com.persistentbit.core.collections.PList;
 
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 
 /**
@@ -12,33 +14,36 @@ import java.util.function.Function;
  */
 public class PrintableList implements PrintableText{
     private final Function<Integer,String> bulletCreator;
-    private final PList<PrintableText> items;
+    private final List<PrintableText>      items;
 
-    private PrintableList(Function<Integer,String> bulletCreator, PList<PrintableText> items) {
+    private PrintableList(Function<Integer,String> bulletCreator, List<PrintableText> items) {
         this.bulletCreator = bulletCreator;
         this.items = items;
     }
     public PrintableList(){
-        this(i -> "* ", PList.empty());
+        this(i -> "* ", List.of());
     }
 
 
     public PrintableList addItem(PrintableText item){
-        return new PrintableList(bulletCreator,items.plus(item));
+        List<PrintableText> newList = new ArrayList<>(items);
+        newList.add(item);
+        return new PrintableList(bulletCreator,newList);
     }
 
     @Override
 	public void print(PrintTextWriter printWriter) {
 		printWriter.print(PrintableText.indent("\t", true, out -> {
-			items.zipWithIndex().forEach(zip -> {
-                int index = zip._1;
-                PrintableText item = zip._2;
-				out.println(PrintableText.indent("  ", false, itemOut -> {
-					itemOut.print(bulletCreator.apply(index));
+		    for(int t=0; t<items.size(); t++){
+		        PrintableText item = items.get(t);
+		        int index = t;
+		        out.println(PrintableText.indent("  ",false, itemOut -> {
+                    itemOut.print(bulletCreator.apply(index));
                     itemOut.println(item);
                     itemOut.flush();
                 }));
-            });
+            }
+
         }));
     }
 }

@@ -1,6 +1,7 @@
 package com.persistentbit.logging.cleaning;
 
-import com.persistentbit.core.logging.entries.LogEntry;
+
+import com.persistentbit.logging.entries.LogEntry;
 
 import java.util.Optional;
 

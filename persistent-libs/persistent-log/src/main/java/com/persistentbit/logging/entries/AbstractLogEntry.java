@@ -1,6 +1,6 @@
 package com.persistentbit.logging.entries;
 
-import com.persistentbit.core.ModuleCore;
+import com.persistentbit.logging.ModuleLogging;
 
 /**
  * Abstract Log Entry class
@@ -13,7 +13,7 @@ public abstract class AbstractLogEntry implements LogEntry{
 
     @Override
     public String toString() {
-		return ModuleCore.createLogFormatter(false).printableLog(this).printToString();
+		return ModuleLogging.createLogFormatter(false).printableLog(this).printToString();
 	}
 
 

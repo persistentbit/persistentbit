@@ -1,8 +1,10 @@
 package com.persistentbit.logging.printing;
 
-import com.persistentbit.core.printing.PrintTextWriter;
-import com.persistentbit.core.printing.PrintableText;
+
 import com.persistentbit.doc.annotations.DCreates;
+import com.persistentbit.logging.entries.*;
+import com.persistentbit.printable.PrintTextWriter;
+import com.persistentbit.printable.PrintableText;
 
 /**
  * Default LogPrinter
