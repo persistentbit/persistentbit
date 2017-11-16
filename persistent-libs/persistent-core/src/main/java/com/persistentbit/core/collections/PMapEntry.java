@@ -1,8 +1,8 @@
 package com.persistentbit.core.collections;
 
 
-import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.doc.annotations.DUsedByClass;
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Map;
 

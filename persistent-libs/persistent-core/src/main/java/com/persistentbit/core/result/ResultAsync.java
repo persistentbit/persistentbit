@@ -1,8 +1,8 @@
 package com.persistentbit.core.result;
 
-import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.logging.Log;
 import com.persistentbit.logging.entries.LogEntry;
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;

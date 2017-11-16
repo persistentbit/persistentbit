@@ -1,6 +1,7 @@
 package com.persistentbit.core.language;
 
-import com.persistentbit.core.tuples.Tuple2;
+
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Locale;
 import java.util.Objects;

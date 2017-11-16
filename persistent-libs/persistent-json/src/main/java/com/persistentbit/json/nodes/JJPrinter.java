@@ -1,7 +1,7 @@
 package com.persistentbit.json.nodes;
 
-import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.json.mapping.JJMapper;
+import com.persistentbit.tuples.Tuple2;
 
 import java.io.*;
 

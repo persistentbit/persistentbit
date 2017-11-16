@@ -9,7 +9,7 @@ import com.persistentbit.core.lenses.Lens;
 import com.persistentbit.core.properties.FieldNames;
 import com.persistentbit.core.properties.PropertyGetter;
 import com.persistentbit.core.properties.PropertyGetterField;
-import com.persistentbit.core.tuples.Pair;
+import com.persistentbit.tuples.Pair;
 
 import java.lang.reflect.*;
 import java.util.*;

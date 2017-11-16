@@ -2,11 +2,11 @@ package com.persistentbit.json.mapping.impl;
 
 import com.persistentbit.core.collections.PMap;
 import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.core.utils.UReflect;
 import com.persistentbit.json.mapping.description.JJClass;
 import com.persistentbit.json.mapping.description.JJTypeDescription;
 import com.persistentbit.json.mapping.description.JJTypeSignature;
+import com.persistentbit.tuples.Tuple2;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

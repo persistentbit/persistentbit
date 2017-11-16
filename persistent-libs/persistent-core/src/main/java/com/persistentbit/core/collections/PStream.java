@@ -2,10 +2,10 @@ package com.persistentbit.core.collections;
 
 
 import com.persistentbit.core.function.ThrowingFunction;
-import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.doc.annotations.DSupport;
 import com.persistentbit.doc.annotations.DUsedByClass;
 import com.persistentbit.doc.annotations.DUsesClass;
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.*;
 import java.util.function.*;

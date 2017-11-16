@@ -1,12 +1,10 @@
-package com.persistentbit.core.tuples;
+package com.persistentbit.tuples;
 
 import com.persistentbit.code.annotations.Immutable;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.core.properties.FieldNames;
 
 import java.io.Serializable;
 import java.util.Optional;
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 /**
@@ -32,13 +30,13 @@ public class Tuple2<T1, T2> implements Comparable<Tuple2<T1, T2>>, Serializable{
     /**
      * Create a new Tuple2 with 2 values
      *
-     * @param v1 First value
-     * @param v2 Second value
+     * @param _1 First value
+     * @param _2 Second value
      */
-    @FieldNames(names = {"_1", "_2"})
-    public Tuple2(@Nullable T1 v1, @Nullable T2 v2) {
-        this._1 = v1;
-        this._2 = v2;
+
+    public Tuple2(@Nullable T1 _1, @Nullable T2 _2) {
+        this._1 = _1;
+        this._2 = _2;
     }
 
     /**
@@ -117,9 +115,6 @@ public class Tuple2<T1, T2> implements Comparable<Tuple2<T1, T2>>, Serializable{
         return new Tuple2<>(this._1, value);
     }
 
-    public <R> R map(BiFunction<T1, T2, R> map) {
-        return map.apply(_1, _2);
-    }
     public <R> R map(Function<T1,Function<T2,R>> map) { return map.apply(_1).apply(_2);}
     public <R1> Tuple2<R1,T2> map1(Function<T1,R1> map){
         return Tuple2.of(map.apply(_1),_2);

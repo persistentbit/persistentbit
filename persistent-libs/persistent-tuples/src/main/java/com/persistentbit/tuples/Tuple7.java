@@ -1,8 +1,6 @@
-package com.persistentbit.core.tuples;
+package com.persistentbit.tuples;
 
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.core.function.Function7;
-import com.persistentbit.core.properties.FieldNames;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -42,19 +40,15 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Comparable<Tuple7<T1,
 	@Nullable
 	public final T7 _7;
 
-	@FieldNames(
-		names = {"_1", "_2", "_3", "_4", "_5", "_6", "_7"}
-	)
-	public Tuple7(@Nullable T1 v1, @Nullable T2 v2, @Nullable T3 v3, @Nullable T4 v4, @Nullable T5 v5, @Nullable T6 v6,
-				  @Nullable T7 v7
-	) {
-		this._1 = v1;
-		this._2 = v2;
-		this._3 = v3;
-		this._4 = v4;
-		this._5 = v5;
-		this._6 = v6;
-		this._7 = v7;
+
+	public Tuple7(@Nullable T1 _1, @Nullable T2 _2, @Nullable T3 _3, @Nullable T4 _4, @Nullable T5 _5, @Nullable T6 _6, @Nullable T7 _7) {
+		this._1 = _1;
+		this._2 = _2;
+		this._3 = _3;
+		this._4 = _4;
+		this._5 = _5;
+		this._6 = _6;
+		this._7 = _7;
 	}
 
 	public static <T1, T2, T3, T4, T5, T6, T7> Tuple7<T1, T2, T3, T4, T5, T6, T7> of(T1 v1, T2 v2, T3 v3, T4 v4, T5 v5,
@@ -177,8 +171,8 @@ public class Tuple7<T1, T2, T3, T4, T5, T6, T7> implements Comparable<Tuple7<T1,
 		return result;
 	}
 
-	public <R> R map(Function7<T1, T2, T3, T4, T5, T6, T7, R> map) {
-		return map.apply(_1, _2, _3, _4, _5, _6, _7);
+	public <R> R map(Function<T1, Function<T2, Function<T3, Function<T4, Function<T5,Function<T6,Function<T7,R>>>>>>> map) {
+		return map.apply(_1).apply(_2).apply(_3).apply(_4).apply(_5).apply(_6).apply(_7);
 	}
 
 	public <R1> Tuple7<R1, T2, T3, T4,T5,T6,T7> map1(Function<T1, R1> map) {

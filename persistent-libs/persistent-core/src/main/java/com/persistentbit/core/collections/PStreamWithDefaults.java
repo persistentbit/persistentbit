@@ -1,7 +1,7 @@
 package com.persistentbit.core.collections;
 
 import com.persistentbit.core.function.ThrowingFunction;
-import com.persistentbit.core.tuples.Tuple2;
+import com.persistentbit.tuples.Tuple2;
 
 import java.lang.reflect.Array;
 import java.util.*;

@@ -1,6 +1,7 @@
 package com.persistentbit.core.keyvalue;
 
-import com.persistentbit.core.tuples.Tuple2;
+
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Objects;
 

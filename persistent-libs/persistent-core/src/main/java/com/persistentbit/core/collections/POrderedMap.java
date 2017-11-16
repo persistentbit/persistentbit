@@ -1,7 +1,7 @@
 package com.persistentbit.core.collections;
 
 import com.persistentbit.core.result.Result;
-import com.persistentbit.core.tuples.Tuple2;
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Iterator;
 import java.util.Map;
@@ -42,7 +42,7 @@ public final class POrderedMap<K, V> extends AbstractPStreamDirect<Tuple2<K, V>,
 
     @Override
     public Iterator<Tuple2<K, V>> iterator() {
-        return new Iterator<Tuple2<K, V>>() {
+        return new Iterator<>() {
             private final Iterator<K> keys = order.iterator();
 
             @Override

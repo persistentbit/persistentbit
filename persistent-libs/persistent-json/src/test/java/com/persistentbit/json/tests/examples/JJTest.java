@@ -5,9 +5,9 @@ import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PMap;
 import com.persistentbit.core.collections.PSet;
 import com.persistentbit.core.result.Result;
-import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.core.utils.BaseValueClass;
 import com.persistentbit.json.tests.JJSubTest;
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Date;
 import java.util.List;
@@ -23,25 +23,25 @@ public class JJTest extends BaseValueClass{
     }
 
 
-	private final List<JJSubTest> subList;
-	private final Boolean booleanValue;
+	private final List<JJSubTest>       subList;
+	private final Boolean               booleanValue;
 	private final short                 shortValue;
-	private final Integer intValue;
-	private final Long longValue;
-	private final Float floatValue;
+	private final Integer               intValue;
+	private final Long                  longValue;
+	private final Float                 floatValue;
 	private final double                doubleValue;
-	private final Date dateValue;
-	private final PList<String> pList;
-	private final PMap<Integer,String> pMap;
-	private final PSet<Double> pSet;
-	private final Map<String, String> map;
+	private final Date                  dateValue;
+	private final PList<String>         pList;
+	private final PMap<Integer,String>  pMap;
+	private final PSet<Double>          pSet;
+	private final Map<String, String>   map;
 	private final EnumTest              enumTest;
 	private final Tuple2<Integer,Float> tuple;
-	private final PList<Byte> bytes;
-	private final PByteList byteList;
-	private final Result<String> failureResult;
-	private final Result<Integer> okResult;
-	private final Result<Long> emptyResult;
+	private final PList<Byte>           bytes;
+	private final PByteList             byteList;
+	private final Result<String>        failureResult;
+	private final Result<Integer>       okResult;
+	private final Result<Long>          emptyResult;
 
 
 	public JJTest(List<JJSubTest> subList, Boolean booleanValue, short shortValue, Integer intValue, Long longValue,

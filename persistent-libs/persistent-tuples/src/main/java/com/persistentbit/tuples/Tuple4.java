@@ -1,9 +1,7 @@
-package com.persistentbit.core.tuples;
+package com.persistentbit.tuples;
 
 import com.persistentbit.code.annotations.Immutable;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.core.function.Function4;
-import com.persistentbit.core.properties.FieldNames;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -35,14 +33,12 @@ public class Tuple4<T1, T2, T3, T4> implements Comparable<Tuple4<T1, T2, T3, T4>
     @Nullable
     public final T4 _4;
 
-    @FieldNames(
-            names = {"_1", "_2", "_3", "_4"}
-    )
-    public Tuple4(@Nullable T1 v1, @Nullable T2 v2, @Nullable T3 v3, @Nullable T4 v4) {
-        this._1 = v1;
-        this._2 = v2;
-        this._3 = v3;
-        this._4 = v4;
+
+    public Tuple4(@Nullable T1 _1, @Nullable T2 _2, @Nullable T3 _3, @Nullable T4 _4) {
+        this._1 = _1;
+        this._2 = _2;
+        this._3 = _3;
+        this._4 = _4;
     }
 
     public static <T1, T2, T3, T4> Tuple4<T1, T2, T3, T4> of(T1 v1, T2 v2, T3 v3, T4 v4) {
@@ -130,8 +126,8 @@ public class Tuple4<T1, T2, T3, T4> implements Comparable<Tuple4<T1, T2, T3, T4>
         return new Tuple4<>(this._1, this._2, this._3, value);
     }
 
-    public <R> R map(Function4<T1, T2, T3, T4, R> map) {
-        return map.apply(_1, _2, _3, _4);
+    public <R> R map(Function<T1,Function<T2,Function<T3,Function<T4,R>>>> map){
+        return map.apply(_1).apply(_2).apply(_3).apply(_4);
     }
 
     public <R1> Tuple4<R1, T2, T3, T4> map1(Function<T1, R1> map) {

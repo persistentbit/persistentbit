@@ -8,11 +8,12 @@ module persistent.core {
 	requires transitive persistent.doc.annotations;
 	requires transitive persistent.code.annotations;
 	requires transitive persistent.log;
+	requires transitive persistent.tuples;
 	requires java.logging;
 
 	exports com.persistentbit.core;
 
-	exports com.persistentbit.core.tuples;
+
 
 	exports com.persistentbit.core.collections;
 	exports com.persistentbit.core.exceptions;

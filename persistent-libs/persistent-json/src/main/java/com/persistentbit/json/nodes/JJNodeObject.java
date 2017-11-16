@@ -8,7 +8,7 @@ import com.persistentbit.core.collections.PStreamable;
 import com.persistentbit.core.lenses.Lens;
 import com.persistentbit.core.lenses.LensImpl;
 import com.persistentbit.core.result.Result;
-import com.persistentbit.core.tuples.Tuple2;
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Objects;
 import java.util.Optional;

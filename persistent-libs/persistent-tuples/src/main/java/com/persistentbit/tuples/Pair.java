@@ -1,7 +1,5 @@
-package com.persistentbit.core.tuples;
+package com.persistentbit.tuples;
 
-
-import com.persistentbit.core.properties.FieldNames;
 
 import java.util.Objects;
 
@@ -13,7 +11,7 @@ import java.util.Objects;
 
 public class Pair<L, R> extends Tuple2<L, R>{
 
-  @FieldNames(names = {"_1", "_2"})
+
   public Pair(L _1, R _2) {
 	super(
 	  Objects.requireNonNull(_1),

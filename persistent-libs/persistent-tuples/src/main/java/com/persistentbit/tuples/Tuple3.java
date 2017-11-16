@@ -1,9 +1,7 @@
-package com.persistentbit.core.tuples;
+package com.persistentbit.tuples;
 
 import com.persistentbit.code.annotations.Immutable;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.core.function.Function3;
-import com.persistentbit.core.properties.FieldNames;
 
 import java.io.Serializable;
 import java.util.Optional;
@@ -35,15 +33,15 @@ public class Tuple3<T1, T2, T3> implements Comparable<Tuple3<T1, T2, T3>>, Seria
     /**
      * Create a new Tuple3 with 3 values
      *
-     * @param v1 First value
-     * @param v2 Second value
-     * @param v3 Third value
+     * @param _1 First value
+     * @param _2 Second value
+     * @param _3 Third value
      */
-    @FieldNames(names = {"_1", "_2", "_3"})
-    public Tuple3(@Nullable T1 v1, @Nullable T2 v2, @Nullable T3 v3) {
-        this._1 = v1;
-        this._2 = v2;
-        this._3 = v3;
+
+    public Tuple3(@Nullable T1 _1, @Nullable T2 _2, @Nullable T3 _3) {
+        this._1 = _1;
+        this._2 = _2;
+        this._3 = _3;
     }
 
     /**
@@ -130,8 +128,10 @@ public class Tuple3<T1, T2, T3> implements Comparable<Tuple3<T1, T2, T3>>, Seria
         return new Tuple3<>(this._1, this._2, value);
     }
 
-    public <R> R map(Function3<T1, T2, T3, R> map) {
-        return map.apply(_1, _2, _3);
+
+
+    public <R> R map(Function<T1,Function<T2,Function<T3,R>>> map){
+        return map.apply(_1).apply(_2).apply(_3);
     }
 
     public <R1> Tuple3<R1,T2,T3> map1(Function<T1,R1> map){

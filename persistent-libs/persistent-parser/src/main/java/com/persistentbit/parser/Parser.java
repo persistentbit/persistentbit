@@ -3,8 +3,8 @@ package com.persistentbit.parser;
 import com.persistentbit.core.OK;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.parser.source.Source;
-import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.parser.source.StrPos;
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Objects;
 import java.util.Optional;

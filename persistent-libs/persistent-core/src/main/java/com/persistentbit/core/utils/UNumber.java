@@ -2,8 +2,8 @@ package com.persistentbit.core.utils;
 
 import com.persistentbit.core.collections.PMap;
 import com.persistentbit.core.result.Result;
-import com.persistentbit.core.tuples.Tuple2;
 import com.persistentbit.logging.Log;
+import com.persistentbit.tuples.Tuple2;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

@@ -1,6 +1,7 @@
 package com.persistentbit.json.tests.examples;
 
-import com.persistentbit.core.tuples.Tuple2;
+
+import com.persistentbit.tuples.Tuple2;
 
 /**
  * @author Peter Muys
@@ -9,8 +10,8 @@ import com.persistentbit.core.tuples.Tuple2;
 @SuppressWarnings("FieldCanBeLocal")
 class GenTestData<A, B>{
 
-	private final Tuple2<A,String> tupleAString;
-    private final Tuple2<B,Integer> tupleBInteger;
+	private final Tuple2<A,String>     tupleAString;
+    private final Tuple2<B,Integer>    tupleBInteger;
     private final Tuple2<Float,Double> tupleFloatDouble;
 
 	public GenTestData() {

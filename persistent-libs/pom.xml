@@ -27,5 +27,6 @@
         <module>persistent-log</module>
         <module>persistent-printable</module>
         <module>persistentbit-runenv</module>
+        <module>persistent-tuples</module>
     </modules>
 </project>

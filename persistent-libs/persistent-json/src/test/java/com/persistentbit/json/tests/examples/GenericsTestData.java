@@ -1,6 +1,7 @@
 package com.persistentbit.json.tests.examples;
 
-import com.persistentbit.core.tuples.Tuple2;
+
+import com.persistentbit.tuples.Tuple2;
 
 /**
  * Created by petermuys on 3/09/16.
@@ -8,7 +9,7 @@ import com.persistentbit.core.tuples.Tuple2;
 @SuppressWarnings("FieldCanBeLocal")
 public class GenericsTestData<GT>{
 
-	private final GT gtValue;
+	private final GT                gtValue;
     private final Tuple2<GT,String> tuple2_GT_String;
 
 	public GenericsTestData(GT gtValue, Tuple2<GT, String> tuple2_GT_String) {
