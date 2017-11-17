@@ -1,7 +1,4 @@
-package com.persistentbit.core.caching;
-
-import com.persistentbit.collections.PStream;
-import com.persistentbit.utils.TimeMeasurement;
+package com.persistentbit.caching;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,6 +29,7 @@ public class Memoizer<T, R> implements Function<T, R>{
 		return new Memoizer<>(f);
 	}
 
+	/*
 	public static void main(String[] args) {
 		Function<Integer, Function<Integer, Integer>> slowCalc = a -> b -> {
 			try {
@@ -52,5 +50,5 @@ public class Memoizer<T, R> implements Function<T, R>{
 									  System.out.println(range.fold(0, cachedCalc))
 		);
 
-	}
+	}*/
 }

@@ -9,4 +9,5 @@ module persistent.utils {
 	requires transitive persistent.result;
 
 	exports com.persistentbit.utils;
+	exports com.persistentbit.utils.patternmatching;
 }

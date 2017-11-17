@@ -1,4 +1,4 @@
-package com.persistentbit.core.caching;
+package com.persistentbit.caching;
 
 import java.time.Duration;
 import java.time.Instant;

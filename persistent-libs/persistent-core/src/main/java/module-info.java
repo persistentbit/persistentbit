@@ -22,9 +22,9 @@ module persistent.core {
 
 
 	exports com.persistentbit.core.exceptions;
-	exports com.persistentbit.core.keyvalue;
+	exports com.persistentbit.utils.keyvalue;
 	exports com.persistentbit.core.language;
-	exports com.persistentbit.core.patternmatching;
+	exports com.persistentbit.utils.patternmatching;
 	exports com.persistentbit.reflection.properties;
 	exports com.persistentbit.core.resources;
 

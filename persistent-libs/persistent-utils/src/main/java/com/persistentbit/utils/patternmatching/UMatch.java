@@ -1,6 +1,4 @@
-package com.persistentbit.core.patternmatching;
-
-import com.persistentbit.doc.annotations.DSupport;
+package com.persistentbit.utils.patternmatching;
 
 import java.util.function.Predicate;
 
@@ -10,7 +8,7 @@ import java.util.function.Predicate;
  * @author petermuys
  * @since 5/04/17
  */
-@DSupport
+
 public final class UMatch{
 	public static <V> Predicate<V> isNull(){
 		return isEqual(null);

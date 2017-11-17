@@ -1,4 +1,4 @@
-package com.persistentbit.core.patternmatching;
+package com.persistentbit.utils.patternmatching;
 
 import com.persistentbit.collections.LList;
 

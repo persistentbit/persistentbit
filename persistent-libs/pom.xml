@@ -36,5 +36,6 @@
         <module>persistent-collections</module>
         <module>persistent-lenses</module>
         <module>persistent-reflection</module>
+        <module>persistent-caching</module>
     </modules>
 </project>

@@ -1,4 +1,4 @@
-package com.persistentbit.core.keyvalue;
+package com.persistentbit.utils.keyvalue;
 
 
 import com.persistentbit.tuples.Tuple2;

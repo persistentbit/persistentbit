@@ -1,4 +1,4 @@
-package com.persistentbit.core.utils;
+package com.persistentbit.io;
 
 import com.persistentbit.result.Result;
 
