@@ -1,6 +1,5 @@
 package com.persistentbit.parser;
 
-import com.persistentbit.core.utils.BaseValueClass;
 import com.persistentbit.parser.source.StrPos;
 
 /**
@@ -9,7 +8,7 @@ import com.persistentbit.parser.source.StrPos;
  * @author Peter Muys
  * @since 20/02/2017
  */
-public class WithPos<T> extends BaseValueClass{
+public class WithPos<T> {
     public final StrPos pos;
     public final T          value;
 
@@ -25,4 +24,22 @@ public class WithPos<T> extends BaseValueClass{
                 ", value=" + value +
                 '}';
     }
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+
+		WithPos<?> withPos = (WithPos<?>) o;
+
+		if(!pos.equals(withPos.pos)) return false;
+		return value.equals(withPos.value);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = pos.hashCode();
+		result = 31 * result + value.hashCode();
+		return result;
+	}
 }

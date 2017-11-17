@@ -1,6 +1,6 @@
 package com.persistentbit.json.mapping.impl.custom;
 
-import com.persistentbit.core.collections.IPMap;
+import com.persistentbit.collections.IPMap;
 import com.persistentbit.json.mapping.JJWriter;
 import com.persistentbit.json.mapping.impl.JJObjectWriter;
 import com.persistentbit.json.nodes.JJNode;

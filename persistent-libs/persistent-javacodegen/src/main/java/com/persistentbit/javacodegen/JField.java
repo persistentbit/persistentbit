@@ -1,12 +1,11 @@
 package com.persistentbit.javacodegen;
 
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PSet;
-import com.persistentbit.core.utils.BaseValueClass;
-import com.persistentbit.core.utils.NoEqual;
-import com.persistentbit.string.UString;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PSet;
 import com.persistentbit.javacodegen.annotations.*;
+import com.persistentbit.reflection.BaseValueClass;
+import com.persistentbit.string.UString;
 
 import java.util.Optional;
 

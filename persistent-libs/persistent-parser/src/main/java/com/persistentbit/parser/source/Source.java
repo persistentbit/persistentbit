@@ -1,7 +1,7 @@
 package com.persistentbit.parser.source;
 
-import com.persistentbit.core.io.IO;
-import com.persistentbit.core.io.IORead;
+import com.persistentbit.io.IO;
+import com.persistentbit.io.IORead;
 import com.persistentbit.parser.Parser;
 import com.persistentbit.result.Result;
 import com.persistentbit.string.UString;

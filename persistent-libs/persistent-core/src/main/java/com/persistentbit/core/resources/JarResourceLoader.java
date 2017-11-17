@@ -1,6 +1,6 @@
 package com.persistentbit.core.resources;
 
-import com.persistentbit.core.collections.PByteList;
+import com.persistentbit.collections.PByteList;
 import com.persistentbit.result.Result;
 
 import java.io.File;

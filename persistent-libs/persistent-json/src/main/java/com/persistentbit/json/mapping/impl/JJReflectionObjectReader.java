@@ -1,11 +1,6 @@
 package com.persistentbit.json.mapping.impl;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.properties.FieldNames;
-import com.persistentbit.core.properties.PropertySetter;
-import com.persistentbit.core.properties.PropertySetterField;
-import com.persistentbit.core.properties.PropertySetterMethod;
-import com.persistentbit.core.utils.UReflect;
+import com.persistentbit.collections.PList;
 import com.persistentbit.json.mapping.JJReader;
 import com.persistentbit.json.mapping.description.JJClass;
 import com.persistentbit.json.mapping.description.JJPropertyDescription;
@@ -15,6 +10,11 @@ import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJNodeNull;
 import com.persistentbit.json.nodes.JJNodeObject;
 import com.persistentbit.logging.Log;
+import com.persistentbit.reflection.UReflect;
+import com.persistentbit.reflection.properties.FieldNames;
+import com.persistentbit.reflection.properties.PropertySetter;
+import com.persistentbit.reflection.properties.PropertySetterField;
+import com.persistentbit.reflection.properties.PropertySetterMethod;
 
 import java.lang.reflect.*;
 import java.util.*;

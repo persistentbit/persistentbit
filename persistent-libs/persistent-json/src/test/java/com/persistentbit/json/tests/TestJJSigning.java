@@ -1,7 +1,7 @@
 package com.persistentbit.json.tests;
 
-import com.persistentbit.core.properties.FieldNames;
-import com.persistentbit.core.utils.BaseValueClass;
+import com.persistentbit.reflection.properties.FieldNames;
+import com.persistentbit.reflection.BaseValueClass;
 import com.persistentbit.json.mapping.JJMapper;
 import com.persistentbit.json.nodes.JJNodeObject;
 import com.persistentbit.json.nodes.JJNodeString;

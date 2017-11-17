@@ -26,12 +26,12 @@
         <dependency>
             <groupId>com.persistentbit</groupId>
             <artifactId>persistent-printable</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.persistentbit</groupId>
             <artifactId>persistentbit-runenv</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 </project>

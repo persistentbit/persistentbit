@@ -1,11 +1,11 @@
 package com.persistentbit.javacodegen.maven.plugin.tests;
 
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.core.utils.builders.NOT;
-import com.persistentbit.core.utils.builders.SET;
 import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NOT;
+import com.persistentbit.javacodegen.annotations.SET;
 import com.persistentbit.result.Result;
 import com.persistentbit.string.UString;
 

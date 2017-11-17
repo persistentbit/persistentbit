@@ -1,8 +1,8 @@
 package com.persistentbit.parser;
 
-import com.persistentbit.core.OK;
+import com.persistentbit.result.OK;
 import com.persistentbit.parser.source.Source;
-import com.persistentbit.core.utils.UNumber;
+import com.persistentbit.utils.UNumber;
 import com.persistentbit.string.UString;
 
 import java.math.BigDecimal;

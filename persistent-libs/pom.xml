@@ -31,5 +31,10 @@
         <module>persistent-result</module>
         <module>persistent-string</module>
         <module>persistent-functions</module>
+        <module>persistent-io</module>
+        <module>persistent-utils</module>
+        <module>persistent-collections</module>
+        <module>persistent-lenses</module>
+        <module>persistent-reflection</module>
     </modules>
 </project>

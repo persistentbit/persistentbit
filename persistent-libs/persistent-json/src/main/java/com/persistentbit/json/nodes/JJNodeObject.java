@@ -1,12 +1,12 @@
 package com.persistentbit.json.nodes;
 
 
-import com.persistentbit.core.collections.IPMap;
-import com.persistentbit.core.collections.POrderedMap;
-import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.collections.PStreamable;
-import com.persistentbit.core.lenses.Lens;
-import com.persistentbit.core.lenses.LensImpl;
+import com.persistentbit.collections.IPMap;
+import com.persistentbit.collections.POrderedMap;
+import com.persistentbit.collections.PStream;
+import com.persistentbit.collections.PStreamable;
+import com.persistentbit.lenses.Lens;
+import com.persistentbit.lenses.LensImpl;
 import com.persistentbit.result.Result;
 import com.persistentbit.tuples.Tuple2;
 

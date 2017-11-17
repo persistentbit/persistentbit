@@ -14,7 +14,7 @@
         <dependency>
             <groupId>com.persistentbit</groupId>
             <artifactId>persistent-code-annotations</artifactId>
-            <version>3.0-SNAPSHOT</version>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

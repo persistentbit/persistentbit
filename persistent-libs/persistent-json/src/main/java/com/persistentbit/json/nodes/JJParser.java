@@ -1,7 +1,7 @@
 package com.persistentbit.json.nodes;
 
-import com.persistentbit.core.collections.POrderedMap;
-import com.persistentbit.core.io.IOStreams;
+import com.persistentbit.collections.POrderedMap;
+import com.persistentbit.io.IOStreams;
 import com.persistentbit.result.Result;
 import com.persistentbit.logging.Log;
 

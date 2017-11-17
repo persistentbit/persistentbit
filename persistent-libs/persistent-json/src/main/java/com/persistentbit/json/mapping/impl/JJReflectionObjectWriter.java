@@ -1,8 +1,8 @@
 package com.persistentbit.json.mapping.impl;
 
-import com.persistentbit.core.collections.POrderedMap;
-import com.persistentbit.core.properties.PropertyGetter;
-import com.persistentbit.core.properties.PropertyGetterField;
+import com.persistentbit.collections.POrderedMap;
+import com.persistentbit.reflection.properties.PropertyGetter;
+import com.persistentbit.reflection.properties.PropertyGetterField;
 import com.persistentbit.json.mapping.JJWriter;
 import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJNodeObject;

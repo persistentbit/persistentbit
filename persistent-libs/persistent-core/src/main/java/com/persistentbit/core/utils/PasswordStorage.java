@@ -1,9 +1,10 @@
 package com.persistentbit.core.utils;
 
-import com.persistentbit.core.OK;
+import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.logging.Log;
 import com.persistentbit.string.UString;
+import com.persistentbit.utils.UNumber;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;

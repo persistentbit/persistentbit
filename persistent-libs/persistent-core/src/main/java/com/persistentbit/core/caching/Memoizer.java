@@ -1,7 +1,7 @@
 package com.persistentbit.core.caching;
 
-import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.utils.TimeMeasurement;
+import com.persistentbit.collections.PStream;
+import com.persistentbit.utils.TimeMeasurement;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

@@ -1,6 +1,6 @@
 package com.persistentbit.test;
 
-import com.persistentbit.core.io.IOFiles;
+import com.persistentbit.io.IOFiles;
 import com.persistentbit.result.Result;
 import com.persistentbit.tuples.Tuple2;
 

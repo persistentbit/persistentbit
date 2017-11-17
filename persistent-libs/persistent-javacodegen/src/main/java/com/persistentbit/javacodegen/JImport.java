@@ -1,6 +1,5 @@
 package com.persistentbit.javacodegen;
 
-import com.persistentbit.core.utils.BaseValueClass;
 import com.persistentbit.printable.PrintableText;
 
 /**
@@ -9,7 +8,7 @@ import com.persistentbit.printable.PrintableText;
  * @author petermuys
  * @since 28/05/17
  */
-public class JImport extends BaseValueClass{
+public class JImport{
 	private final String name;
 	private final boolean isStatic;
 
@@ -29,7 +28,7 @@ public class JImport extends BaseValueClass{
 		this(cls.getName());
 	}
 	public JImport asStatic() {
-		return copyWith("isStatic",true);
+		return new JImport(name,true);
 	}
 	public PrintableText print() {
 		return out -> {
@@ -46,5 +45,31 @@ public class JImport extends BaseValueClass{
 			return true;
 		}
 		return name.startsWith(packageName) == false;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+
+		JImport jImport = (JImport) o;
+
+		if(isStatic != jImport.isStatic) return false;
+		return name.equals(jImport.name);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = name.hashCode();
+		result = 31 * result + (isStatic ? 1 : 0);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "JImport{" +
+			"name='" + name + '\'' +
+			", isStatic=" + isStatic +
+			'}';
 	}
 }

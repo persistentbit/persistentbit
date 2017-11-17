@@ -1,11 +1,6 @@
 package com.persistentbit.json.mapping.impl.custom;
 
 
-import com.persistentbit.result.Empty;
-import com.persistentbit.result.Failure;
-import com.persistentbit.result.Result;
-import com.persistentbit.result.Success;
-import com.persistentbit.core.utils.UReflect;
 import com.persistentbit.json.mapping.JJReader;
 import com.persistentbit.json.mapping.JJWriter;
 import com.persistentbit.json.mapping.impl.JJObjectReader;
@@ -18,6 +13,11 @@ import com.persistentbit.json.nodes.JJNodeString;
 import com.persistentbit.logging.Log;
 import com.persistentbit.logging.entries.LogEntry;
 import com.persistentbit.logging.entries.LogEntryEmpty;
+import com.persistentbit.reflection.UReflect;
+import com.persistentbit.result.Empty;
+import com.persistentbit.result.Failure;
+import com.persistentbit.result.Result;
+import com.persistentbit.result.Success;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

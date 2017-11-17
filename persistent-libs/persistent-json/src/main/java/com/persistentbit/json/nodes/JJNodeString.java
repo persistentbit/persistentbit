@@ -1,8 +1,8 @@
 package com.persistentbit.json.nodes;
 
 
-import com.persistentbit.core.lenses.Lens;
-import com.persistentbit.core.lenses.LensImpl;
+import com.persistentbit.lenses.Lens;
+import com.persistentbit.lenses.LensImpl;
 import com.persistentbit.result.Result;
 
 import java.util.function.Function;

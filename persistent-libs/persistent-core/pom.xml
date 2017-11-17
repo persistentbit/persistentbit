@@ -8,10 +8,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>persistent-core</artifactId>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>persistent-core</name>
     <url>http://maven.apache.org</url>
+
 
     <dependencies>
         <dependency>
@@ -47,6 +48,21 @@
         <dependency>
             <groupId>com.persistentbit</groupId>
             <artifactId>persistent-functions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-io</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-collections</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

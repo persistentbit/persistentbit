@@ -1,9 +1,9 @@
 package com.persistentbit.javacodegen.mavenplugin;
 
-import com.persistentbit.core.OK;
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.io.IO;
-import com.persistentbit.core.io.IOFiles;
+import com.persistentbit.result.OK;
+import com.persistentbit.collections.PList;
+import com.persistentbit.io.IO;
+import com.persistentbit.io.IOFiles;
 import com.persistentbit.result.Result;
 import com.persistentbit.javacodegen.JClass;
 import com.persistentbit.javacodegen.JJavaFile;

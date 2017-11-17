@@ -1,6 +1,6 @@
 package com.persistentbit.json.tests;
 
-import com.persistentbit.core.utils.ImTools;
+import com.persistentbit.reflection.ImTools;
 
 /**
  * User: petermuys

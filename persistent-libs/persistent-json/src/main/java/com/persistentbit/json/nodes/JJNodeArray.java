@@ -1,8 +1,8 @@
 package com.persistentbit.json.nodes;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.collections.PStreamable;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PStream;
+import com.persistentbit.collections.PStreamable;
 import com.persistentbit.result.Result;
 
 import java.util.Iterator;

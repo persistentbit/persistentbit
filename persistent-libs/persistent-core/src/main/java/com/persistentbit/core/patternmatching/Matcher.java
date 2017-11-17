@@ -1,6 +1,6 @@
 package com.persistentbit.core.patternmatching;
 
-import com.persistentbit.core.collections.LList;
+import com.persistentbit.collections.LList;
 
 import java.util.function.Function;
 import java.util.function.Predicate;

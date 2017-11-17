@@ -1,9 +1,9 @@
 package com.persistentbit.json.tests;
 
-import com.persistentbit.core.collections.PByteList;
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PMap;
-import com.persistentbit.core.collections.PSet;
+import com.persistentbit.collections.PByteList;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
+import com.persistentbit.collections.PSet;
 import com.persistentbit.result.Result;
 import com.persistentbit.json.mapping.JJMapper;
 import com.persistentbit.json.nodes.JJNode;

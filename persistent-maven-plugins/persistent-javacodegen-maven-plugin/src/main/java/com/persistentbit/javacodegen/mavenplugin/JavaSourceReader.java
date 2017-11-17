@@ -9,15 +9,14 @@ import com.github.javaparser.ast.body.*;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.type.ClassOrInterfaceType;
 import com.github.javaparser.ast.type.Type;
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.exceptions.ToDo;
-import com.persistentbit.core.io.IO;
-import com.persistentbit.core.io.IOFiles;
-import com.persistentbit.core.io.IORead;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PStream;
+import com.persistentbit.io.IO;
+import com.persistentbit.io.IOFiles;
+import com.persistentbit.io.IORead;
+import com.persistentbit.javacodegen.*;
 import com.persistentbit.result.Result;
 import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.*;
 
 import java.nio.file.Path;
 import java.util.EnumSet;
@@ -135,7 +134,7 @@ public class JavaSourceReader{
 
 	}
 	private static JEnum importEnum(EnumDeclaration e){
-		throw new ToDo("read enum");
+		throw new RuntimeException("TODO: read enum");
 	}
 
 

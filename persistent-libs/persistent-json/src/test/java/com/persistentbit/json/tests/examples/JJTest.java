@@ -1,11 +1,11 @@
 package com.persistentbit.json.tests.examples;
 
-import com.persistentbit.core.collections.PByteList;
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PMap;
-import com.persistentbit.core.collections.PSet;
+import com.persistentbit.collections.PByteList;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
+import com.persistentbit.collections.PSet;
 import com.persistentbit.result.Result;
-import com.persistentbit.core.utils.BaseValueClass;
+import com.persistentbit.reflection.BaseValueClass;
 import com.persistentbit.json.tests.JJSubTest;
 import com.persistentbit.tuples.Tuple2;
 

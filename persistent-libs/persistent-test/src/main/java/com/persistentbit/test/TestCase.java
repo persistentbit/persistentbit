@@ -1,7 +1,7 @@
 package com.persistentbit.test;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PStream;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PStream;
 import com.persistentbit.result.Result;
 import com.persistentbit.logging.entries.LogContext;
 

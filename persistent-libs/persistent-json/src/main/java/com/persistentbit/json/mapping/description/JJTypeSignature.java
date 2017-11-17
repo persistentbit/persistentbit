@@ -1,8 +1,7 @@
 package com.persistentbit.json.mapping.description;
 
-import com.persistentbit.core.collections.PMap;
-import com.persistentbit.core.collections.PSet;
-import com.persistentbit.core.utils.BaseValueClass;
+import com.persistentbit.collections.PMap;
+import com.persistentbit.collections.PSet;
 
 import java.util.Objects;
 import java.util.function.Predicate;
@@ -11,7 +10,7 @@ import java.util.function.Predicate;
  * @author Peter Muys
  * @since 31/08/2016
  */
-public class JJTypeSignature extends BaseValueClass{
+public class JJTypeSignature{
     public enum JsonType{
         jsonArray,jsonBoolean,jsonNull,jsonNumber,jsonObject,jsonString, jsonSet, jsonMap;
         public boolean isJsonPrimitive() {
@@ -56,5 +55,34 @@ public class JJTypeSignature extends BaseValueClass{
         }
         return res;
     }
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+
+		JJTypeSignature that = (JJTypeSignature) o;
+
+		if(cls != null ? !cls.equals(that.cls) : that.cls != null) return false;
+		if(jsonType != that.jsonType) return false;
+		return generics != null ? generics.equals(that.generics) : that.generics == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = cls != null ? cls.hashCode() : 0;
+		result = 31 * result + (jsonType != null ? jsonType.hashCode() : 0);
+		result = 31 * result + (generics != null ? generics.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "JJTypeSignature{" +
+			"cls=" + cls +
+			", jsonType=" + jsonType +
+			", generics=" + generics +
+			'}';
+	}
 
 }

@@ -1,8 +1,8 @@
 package com.persistentbit.core.resources;
 
-import com.persistentbit.core.collections.PByteList;
-import com.persistentbit.core.io.IO;
-import com.persistentbit.core.io.IORead;
+import com.persistentbit.collections.PByteList;
+import com.persistentbit.io.IO;
+import com.persistentbit.io.IORead;
 import com.persistentbit.result.Result;
 
 /**

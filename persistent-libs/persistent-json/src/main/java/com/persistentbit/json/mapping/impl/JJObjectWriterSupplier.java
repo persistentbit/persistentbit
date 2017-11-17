@@ -2,10 +2,10 @@ package com.persistentbit.json.mapping.impl;
 
 
 import com.persistentbit.code.annotations.Immutable;
-import com.persistentbit.core.collections.*;
-import com.persistentbit.result.Result;
+import com.persistentbit.collections.*;
 import com.persistentbit.json.mapping.impl.custom.*;
 import com.persistentbit.logging.entries.*;
+import com.persistentbit.result.Result;
 
 import java.lang.reflect.Field;
 import java.time.LocalDate;

@@ -1,18 +1,18 @@
 package com.persistentbit.json.mapping.impl;
 
-import com.persistentbit.core.collections.PMap;
-import com.persistentbit.core.collections.PStream;
-import com.persistentbit.core.utils.UReflect;
+import com.persistentbit.collections.PMap;
+import com.persistentbit.collections.PStream;
 import com.persistentbit.json.mapping.description.JJClass;
 import com.persistentbit.json.mapping.description.JJTypeDescription;
 import com.persistentbit.json.mapping.description.JJTypeSignature;
+import com.persistentbit.reflection.UReflect;
 import com.persistentbit.tuples.Tuple2;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 
-import static com.persistentbit.core.collections.PStream.from;
+import static com.persistentbit.collections.PStream.from;
 
 /**
  * @author Peter Muys

@@ -12,14 +12,20 @@
     <artifactId>persistent-javacodegen</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>persistent-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>persistent-javacodegen-annotations</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-io</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-reflection</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

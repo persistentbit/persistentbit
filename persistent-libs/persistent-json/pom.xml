@@ -13,16 +13,27 @@
     <artifactId>persistent-json</artifactId>
 
     <dependencies>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>persistent-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>persistent-test</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-lenses</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-collections</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-reflection</artifactId>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
 

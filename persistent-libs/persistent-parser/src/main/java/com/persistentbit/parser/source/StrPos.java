@@ -1,6 +1,5 @@
 package com.persistentbit.parser.source;
 
-import com.persistentbit.core.utils.BaseValueClass;
 import com.persistentbit.parser.ParseResult;
 import com.persistentbit.parser.Parser;
 
@@ -16,7 +15,7 @@ import java.util.Objects;
  * @see Parser
  * @since 17/02/17
  */
-public class StrPos extends BaseValueClass implements Comparable<StrPos>{
+public class StrPos implements Comparable<StrPos>{
 
 	private final String sourceName;
 	private final int lineNumber;
@@ -87,5 +86,25 @@ public class StrPos extends BaseValueClass implements Comparable<StrPos>{
 			return c;
 		}
 		return Integer.compare(columnNumber, o.getColumnNumber());
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+
+		StrPos strPos = (StrPos) o;
+
+		if(lineNumber != strPos.lineNumber) return false;
+		if(columnNumber != strPos.columnNumber) return false;
+		return sourceName != null ? sourceName.equals(strPos.sourceName) : strPos.sourceName == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = sourceName != null ? sourceName.hashCode() : 0;
+		result = 31 * result + lineNumber;
+		result = 31 * result + columnNumber;
+		return result;
 	}
 }

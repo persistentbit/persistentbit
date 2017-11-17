@@ -1,18 +1,14 @@
 package com.persistentbit.javacodegen;
 
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PSet;
-import com.persistentbit.core.exceptions.ToDo;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PSet;
 import com.persistentbit.functions.ThrowingFunction;
-import com.persistentbit.result.Result;
-import com.persistentbit.core.utils.BaseValueClass;
-import com.persistentbit.core.utils.NoToString;
-import com.persistentbit.string.UString;
-import com.persistentbit.core.utils.builders.NOT;
-import com.persistentbit.core.utils.builders.SET;
 import com.persistentbit.javacodegen.annotations.*;
 import com.persistentbit.printable.PrintableText;
+import com.persistentbit.reflection.BaseValueClass;
+import com.persistentbit.result.Result;
+import com.persistentbit.string.UString;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -279,7 +275,7 @@ public class JClass extends BaseValueClass{
 			if(def.equals("String")) {
 				return Optional.of("");
 			}
-			throw new ToDo("Unknown: " + def);
+			throw new RuntimeException("Unknown: " + def);
 		}
 		return field.getAnnotation(DefaultValue.class.getSimpleName()).flatMap(field::annotationValue);
 	}

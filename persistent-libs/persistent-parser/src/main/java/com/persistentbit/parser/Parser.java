@@ -1,7 +1,7 @@
 package com.persistentbit.parser;
 
-import com.persistentbit.core.OK;
-import com.persistentbit.core.collections.PList;
+import com.persistentbit.result.OK;
+import com.persistentbit.collections.PList;
 import com.persistentbit.parser.source.Source;
 import com.persistentbit.parser.source.StrPos;
 import com.persistentbit.tuples.Tuple2;

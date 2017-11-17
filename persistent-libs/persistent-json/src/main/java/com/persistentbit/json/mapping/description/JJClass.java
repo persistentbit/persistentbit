@@ -1,15 +1,12 @@
 package com.persistentbit.json.mapping.description;
 
-import com.persistentbit.core.utils.BaseValueClass;
-
-
 /**
  * User: petermuys
  * Date: 9/09/16
  * Time: 23:14
  *
  */
-public class JJClass extends BaseValueClass{
+public class JJClass{
     private final String packageName;
     private final String className;
 
@@ -44,4 +41,22 @@ public class JJClass extends BaseValueClass{
     public String toString() {
         return getPackageName() + "/" + getClassName();
     }
+
+	@Override
+	public boolean equals(Object o) {
+		if(this == o) return true;
+		if(o == null || getClass() != o.getClass()) return false;
+
+		JJClass jjClass = (JJClass) o;
+
+		if(packageName != null ? !packageName.equals(jjClass.packageName) : jjClass.packageName != null) return false;
+		return className != null ? className.equals(jjClass.className) : jjClass.className == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = packageName != null ? packageName.hashCode() : 0;
+		result = 31 * result + (className != null ? className.hashCode() : 0);
+		return result;
+	}
 }

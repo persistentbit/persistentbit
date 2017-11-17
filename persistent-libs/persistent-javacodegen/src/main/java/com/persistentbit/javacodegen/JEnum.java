@@ -1,8 +1,8 @@
 package com.persistentbit.javacodegen;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PSet;
-import com.persistentbit.core.utils.BaseValueClass;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PSet;
+import com.persistentbit.reflection.BaseValueClass;
 import com.persistentbit.printable.PrintableText;
 
 /**

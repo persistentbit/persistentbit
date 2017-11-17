@@ -3,7 +3,7 @@ package com.persistentbit.javacodegen.mavenplugin.maven;
 
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.Problem;
-import com.persistentbit.core.collections.PList;
+import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.mavenplugin.CaseClassCodeGenerator;
 import com.persistentbit.logging.printing.LogPrintToString;
 import org.apache.maven.plugin.AbstractMojo;

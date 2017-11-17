@@ -1,7 +1,7 @@
 package com.persistentbit.core.tests.printing;
 
-import com.persistentbit.core.io.IO;
-import com.persistentbit.core.io.IOClassPath;
+import com.persistentbit.io.IO;
+import com.persistentbit.io.IOClassPath;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.logging.printing.LogPrint;
 import com.persistentbit.printable.PrintableList;

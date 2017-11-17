@@ -2,15 +2,15 @@ package com.persistentbit.json.mapping.impl;
 
 
 import com.persistentbit.code.annotations.Immutable;
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PMap;
-import com.persistentbit.core.utils.UReflect;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.json.mapping.JJReader;
 import com.persistentbit.json.mapping.description.JJClass;
 import com.persistentbit.json.mapping.description.JJTypeDescription;
 import com.persistentbit.json.mapping.description.JJTypeSignature;
 import com.persistentbit.json.nodes.*;
 import com.persistentbit.logging.Log;
+import com.persistentbit.reflection.UReflect;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;

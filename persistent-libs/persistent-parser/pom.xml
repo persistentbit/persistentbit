@@ -12,9 +12,20 @@
     <artifactId>persistent-parser</artifactId>
 
     <dependencies>
+
         <dependency>
             <groupId>com.persistentbit</groupId>
-            <artifactId>persistent-core</artifactId>
+            <artifactId>persistent-result</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-utils</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-io</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

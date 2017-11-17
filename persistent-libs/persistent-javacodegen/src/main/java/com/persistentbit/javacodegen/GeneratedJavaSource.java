@@ -1,8 +1,8 @@
 package com.persistentbit.javacodegen;
 
-import com.persistentbit.core.io.IOFiles;
+import com.persistentbit.io.IOFiles;
 import com.persistentbit.result.Result;
-import com.persistentbit.core.utils.UReflect;
+import com.persistentbit.reflection.UReflect;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.printable.PrintTextWriter;
 import com.persistentbit.printable.PrintableText;

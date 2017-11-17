@@ -1,7 +1,6 @@
 package com.persistentbit.json.mapping.impl.custom;
 
 
-import com.persistentbit.core.utils.UReflect;
 import com.persistentbit.json.mapping.JJReader;
 import com.persistentbit.json.mapping.description.JJClass;
 import com.persistentbit.json.mapping.description.JJTypeDescription;
@@ -11,6 +10,7 @@ import com.persistentbit.json.mapping.impl.JJObjectReader;
 import com.persistentbit.json.mapping.impl.JJsonException;
 import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJNodeArray;
+import com.persistentbit.reflection.UReflect;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

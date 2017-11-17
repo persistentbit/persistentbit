@@ -1,6 +1,5 @@
 package com.persistentbit.parser;
 
-import com.persistentbit.core.exceptions.ToDo;
 import com.persistentbit.parser.source.Source;
 import com.persistentbit.result.Result;
 
@@ -35,12 +34,10 @@ public abstract class ParseResult<T>{
 
 	public abstract Source getSource();
 
-	public <U> U match(
+	public abstract <U> U match(
 		Function<ParseSuccess<T>,U> success,
 		Function<ParseFailure<T>,U> failure
-	){
-		throw new ToDo();
-	}
+	);
 
 	public abstract boolean isSuccess();
 	public boolean isFailure() {
@@ -80,6 +77,13 @@ public abstract class ParseResult<T>{
 
 		public Source getSource() {
 			return source;
+		}
+
+		@Override
+		public <U> U match(Function<ParseSuccess<T>, U> success,
+						   Function<ParseFailure<T>, U> failure
+		) {
+			return success.apply(this);
 		}
 
 		@Override
@@ -135,6 +139,13 @@ public abstract class ParseResult<T>{
 			this.source = source;
 			this.errorMessage = errorMessage;
 
+		}
+
+		@Override
+		public <U> U match(Function<ParseSuccess<T>, U> success,
+						   Function<ParseFailure<T>, U> failure
+		) {
+			return failure.apply(this);
 		}
 
 		@Override
