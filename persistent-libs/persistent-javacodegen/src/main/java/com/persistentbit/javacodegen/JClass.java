@@ -571,15 +571,15 @@ public class JClass extends BaseValueClass{
 		//ADD BUILDEXC METHOD
 
 		JMethod buildExc = new JMethod("buildExc", "Result<" + className + ">").asStatic()
-																			   .addArg(new JArgument(
-																					   "ThrowingFunction<Builder" + reqNOT + ", Builder" + reqSET + ",Exception>", "setter"
-																				   ).addImport(JImport
-																					   .forClass(Function.class))
-																			   )
-																			   .withCode(out -> out.println("return setter.applyResult(new Builder" + (reqFields
-																				   .isEmpty() ? "" : "<>") + "()).mapExc(b -> new " + className + "(" + getConstructorFields()
-																				   .map(f -> "b." + f.getName())
-																				   .toString(", ") + "));"));
+		   .addArg(new JArgument(
+				   "ThrowingFunction<Builder" + reqNOT + ", Builder" + reqSET + ",Exception>", "setter"
+			   ).addImport(JImport
+				   .forClass(Function.class))
+		   )
+		   .withCode(out -> out.println("return Result.noExceptions(() -> setter.apply(new Builder" + (reqFields
+			   .isEmpty() ? "" : "<>") + "())).mapExc(b -> new " + className + "(" + getConstructorFields()
+			   .map(f -> "b." + f.getName())
+			   .toString(", ") + "));"));
 
 		buildExc = buildExc.addAnnotation("@Generated");
 		buildExc = buildExc.addImport(JImport.forClass(ThrowingFunction.class));

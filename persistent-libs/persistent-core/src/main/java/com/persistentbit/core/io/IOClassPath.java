@@ -2,6 +2,7 @@ package com.persistentbit.core.io;
 
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PStream;
+import com.persistentbit.core.collections.UPStreams;
 import com.persistentbit.result.Empty;
 import com.persistentbit.result.Result;
 import com.persistentbit.result.Success;
@@ -105,7 +106,7 @@ public final class IOClassPath{
 			matchPath = matchPath.substring(1);
 		}
 		return IOFiles.getAllFiles(rootPath,matchPath)
-					  .flatMap(l -> Result.fromSequence(
+					  .flatMap(l -> UPStreams.fromSequence(
 				l.map(p ->
 					Result.success(p.toString().substring(rootPath.toString().length()).replace(File.separatorChar,'/'))
 				))
@@ -137,7 +138,7 @@ public final class IOClassPath{
 					.map(list -> list.map(s ->  s));
 			}
 		});
-		Result<PList<PList<String>>> res = Result.fromSequence(items).map(PStream::plist);
+		Result<PList<PList<String>>> res = UPStreams.fromSequence(items).map(PStream::plist);
 		if(res.isError()){
 			return res.map(v -> null);
 		}

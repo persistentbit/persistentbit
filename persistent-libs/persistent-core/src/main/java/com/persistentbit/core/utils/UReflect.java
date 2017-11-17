@@ -3,6 +3,7 @@ package com.persistentbit.core.utils;
 import com.persistentbit.core.collections.PList;
 import com.persistentbit.core.collections.PMap;
 import com.persistentbit.core.collections.PStream;
+import com.persistentbit.core.collections.UPStreams;
 import com.persistentbit.core.io.IOClassPath;
 import com.persistentbit.functions.UNamed;
 import com.persistentbit.result.Result;
@@ -369,7 +370,7 @@ public final class UReflect{
 							  //GET THE CLASSES
 							  .map(classNameList -> classNameList
 								  .map(name -> UReflect.getClass(name, UReflect.class.getClassLoader(), false)))
-							  .flatMap(classResultList -> Result.fromSequence(classResultList).map(PStream::plist));
+							  .flatMap(classResultList -> UPStreams.fromSequence(classResultList).map(PStream::plist));
 		});
 	}
 

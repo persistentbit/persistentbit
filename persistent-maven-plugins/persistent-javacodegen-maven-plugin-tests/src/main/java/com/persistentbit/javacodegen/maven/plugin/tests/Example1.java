@@ -1,17 +1,15 @@
 package com.persistentbit.javacodegen.maven.plugin.tests;
 
-import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.result.Result;
 import com.persistentbit.core.utils.builders.NOT;
-
-import java.lang.SuppressWarnings;
+import com.persistentbit.core.utils.builders.SET;
 import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.result.Result;
 import com.persistentbit.string.UString;
 
 import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.core.utils.builders.SET;
 import java.util.function.Function;
 
 /**
@@ -124,6 +122,6 @@ public class Example1 {
 	@Generated
 	@SuppressWarnings("unchecked")
 	public  static Result<Example1>	buildExc(ThrowingFunction<Builder<NOT,NOT>, Builder<SET,SET>,Exception> setter){
-		return setter.applyResult(new Builder<>()).mapExc(b -> new Example1(b.id, b.name));
+		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new Example1(b.id, b.name));
 	}
 }

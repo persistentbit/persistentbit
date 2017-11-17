@@ -20,7 +20,6 @@ module persistent.core {
 
 	exports com.persistentbit.core.collections;
 	exports com.persistentbit.core.exceptions;
-	exports com.persistentbit.core.function;
 	exports com.persistentbit.core.io;
 	exports com.persistentbit.core.keyvalue;
 	exports com.persistentbit.core.language;
@@ -28,7 +27,6 @@ module persistent.core {
 	exports com.persistentbit.core.patternmatching;
 	exports com.persistentbit.core.properties;
 	exports com.persistentbit.core.resources;
-	exports com.persistentbit.core.result;
 
 
 	exports com.persistentbit.core.utils;

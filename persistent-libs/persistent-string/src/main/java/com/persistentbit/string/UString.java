@@ -470,22 +470,32 @@ public final class UString{
 	}
 
 	public static final String NL = System.lineSeparator();
-	/*
+
 	public static String join(String joinWith, String... textParts) {
 		return join(joinWith, List.of(textParts));
-	}*/
-	/*
+	}
+
 	public static String join(String joinWith, Iterable<String> textParts) {
-		return PStream.from(textParts).toString(joinWith);
-	}*/
-	/*
+		StringBuilder res = new StringBuilder();
+		boolean first = true;
+		for(String item : textParts){
+			if(first){
+				first = false;
+			} else {
+				res.append(joinWith);
+			}
+			res.append(item);
+		}
+		return res.toString();
+	}
+
 	public static String joinLines(String... textParts) {
 		return join(NL, textParts);
-	}*/
-	/*
+	}
+
 	public static String joinLines(Iterable<String> textParts) {
 		return join(NL, textParts);
-	}*/
+	}
 
 	public static int countCharOccurrence(String text, char c){
 		int count = 0;

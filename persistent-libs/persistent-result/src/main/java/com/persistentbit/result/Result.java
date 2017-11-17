@@ -670,28 +670,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 		return mapLog(l -> fun.append(l));
 	}
 
-/*
 
-	public static <T> Result<PStream<T>> fromSequence(PStream<Result<T>> stream) {
-		Optional<Result<T>> optWrong = stream.find(Result::isError);
-		LogCollector        lc       = new LogCollector();
-		stream.forEach(item -> lc.add(item));
-		Result<PStream<T>> result;
-		if(optWrong.isPresent()) {
-			result = optWrong.get()
-				.flatMapFailure(f -> Result.failure(
-					new RuntimeException("sequence contains failure", f.getException()))
-				).flatMap(t -> Result.failure("Should not happen"));
-
-
-		} else {
-			result = Result.success(stream.lazy()
-										  .map(r -> r.orElse(null)));
-		}
-
-		return result.withLogs(lc.getEntry());
-
-	}*/
 
 	public static <T> Result<List<T>> fromSequence(List<Result<T>> list){
 		Optional<Result<T>> optWrong =  list.stream().filter(res -> res.isError()).findFirst();
