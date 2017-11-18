@@ -37,5 +37,6 @@
         <module>persistent-lenses</module>
         <module>persistent-reflection</module>
         <module>persistent-caching</module>
+        <module>persistent-remoter</module>
     </modules>
 </project>
