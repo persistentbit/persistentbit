@@ -1,4 +1,4 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.data;
 
 
 import com.persistentbit.collections.PList;
@@ -9,6 +9,7 @@ import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJNodeArray;
 import com.persistentbit.json.nodes.JJNodeObject;
 import com.persistentbit.logging.Log;
+import com.persistentbit.remoter.data.util.RemotableMethods;
 import com.persistentbit.result.Result;
 import com.persistentbit.tuples.Tuple2;
 
@@ -24,7 +25,7 @@ public class RemoteObjectDefinition implements Serializable
     private final Class<?> remoteObjectClass;
     private final PList<MethodDefinition> remoteMethods;
     private final PMap<MethodDefinition, Result> remoteCached;
-    private final RCallStack                     callStack;
+    private final RCallStack callStack;
 
 
     public RemoteObjectDefinition(Class<?> remoteObjectClass, PList<MethodDefinition> remoteMethods,

@@ -1,8 +1,9 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.data;
 
 
 import com.persistentbit.collections.PStream;
 import com.persistentbit.reflection.properties.FieldNames;
+import com.persistentbit.remoter.data.util.RemotableClasses;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;

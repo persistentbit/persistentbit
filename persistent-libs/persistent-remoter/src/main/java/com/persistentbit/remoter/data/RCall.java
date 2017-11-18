@@ -1,4 +1,4 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.data;
 
 
 import com.persistentbit.code.annotations.Immutable;
@@ -9,9 +9,9 @@ import com.persistentbit.code.annotations.Immutable;
  */
 @Immutable
 public class RCall{
-    private final RSessionData  sessionData;
+    private final RSessionData sessionData;
     private final RCallStack  callStack;
-    private final RMethodCall   thisCall;
+    private final RMethodCall thisCall;
 
     public RCall(RSessionData sessionData,RCallStack callStack, RMethodCall thisCall) {
         this.sessionData = sessionData;

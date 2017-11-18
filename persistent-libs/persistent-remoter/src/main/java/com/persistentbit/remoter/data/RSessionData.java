@@ -1,7 +1,8 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.data;
 
 
 import com.persistentbit.json.security.JJSigning;
+import com.persistentbit.remoter.RServer;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

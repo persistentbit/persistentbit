@@ -1,4 +1,4 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.api;
 
 /**
  * @author Peter Muys

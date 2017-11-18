@@ -1,4 +1,4 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.data;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.json.mapping.JJWriter;

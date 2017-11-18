@@ -1,10 +1,11 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.data;
 
 import com.persistentbit.code.annotations.Immutable;
 import com.persistentbit.json.mapping.impl.JJObjectReader;
 import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJNodeObject;
 import com.persistentbit.logging.Log;
+import com.persistentbit.remoter.data.util.RemotableMethods;
 import com.persistentbit.result.Result;
 
 import java.lang.reflect.Field;
@@ -15,8 +16,8 @@ import java.util.Optional;
 @Immutable
 public class RCallResult {
 
-    private final MethodDefinition               theCall;
-    private final RSessionData                   sessionData;
+    private final MethodDefinition theCall;
+    private final RSessionData sessionData;
     private final Result result;
     private final Result<RemoteObjectDefinition> rod;
 

@@ -1,10 +1,11 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.data;
 
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.json.mapping.impl.JJObjectReader;
 import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJNodeObject;
+import com.persistentbit.remoter.data.util.RemotableMethods;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 
 public class RMethodCall {
 
-    private final MethodDefinition  methodToCall;
+    private final MethodDefinition methodToCall;
     private final Object[]          arguments;
 
 

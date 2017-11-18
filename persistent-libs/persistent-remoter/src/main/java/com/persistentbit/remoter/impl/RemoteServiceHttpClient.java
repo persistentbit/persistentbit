@@ -1,4 +1,4 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.impl;
 
 
 import com.persistentbit.io.IO;
@@ -7,6 +7,10 @@ import com.persistentbit.json.mapping.JJMapper;
 import com.persistentbit.json.nodes.JJNode;
 import com.persistentbit.json.nodes.JJParser;
 import com.persistentbit.json.nodes.JJPrinter;
+import com.persistentbit.remoter.api.RObjException;
+import com.persistentbit.remoter.api.RemoteService;
+import com.persistentbit.remoter.data.RCall;
+import com.persistentbit.remoter.data.RCallResult;
 import com.persistentbit.result.Result;
 
 import java.io.OutputStreamWriter;

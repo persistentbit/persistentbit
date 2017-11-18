@@ -1,7 +1,10 @@
-package com.persistentbit.remoter;
+package com.persistentbit.remoter.impl;
 
 import com.persistentbit.json.mapping.JJMapper;
 import com.persistentbit.json.nodes.JJNode;
+import com.persistentbit.remoter.api.RemoteService;
+import com.persistentbit.remoter.data.RCall;
+import com.persistentbit.remoter.data.RCallResult;
 import com.persistentbit.result.Result;
 
 import java.util.concurrent.TimeUnit;
