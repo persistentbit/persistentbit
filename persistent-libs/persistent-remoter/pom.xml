@@ -21,6 +21,16 @@
             <artifactId>persistent-collections</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-remoter-annotations</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-json</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 

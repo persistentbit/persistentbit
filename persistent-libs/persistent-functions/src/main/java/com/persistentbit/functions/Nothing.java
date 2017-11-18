@@ -1,4 +1,4 @@
-package com.persistentbit.utils;
+package com.persistentbit.functions;
 
 /**
  * TODOC

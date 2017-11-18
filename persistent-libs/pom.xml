@@ -38,5 +38,6 @@
         <module>persistent-reflection</module>
         <module>persistent-caching</module>
         <module>persistent-remoter</module>
+        <module>persistent-remote-annotations</module>
     </modules>
 </project>

@@ -12,4 +12,12 @@ module persistent.json {
 	requires persistent.code.annotations;
 	requires persistent.utils;
 	requires persistent.io;
+
+	exports com.persistentbit.json.nodes;
+	exports com.persistentbit.json.mapping.impl.custom;
+	exports com.persistentbit.json.mapping.impl;
+	exports com.persistentbit.json.mapping;
+	exports com.persistentbit.json.security;
+	exports com.persistentbit.json.utils;
+
 }
