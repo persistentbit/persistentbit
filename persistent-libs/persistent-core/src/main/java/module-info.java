@@ -15,21 +15,5 @@ module persistent.core {
 	requires transitive persistent.io;
 	requires transitive persistent.utils;
 	requires transitive persistent.collections;
-	requires java.logging;
-
-	exports com.persistentbit.core;
-
-
-
-	exports com.persistentbit.core.exceptions;
-	exports com.persistentbit.utils.keyvalue;
-	exports com.persistentbit.core.language;
-	exports com.persistentbit.utils.patternmatching;
-	exports com.persistentbit.reflection.properties;
-	exports com.persistentbit.core.resources;
-
-
-	exports com.persistentbit.core.utils;
-	exports com.persistentbit.core.utils.builders;
 
 }

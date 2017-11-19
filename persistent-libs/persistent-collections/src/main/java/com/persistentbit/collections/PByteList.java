@@ -2,10 +2,7 @@ package com.persistentbit.collections;
 
 import com.persistentbit.string.UString;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.Serializable;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Base64;
@@ -50,20 +47,38 @@ public final class PByteList extends AbstractIPList<Byte, PByteList> implements 
 		return new PByteList(Arrays.copyOf(values, values.length));
 	}
 
-//	/**
-//	 * Read an input stream in a new PByteList.<br>
-//	 * Closes the inputstream after reading.<br>
-//	 * @param in The InputStream to read
-//	 *
-//	 * @return The PByteList with the content from the inputStream.
-//	 *
-//	 * @see #getInputStream()
-//	 */
-//	public static PByteList from(InputStream in) {
-//		ByteArrayOutputStream bout = new ByteArrayOutputStream();
-//		IOCopy.copy(in, bout);
-//		return new PByteList(bout.toByteArray());
-//	}
+	/**
+	 * Read an input stream in a new PByteList.<br>
+	 * Closes the inputstream after reading.<br>
+	 * @param in The InputStream to read
+	 *
+	 * @return The PByteList with the content from the inputStream.
+	 *
+	 * @see #getInputStream()
+	 */
+	public static PByteList from(InputStream in) {
+		ByteArrayOutputStream bout = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024 * 10];
+		try{
+			while (true) {
+				int c = in.read(buffer);
+				if (c == -1) {
+					break;
+				}
+				bout.write(buffer, 0, c);
+			}
+		}catch(IOException io){
+			throw new RuntimeException(io);
+		}finally {
+			try {
+				in.close();
+			} catch(IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+
+		return new PByteList(bout.toByteArray());
+	}
 
 	public static PByteList from(byte[] bytes){
 		return new PByteList(Arrays.copyOf(bytes,bytes.length));

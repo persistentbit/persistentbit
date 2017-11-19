@@ -9,8 +9,8 @@ import com.persistentbit.json.nodes.JJParser;
 import com.persistentbit.json.nodes.JJPrinter;
 import com.persistentbit.remoter.api.RObjException;
 import com.persistentbit.remoter.api.RemoteService;
-import com.persistentbit.remoter.data.RCall;
-import com.persistentbit.remoter.data.RCallResult;
+import com.persistentbit.remoter.api.data.RCall;
+import com.persistentbit.remoter.api.data.RCallResult;
 import com.persistentbit.result.Result;
 
 import java.io.OutputStreamWriter;

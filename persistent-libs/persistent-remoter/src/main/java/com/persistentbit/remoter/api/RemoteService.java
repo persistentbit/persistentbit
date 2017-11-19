@@ -3,13 +3,10 @@ package com.persistentbit.remoter.api;
 
 import com.persistentbit.json.mapping.JJMapper;
 import com.persistentbit.logging.entries.LogEntry;
-import com.persistentbit.remoter.impl.RProxy;
-import com.persistentbit.remoter.RServer;
-import com.persistentbit.remoter.impl.RemoteServiceLogger;
-import com.persistentbit.remoter.data.RCall;
-import com.persistentbit.remoter.data.RCallResult;
-import com.persistentbit.remoter.impl.JSonRemoteService;
-import com.persistentbit.remoter.impl.RemoteServiceHttpClient;
+import com.persistentbit.remoter.api.data.RCall;
+import com.persistentbit.remoter.api.data.RCallResult;
+import com.persistentbit.remoter.api.data.RSessionManager;
+import com.persistentbit.remoter.impl.*;
 import com.persistentbit.result.Result;
 import com.persistentbit.tuples.Tuple2;
 
@@ -18,6 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 /**
  * A RemoteService provides a standard way to call remote or local services.<br>
@@ -30,7 +28,7 @@ import java.util.function.Consumer;
 public interface RemoteService {
 
     default Result<RCallResult> getRoot() {
-        return call(new RCall(null,null));
+        return call(new RCall(null, null));
     }
 
     Result<RCallResult> call(RCall call);
@@ -42,7 +40,7 @@ public interface RemoteService {
     void close(long timeOut, TimeUnit timeUnit);
 
     default RemoteService usingJson(JJMapper jsonMapper){
-    	return new JSonRemoteService(this,jsonMapper);
+    	return new JSonRemoteService(this, jsonMapper);
 	}
 
 	default RemoteService usingJson() {
@@ -59,5 +57,10 @@ public interface RemoteService {
 
 	static RemoteService	httpClient(URL url, ExecutorService executor, JJMapper mapper) {
     	return new RemoteServiceHttpClient(url, executor, mapper);
+	}
+
+	static <R, SESSION> RemoteService	implementation(String secret, Class<R> rootInterface, Class<SESSION> sessionClass,
+													   Function<RSessionManager<SESSION>, R> rootSupplier, ExecutorService executor, JJMapper mapper){
+		return new RServer<>(secret,rootInterface,sessionClass,rootSupplier,executor,mapper);
 	}
 }

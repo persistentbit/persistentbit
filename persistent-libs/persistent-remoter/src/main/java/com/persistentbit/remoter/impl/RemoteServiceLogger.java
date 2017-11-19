@@ -3,8 +3,8 @@ package com.persistentbit.remoter.impl;
 
 import com.persistentbit.logging.entries.LogEntry;
 import com.persistentbit.remoter.api.RemoteService;
-import com.persistentbit.remoter.data.RCall;
-import com.persistentbit.remoter.data.RCallResult;
+import com.persistentbit.remoter.api.data.RCall;
+import com.persistentbit.remoter.api.data.RCallResult;
 import com.persistentbit.result.Result;
 import com.persistentbit.tuples.Tuple2;
 

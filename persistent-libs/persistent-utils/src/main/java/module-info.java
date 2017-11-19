@@ -10,4 +10,6 @@ module persistent.utils {
 
 	exports com.persistentbit.utils;
 	exports com.persistentbit.utils.patternmatching;
+	exports com.persistentbit.utils.keyvalue;
+	exports com.persistentbit.utils.exceptions;
 }
