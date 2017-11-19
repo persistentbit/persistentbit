@@ -5,7 +5,6 @@
  * @since 11/11/17
  */
 module persistent.test {
-	//requires persistent.core;
 	requires persistent.result;
 	requires persistent.utils;
 	requires persistent.io;
