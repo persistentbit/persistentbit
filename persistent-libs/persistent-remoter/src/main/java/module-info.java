@@ -8,5 +8,5 @@ module persistent.remoter {
 	requires persistent.json;
 	requires persistent.io;
 	exports com.persistentbit.remoter.api;
-	exports com.persistentbit.remoter.data;
+	exports com.persistentbit.remoter.api.data;
 }

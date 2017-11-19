@@ -3,7 +3,7 @@ package com.persistentbit.remoter.impl;
 
 import com.persistentbit.logging.Log;
 import com.persistentbit.remoter.api.RemoteService;
-import com.persistentbit.remoter.data.*;
+import com.persistentbit.remoter.api.data.*;
 import com.persistentbit.result.Result;
 
 import java.lang.reflect.InvocationHandler;
