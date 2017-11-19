@@ -42,5 +42,6 @@
         <module>persistent-security</module>
         <module>persistent-resources</module>
         <module>persistent-locale</module>
+        <module>persistent-sql</module>
     </modules>
 </project>
