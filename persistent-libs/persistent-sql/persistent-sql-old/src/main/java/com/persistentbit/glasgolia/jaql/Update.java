@@ -1,8 +1,8 @@
 package com.persistentbit.glasgolia.jaql;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.glasgolia.db.work.DbWork;
-import com.persistentbit.glasgolia.db.work.DbWorkContext;
+import com.persistentbit.sql.work.DbWork;
+import com.persistentbit.sql.work.DbWorkContext;
 import com.persistentbit.glasgolia.jaql.expr.ETypeBoolean;
 import com.persistentbit.glasgolia.jaql.expr.ETypeObject;
 import com.persistentbit.glasgolia.jaql.expr.Expr;

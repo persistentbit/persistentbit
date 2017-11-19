@@ -1,7 +1,7 @@
 package com.persistentbit.glasgolia.jaql;
 
-import com.persistentbit.core.collections.PByteList;
-import com.persistentbit.core.exceptions.RtSqlException;
+import com.persistentbit.collections.PByteList;
+import com.persistentbit.glasgolia.RtSqlException;
 
 import java.sql.Date;
 import java.sql.ResultSet;

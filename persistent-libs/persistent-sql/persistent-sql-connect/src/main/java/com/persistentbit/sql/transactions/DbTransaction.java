@@ -1,4 +1,4 @@
-package com.persistentbit.glasgolia.db.transactions;
+package com.persistentbit.sql.transactions;
 
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;

@@ -1,7 +1,7 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.tuples.Tuple2;
+import com.persistentbit.collections.PList;
+import com.persistentbit.tuples.Tuple2;
 
 /**
  * TODOC

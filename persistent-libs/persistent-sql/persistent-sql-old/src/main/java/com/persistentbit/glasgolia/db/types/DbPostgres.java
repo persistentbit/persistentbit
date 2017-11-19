@@ -1,6 +1,6 @@
 package com.persistentbit.glasgolia.db.types;
 
-import com.persistentbit.core.collections.PByteList;
+import com.persistentbit.collections.PByteList;
 
 /**
  * A DbMetaDataType for a PostgreSQL database.

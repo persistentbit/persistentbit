@@ -1,6 +1,8 @@
 package com.persistentbit.glasgolia.jaql.codegen;
 
 
+import com.persistentbit.reflection.BaseValueClass;
+
 import java.util.function.Function;
 import java.util.function.Predicate;
 

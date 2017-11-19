@@ -1,8 +1,8 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PByteList;
-import com.persistentbit.sql.PersistSqlException;
+import com.persistentbit.collections.PByteList;
 import com.persistentbit.glasgolia.jaql.ENumberGroup;
+import com.persistentbit.sql.PersistSqlException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

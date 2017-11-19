@@ -3,6 +3,8 @@ package com.persistentbit.glasgolia.jaql.codegen.posgresql;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaColumn;
+import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.JImport;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
@@ -35,7 +37,7 @@ public class DbJavaFieldEnum implements DbJavaField {
 			this.enumPack = Objects.requireNonNull(enumPack, "enumPack can not be null");
 	}
 	@Override
-	public  JField	createJField(){
+	public JField createJField(){
 	    JField f = new JField(fieldName, enumClassName);
 	    if (column.getType().getIsNullable()) {
 	        f = f.asNullable();

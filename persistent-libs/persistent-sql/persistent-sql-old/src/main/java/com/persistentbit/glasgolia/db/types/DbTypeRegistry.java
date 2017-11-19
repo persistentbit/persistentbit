@@ -3,6 +3,8 @@ package com.persistentbit.glasgolia.db.types;
 
 import com.persistentbit.collections.PMap;
 import com.persistentbit.logging.FunctionLogging;
+import com.persistentbit.reflection.BaseValueClass;
+import com.persistentbit.reflection.UReflect;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 

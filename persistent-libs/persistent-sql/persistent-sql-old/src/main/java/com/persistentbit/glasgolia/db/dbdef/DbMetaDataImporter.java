@@ -4,7 +4,8 @@ package com.persistentbit.glasgolia.db.dbdef;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
-import com.persistentbit.glasgolia.db.work.DbWork;
+import com.persistentbit.collections.UPStreams;
+import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.glasgolia.nativesql.UJdbc;
 import com.persistentbit.result.Result;
 import com.persistentbit.utils.exceptions.ToDo;
@@ -42,9 +43,10 @@ public class DbMetaDataImporter{
 		return DbWork.function().code(log -> ctx ->
 			getCatalogs().execute(ctx)
 			.flatMap( catList ->
-				Result.fromSequence(
+				UPStreams.fromSequence(
 					catList.mapExc(cat -> getSchemas(cat).execute(ctx))
-			    ).map(PStream::<DbMetaSchema>flatten).map(PStream::plist)
+			    ).map(PStream::<DbMetaSchema>flatten)
+					.map(PStream::plist)
 			));
 	}
 
@@ -106,7 +108,7 @@ public class DbMetaDataImporter{
 				);
 			});
 			return tables.flatMap(tableList -> {
-				return Result.fromSequence(tableList.mapExc(table -> loadColumns(table).execute(ctx))).map(l -> l.plist());
+				return UPStreams.fromSequence(tableList.mapExc(table -> loadColumns(table).execute(ctx))).map(l -> l.plist());
 			});
 		}));
 	}

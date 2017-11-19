@@ -1,6 +1,7 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.exceptions.RtSqlException;
+
+import com.persistentbit.glasgolia.RtSqlException;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;

@@ -1,6 +1,6 @@
 package com.persistentbit.glasgolia.db.updates;
 
-import com.persistentbit.glasgolia.db.work.DbWork;
+import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.result.OK;
 
 import java.sql.Connection;

@@ -1,11 +1,11 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.tuples.Tuple2;
-import com.persistentbit.core.tuples.Tuple5;
+import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.jaql.ExprRowReaderCache;
 import com.persistentbit.glasgolia.jaql.Query;
 import com.persistentbit.glasgolia.jaql.RowReader;
+import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.tuples.Tuple5;
 
 /**
  * Created by petermuys on 14/10/16.
@@ -27,11 +27,11 @@ public class Selection5<T1, T2, T3, T4, T5> extends BaseSelection<Tuple5<T1, T2,
 					  Expr<T5> col5
 	) {
 		super(query, col1.mergeWith(col2, col3, col4, col5));
-		this.col1 = new SelectionProperty<>("col1", col1);
-		this.col2 = new SelectionProperty<>("col2", col2);
-		this.col3 = new SelectionProperty<>("col3", col3);
-		this.col4 = new SelectionProperty<>("col4", col4);
-		this.col5 = new SelectionProperty<>("col5", col5);
+		this.col1 = new SelectionProperty<T1>("col1", col1);
+		this.col2 = new SelectionProperty<T2>("col2", col2);
+		this.col3 = new SelectionProperty<T3>("col3", col3);
+		this.col4 = new SelectionProperty<T4>("col4", col4);
+		this.col5 = new SelectionProperty<T5>("col5", col5);
 	}
 
 	@Override

@@ -1,10 +1,11 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.function.Function4;
-import com.persistentbit.core.tuples.Tuple4;
+import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.jaql.ExprRowReaderCache;
 import com.persistentbit.glasgolia.jaql.RowReader;
+import com.persistentbit.tuples.Tuple4;
+
+import java.util.function.Function;
 
 /**
  * Represent a Tuple of 4 {@link Expr} rendered as a Sql comma separated list
@@ -26,7 +27,7 @@ public class ETuple4<T1, T2, T3, T4> implements Expr<Tuple4<T1, T2, T3, T4>>{
 		this.v4 = v4;
 	}
 
-	public <R> Expr<R> map(Function4<T1, T2, T3, T4, R> mapper) {
+	public <R> Expr<R> map(Function<T1, Function<T2, Function<T3, Function<T4, R>>>> mapper) {
 		return new EMapper<>(this, (t -> t.map(mapper)));
 	}
 

@@ -1,10 +1,11 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.function.Function5;
-import com.persistentbit.core.tuples.Tuple5;
+import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.jaql.ExprRowReaderCache;
 import com.persistentbit.glasgolia.jaql.RowReader;
+import com.persistentbit.tuples.Tuple5;
+
+import java.util.function.Function;
 
 /**
  * Represent a Tuple of 5 {@link Expr} rendered as a Sql comma separated list
@@ -29,7 +30,7 @@ public class ETuple5<T1, T2, T3, T4, T5> implements Expr<Tuple5<T1, T2, T3, T4, 
 		this.v5 = v5;
 	}
 
-	public <R> Expr<R> map(Function5<T1, T2, T3, T4, T5, R> mapper) {
+	public <R> Expr<R> map(Function<T1, Function<T2, Function<T3, Function<T4, Function<T5, R>>>>> mapper) {
 		return new EMapper<>(this, (t -> t.map(mapper)));
 	}
 

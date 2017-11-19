@@ -1,7 +1,6 @@
-package com.persistentbit.glasgolia.db.work;
+package com.persistentbit.sql.work;
 
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.glasgolia.db.types.DbType;
 import com.persistentbit.logging.Log;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
@@ -21,21 +20,21 @@ public class DbRun{
 
 	private final DbConnector connector;
 	@Nullable
-	private       DbType      dbType;
+	private       WorkDbType      dbType;
 	@Nullable
 	private final String      schema;
 
-	public DbRun(DbConnector connector, @Nullable DbType dbType, @Nullable String schema) {
+	public DbRun(DbConnector connector, @Nullable WorkDbType dbType, @Nullable String schema) {
 		this.connector = Objects.requireNonNull(connector);
 		this.dbType = dbType;
 		this.schema = schema;
 	}
 
-	public DbType getDbType() {
+	public WorkDbType getDbType() {
 		return dbType;
 	}
 
-	public static DbRun create(DbConnector connector, DbType type) {
+	public static DbRun create(DbConnector connector, WorkDbType type) {
 		return new DbRun(connector, type, null);
 	}
 

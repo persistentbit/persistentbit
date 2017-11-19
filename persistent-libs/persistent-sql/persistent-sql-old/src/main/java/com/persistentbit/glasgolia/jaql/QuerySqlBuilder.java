@@ -1,12 +1,12 @@
 package com.persistentbit.glasgolia.jaql;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.tuples.Tuple2;
-import com.persistentbit.glasgolia.db.work.DbWorkContext;
+import com.persistentbit.collections.PList;
+import com.persistentbit.sql.work.DbWorkContext;
 import com.persistentbit.glasgolia.jaql.expr.BaseSelection;
 import com.persistentbit.glasgolia.jaql.expr.ETypeSelection;
 import com.persistentbit.glasgolia.jaql.expr.Expr;
 import com.persistentbit.glasgolia.jaql.expr.ExprToSqlContext;
+import com.persistentbit.tuples.Tuple2;
 
 import java.sql.PreparedStatement;
 import java.util.function.Consumer;

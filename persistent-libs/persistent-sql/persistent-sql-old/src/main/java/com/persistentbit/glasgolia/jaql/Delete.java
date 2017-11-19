@@ -1,11 +1,11 @@
 package com.persistentbit.glasgolia.jaql;
 
-import com.persistentbit.core.result.Result;
-import com.persistentbit.core.tuples.Tuple2;
-import com.persistentbit.glasgolia.db.work.DbWork;
-import com.persistentbit.glasgolia.db.work.DbWorkContext;
+import com.persistentbit.sql.work.DbWork;
+import com.persistentbit.sql.work.DbWorkContext;
 import com.persistentbit.glasgolia.jaql.expr.ETypeBoolean;
 import com.persistentbit.glasgolia.jaql.expr.ETypeObject;
+import com.persistentbit.result.Result;
+import com.persistentbit.tuples.Tuple2;
 
 import java.sql.PreparedStatement;
 import java.util.Objects;

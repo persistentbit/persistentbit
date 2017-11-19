@@ -1,7 +1,7 @@
-package com.persistentbit.glasgolia.db.transactions;
+package com.persistentbit.sql.transactions;
 
-import com.persistentbit.core.result.Result;
-import com.persistentbit.glasgolia.db.connections.DbConnector;
+import com.persistentbit.result.Result;
+import com.persistentbit.sql.connect.DbConnector;
 
 import java.sql.Connection;
 

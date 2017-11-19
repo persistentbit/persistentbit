@@ -1,6 +1,7 @@
 package com.persistentbit.glasgolia.jaql.codegen.posgresql;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.javacodegen.JField;
 
 /**
  * TODOC

@@ -1,16 +1,19 @@
 package com.persistentbit.glasgolia.sql.scripts;
 
 
-import com.persistentbit.core.Nothing;
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.POrderedMap;
-import com.persistentbit.core.logging.Log;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.POrderedMap;
+import com.persistentbit.functions.Nothing;
+import com.persistentbit.logging.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 

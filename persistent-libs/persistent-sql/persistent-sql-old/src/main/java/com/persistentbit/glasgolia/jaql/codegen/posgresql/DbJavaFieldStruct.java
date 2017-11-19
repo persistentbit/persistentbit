@@ -4,6 +4,8 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaColumn;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaTable;
+import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.JImport;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
@@ -36,7 +38,7 @@ public class DbJavaFieldStruct implements DbJavaField {
 			this.javaPackageName = Objects.requireNonNull(javaPackageName, "javaPackageName can not be null");
 	}
 	@Override
-	public  JField	createJField(){
+	public JField createJField(){
 	    JField res = new JField(fieldName, javaClassName);
 	    res = res.addImport(new JImport(javaPackageName + "." + javaClassName));
 	    return res;

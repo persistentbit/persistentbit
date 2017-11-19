@@ -3,8 +3,8 @@ package com.persistentbit.glasgolia.db.updates.impl;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.db.updates.SchemaUpdateHistory;
-import com.persistentbit.glasgolia.db.work.DbWork;
-import com.persistentbit.glasgolia.db.work.DbWorkContext;
+import com.persistentbit.sql.work.DbWork;
+import com.persistentbit.sql.work.DbWorkContext;
 import com.persistentbit.logging.Log;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;

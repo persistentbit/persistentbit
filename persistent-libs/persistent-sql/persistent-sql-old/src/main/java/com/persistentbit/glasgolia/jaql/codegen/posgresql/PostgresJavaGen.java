@@ -2,10 +2,11 @@ package com.persistentbit.glasgolia.jaql.codegen.posgresql;
 
 import com.persistentbit.collections.*;
 import com.persistentbit.glasgolia.db.dbdef.*;
-import com.persistentbit.glasgolia.db.work.DbRun;
-import com.persistentbit.glasgolia.db.work.DbWork;
+import com.persistentbit.sql.work.DbRun;
+import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.glasgolia.jaql.codegen.DbJavaGen;
 import com.persistentbit.glasgolia.jaql.customtypes.*;
+import com.persistentbit.javacodegen.*;
 import com.persistentbit.result.Result;
 import com.persistentbit.string.UString;
 import com.persistentbit.tuples.Tuple2;
@@ -160,14 +161,14 @@ public class PostgresJavaGen implements DbJavaGen{
 		System.out.println("USED DOMAINS: " + usedDomains.map(ud -> ud.getName()).toString(", "));
 
 		//CREATE STATE CLASSES SOURCE CODE
-		Result<PList<GeneratedJavaSource>> genSourceEnums = Result.fromSequence(
+		Result<PList<GeneratedJavaSource>> genSourceEnums = UPStreams.fromSequence(
 			usedEnums.map(ue -> generateEnumSource(ue))
 		).map(stream -> stream.plist());
 
 
-		Result<PList<GeneratedJavaSource>> genSourceCustomTypes = Result.fromSequence(usedTypes.map(ct -> generateStateClass(ct))).map(stream -> stream.plist());
-		Result<PList<GeneratedJavaSource>> genSourceTables = Result.fromSequence(javaTables.map(table -> generateStateClass(table))).map(stream -> stream.plist());
-		Result<PList<GeneratedJavaSource>> genSourceDomains = Result.fromSequence(usedDomains.map(ud -> generateDomainSource(ud))).map(stream -> stream.plist());
+		Result<PList<GeneratedJavaSource>> genSourceCustomTypes = UPStreams.fromSequence(usedTypes.map(ct -> generateStateClass(ct))).map(stream -> stream.plist());
+		Result<PList<GeneratedJavaSource>> genSourceTables = UPStreams.fromSequence(javaTables.map(table -> generateStateClass(table))).map(stream -> stream.plist());
+		Result<PList<GeneratedJavaSource>> genSourceDomains = UPStreams.fromSequence(usedDomains.map(ud -> generateDomainSource(ud))).map(stream -> stream.plist());
 
 		Result<PList<GeneratedJavaSource>> result =
 			genSourceEnums.flatMap(res -> genSourceCustomTypes.map(ct -> res.plusAll(ct)));
@@ -254,7 +255,7 @@ public class PostgresJavaGen implements DbJavaGen{
 
 	private Result<GeneratedJavaSource> generateDomainSource(DbMetaUDT udt){
 		return Result.function(udt).code(l -> {
-			JClass cls = new JClass(nameTransformer.toJavaName(udt.getName()));
+			JClass cls   = new JClass(nameTransformer.toJavaName(udt.getName()));
 			JField field = null;
 			String fname = "value";
 			switch(udt.getBaseType()){

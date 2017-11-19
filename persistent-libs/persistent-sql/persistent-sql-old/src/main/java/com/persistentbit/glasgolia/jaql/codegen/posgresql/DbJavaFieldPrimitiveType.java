@@ -2,9 +2,11 @@ package com.persistentbit.glasgolia.jaql.codegen.posgresql;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaColumn;
+import com.persistentbit.javacodegen.JField;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.reflection.UReflect;
 import com.persistentbit.string.UString;
 
 import java.util.Objects;
@@ -30,7 +32,7 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 			this.primitiveType = Objects.requireNonNull(primitiveType, "primitiveType can not be null");
 	}
 	@Override
-	public  JField	createJField(){
+	public JField createJField(){
 	    Class cls = primitiveType;
 	    if (column.getType().getIsNullable()) {
 	        cls = UReflect.convertPrimitiveClassToObjectClass(cls).get();

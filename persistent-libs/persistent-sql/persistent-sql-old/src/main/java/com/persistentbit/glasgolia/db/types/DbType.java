@@ -3,6 +3,7 @@ package com.persistentbit.glasgolia.db.types;
 import com.persistentbit.collections.PByteList;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.PersistSqlException;
+import com.persistentbit.sql.work.WorkDbType;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,7 +15,7 @@ import java.time.format.DateTimeFormatter;
  * @author Peter Muys
  * @since 19/07/2016
  */
-public interface DbType{
+public interface DbType extends WorkDbType{
 
 
 	/**

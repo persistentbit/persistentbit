@@ -1,6 +1,6 @@
 package com.persistentbit.glasgolia.db.types;
 
-import com.persistentbit.core.collections.PByteList;
+import com.persistentbit.collections.PByteList;
 
 /**
  * DbMetaDataType for a MySql database

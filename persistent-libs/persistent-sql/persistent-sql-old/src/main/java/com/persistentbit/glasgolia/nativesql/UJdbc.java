@@ -1,8 +1,8 @@
 package com.persistentbit.glasgolia.nativesql;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.function.ThrowingFunction;
-import com.persistentbit.core.result.Result;
+import com.persistentbit.collections.PList;
+import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.result.Result;
 
 import java.sql.ResultSet;
 

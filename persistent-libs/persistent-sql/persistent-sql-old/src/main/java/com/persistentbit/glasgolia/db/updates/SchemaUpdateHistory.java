@@ -2,7 +2,7 @@ package com.persistentbit.glasgolia.db.updates;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.db.updates.impl.DbBuilderImpl;
-import com.persistentbit.glasgolia.db.work.DbWork;
+import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.result.OK;
 
 /**

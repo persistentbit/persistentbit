@@ -1,6 +1,7 @@
-package com.persistentbit.sql.transactions;
+package com.persistentbit.sql.transactionsold;
 
-import com.persistentbit.core.logging.Log;
+
+import com.persistentbit.logging.Log;
 
 import java.sql.Connection;
 import java.sql.SQLException;

@@ -1,11 +1,11 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.exceptions.ToDo;
-import com.persistentbit.core.tuples.Tuple2;
+import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.jaql.ExprRowReaderCache;
 import com.persistentbit.glasgolia.jaql.Query;
 import com.persistentbit.glasgolia.jaql.RowReader;
+import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.utils.exceptions.ToDo;
 
 
 /**
@@ -19,7 +19,7 @@ public class Selection1<T1> extends BaseSelection<T1>{
 
 	public Selection1(Query query, Expr<T1> col1) {
 		super(query, col1);
-		this.col1 = new SelectionProperty<>("col1", col1);
+		this.col1 = new SelectionProperty<T1>("col1", col1);
 	}
 
 	@Override

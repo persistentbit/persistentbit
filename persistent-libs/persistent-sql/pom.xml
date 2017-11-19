@@ -12,6 +12,7 @@
     <modules>
         <module>persistent-sql-connect</module>
         <module>persistent-sql-old</module>
+        <module>persistent-sql-work</module>
     </modules>
     <dependencies>
         <dependency>

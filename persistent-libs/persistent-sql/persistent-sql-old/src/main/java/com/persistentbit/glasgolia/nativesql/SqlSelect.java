@@ -1,7 +1,8 @@
 package com.persistentbit.glasgolia.nativesql;
 
-import com.persistentbit.core.collections.PMap;
-import com.persistentbit.core.utils.BaseValueClass;
+
+import com.persistentbit.collections.PMap;
+import com.persistentbit.reflection.BaseValueClass;
 
 /**
  * TODOC
@@ -10,7 +11,7 @@ import com.persistentbit.core.utils.BaseValueClass;
  * @since 5/06/17
  */
 public class SqlSelect extends BaseValueClass{
-	private final String sql;
+	private final String              sql;
 	private final PMap<String,Object> params;
 
 	public SqlSelect(String sql, PMap<String, Object> params) {

@@ -1,8 +1,8 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.glasgolia.db.work.DbWork;
-import com.persistentbit.glasgolia.db.work.DbWorkContext;
+import com.persistentbit.sql.work.DbWork;
+import com.persistentbit.sql.work.DbWorkContext;
 import com.persistentbit.glasgolia.jaql.*;
 import com.persistentbit.result.Result;
 import com.persistentbit.tuples.Tuple2;
@@ -70,7 +70,7 @@ public abstract class BaseSelection<T> implements ETypeSelection<T> {
     }
 
     public DbWork<T> justOne() {
-        return function().code(l -> ctx ->
+        return DbWork.function().code(l -> ctx ->
             this.execute(ctx).flatMap(list -> Result.fromOpt(list.headOpt()))
         );
     }

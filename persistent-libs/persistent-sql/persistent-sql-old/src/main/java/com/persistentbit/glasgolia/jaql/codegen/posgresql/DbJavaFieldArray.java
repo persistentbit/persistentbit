@@ -3,6 +3,8 @@ package com.persistentbit.glasgolia.jaql.codegen.posgresql;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaColumn;
+import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.JImport;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
@@ -31,7 +33,7 @@ public class DbJavaFieldArray implements DbJavaField {
 			this.elementField = Objects.requireNonNull(elementField, "elementField can not be null");
 	}
 	@Override
-	public  JField	createJField(){
+	public JField createJField(){
 	    JField el = elementField.createJField();
 	    JField f = new JField(fieldName, "PList<" + el.getDefinition() + ">");
 	    for (JImport imp : el.getAllImports()) {

@@ -1,8 +1,8 @@
 package com.persistentbit.glasgolia.jaql;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.tuples.Tuple2;
+import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.jaql.expr.*;
+import com.persistentbit.tuples.Tuple2;
 
 import java.util.Optional;
 

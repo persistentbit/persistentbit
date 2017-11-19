@@ -2,12 +2,13 @@ package com.persistentbit.glasgolia.jaql.codegen.posgresql;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.UPStreams;
 import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaCatalog;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaDataImporter;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaSchema;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaTable;
-import com.persistentbit.glasgolia.db.work.DbRun;
+import com.persistentbit.sql.work.DbRun;
 import com.persistentbit.javacodegen.annotations.*;
 import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.Result;
@@ -101,7 +102,7 @@ public class JavaGenTableSelection {
 	    return DbMetaDataImporter.getAllSchemas().transaction(run).map(schemaList -> schemaList.filter(catFilter.and(schemaFilter))).map(schemaList -> updated(b -> b.setSchemas(schemas.plusAll(schemaList))));
 	}
 	public  Result<JavaGenTableSelection>	addTablesAndViews(Predicate<DbMetaTable> tableFilter){
-	    return Result.fromSequence(schemas.map(schema -> DbMetaDataImporter.getTablesAndViews(schema).transaction(run).map(tableList -> tableList.filter(tableFilter)))).map(listStream -> listStream.<DbMetaTable>flatten().plist()).map(tableList -> updated(b -> b.setTablesAndViews(tablesAndViews.plusAll(tableList))));
+	    return UPStreams.fromSequence(schemas.map(schema -> DbMetaDataImporter.getTablesAndViews(schema).transaction(run).map(tableList -> tableList.filter(tableFilter)))).map(listStream -> listStream.<DbMetaTable>flatten().plist()).map(tableList -> updated(b -> b.setTablesAndViews(tablesAndViews.plusAll(tableList))));
 	}
 	/**
 	 * Get the value of field {@link #run}.<br>

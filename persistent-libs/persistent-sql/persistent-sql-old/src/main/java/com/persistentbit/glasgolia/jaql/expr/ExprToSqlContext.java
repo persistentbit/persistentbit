@@ -1,11 +1,11 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.collections.PMap;
-import com.persistentbit.core.tuples.Tuple2;
+import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.glasgolia.db.types.DbType;
 import com.persistentbit.glasgolia.db.types.DbUnknownType;
-import com.persistentbit.glasgolia.db.work.DbWorkContext;
+import com.persistentbit.sql.work.DbWorkContext;
+import com.persistentbit.tuples.Tuple2;
 
 import java.sql.PreparedStatement;
 import java.util.Optional;

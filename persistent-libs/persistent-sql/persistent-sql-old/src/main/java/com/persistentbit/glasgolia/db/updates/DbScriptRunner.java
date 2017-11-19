@@ -2,7 +2,7 @@ package com.persistentbit.glasgolia.db.updates;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.sql.scripts.SqlLoader;
-import com.persistentbit.sql.transactions.TransactionRunner;
+import com.persistentbit.sql.transactionsold.TransactionRunner;
 
 import java.sql.SQLException;
 import java.sql.Statement;

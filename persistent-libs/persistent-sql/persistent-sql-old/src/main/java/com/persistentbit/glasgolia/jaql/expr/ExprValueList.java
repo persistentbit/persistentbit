@@ -1,9 +1,9 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.sql.PersistSqlException;
+import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.jaql.ExprRowReaderCache;
 import com.persistentbit.glasgolia.jaql.RowReader;
+import com.persistentbit.sql.PersistSqlException;
 
 /**
  * Represents an {@link Expr} that holds a List of Expressions of a type T.<br>

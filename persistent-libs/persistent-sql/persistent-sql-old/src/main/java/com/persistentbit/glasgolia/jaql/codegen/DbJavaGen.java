@@ -1,10 +1,12 @@
 package com.persistentbit.glasgolia.jaql.codegen;
 
 
+import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.db.types.DbPostgres;
 import com.persistentbit.glasgolia.db.types.DbType;
 import com.persistentbit.glasgolia.db.types.DbTypeRegistry;
 import com.persistentbit.glasgolia.jaql.codegen.posgresql.PostgresJavaGen;
+import com.persistentbit.javacodegen.GeneratedJavaSource;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 

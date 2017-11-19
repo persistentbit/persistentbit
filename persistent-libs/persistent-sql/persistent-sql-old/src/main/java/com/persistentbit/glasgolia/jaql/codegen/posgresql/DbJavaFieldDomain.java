@@ -4,6 +4,8 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaColumn;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaUDT;
+import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.JImport;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
@@ -36,7 +38,7 @@ public class DbJavaFieldDomain implements DbJavaField {
 			this.udtPack = Objects.requireNonNull(udtPack, "udtPack can not be null");
 	}
 	@Override
-	public  JField	createJField(){
+	public JField createJField(){
 	    JField res = new JField(fieldName, udtClassName);
 	    res = res.addImport(new JImport(udtPack + "." + udtClassName));
 	    if (column.getType().getIsNullable()) {

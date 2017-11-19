@@ -1,6 +1,7 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.exceptions.ToDo;
+
+import com.persistentbit.utils.exceptions.ToDo;
 
 import java.util.Optional;
 

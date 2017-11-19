@@ -1,8 +1,8 @@
 package com.persistentbit.glasgolia.jaql;
 
-import com.persistentbit.core.utils.BaseValueClass;
 import com.persistentbit.glasgolia.jaql.expr.ETypeObject;
 import com.persistentbit.glasgolia.jaql.expr.Expr;
+import com.persistentbit.reflection.BaseValueClass;
 
 import java.util.Optional;
 

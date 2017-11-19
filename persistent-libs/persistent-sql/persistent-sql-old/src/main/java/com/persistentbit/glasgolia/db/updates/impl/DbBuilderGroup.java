@@ -4,7 +4,7 @@ package com.persistentbit.glasgolia.db.updates.impl;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.glasgolia.db.updates.DbBuilder;
-import com.persistentbit.glasgolia.db.work.DbWork;
+import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 

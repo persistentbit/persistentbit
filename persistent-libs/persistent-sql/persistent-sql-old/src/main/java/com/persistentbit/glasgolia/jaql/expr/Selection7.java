@@ -1,11 +1,11 @@
 package com.persistentbit.glasgolia.jaql.expr;
 
-import com.persistentbit.core.collections.PList;
-import com.persistentbit.core.tuples.Tuple2;
-import com.persistentbit.core.tuples.Tuple7;
+import com.persistentbit.collections.PList;
 import com.persistentbit.glasgolia.jaql.ExprRowReaderCache;
 import com.persistentbit.glasgolia.jaql.Query;
 import com.persistentbit.glasgolia.jaql.RowReader;
+import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.tuples.Tuple7;
 
 /**
  * Created by petermuys on 14/10/16.
@@ -30,13 +30,13 @@ public class Selection7<T1, T2, T3, T4, T5, T6, T7> extends BaseSelection<Tuple7
 					  Expr<T7> col7
 	) {
 		super(query, col1.mergeWith(col2, col3, col4, col5, col6, col7));
-		this.col1 = new SelectionProperty<>("col1", col1);
-		this.col2 = new SelectionProperty<>("col2", col2);
-		this.col3 = new SelectionProperty<>("col3", col3);
-		this.col4 = new SelectionProperty<>("col4", col4);
-		this.col5 = new SelectionProperty<>("col5", col5);
-		this.col6 = new SelectionProperty<>("col6", col6);
-		this.col7 = new SelectionProperty<>("col7", col7);
+		this.col1 = new SelectionProperty<T1>("col1", col1);
+		this.col2 = new SelectionProperty<T2>("col2", col2);
+		this.col3 = new SelectionProperty<T3>("col3", col3);
+		this.col4 = new SelectionProperty<T4>("col4", col4);
+		this.col5 = new SelectionProperty<T5>("col5", col5);
+		this.col6 = new SelectionProperty<T6>("col6", col6);
+		this.col7 = new SelectionProperty<T7>("col7", col7);
 	}
 
 	@Override

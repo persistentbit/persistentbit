@@ -1,8 +1,8 @@
-package com.persistentbit.sql.transactions;
+package com.persistentbit.sql.transactionsold;
 
 
-import com.persistentbit.core.Pair;
 import com.persistentbit.sql.PersistSqlException;
+import com.persistentbit.tuples.Pair;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

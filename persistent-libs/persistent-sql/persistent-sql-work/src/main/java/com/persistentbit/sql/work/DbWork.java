@@ -1,7 +1,7 @@
-package com.persistentbit.glasgolia.db.work;
+package com.persistentbit.sql.work;
 
 import com.persistentbit.functions.ThrowingFunction;
-import com.persistentbit.glasgolia.db.transactions.DbTransaction;
+import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.logging.FunctionLogging;
 import com.persistentbit.logging.entries.LogContext;
 import com.persistentbit.logging.entries.LogEntryFunction;

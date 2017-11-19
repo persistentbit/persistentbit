@@ -2,6 +2,7 @@ package com.persistentbit.glasgolia.jaql.codegen.posgresql;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.glasgolia.db.dbdef.DbMetaColumn;
+import com.persistentbit.javacodegen.JField;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
