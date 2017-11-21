@@ -46,7 +46,7 @@ public class DbSimpleConnector implements DbConnector{
 	}
 
 	@Override
-	public Result<Connection> create() {
+	public Result<Connection> get() {
 		return Result.function().code(l -> {
 			Connection c;
 			if(userName != null) {

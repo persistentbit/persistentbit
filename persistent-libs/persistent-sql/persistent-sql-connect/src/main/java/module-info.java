@@ -8,5 +8,4 @@ module persistent.sql.connect {
 	requires transitive persistent.result;
 	requires java.sql;
 	exports com.persistentbit.sql.connect;
-	exports com.persistentbit.sql.transactions;
 }

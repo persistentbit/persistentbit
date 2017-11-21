@@ -9,6 +9,7 @@ import com.persistentbit.sql.connect.impl.DbSimpleConnector;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * A Supplier of a database {@link Connection}
@@ -20,7 +21,8 @@ import java.util.function.Consumer;
  * @see DbSimpleConnector
  */
 @FunctionalInterface
-public interface DbConnector{
+public interface DbConnector extends Supplier<Result<Connection>>{
+
 
 	/**
 	 * Create a new Database connection.<br>
@@ -28,7 +30,7 @@ public interface DbConnector{
 	 *
 	 * @return The Result with the new Connection.
 	 */
-	Result<Connection> create();
+	Result<Connection> get();
 
 	static DbConnector fromDataSource(DataSource dataSource){
 		return new DbDatasourceConnector(dataSource);

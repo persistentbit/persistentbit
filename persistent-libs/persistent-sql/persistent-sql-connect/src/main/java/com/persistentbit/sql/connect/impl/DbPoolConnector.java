@@ -14,6 +14,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * A {@link Connection} supplier that uses a connection pool to return new connections.<br>
@@ -25,14 +26,14 @@ import java.util.function.Consumer;
 public class DbPoolConnector implements DbConnector{
 
 
-	private final DbConnector               supplier;
+	private final Supplier<Result<Connection>> supplier;
 	private final Consumer<Connection>      resetter;
 	private final int                       poolSize;
 	private final BlockingQueue<Connection> freeConnections;
 	private       int                       activeConnections;
 
 
-	public DbPoolConnector(DbConnector supplier, int poolSize) {
+	public DbPoolConnector(Supplier<Result<Connection>> supplier, int poolSize) {
 		this(supplier, poolSize, (c) -> {
 			try {
 				c.setAutoCommit(false);
@@ -42,7 +43,7 @@ public class DbPoolConnector implements DbConnector{
 		});
 	}
 
-	public DbPoolConnector(DbConnector supplier, int poolSize,
+	public DbPoolConnector(Supplier<Result<Connection>> supplier, int poolSize,
 						   Consumer<Connection> connectionResetter
 	) {
 		this.supplier = supplier;
@@ -52,12 +53,12 @@ public class DbPoolConnector implements DbConnector{
 	}
 
 	@Override
-	public Result<Connection> create() {
+	public Result<Connection> get() {
 		return Result.function().code(log -> {
 			if(freeConnections.isEmpty()) {
 				if(activeConnections < poolSize) {
 					//Nog geen pool opgebouwd...
-					return supplier.create()
+					return supplier.get()
 						.<Connection>map(this::newConnection)
 						.ifPresent(success -> activeConnections++);
 				}
@@ -71,7 +72,7 @@ public class DbPoolConnector implements DbConnector{
 				}
 			} while(con == null);
 			if(con.isValid(0) == false) {
-				return supplier.create().map(this::newConnection);
+				return supplier.get().map(this::newConnection);
 			}
 			return Result.success(newConnection(con));
 		});
