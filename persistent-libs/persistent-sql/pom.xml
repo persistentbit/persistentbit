@@ -13,7 +13,7 @@
         <module>persistent-sql-connect</module>
        <!-- <module>persistent-sql-old</module> -->
         <module>persistent-sql-work</module>
-        <module>persist-sql-updater</module>
+        <module>persistent-sql-updater</module>
     </modules>
     <dependencies>
         <dependency>
