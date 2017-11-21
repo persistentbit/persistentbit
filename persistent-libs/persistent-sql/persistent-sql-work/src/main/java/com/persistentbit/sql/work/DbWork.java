@@ -1,6 +1,10 @@
 package com.persistentbit.sql.work;
 
 import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.logging.FunctionLogging;
+import com.persistentbit.logging.entries.LogContext;
+import com.persistentbit.logging.entries.LogEntryFunction;
+import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.transactions.DbTransaction;
 
@@ -30,5 +34,58 @@ public interface DbWork<R>{
 		}));
 	}
 
+	static DbWork<OK> sequence(Iterable<DbWork<OK>> sequence) {
+		return DbWork.function().code(trans -> con -> log ->   {
+			for(DbWork<OK> w : sequence) {
+				Result<OK> itemOK = w.run(trans);
+				if(itemOK.isError()) {
+					return itemOK;
+				}
+				log.add(itemOK);
+			}
+			return OK.result;
+		});
+	}
 
+	static FLogging function() {
+		StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+		LogEntryFunction  fe  = LogEntryFunction.of(new LogContext(ste));
+		return new FLogging(fe);
+	}
+
+	static FLogging function(Object... params) {
+		StackTraceElement ste = Thread.currentThread().getStackTrace()[2];
+		LogEntryFunction  fe  = LogEntryFunction.of(new LogContext(ste));
+		FLogging          res = new FLogging(fe);
+		res.params(params);
+		return res;
+	}
+
+
+	class FLogging extends FunctionLogging{
+
+		public FLogging(LogEntryFunction lef, int stackEntryIndex) {
+			super(lef, stackEntryIndex);
+		}
+
+		public FLogging(LogEntryFunction lef) {
+			this(lef, 2);
+		}
+
+
+
+		@SuppressWarnings("unchecked")
+		public <R> DbWork<R> code(Function<DbTransaction, Function<Connection,ThrowingFunction<FLogging,Result<R>,Exception>>> code) {
+			return trans -> trans.run( con -> {
+				Result<R> result;
+				try{
+					result = code.apply(trans).apply(con).apply(this);
+				}catch(Exception e){
+					result = Result.failure(e);
+				}
+				return result.mapLog(l -> getLog().append(l));
+			});
+		}
+
+	}
 }
