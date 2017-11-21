@@ -1,4 +1,4 @@
-package com.persistentbit.glasgolia.db.dbdef;
+package com.persistentbit.sql.utils;
 
 import java.sql.Types;
 

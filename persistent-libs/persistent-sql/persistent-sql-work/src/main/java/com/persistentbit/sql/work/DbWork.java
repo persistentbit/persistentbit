@@ -7,6 +7,7 @@ import com.persistentbit.logging.entries.LogEntryFunction;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.transactions.DbTransaction;
+import com.persistentbit.tuples.Tuple2;
 
 import java.sql.Connection;
 import java.util.function.Function;
@@ -32,6 +33,18 @@ public interface DbWork<R>{
 			}
 			return result;
 		}));
+	}
+
+	default <OTHER> DbWork<Tuple2<R, OTHER>> combine(Function<R, DbWork<OTHER>> other) {
+		return trans -> {
+			Result<R> resR = run(trans);
+			if(resR.isPresent() == false) {
+				return resR.map(v -> null); //Map error
+			}
+			R r = resR.orElseThrow();
+			return other.apply(r).run(trans)
+						.map(o -> Tuple2.of(r, o));
+		};
 	}
 
 	static DbWork<OK> sequence(Iterable<DbWork<OK>> sequence) {

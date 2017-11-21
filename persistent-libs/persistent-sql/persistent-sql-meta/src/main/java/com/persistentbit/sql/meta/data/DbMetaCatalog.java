@@ -1,4 +1,4 @@
-package com.persistentbit.glasgolia.db.dbdef;
+package com.persistentbit.sql.meta.data;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.functions.ThrowingFunction;

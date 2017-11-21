@@ -1,13 +1,14 @@
-package com.persistentbit.glasgolia.db.dbdef;
+package com.persistentbit.sql.meta;
 
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.collections.UPStreams;
-import com.persistentbit.sql.work.DbWork;
-import com.persistentbit.glasgolia.nativesql.UJdbc;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.meta.data.*;
+import com.persistentbit.sql.utils.UJdbc;
+import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.utils.exceptions.ToDo;
 
 /**
@@ -19,44 +20,44 @@ import com.persistentbit.utils.exceptions.ToDo;
 public class DbMetaDataImporter{
 
 	public static DbWork<PList<DbMetaCatalog>> getCatalogs(){
-		return DbWork.function().code(log -> ctx -> ctx.get().<PList<DbMetaCatalog>>flatMapExc(con ->{
-			return UJdbc.getList(con.getMetaData().getCatalogs(),
-				 rs -> new DbMetaCatalog(rs.getString("TABLE_CAT"))
-			);
+		return DbWork.function().code(trans -> con -> log ->
+			UJdbc.getList(con.getMetaData().getCatalogs(),
+				rs -> new DbMetaCatalog(rs.getString("TABLE_CAT"))
+			)
+		);
 
-		}));
 	}
 	public static DbWork<PList<DbMetaSchema>> getSchemas(DbMetaCatalog catalog) {
-		return DbWork.function(catalog).code(log -> ctx -> ctx.get().<PList<DbMetaSchema>>flatMapExc(con ->{
-			return UJdbc.getList(con.getMetaData().getSchemas(catalog.getName().orElse(""),null),
-								 rs -> DbMetaSchema.buildExc(b -> b
-									  .setCatalog(catalog)
-									  .setName(rs.getString("TABLE_SCHEM"))
-								 ).orElseThrow()
-			);
+		return DbWork.function(catalog).code(trans -> con -> log ->
+			UJdbc.getList(con.getMetaData().getSchemas(catalog.getName().orElse(""),null),
+				rs -> DbMetaSchema.buildExc(b -> b
+					.setCatalog(catalog)
+					.setName(rs.getString("TABLE_SCHEM"))
+				).orElseThrow()
+			)
+		);
 
-		}));
 	}
 
 
 	public static DbWork<PList<DbMetaSchema>> getAllSchemas(){
-		return DbWork.function().code(log -> ctx ->
-			getCatalogs().execute(ctx)
+		return DbWork.function().code(trans -> con -> log ->
+			getCatalogs().run(trans)
 			.flatMap( catList ->
 				UPStreams.fromSequence(
-					catList.mapExc(cat -> getSchemas(cat).execute(ctx))
+					catList.mapExc(cat -> getSchemas(cat).run(trans))
 			    ).map(PStream::<DbMetaSchema>flatten)
 					.map(PStream::plist)
 			));
 	}
 
 	public static DbWork<PList<String>> getTableTypes(DbMetaSchema schema){
-		return DbWork.function(schema).code(log -> ctx -> ctx.get().<PList<String>>flatMapExc(con ->{
-			return UJdbc.getList(con.getMetaData().getTableTypes(),
-								 rs -> rs.getString("TABLE_TYPE")
-			);
+		return DbWork.function(schema).code(trans -> con -> log ->
+			UJdbc.getList(con.getMetaData().getTableTypes(),
+				rs -> rs.getString("TABLE_TYPE")
+			)
+		);
 
-		}));
 	}
 
 	public static DbWork<PList<DbMetaTable>> getTables(DbMetaSchema schema){
@@ -66,11 +67,21 @@ public class DbMetaDataImporter{
 	public static DbWork<PList<DbMetaTable>> getViews(DbMetaSchema schema) { return getTables(schema,"VIEW");}
 
 	public static DbWork<PList<DbMetaTable>> getTablesAndViews(DbMetaSchema schema){
-		return getTables(schema)
-			.combine(tables -> getViews(schema)).map(t -> t._1.plusAll(t._2));
-
+		return DbWork.function(schema).code(trans -> con -> log ->
+			getTables(schema).run(trans)
+				 .flatMap(tables -> getViews(schema).run(trans)
+					 .map(views -> tables.plusAll(views))
+				 )
+		);
 	}
 	public static DbWork<PList<DbMetaTable>> getTypes(DbMetaSchema schema){
+		return DbWork.function(schema).code(trans -> con -> log -> {
+			PList<DbMetaTable> res = PList.empty();
+			//res = res.plusAll(getTables(schema,typeName).execute(ctx).orElseThrow());
+
+			return Result.success(res);
+		});
+		/*
 		return DbWork.function(schema).code(log -> ctx -> {
 			PList<DbMetaTable> res = PList.empty();
 
@@ -78,11 +89,11 @@ public class DbMetaDataImporter{
 				res = res.plusAll(getTables(schema,typeName).execute(ctx).orElseThrow());
 			}
 			return Result.success(res);
-		});
+		});*/
 	}
 
 	public static DbWork<PList<DbMetaTable>> getTables(DbMetaSchema schema, @Nullable String typeName){
-		return DbWork.function(schema,typeName).code(log -> ctx -> ctx.get().<PList<DbMetaTable>>flatMapExc(con -> {
+		return DbWork.function(schema,typeName).code(trans -> con -> log -> {
 			Result<PList<DbMetaTable>> tables = UJdbc.getList(con.getMetaData().getTables(
 				schema.getCatalog().getName().orElse(""),
 				schema.getName().orElse(""),
@@ -107,14 +118,16 @@ public class DbMetaDataImporter{
 					.setComment(remarks)
 				);
 			});
-			return tables.flatMap(tableList -> {
-				return UPStreams.fromSequence(tableList.mapExc(table -> loadColumns(table).execute(ctx))).map(l -> l.plist());
-			});
-		}));
+			return tables.flatMap(tableList ->
+				UPStreams.fromSequence(
+					tableList.mapExc(table -> loadColumns(table).run(trans)))
+				 .map(PStream::plist)
+			);
+		});
 	}
 
 	public static DbWork<PList<DbMetaUDT>> getUDT(DbMetaSchema schema, @Nullable  String typeName, @Nullable int[] sqlTypes){
-		return DbWork.function(schema,typeName).code(log -> ctx -> ctx.get().<PList<DbMetaUDT>>flatMapExc(con -> {
+		return DbWork.function(schema,typeName).code(trans -> con -> log -> {
 			Result<PList<DbMetaUDT>> types = UJdbc.getList(con.getMetaData().getUDTs(
 				schema.getCatalog().getName().orElse(""),
 				schema.getName().orElse(""),
@@ -134,56 +147,21 @@ public class DbMetaDataImporter{
 				//String self_referencing_col_name = rs.getString("SELF_REFERENCING_COL_NAME");
 				//String ref_generation = rs.getString("REF_GENERATION");
 				return DbMetaUDT.build(b -> b
-				   .setSchema(schema)
-				   .setBaseType(base_type)
-				   .setDataType(data_type)
-				   .setJavaClassName(class_name)
-				   .setName(type_name)
-				   .setRemarks(remarks)
+					.setSchema(schema)
+					.setBaseType(base_type)
+					.setDataType(data_type)
+					.setJavaClassName(class_name)
+					.setName(type_name)
+					.setRemarks(remarks)
 				);
 			});
 			return types;
-		}));
+		});
+
 	}
 
-
-	/*
-	COLUMN_NAME String => column name
-DATA_TYPE int => SQL type from java.sql.Types
-TYPE_NAME String => Data source dependent type name, for a UDT the type name is fully qualified
-COLUMN_SIZE int => column size.
-BUFFER_LENGTH is not used.
-DECIMAL_DIGITS int => the number of fractional digits. Null is returned for data types where DECIMAL_DIGITS is not applicable.
-NUM_PREC_RADIX int => Radix (typically either 10 or 2)
-NULLABLE int => is NULL allowed.
-columnNoNulls - might not allow NULL values
-columnNullable - definitely allows NULL values
-columnNullableUnknown - nullability unknown
-REMARKS String => comment describing column (may be null)
-COLUMN_DEF String => default value for the column, which should be interpreted as a string when the value is enclosed in single quotes (may be null)
-SQL_DATA_TYPE int => unused
-SQL_DATETIME_SUB int => unused
-CHAR_OCTET_LENGTH int => for char types the maximum number of bytes in the column
-ORDINAL_POSITION int => index of column in table (starting at 1)
-IS_NULLABLE String => ISO rules are used to determine the nullability for a column.
-YES --- if the column can include NULLs
-NO --- if the column cannot include NULLs
-empty string --- if the nullability for the column is unknown
-SCOPE_CATALOG String => catalog of table that is the scope of a reference attribute (null if DATA_TYPE isn't REF)
-SCOPE_SCHEMA String => schema of table that is the scope of a reference attribute (null if the DATA_TYPE isn't REF)
-SCOPE_TABLE String => table name that this the scope of a reference attribute (null if the DATA_TYPE isn't REF)
-SOURCE_DATA_TYPE short => source type of a distinct type or user-generated Ref type, SQL type from java.sql.Types (null if DATA_TYPE isn't DISTINCT or user-generated REF)
-IS_AUTOINCREMENT String => Indicates whether this column is auto incremented
-YES --- if the column is auto incremented
-NO --- if the column is not auto incremented
-empty string --- if it cannot be determined whether the column is auto incremented
-IS_GENERATEDCOLUMN String => Indicates whether this is a generated column
-YES --- if this a generated column
-NO --- if this not a generated column
-empty string --- if it cannot be determined whether this is a generated column
-	 */
 	public static DbWork<DbMetaTable> loadColumns(DbMetaTable table){
-		return DbWork.function(table).code(log -> ctx -> ctx.get().flatMapExc(con -> {
+		return DbWork.function(table).code(trans -> con -> log -> {
 			Result<PList<DbMetaColumn>> columns =  UJdbc.getList(
 				con.getMetaData().getColumns(
 					table.getSchema().getCatalog().getName().orElse(""),
@@ -208,11 +186,11 @@ empty string --- if it cannot be determined whether this is a generated column
 					String isAutoIncrement = rs.getString("IS_AUTOINCREMENT");
 					//String isGeneratedColumn = rs.getString("IS_GENERATEDCOLUMN");
 					DbMetaDataType type = new DbMetaDataType(dataType)
-						   .withIsAutoIncrement(isAutoIncrement.equalsIgnoreCase("YES"))
-						   .withIsNullable(isNullable.equalsIgnoreCase("YES"))
-						   .withDbTypeName(typeName)
-						   .withColumnSize(columnSize)
-						   .withDecimalDigits(decimalDigits);
+						.withIsAutoIncrement(isAutoIncrement.equalsIgnoreCase("YES"))
+						.withIsNullable(isNullable.equalsIgnoreCase("YES"))
+						.withDbTypeName(typeName)
+						.withColumnSize(columnSize)
+						.withDecimalDigits(decimalDigits);
 
 					return DbMetaColumn.build(b -> b
 						.setComment(remarks)
@@ -224,13 +202,17 @@ empty string --- if it cannot be determined whether this is a generated column
 				}
 			);
 			return columns.map(cols -> table.withColumns(cols));
-		}));
+		});
+
 	}
 
 
 	public static DbWork<DbMetaSchema> importSchema(String catalogName, String schemaName){
-		return DbWork.function(catalogName,schemaName).code(log -> ctx -> ctx.get().<DbMetaSchema>flatMapExc(con ->{
+		return DbWork.function(catalogName, schemaName).code(trans -> con -> log -> {
 			throw new ToDo();
+		});
+//		return DbWork.function(catalogName,schemaName).code(log -> ctx -> ctx.get().<DbMetaSchema>flatMapExc(con ->{
+//			throw new ToDo();
 			/*DatabaseMetaData md = con.getMetaData();
 			return UJdbc.getList(md.getSchemas(),rs -> {
 				return new DbMetaSchema(
@@ -269,7 +251,7 @@ empty string --- if it cannot be determined whether this is a generated column
 				return Result.success(schema);
 			});*/
 
-		}));
+		//}));
 	}
 
 	private Result<DbMetaTable> importSet(DbMetaSchema schema, DbMetaTable set){

@@ -1,4 +1,4 @@
-package com.persistentbit.glasgolia.db.dbdef;
+package com.persistentbit.sql.meta.data;
 
 import com.persistentbit.javacodegen.annotations.NoBuilder;
 import java.util.Objects;
