@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>persistent-sql-meta</artifactId>
-
+    <packaging>jar</packaging>
     <build>
         <plugins>
             <plugin>

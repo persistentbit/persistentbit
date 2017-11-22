@@ -11,11 +11,11 @@
     <packaging>pom</packaging>
     <modules>
         <module>persistent-sql-connect</module>
-       <!-- <module>persistent-sql-old</module> -->
         <module>persistent-sql-work</module>
         <module>persistent-sql-updater</module>
         <module>persistent-sql-utils</module>
         <module>persistent-sql-meta</module>
+        <module>persistent-sql-dsl</module>
     </modules>
     <dependencies>
         <dependency>
