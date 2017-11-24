@@ -6,5 +6,5 @@ package com.persistentbit.sql.dsl.generic;
  * @author petermuys
  * @since 23/11/17
  */
-public interface DExpr<T>{
+public interface DExprTime extends DExpr{
 }

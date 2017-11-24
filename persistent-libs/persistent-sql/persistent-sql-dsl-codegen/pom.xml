@@ -3,29 +3,25 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>persistent-libs</artifactId>
+        <artifactId>persistent-sql</artifactId>
         <groupId>com.persistentbit</groupId>
         <version>3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>persistent-sql-dsl-codegen</artifactId>
     <packaging>pom</packaging>
-    <modules>
-        <module>persistent-sql-connect</module>
-        <module>persistent-sql-work</module>
-        <module>persistent-sql-updater</module>
-        <module>persistent-sql-utils</module>
-        <module>persistent-sql-meta</module>
-        <module>persistent-sql-dsl</module>
-        <module>persistent-sql-dsl-codegen</module>
-    </modules>
     <dependencies>
         <dependency>
             <groupId>com.persistentbit</groupId>
-            <artifactId>persistent-core</artifactId>
+            <artifactId>persistent-sql-dsl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-sql-dsl-generic</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
-    <artifactId>persistent-sql</artifactId>
-
 
 </project>

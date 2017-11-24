@@ -7,8 +7,15 @@ package com.persistentbit.sql.dsl.generic;
  * @since 23/11/17
  */
 public interface DExprBoolean extends DExpr<Boolean>{
+
 	DExprBoolean not();
-	DExprBoolean and(DExprBoolean other);
-	DExprBoolean or(DExprBoolean other);
-	DExprBoolean eq(DExprBoolean other);
+	DExprBoolean and(DExpr<Boolean> other);
+	DExprBoolean or(DExpr<Boolean> other);
+
+	DExprBoolean eq(DExpr<Boolean> other);
+	DExprBoolean notEq(DExpr<Boolean> other);
+
+	DExprBoolean	isNull();
+	DExprBoolean	isNotNull();
+
 }

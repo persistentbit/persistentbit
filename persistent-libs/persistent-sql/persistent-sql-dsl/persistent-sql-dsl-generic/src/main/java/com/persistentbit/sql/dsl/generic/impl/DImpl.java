@@ -8,11 +8,11 @@ import com.persistentbit.sql.dsl.generic.DExpr;
  * @author petermuys
  * @since 23/11/17
  */
-public abstract class DImpl<T> implements DExpr<T>{
+public abstract class DImpl<T> implements DExpr<T>,DInternal<T>{
 
 
 	@SuppressWarnings("unchecked")
-	static <T> DInternal<T> get(DExpr<T> expr){
+	static <T> DInternal<T> _get(DExpr<T> expr){
 		return (DInternal<T>)expr;
 	}
 }
