@@ -5,7 +5,8 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
-import com.persistentbit.sql.updater.impl.DbBuilderImpl;
+import com.persistentbit.sql.updater.SchemaUpdateHistory;
+import com.persistentbit.sql.updater.SqlSnippets;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
 
@@ -25,7 +26,12 @@ public class TestUpdater{
 		//Supplier<Result<Connection>> conSup = () -> Result.failure("No Connection supplier");
 		Supplier<Result<Connection>> conSup = DbConnector.fromUrl(driverClassName,url,null,null)
 														 .orElseThrow();
-		DbBuilder builder = new DbBuilderImpl(null, "sqlTests", "/dbupdates/db_update.sql");
+		//DbBuilder builder = new DbBuilderImpl(null, "sqlTests", "/dbupdates/db_update.sql");
+		DbBuilder builder = DbBuilder.create(
+			"sqlTests",
+			SqlSnippets.load(TestUpdater.class.getResourceAsStream("/dbupdates/db_update.sql")).orElseThrow(),
+			SchemaUpdateHistory.createDbImpl()
+		);
 		Supplier<DbTransaction> transSup = () -> DbTransaction.create(conSup);
 		tr.isFalse(builder.hasUpdatesThatAreDone().run(transSup.get()).orElseThrow());
 		tr.isSuccess(builder.buildOrUpdate().run(transSup.get()));

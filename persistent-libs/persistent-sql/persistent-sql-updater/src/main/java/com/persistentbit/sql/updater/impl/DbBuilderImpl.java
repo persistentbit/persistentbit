@@ -6,7 +6,7 @@ import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.updater.SchemaUpdateHistory;
-import com.persistentbit.sql.updater.SqlLoader;
+import com.persistentbit.sql.updater.SqlSnippets;
 import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.utils.Lazy;
 
@@ -27,57 +27,48 @@ import java.util.Optional;
 public class DbBuilderImpl implements DbBuilder{
 
 	public static final String onceBeforeSnippetName = "OnceBefore";
-	public static final String dropAllSnippetName    = "DropAll";
+	public static final String dropAllSnippetName = "DropAll";
 
-	protected final String              packageName;
-	protected final SqlLoader sqlLoader;
+	protected final String packageName;
+	protected final SqlSnippets snippets;
 	protected final SchemaUpdateHistory updateHistory;
 
 
 	/**
-	 * Create a new {@link DbBuilder} with the given parameters and a default
-	 * {@link SchemaUpdateHistoryImpl} to keep track of the updates already done.
-	 *
-	 * @param packageName     The packageName, used to keep track of the updates already done.
-	 * @param sqlResourceName The name of the java resource file containing the sql statements
+	 * @param historyPackageName   The packageName, used to keep track of the updates already done.
+	 * @param snippets      The Sql snippets
+	 * @param updateHistory The {@link SchemaUpdateHistory} to use
 	 */
-	public DbBuilderImpl(String schemaName, String packageName, String sqlResourceName) {
-		this(packageName, sqlResourceName, new SchemaUpdateHistoryImpl(schemaName));
-	}
-
-	/**
-	 * @param packageName     The packageName, used to keep track of the updates already done.
-	 * @param sqlResourceName The name of the java resource file containing the sql statements
-	 * @param updateHistory   The {@link SchemaUpdateHistory} to use
-	 */
-	public DbBuilderImpl(String packageName, String sqlResourceName,
+	public DbBuilderImpl(String historyPackageName, SqlSnippets snippets,
 						 SchemaUpdateHistory updateHistory
 	) {
-		this.packageName = packageName;
-		this.sqlLoader = new SqlLoader(sqlResourceName);
+		this.packageName = historyPackageName;
+		this.snippets = snippets;
 		this.updateHistory = updateHistory;
 	}
+
+
 
 	@Override
 	public DbWork<OK> buildOrUpdate() {
 		return DbWork.function().code(trans -> con -> log ->
 			executeSnipIfExists(onceBeforeSnippetName).run(trans)
-				.flatMap(ok -> {
-					PList<String> names = sqlLoader.getAllSnippetNames()
-												   .filter(name -> name
-													   .equalsIgnoreCase(dropAllSnippetName) == false && name
-													   .equalsIgnoreCase(onceBeforeSnippetName) == false);
-					log.info("Found " + names.size() + " snippets");
-					for(String name : names) {
-						log.info("Executing snippet " + name);
-						Result<OK> snipOk =
-							executeSnip(name).run(trans);
-						if(snipOk.isPresent() == false) {
-							return snipOk;
-						}
-					}
-					return OK.result;
-				})
+													  .flatMap(ok -> {
+														  PList<String> names = snippets.getAllSnippetNames()
+																						.filter(name -> name
+																							.equalsIgnoreCase(dropAllSnippetName) == false && name
+																							.equalsIgnoreCase(onceBeforeSnippetName) == false);
+														  log.info("Found " + names.size() + " snippets");
+														  for(String name : names) {
+															  log.info("Executing snippet " + name);
+															  Result<OK> snipOk =
+																  executeSnip(name).run(trans);
+															  if(snipOk.isPresent() == false) {
+																  return snipOk;
+															  }
+														  }
+														  return OK.result;
+													  })
 		);
 	}
 
@@ -91,8 +82,8 @@ public class DbBuilderImpl implements DbBuilder{
 	});
 
 	private DbWork<OK> executeSnipIfExists(String name) {
-		return DbWork.function(name).code(trans -> con -> l ->  {
-			if(sqlLoader.hasSnippet(name)) {
+		return DbWork.function(name).code(trans -> con -> l -> {
+			if(snippets.hasSnippet(name)) {
 				return executeSnip(name).run(trans);
 			}
 			return OK.result;
@@ -113,7 +104,7 @@ public class DbBuilderImpl implements DbBuilder{
 				return OK.result;
 
 			}
-			for(DbWork<OK> work : sqlLoader.getAll(name).map(sql -> executeSql(name, sql))) {
+			for(DbWork<OK> work : snippets.getAll(name).map(sql -> executeSql(name, sql))) {
 				Result<OK> ok = work.run(trans);
 				if(ok.isPresent() == false) {
 					return ok;
@@ -137,7 +128,7 @@ public class DbBuilderImpl implements DbBuilder{
 	 * @param sql  The sql statement
 	 */
 	private DbWork<OK> executeSql(String name, String sql) {
-		return DbWork.function(name,sql).code(trans -> con -> l -> {
+		return DbWork.function(name, sql).code(trans -> con -> l -> {
 			try(Statement stat = con.createStatement()) {
 				stat.execute(sql);
 				return OK.result;
@@ -155,13 +146,14 @@ public class DbBuilderImpl implements DbBuilder{
 	 */
 	@Override
 	public DbWork<OK> dropAll() {
-		return DbWork.function().code(trans -> con -> l ->{
-			if(sqlLoader.hasSnippet(dropAllSnippetName) == false) {
-				return Result.failure(new RuntimeException("Can't find SQL code 'DropAll' in " + sqlLoader));
+		return DbWork.function().code(trans -> con -> l -> {
+			if(snippets.hasSnippet(dropAllSnippetName) == false) {
+				return Result.failure(new RuntimeException("Can't find SQL code 'DropAll' in " + snippets));
 			}
 			return executeSnipIfExists(onceBeforeSnippetName).run(trans)
-				.flatMap(ok -> executeSnip(dropAllSnippetName).run(trans))
-				.flatMap(ok -> updateHistory.removeUpdateHistory(packageName).run(trans));
+															 .flatMap(ok -> executeSnip(dropAllSnippetName).run(trans))
+															 .flatMap(ok -> updateHistory
+																 .removeUpdateHistory(packageName).run(trans));
 
 		});
 	}

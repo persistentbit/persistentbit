@@ -1,10 +1,10 @@
-package com.persistentbit.sql.updater;
+package com.persistentbit.sql.updater.impl;
 
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.POrderedMap;
-import com.persistentbit.functions.Nothing;
-import com.persistentbit.logging.Log;
+import com.persistentbit.result.Result;
+import com.persistentbit.sql.updater.SqlSnippets;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,18 +29,19 @@ import java.util.stream.Collectors;
  * @author Peter Muys
  * @since 18/06/16
  */
-public class SqlLoader{
+public class SqlResourceSnippets implements SqlSnippets{
 
-	private final String resourcePath;
-	private POrderedMap<String, PList<String>> snippets = POrderedMap.empty();
+	private final POrderedMap<String, PList<String>> snippets;
 
 	/**
 	 * Create a new SqlLoader for the given resource.
 	 *
-	 * @param resourcePath The resource name
+	 *
 	 */
-	public SqlLoader(String resourcePath) {
-		this.resourcePath = resourcePath;
+	private SqlResourceSnippets(POrderedMap<String, PList<String>> snippets) {
+		this.snippets = snippets;
+	}
+	/*	this.resourcePath = resourcePath;
 		Log.function(resourcePath).code(log -> {
 			InputStream in = SqlLoader.class.getResourceAsStream(resourcePath);
 			if(in == null) {
@@ -52,13 +53,80 @@ public class SqlLoader{
 			return Nothing.inst;
 		});
 
+	}*/
+
+	static public Result<SqlSnippets> load(InputStream in){
+		return Result.function().code(l -> {
+			if(in == null){
+				return Result.failure("Can't load Sql Snippets from a null InputStream");
+			}
+
+			try(BufferedReader r = new BufferedReader(new InputStreamReader(in))) {
+				String                    name         = null;
+				Map<String, List<String>> fileSnippets = new LinkedHashMap<>();
+				BiConsumer<String, String> toSnippets = (n, c) -> {
+					if(n != null && c != null) {
+						List<String> existing = fileSnippets.computeIfAbsent(n, k -> new ArrayList<>());
+						existing.add(c);
+					}
+				};
+				for(String line : r.lines().collect(Collectors.toList())) {
+					if(line.trim().startsWith("-->>")) {
+						toSnippets.accept(name, null);
+						name = line.trim().substring(4).trim().toLowerCase();
+						if(name.isEmpty()) {
+							name = null;
+						}
+					}
+					else {
+						if(name != null) {
+							toSnippets.accept(name, line);
+							//current = current == null ? line : current + "\n" + line;
+						}
+					}
+				}
+				toSnippets.accept(name, null);
+				POrderedMap<String, PList<String>> snippets = POrderedMap.empty();
+				for(Map.Entry<String, List<String>> entry : fileSnippets.entrySet()) {
+					List<String> allCurrent = new ArrayList<>();
+					String       delimiter  = ";";
+					String       current    = "";
+					for(String line : entry.getValue()) {
+						line = line.trim();
+						if(line.toUpperCase().startsWith("DELIMITER")) {
+							delimiter = line.substring("delimiter".length()).trim();
+							continue;
+						}
+						if(current.isEmpty() == false) {
+							current += "\r\n";
+						}
+						current += line;
+						if(current.trim().endsWith(delimiter)) {
+							allCurrent.add(current.substring(0, current.length() - delimiter.length()));
+							current = "";
+
+						}
+					}
+					if(current.trim().isEmpty() == false) {
+						allCurrent.add(current);
+					}
+
+					snippets = snippets.put(entry.getKey(), PList.from(allCurrent));
+
+				}
+				l.info("Found " + snippets.size() + " sql snippets");
+				return Result.success(new SqlResourceSnippets(snippets));
+			} catch(IOException e) {
+				return Result.failure(e);
+			}
+		});
 	}
 
 	@Override
 	public String toString() {
-		return "SqlLoader[" + resourcePath + "]";
+		return "SqlResourceSnippets";
 	}
-
+/*
 	private void load(InputStream in) {
 		try(BufferedReader r = new BufferedReader(new InputStreamReader(in))) {
 			String                    name         = null;
@@ -117,7 +185,7 @@ public class SqlLoader{
 			throw new RuntimeException(e);
 		}
 
-	}
+	} */
 
 	/**
 	 * Get all the SQL statements for a given group name
@@ -131,7 +199,7 @@ public class SqlLoader{
 	 */
 	public PList<String> getAll(String name) {
 		return snippets.getOpt(name.toLowerCase())
-					   .orElseThrow(() -> new IllegalArgumentException("Can't find snippet '" + name + "' in  '" + resourcePath + "'"));
+					   .orElseThrow(() -> new IllegalArgumentException("Can't find snippet '" + name ));
 	}
 
 	/**

@@ -2,8 +2,11 @@ package com.persistentbit.sql.updater;
 
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.updater.impl.DbBuilderGroup;
+import com.persistentbit.sql.updater.impl.DbBuilderImpl;
 import com.persistentbit.sql.work.DbWork;
 
+import java.io.InputStream;
 import java.sql.Connection;
 
 /**
@@ -14,6 +17,20 @@ import java.sql.Connection;
  * @since 31/10/16
  */
 public interface DbBuilder{
+
+
+	static DbBuilder	create(String historyPackageName, SqlSnippets snippets, SchemaUpdateHistory history){
+		return new DbBuilderImpl(historyPackageName,snippets,history);
+	}
+
+	static Result<DbBuilder> create(String schemaName, String historyPackageName, InputStream snippetsInputStream){
+		return SqlSnippets.load(snippetsInputStream)
+			.map(snippets -> DbBuilder.create(historyPackageName,snippets, SchemaUpdateHistory.createDbImpl(schemaName)));
+	}
+
+	static DbBuilder	createGroup(DbBuilder...builders){
+		return new DbBuilderGroup(builders);
+	}
 
 	/**
 	 * Execute all the database update methods not registered in the SchemaHistory table.<br>

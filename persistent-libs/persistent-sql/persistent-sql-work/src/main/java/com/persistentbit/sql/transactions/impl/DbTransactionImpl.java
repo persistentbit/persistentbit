@@ -49,6 +49,7 @@ public class DbTransactionImpl implements DbTransaction{
 			}catch(Exception e){
 				Result<R> newFail = Result.failure(new RuntimeException("Transaction rollback",e));
 				close();
+
 				failure = newFail;
 				return newFail;
 			}
@@ -79,8 +80,9 @@ public class DbTransactionImpl implements DbTransaction{
 				l.warning("Transaction rolled back");
 				currentConnection.rollback();
 			} else {
-				l.info("Transaction commited");
+				l.info("Transaction committed");
 				currentConnection.commit();
+				currentConnection = null;
 			}
 			close();
 			return codeResult;
@@ -90,6 +92,7 @@ public class DbTransactionImpl implements DbTransaction{
 		if(currentConnection != null){
 			try {
 				currentConnection.close();
+
 			} catch(SQLException e) {
 				;
 			}

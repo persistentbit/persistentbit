@@ -1,9 +1,10 @@
 package com.persistentbit.sql.updater;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.updater.impl.DbBuilderImpl;
-import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.result.OK;
+import com.persistentbit.sql.updater.impl.DbBuilderImpl;
+import com.persistentbit.sql.updater.impl.SchemaUpdateHistoryImpl;
+import com.persistentbit.sql.work.DbWork;
 
 /**
  * Service interface to keep track of database schema updates.<br>
@@ -48,4 +49,14 @@ public interface SchemaUpdateHistory{
 	 * @return List with all the update names for the given package
 	 */
 	DbWork<PList<String>> getUpdatesDone(String packageName);
+
+	static SchemaUpdateHistory	createDbImpl(String schemaName, String tableName){
+		return new SchemaUpdateHistoryImpl(schemaName,tableName);
+	}
+	static SchemaUpdateHistory	createDbImpl(String schemaName){
+		return new SchemaUpdateHistoryImpl(schemaName);
+	}
+	static SchemaUpdateHistory	createDbImpl(){
+		return new SchemaUpdateHistoryImpl();
+	}
 }

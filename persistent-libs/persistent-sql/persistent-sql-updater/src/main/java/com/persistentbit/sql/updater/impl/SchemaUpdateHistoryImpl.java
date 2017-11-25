@@ -1,6 +1,7 @@
 package com.persistentbit.sql.updater.impl;
 
 
+import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
@@ -11,20 +12,25 @@ import java.sql.DatabaseMetaData;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Objects;
 
 /**
  * Implements A {@link SchemaUpdateHistory} interface by using a db table<br>
  */
 public class SchemaUpdateHistoryImpl implements SchemaUpdateHistory{
 
+	@Nullable
 	private final String schemaName;
 	private final String tableName;
 
+	public SchemaUpdateHistoryImpl() {
+		this(null);
+	}
 
 	/**
 	 * Creates an instance with 'schema_history' as table name and no schema name
 	 */
-	public SchemaUpdateHistoryImpl(String schemaName) {
+	public SchemaUpdateHistoryImpl(@Nullable String schemaName) {
 		this(schemaName,"schema_history");
 	}
 
@@ -32,18 +38,23 @@ public class SchemaUpdateHistoryImpl implements SchemaUpdateHistory{
 	/**
 	 * @param tableName The table name for the schema history table.
 	 */
-	public SchemaUpdateHistoryImpl(String schemaName, String tableName) {
+	public SchemaUpdateHistoryImpl(@Nullable String schemaName, String tableName) {
 		this.schemaName = schemaName;
-		this.tableName = tableName;
+		this.tableName = Objects.requireNonNull(tableName);
 	}
 
+	private String fullTableName() {
+		return schemaName == null
+			? tableName
+			: schemaName + "." + tableName;
+	}
 
 	@Override
 	public DbWork<Boolean> isDone(String packageName, String updateName) {
 		return DbWork.create(trans -> con -> Result.function(packageName,updateName).code(l ->
 			createTableIfNotExist().run(trans)
 				.flatMapExc(ok -> {
-					String sql = "select count(1) from " + tableName +
+					String sql = "select count(1) from " + fullTableName() +
 						" where package_name=?  and update_name=?";
 					l.info("Executing " + sql);
 					try(PreparedStatement stat = con.prepareStatement(sql)) {
@@ -68,7 +79,7 @@ public class SchemaUpdateHistoryImpl implements SchemaUpdateHistory{
 				.flatMapExc(exists -> {
 					if(exists == false) {
 						try(Statement stat = con.createStatement()) {
-							stat.execute("CREATE TABLE " + tableName + " (" +
+							stat.execute("CREATE TABLE " + fullTableName() + " (" +
 								"  createdDate TIMESTAMP          NOT NULL DEFAULT current_timestamp," +
 								"  package_name  VARCHAR(80)        NOT NULL," +
 								"  update_name  VARCHAR(80)        NOT NULL," +
@@ -121,7 +132,7 @@ public class SchemaUpdateHistoryImpl implements SchemaUpdateHistory{
 					PList<String> result = PList.empty();
 					if(exists) {
 						try(PreparedStatement stat = con.prepareStatement("select update_name from " +
-							tableName + " where package_name=?")) {
+							fullTableName() + " where package_name=?")) {
 
 							stat.setString(1, packageName);
 

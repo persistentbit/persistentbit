@@ -4,7 +4,7 @@
  * @author petermuys
  * @since 21/11/17
  */
-module persist.sql.updater {
+module persistent.sql.updater {
 	requires persistent.result;
 	requires persistent.sql.work;
 	requires persistent.functions;
@@ -12,6 +12,7 @@ module persist.sql.updater {
 	requires persistent.collections;
 	requires java.sql;
 	requires persistent.utils;
+	requires persistent.code.annotations;
 
 	exports com.persistentbit.sql.updater;
 }
