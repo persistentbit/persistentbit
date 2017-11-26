@@ -5,6 +5,7 @@ import com.persistentbit.javacodegen.*;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.annotations.DbColumnName;
 import com.persistentbit.sql.dsl.codegen.DbJavaGen;
+import com.persistentbit.sql.dsl.generic.DbContext;
 import com.persistentbit.sql.dsl.generic.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.*;
@@ -199,7 +200,7 @@ public class PostgresJavaGen implements DbJavaGen{
 
 	private Result<GeneratedJavaSource> generateDbSource(PList<DbJavaTable> tables){
 		return Result.function().code(l -> {
-			JClass cls = new JClass("DbInst");
+			JClass cls = new JClass("Db");
 
 			for(DbJavaTable table : tables){
 				JField field = new JField(UString.firstLowerCase(table.getJavaClassName()),"T" + table.getJavaClassName())
@@ -210,6 +211,22 @@ public class PostgresJavaGen implements DbJavaGen{
 
 
 			}
+			JMethod constructor = new JMethod("Db")
+				.withAccessLevel(AccessLevel.Public)
+				.addArg(new JArgument(DbContext.class.getSimpleName(),"context"))
+				.addImport(JImport.forClass(DbContext.class));
+			constructor = constructor.withCode(pw -> {
+					//this.company = new TCompany(context.forTable("schemaName","tableName"));
+				for(DbJavaTable table : tables){
+
+					pw.println("this." + UString.firstLowerCase(table.getJavaClassName()) + " = new T" + table.getJavaClassName()
+					 + "(context.forTable(\"" + table.getTable().getSchema().getName().orElse("null") + "\", \"" + table.getTable().getName()	+ "\"));"
+					);
+				}
+			});
+			cls = cls.addMethod(constructor);
+
+
 
 
 			JJavaFile file = new JJavaFile(rootPackage)
