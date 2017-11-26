@@ -1,15 +1,17 @@
 package com.persistentbit.sql.dsl.codegen.posgresql;
 
-import com.persistentbit.javacodegen.annotations.NoBuilder;
-import com.persistentbit.javacodegen.JImport;
-import com.persistentbit.sql.meta.data.DbMetaColumn;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.collections.PList;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.JImport;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
+import com.persistentbit.string.UString;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.Objects;
 
 /**
  * TODOC
@@ -31,6 +33,18 @@ public class DbJavaFieldArray implements DbJavaField {
 			this.fieldName = Objects.requireNonNull(fieldName, "fieldName can not be null");
 			this.elementField = Objects.requireNonNull(elementField, "elementField can not be null");
 	}
+
+	@Override
+	public DbMetaColumn getDbMetaColumn() {
+		return column;
+	}
+
+
+	@Override
+	public String getJavaName() {
+		return fieldName;
+	}
+
 	@Override
 	public  JField	createJField(){
 	    JField el = elementField.createJField();
@@ -44,6 +58,17 @@ public class DbJavaFieldArray implements DbJavaField {
 	    f = f.addImport(PList.class);
 	    return f;
 	}
+
+	@Override
+	public JField createTableColumnField() {
+		throw new ToDo(this.toString());
+	}
+
+	@Override
+	public String createTableColumnFieldInitializer() {
+		throw new ToDo(this.toString());
+	}
+
 	@Override
 	public  PList<DbJavaFieldStruct>	getStructures(){
 	    return elementField.getStructures();

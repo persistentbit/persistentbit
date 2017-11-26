@@ -118,6 +118,8 @@ public class JClass extends BaseValueClass{
 		return copyWith("fields", fields);
 	}
 
+
+
 	public PList<JField> getFields() {
 		return fields;
 	}

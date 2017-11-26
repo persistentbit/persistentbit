@@ -1,13 +1,14 @@
 package com.persistentbit.sql.dsl.codegen.posgresql;
 
-import com.persistentbit.javacodegen.annotations.NoBuilder;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.collections.PList;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.sql.meta.data.DbMetaTable;
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PList;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.sql.meta.data.DbMetaTable;
+import com.persistentbit.string.UString;
+
+import java.util.Objects;
 
 /**
  * TODOC
@@ -31,6 +32,11 @@ public class DbJavaTable {
 			this.javaClassName = Objects.requireNonNull(javaClassName, "javaClassName can not be null");
 			this.packName = Objects.requireNonNull(packName, "packName can not be null");
 	}
+
+
+
+
+
 	/**
 	 * Get the value of field {@link #table}.<br>
 	 * @return {@link #table}

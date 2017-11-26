@@ -1,15 +1,17 @@
 package com.persistentbit.sql.dsl.codegen.posgresql;
 
-import com.persistentbit.javacodegen.annotations.NoBuilder;
-import com.persistentbit.javacodegen.JImport;
-import com.persistentbit.sql.meta.data.DbMetaColumn;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.collections.PList;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.JImport;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
+import com.persistentbit.string.UString;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.Objects;
 
 /**
  * TODOC
@@ -35,6 +37,12 @@ public class DbJavaFieldEnum implements DbJavaField {
 			this.enumClassName = Objects.requireNonNull(enumClassName, "enumClassName can not be null");
 			this.enumPack = Objects.requireNonNull(enumPack, "enumPack can not be null");
 	}
+
+	@Override
+	public DbMetaColumn getDbMetaColumn() {
+		return column;
+	}
+
 	@Override
 	public  JField	createJField(){
 	    JField f = new JField(fieldName, enumClassName);
@@ -44,6 +52,20 @@ public class DbJavaFieldEnum implements DbJavaField {
 	    f = f.addImport(new JImport(enumPack + "." + enumClassName));
 	    return f;
 	}
+	@Override
+	public String createTableColumnFieldInitializer() {
+		throw new ToDo(this.toString());
+	}
+	@Override
+	public String getJavaName() {
+		return fieldName;
+	}
+
+	@Override
+	public JField createTableColumnField() {
+		throw new ToDo(this.toString());
+	}
+
 	@Override
 	public  PList<DbJavaFieldEnum>	getUsedEnums(){
 	    return PList.val(this);

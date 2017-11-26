@@ -3,7 +3,10 @@ package com.persistentbit.sql.dsl.codegen.posgresql;
 import com.persistentbit.collections.*;
 import com.persistentbit.javacodegen.*;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.annotations.DbColumnName;
 import com.persistentbit.sql.dsl.codegen.DbJavaGen;
+import com.persistentbit.sql.dsl.generic.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.*;
 import com.persistentbit.sql.meta.DbMetaDataImporter;
 import com.persistentbit.sql.meta.data.*;
@@ -14,7 +17,10 @@ import com.persistentbit.tuples.Tuple2;
 import com.persistentbit.utils.exceptions.ToDo;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Time;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -51,132 +57,200 @@ public class PostgresJavaGen implements DbJavaGen{
 	}
 
 	public Result<PList<GeneratedJavaSource>>	generate(){
+		return Result.function().code(log -> {
+			PList<DbMetaSchema> allSchemas = DbMetaDataImporter.getAllSchemas().run(transactionSupplier.get()).orElseThrow();
+			PList<DbEnumType>   enumTypes  = loadEnumTypes(allSchemas).run(transactionSupplier.get()).orElseThrow();
+			log.info("ALL ENUMS: " + enumTypes);
 
-		PList<DbMetaSchema> allSchemas = DbMetaDataImporter.getAllSchemas().run(transactionSupplier.get()).orElseThrow();
-		PList<DbEnumType>   enumTypes  = loadEnumTypes(allSchemas).run(transactionSupplier.get()).orElseThrow();
-		System.out.println("ALL ENUMS: " + enumTypes);
+			PList<DbMetaTable> tables = selection.getTablesAndViews();
 
-		PList<DbMetaTable> tables = selection.getTablesAndViews();
+			PList<DbCustomType> customTypes = selection
+				.getSchemas()
+				.map(schema -> DbMetaDataImporter.getTypes(schema).run(transactionSupplier.get()).orElseThrow()
+												 .map(metaTable -> new DbCustomType(
+													 metaTable
+													 //metaTable.withColumns(metaTable.getColumns().map(col -> col.withType(col.getType().withIsNullable(false))))
 
-		PList<DbCustomType> customTypes = selection
-			.getSchemas()
-			.map(schema -> DbMetaDataImporter.getTypes(schema).run(transactionSupplier.get()).orElseThrow()
-				 .map(metaTable -> new DbCustomType(
-				 	metaTable
-				 	//metaTable.withColumns(metaTable.getColumns().map(col -> col.withType(col.getType().withIsNullable(false))))
+													 ,nameTransformer.toJavaName(metaTable),PList.empty()))
+				)
+				.<DbCustomType>flatten()
+				.plist();
+			log.info("ALL CUSTOM TYPES: " + customTypes);
+			PList<DbMetaUDT> udts = selection
+				.getSchemas()
+				.map(schema -> DbMetaDataImporter.getUDT(schema,null,new int[] {Types.DISTINCT}).run(transactionSupplier.get()).orElseThrow())
+				.<DbMetaUDT>flatten()
+				.plist();
+			udts.forEach(udt -> {
+				log.info("UDT: " + udt);
+			});
 
-					 ,nameTransformer.toJavaName(metaTable),PList.empty()))
-			)
-			.<DbCustomType>flatten()
-			.plist();
-		System.out.println("ALL CUSTOM TYPES: " + customTypes);
-		PList<DbMetaUDT> udts = selection
-			 .getSchemas()
-			 .map(schema -> DbMetaDataImporter.getUDT(schema,null,new int[] {Types.DISTINCT}).run(transactionSupplier.get()).orElseThrow())
-			.<DbMetaUDT>flatten()
-			.plist();
-		udts.forEach(udt -> {
-			System.out.println("UDT: " + udt);
+			PList<DbCustomType> customTypesWithFields = customTypes.map(dbCustomType -> {
+				DbMetaTable ctTable = dbCustomType.getDefinition();
+				DbCustomType res = dbCustomType;
+				for(DbMetaColumn col : res.getDefinition().getColumns()){
+					DbJavaField newField = getDbJavaField(ctTable,col.withType(col.getType().withIsNullable(false)),customTypes,enumTypes,udts);
+					res = res.withFields(res.getFields().plus(newField));
+				}
+				return res;
+			});
+
+
+
+
+			PList<DbJavaTable> javaTables = tables.map(table -> generateJavaTable(table,customTypes,enumTypes,udts));
+
+
+
+			// FIND USED STRUCTURES
+			PSet<DbCustomType> usedTypes = PSet.empty();
+			for(DbJavaTable table : javaTables){
+				for(DbJavaField field : table.getJavaFields()){
+					for(DbJavaFieldStruct structField : field.getStructures()){
+						usedTypes = usedTypes.plus(
+							customTypesWithFields.find(ct -> ct.getDefinition().equals(structField.getCustomTypeDbMeta())).get()
+						);
+					}
+				}
+			}
+			for(DbCustomType ct : customTypesWithFields){
+				for(DbJavaField field : ct.getFields()){
+					for(DbJavaFieldStruct structField : field.getStructures()){
+						usedTypes = usedTypes.plus(
+							customTypesWithFields.find(uct -> uct.getDefinition().equals(structField.getCustomTypeDbMeta())).get()
+						);
+					}
+				}
+			}
+			log.info("USED CUSTOM TYPES: " + usedTypes.map(DbCustomType::getJavaClassName).toString(", "));
+
+			//FIND USED ENUMS
+			PSet<DbEnumType> usedEnums = PSet.empty();
+			for(DbJavaTable table : javaTables){
+				for(DbJavaField field : table.getJavaFields()){
+					for(DbJavaFieldEnum enumField : field.getUsedEnums()){
+						usedEnums = usedEnums.plus(
+							enumTypes.find(et -> enumField.getEnumType().equals(et)).get()
+						);
+					}
+				}
+			}
+			for(DbCustomType ct : usedTypes){
+				for(DbJavaField field : ct.getFields()){
+					for(DbJavaFieldEnum enumField : field.getUsedEnums()){
+						usedEnums = usedEnums.plus(
+							enumTypes.find(et -> enumField.getEnumType().equals(et)).get()
+						);
+					}
+				}
+			}
+			log.info("USED ENUMS: " + usedEnums.map(DbEnumType::getName).toString(", "));
+
+			//FIND USED DOMAINS...
+			PSet<DbMetaUDT> usedDomains = PSet.empty();
+			for(DbJavaTable table : javaTables){
+				for(DbJavaField field : table.getJavaFields()){
+					for(DbJavaFieldDomain element : field.getDomains()){
+						usedDomains = usedDomains.plus(
+							element.getUdtMeta()
+						);
+					}
+				}
+			}
+			for(DbCustomType customType : usedTypes){
+				for(DbJavaField field : customType.getFields()){
+					for(DbJavaFieldDomain element : field.getDomains()){
+						usedDomains = usedDomains.plus(
+							element.getUdtMeta()
+						);
+					}
+				}
+			}
+			log.info("USED DOMAINS: " + usedDomains.map(DbMetaUDT::getName).toString(", "));
+
+			//CREATE STATE CLASSES SOURCE CODE
+			Result<PList<GeneratedJavaSource>> genSourceEnums = UPStreams.fromSequence(
+				usedEnums.map(this::generateEnumSource)
+			).map(PStream::plist);
+
+
+			Result<PList<GeneratedJavaSource>> genSourceCustomTypes =
+				UPStreams.fromSequence(usedTypes.map(this::generateStateClass)).map(PStream::plist);
+			Result<PList<GeneratedJavaSource>> genSourceTableRecords =
+				UPStreams.fromSequence(javaTables.map(this::generateStateClass)).map(PStream::plist);
+			Result<PList<GeneratedJavaSource>> genSourceDomains =
+				UPStreams.fromSequence(usedDomains.map(this::generateDomainSource)).map(PStream::plist);
+			Result<PList<GeneratedJavaSource>> genSourceTables =
+				UPStreams.fromSequence(javaTables.map(this::generateTableClassSource)).map(PStream::plist);
+
+			Result<GeneratedJavaSource> dbSource = generateDbSource(javaTables);
+
+			Result<PList<GeneratedJavaSource>> result =
+				genSourceEnums.flatMap(res -> genSourceCustomTypes.map(res::plusAll));
+			result = result.flatMap(res -> genSourceTableRecords.map(res::plusAll));
+			result = result.flatMap(res -> genSourceTables.map(res::plusAll));
+			result = result.flatMap(res -> genSourceDomains.map(res::plusAll));
+			result = result.flatMap(res -> dbSource.map(res::plus));
+
+			return result;
 		});
 
-		PList<DbCustomType> customTypesWithFields = customTypes.map(dbCustomType -> {
-			DbMetaTable ctTable = dbCustomType.getDefinition();
-			DbCustomType res = dbCustomType;
-			for(DbMetaColumn col : res.getDefinition().getColumns()){
-				DbJavaField newField = getDbJavaField(ctTable,col.withType(col.getType().withIsNullable(false)),customTypes,enumTypes,udts);
-				res = res.withFields(res.getFields().plus(newField));
+	}
+
+	private Result<GeneratedJavaSource> generateDbSource(PList<DbJavaTable> tables){
+		return Result.function().code(l -> {
+			JClass cls = new JClass("DbInst");
+
+			for(DbJavaTable table : tables){
+				JField field = new JField(UString.firstLowerCase(table.getJavaClassName()),"T" + table.getJavaClassName())
+					.asFinal()
+					.withAccessLevel(AccessLevel.Public)
+					.addImport(new JImport(table.getPackName() + ".T" + table.getJavaClassName()));
+				cls = cls.addField(field);
+
+
 			}
-			return res;
+
+
+			JJavaFile file = new JJavaFile(rootPackage)
+				.addClass(cls);
+			return Result.success(file.toJavaSource());
 		});
+	}
 
+	private Result<GeneratedJavaSource> generateTableClassSource(DbJavaTable table){
+		return Result.function(table).code(l -> {
+			JClass cls = new JClass("T" + table.getJavaClassName());
+			cls = cls.addImport(DTable.class);
+			cls = cls.extendsDef(DTable.class.getSimpleName() + "<" + table.getJavaClassName() + ">");
+			cls = cls.addImport(new JImport(table.getPackName() + "." + table.getJavaClassName()));
 
-
-
-		PList<DbJavaTable> javaTables = tables.map(table -> generateJavaTable(table,customTypes,enumTypes,udts));
-
-
-
-		// FIND USED STRUCTURES
-		PSet<DbCustomType> usedTypes = PSet.empty();
-		for(DbJavaTable table : javaTables){
 			for(DbJavaField field : table.getJavaFields()){
-				for(DbJavaFieldStruct structField : field.getStructures()){
-					usedTypes = usedTypes.plus(
-						customTypesWithFields.find(ct -> ct.getDefinition().equals(structField.getCustomTypeDbMeta())).get()
-					);
-				}
+				JField jfield = field.createTableColumnField().withAccessLevel(AccessLevel.Public);
+				cls = cls.addField(jfield);
 			}
-		}
-		for(DbCustomType ct : customTypesWithFields){
-			for(DbJavaField field : ct.getFields()){
-				for(DbJavaFieldStruct structField : field.getStructures()){
-					usedTypes = usedTypes.plus(
-						customTypesWithFields.find(uct -> uct.getDefinition().equals(structField.getCustomTypeDbMeta())).get()
-					);
+
+			JMethod constructor = new JMethod("T" + table.getJavaClassName())
+				.withAccessLevel(AccessLevel.Public)
+				.addArg(new JArgument(DbTableContext.class.getSimpleName(),"context"))
+				.addImport(JImport.forClass(DbTableContext.class));
+			constructor = constructor.withCode(pw -> {
+				pw.println("super(context);");
+				for(DbJavaField field : table.getJavaFields()){
+					pw.println(field.createTableColumnFieldInitializer());
 				}
-			}
-		}
-		System.out.println("USED CUSTOM TYPES: " + usedTypes.map(ut-> ut.getJavaClassName()).toString(", "));
+				pw.println(table.getJavaFields()
+					 .map(jf -> "Tuple2.of(\"" + jf.getJavaName() + "\"," + jf.getJavaName() +")")
+					 .toString("super._all = PList.val(",", ", ");"));
+			});
+			cls = cls.addImport(PList.class);
+			cls = cls.addImport(Tuple2.class);
+			cls = cls.addMethod(constructor);
 
-		//FIND USED ENUMS
-		PSet<DbEnumType> usedEnums = PSet.empty();
-		for(DbJavaTable table : javaTables){
-			for(DbJavaField field : table.getJavaFields()){
-				for(DbJavaFieldEnum enumField : field.getUsedEnums()){
-					usedEnums = usedEnums.plus(
-						enumTypes.find(et -> enumField.getEnumType().equals(et)).get()
-					);
-				}
-			}
-		}
-		for(DbCustomType ct : usedTypes){
-			for(DbJavaField field : ct.getFields()){
-				for(DbJavaFieldEnum enumField : field.getUsedEnums()){
-					usedEnums = usedEnums.plus(
-						enumTypes.find(et -> enumField.getEnumType().equals(et)).get()
-					);
-				}
-			}
-		}
-		System.out.println("USED ENUMS: " + usedEnums.map(ue-> ue.getName()).toString(", "));
-
-		//FIND USED DOMAINS...
-		PSet<DbMetaUDT> usedDomains = PSet.empty();
-		for(DbJavaTable table : javaTables){
-			for(DbJavaField field : table.getJavaFields()){
-				for(DbJavaFieldDomain element : field.getDomains()){
-					usedDomains = usedDomains.plus(
-						element.getUdtMeta()
-					);
-				}
-			}
-		}
-		for(DbCustomType customType : usedTypes){
-			for(DbJavaField field : customType.getFields()){
-				for(DbJavaFieldDomain element : field.getDomains()){
-					usedDomains = usedDomains.plus(
-						element.getUdtMeta()
-					);
-				}
-			}
-		}
-		System.out.println("USED DOMAINS: " + usedDomains.map(ud -> ud.getName()).toString(", "));
-
-		//CREATE STATE CLASSES SOURCE CODE
-		Result<PList<GeneratedJavaSource>> genSourceEnums = UPStreams.fromSequence(
-			usedEnums.map(ue -> generateEnumSource(ue))
-		).map(stream -> stream.plist());
-
-
-		Result<PList<GeneratedJavaSource>> genSourceCustomTypes = UPStreams.fromSequence(usedTypes.map(ct -> generateStateClass(ct))).map(stream -> stream.plist());
-		Result<PList<GeneratedJavaSource>> genSourceTables = UPStreams.fromSequence(javaTables.map(table -> generateStateClass(table))).map(stream -> stream.plist());
-		Result<PList<GeneratedJavaSource>> genSourceDomains = UPStreams.fromSequence(usedDomains.map(ud -> generateDomainSource(ud))).map(stream -> stream.plist());
-
-		Result<PList<GeneratedJavaSource>> result =
-			genSourceEnums.flatMap(res -> genSourceCustomTypes.map(ct -> res.plusAll(ct)));
-		result = result.flatMap(res -> genSourceTables.map(sec -> res.plusAll(sec)));
-		result = result.flatMap(res -> genSourceDomains.map(sec -> res.plusAll(sec)));
-		return result;
+			JJavaFile file = new JJavaFile(table.getPackName())
+				.addClass(cls);
+			return Result.success(file.toJavaSource());
+		});
 	}
 
 	private DbWork<PList<DbEnumType>> loadEnumTypes(PList<DbMetaSchema> allSchemas){
@@ -190,32 +264,30 @@ public class PostgresJavaGen implements DbJavaGen{
 				" join pg_catalog.pg_namespace n on n.oid = pg_type.typnamespace\n" +
 				"order by schema,enumtype,sortorder";
 			PMap<String,DbEnumType> enumTypes = PMap.empty();
-			try(Connection c = con){
-				try(PreparedStatement stat = c.prepareStatement(sql)){
+			try(PreparedStatement stat = con.prepareStatement(sql)){
 
-					try(ResultSet rs = stat.executeQuery()){
-						while(rs.next()){
-							String name = rs.getString("enumtype");
-							String value = rs.getString("enumlabel");
-							float sortOrder = rs.getFloat("sortorder");
-							String schemaName = rs.getString("schema");
-							DbMetaSchema schema = allSchemas.find(s -> s.getName().orElse("").equals(schemaName)).orElse(null);
-							if(schema == null){
-								throw new RuntimeException("Can't find schema " + schemaName + " for enum type " + name);
-							}
-							String fullName = schemaName + "." + name;
-							DbEnumType type = enumTypes.getOrDefault(fullName,null);
-							if(type == null){
-								//A new type
-								String packName = toJavaPackage(schema);
-								String clsName = nameTransformer.toJavaName(name);
-								type = new DbEnumType(schema,name,packName,clsName);
-							}
-							type = type.addValue(value,UString.toJavaIdentifier(value));
-							enumTypes = enumTypes.put(fullName,type);
+				try(ResultSet rs = stat.executeQuery()){
+					while(rs.next()){
+						String name = rs.getString("enumtype");
+						String value = rs.getString("enumlabel");
+						float sortOrder = rs.getFloat("sortorder");
+						String schemaName = rs.getString("schema");
+						DbMetaSchema schema = allSchemas.find(s -> s.getName().orElse("").equals(schemaName)).orElse(null);
+						if(schema == null){
+							throw new RuntimeException("Can't find schema " + schemaName + " for enum type " + name);
 						}
-
+						String fullName = schemaName + "." + name;
+						DbEnumType type = enumTypes.getOrDefault(fullName,null);
+						if(type == null){
+							//A new type
+							String packName = toJavaPackage(schema);
+							String clsName = nameTransformer.toJavaName(name);
+							type = new DbEnumType(schema,name,packName,clsName);
+						}
+						type = type.addValue(value,UString.toJavaIdentifier(value));
+						enumTypes = enumTypes.put(fullName,type);
 					}
+
 				}
 			}
 			return Result.success(enumTypes.values().plist());
@@ -258,7 +330,7 @@ public class PostgresJavaGen implements DbJavaGen{
 	private Result<GeneratedJavaSource> generateDomainSource(DbMetaUDT udt){
 		return Result.function(udt).code(l -> {
 			JClass cls   = new JClass(nameTransformer.toJavaName(udt.getName()));
-			JField field = null;
+			JField field;
 			String fname = "value";
 			switch(udt.getBaseType()){
 				case Types.BLOB:
@@ -389,8 +461,12 @@ public class PostgresJavaGen implements DbJavaGen{
 	private Result<GeneratedJavaSource> generateStateClass(DbJavaTable table){
 		return Result.function(table).code(l -> {
 			JClass cls = new JClass(table.getJavaClassName());
+
 			for(DbJavaField field : table.getJavaFields()){
-				cls = cls.addField(field.createJField());
+				JField jfield = field.createJField();
+				jfield = jfield.addImport(JImport.forClass(DbColumnName.class));
+				jfield = jfield.addAnnotation("@" + DbColumnName.class.getSimpleName() + "(\"" + field.getDbMetaColumn().getName()+ "\")");
+				cls = cls.addField(jfield);
 			}
 			cls = cls.makeCaseClass();
 
@@ -639,26 +715,31 @@ public class PostgresJavaGen implements DbJavaGen{
 		return new DbJavaFieldArray(column,javaName, element);
 	}
 
-
+/*
 	private JField	generateStateField(DbMetaTable table, DbMetaColumn column){
 		DbMetaDataType mt = column.getType();
 		String javaName = nameTransformer.toJavaName(table,column);
+		JField field;
 		switch(mt.getSqlType()){
 			case Types.VARBINARY:
 			case Types.LONGVARBINARY:
 			case Types.BINARY:
 			case Types.BLOB:
-				return new JField(javaName,PByteList.class);
+				field = new JField(javaName,PByteList.class);
+				break;
 			case Types.BOOLEAN:
-				return new JField(javaName,mt.getIsNullable() ? Boolean.class : boolean.class);
-
+				field = new JField(javaName,mt.getIsNullable() ? Boolean.class : boolean.class);
+				break;
 			case Types.BIGINT:
-				return new JField(javaName,mt.getIsNullable() ? Long.class : long.class);
+				field = new JField(javaName,mt.getIsNullable() ? Long.class : long.class);
+				break;
 			case Types.BIT: {
 				if(mt.getColumnSize() == 1){
-					return new JField(javaName,mt.getIsNullable() ? Boolean.class : boolean.class);
+					field = new JField(javaName,mt.getIsNullable() ? Boolean.class : boolean.class);
+				} else {
+					field = new JField(javaName,PBitList.class);
 				}
-				return new JField(javaName,PBitList.class);
+				break;
 			}
 
 
@@ -669,71 +750,92 @@ public class PostgresJavaGen implements DbJavaGen{
 			case Types.CLOB:
 			case Types.LONGNVARCHAR:
 			case Types.NCLOB:
-				return new JField(javaName,String.class);
+				field = new JField(javaName,String.class);
+				break;
 			case Types.DATE:
-				return new JField(javaName,LocalDate.class);
-
+				field = new JField(javaName,LocalDate.class);
+				break;
 			case Types.NUMERIC:
 			case Types.DECIMAL:
-				return new JField(javaName,BigDecimal.class);
+				field = new JField(javaName,BigDecimal.class);
+				break;
 			case Types.DOUBLE:
 				if(mt.getDbTypeName().orElse("").equals("money")){
-					return new JField(javaName, Money.class);
+					field = new JField(javaName, Money.class);
+				} else {
+					field = new JField(javaName,mt.getIsNullable() ? Double.class : double.class);
 				}
-				return new JField(javaName,mt.getIsNullable() ? Double.class : double.class);
+				break;
 			case Types.REAL:
 			case Types.FLOAT:
-				return new JField(javaName,mt.getIsNullable() ? Float.class : float.class);
+				field = new JField(javaName,mt.getIsNullable() ? Float.class : float.class);
+				break;
 			case Types.INTEGER:
-				return new JField(javaName,mt.getIsNullable() ? Integer.class : int.class);
-
+				field = new JField(javaName,mt.getIsNullable() ? Integer.class : int.class);
+				break;
 			case Types.SMALLINT:
-				return new JField(javaName,mt.getIsNullable() ? Short.class : short.class);
+				field = new JField(javaName,mt.getIsNullable() ? Short.class : short.class);
+				break;
 			case Types.TIMESTAMP:
-				return new JField(javaName,LocalDateTime.class);
+				field = new JField(javaName,LocalDateTime.class);
+				break;
 			case Types.TIME:
-				return new JField(javaName,LocalTime.class);
+				field = new JField(javaName,LocalTime.class);
+				break;
 			case Types.TINYINT:
-				return new JField(javaName,mt.getIsNullable() ? Byte.class : byte.class);
+				field = new JField(javaName,mt.getIsNullable() ? Byte.class : byte.class);
+				break;
 			case Types.STRUCT:
-				return new JField(javaName,nameTransformer.toJavaName(table,column));
+				field = new JField(javaName,nameTransformer.toJavaName(table,column));
+				break;
 			case Types.JAVA_OBJECT:
 				throw new RuntimeException("Not Implemented: JAVA_OBJECT for " + column );
 			case Types.SQLXML:
-				return new JField(javaName,String.class);
+				field = new JField(javaName,String.class);
+				break;
 			case Types.DISTINCT:
-				return new JField(javaName,nameTransformer.toJavaName(table,column));
-
-
-
+				field = new JField(javaName,nameTransformer.toJavaName(table,column));
+				break;
 			case Types.ARRAY:
-				return new JField(javaName,PList.class);
+				field = new JField(javaName,PList.class);
+				break;
 			case Types.OTHER:
 				switch(column.getType().getDbTypeName().orElse(null)){
 					case "interval":
-						return new JField(javaName, Interval.class);
+						field = new JField(javaName, Interval.class);
+						break;
 					case "cidr":
-						return new JField(javaName, Cidr.class);
+						field = new JField(javaName, Cidr.class);
+						break;
 					case "inet":
-						return new JField(javaName, Inet.class);
+						field = new JField(javaName, Inet.class);
+						break;
 					case "macaddr":
-						return new JField(javaName, Macaddr.class);
+						field = new JField(javaName, Macaddr.class);
+						break;
 					case "uuid":
-						return new JField(javaName, UUID.class);
+						field = new JField(javaName, UUID.class);
+						break;
 					case "varbit":
-						return new JField(javaName, PBitList.class);
+						field = new JField(javaName, PBitList.class);
+						break;
 					case "tsvector":
-						return new JField(javaName, Tsvector.class);
+						field = new JField(javaName, Tsvector.class);
+						break;
 					case "tsquery":
-						return new JField(javaName, Tsquery.class);
+						field = new JField(javaName, Tsquery.class);
+						break;
 					case "json":
-						return new JField(javaName,Json.class);
+						field = new JField(javaName,Json.class);
+						break;
 					default:
 						throw new RuntimeException("Don't know other type " + column.getType().getDbTypeName() + " for " + column);
 				}
-
+				break;
 			default:
 				throw new RuntimeException("Unknown: " + column);
 		}
-	}
+		field = field.withAnnotations(field.getAnnotations().plus("@DbColumnName(\"" + column.getName() + "\")"));
+		return field;
+	}*/
 }

@@ -1,16 +1,18 @@
 package com.persistentbit.sql.dsl.codegen.posgresql;
 
-import com.persistentbit.javacodegen.annotations.NoBuilder;
-import com.persistentbit.javacodegen.JImport;
-import com.persistentbit.sql.meta.data.DbMetaColumn;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.collections.PList;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.sql.meta.data.DbMetaTable;
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.JImport;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
+import com.persistentbit.sql.meta.data.DbMetaTable;
+import com.persistentbit.string.UString;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.Objects;
 
 /**
  * TODOC
@@ -36,12 +38,35 @@ public class DbJavaFieldStruct implements DbJavaField {
 			this.javaClassName = Objects.requireNonNull(javaClassName, "javaClassName can not be null");
 			this.javaPackageName = Objects.requireNonNull(javaPackageName, "javaPackageName can not be null");
 	}
+
+
+	@Override
+	public DbMetaColumn getDbMetaColumn() {
+		return column;
+	}
+
 	@Override
 	public  JField	createJField(){
 	    JField res = new JField(fieldName, javaClassName);
 	    res = res.addImport(new JImport(javaPackageName + "." + javaClassName));
 	    return res;
 	}
+	@Override
+	public String createTableColumnFieldInitializer() {
+		throw new ToDo(this.toString());
+	}
+
+	@Override
+	public JField createTableColumnField() {
+		throw new ToDo(this.toString());
+	}
+
+	@Override
+	public String getJavaName() {
+		return fieldName;
+	}
+
+
 	@Override
 	public  PList<DbJavaFieldStruct>	getStructures(){
 	    return PList.val(this);

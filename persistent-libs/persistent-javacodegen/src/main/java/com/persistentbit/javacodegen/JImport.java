@@ -44,7 +44,10 @@ public class JImport{
 		if(isStatic){
 			return true;
 		}
-		return name.startsWith(packageName) == false;
+		if(name.startsWith(packageName) == false){
+			return true;
+		}
+		return packageName.indexOf('.',packageName.length()) == -1;
 	}
 
 	@Override

@@ -1,16 +1,18 @@
 package com.persistentbit.sql.dsl.codegen.posgresql;
 
-import com.persistentbit.javacodegen.annotations.NoBuilder;
-import com.persistentbit.javacodegen.JImport;
-import com.persistentbit.sql.meta.data.DbMetaColumn;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.collections.PList;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.JImport;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
 import com.persistentbit.sql.meta.data.DbMetaUDT;
+import com.persistentbit.string.UString;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.Objects;
 
 /**
  * TODOC
@@ -36,6 +38,12 @@ public class DbJavaFieldDomain implements DbJavaField {
 			this.udtClassName = Objects.requireNonNull(udtClassName, "udtClassName can not be null");
 			this.udtPack = Objects.requireNonNull(udtPack, "udtPack can not be null");
 	}
+
+	@Override
+	public DbMetaColumn getDbMetaColumn() {
+		return column;
+	}
+
 	@Override
 	public  JField	createJField(){
 	    JField res = new JField(fieldName, udtClassName);
@@ -45,6 +53,21 @@ public class DbJavaFieldDomain implements DbJavaField {
 	    }
 	    return res;
 	}
+	@Override
+	public String getJavaName() {
+		return fieldName;
+	}
+
+	@Override
+	public String createTableColumnFieldInitializer() {
+		throw new ToDo(this.toString());
+	}
+
+	@Override
+	public JField createTableColumnField() {
+		throw new ToDo(this.toString());
+	}
+
 	@Override
 	public  PList<DbJavaFieldDomain>	getDomains(){
 	    return PList.val(this);

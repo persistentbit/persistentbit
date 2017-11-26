@@ -1,18 +1,15 @@
 package com.persistentbit.sql.dsl.codegen;
 
-import java.lang.SuppressWarnings;
-import com.persistentbit.javacodegen.annotations.NoGet;
-import com.persistentbit.javacodegen.annotations.NOT;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.javacodegen.annotations;
-import java.util.function.Function;
-import com.persistentbit.string.UString;
-import com.persistentbit.functions.ThrowingFunction;
-import com.persistentbit.result.Result;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.javacodegen.annotations.SET;
-import com.persistentbit.javacodegen.annotations.NoWith;
+import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.javacodegen.annotations.*;
+import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.codegen.posgresql.DbNameTransformer;
+import com.persistentbit.sql.dsl.codegen.posgresql.JavaGenTableSelection;
+import com.persistentbit.string.UString;
+
+import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -22,9 +19,9 @@ import com.persistentbit.javacodegen.annotations.NoWith;
  */
 @CaseClass
 public class DbJavaGenOptions {
-	private  final	JavaGenTableSelection	selection;
+	private  final JavaGenTableSelection selection;
 	@DefaultValue("new DbNameTransformer(name -> UString.firstUpperCase(UString.snake_toCamelCase(name)))")
-	private  final	DbNameTransformer	nameTransformer;
+	private  final DbNameTransformer nameTransformer;
 	private  final	String	rootPackage;
 	
 	

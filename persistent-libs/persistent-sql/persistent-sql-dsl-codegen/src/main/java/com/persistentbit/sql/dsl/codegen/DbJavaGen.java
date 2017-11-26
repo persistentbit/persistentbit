@@ -4,8 +4,10 @@ package com.persistentbit.sql.dsl.codegen;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.GeneratedJavaSource;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.dsl.codegen.posgresql.PostgresJavaGen;
+
+import java.sql.Connection;
+import java.util.function.Supplier;
 
 /**
  * Generate Java code for a Database Substema
@@ -14,9 +16,11 @@ import com.persistentbit.sql.dsl.codegen.posgresql.PostgresJavaGen;
  * @since 14/09/16
  */
 public  interface DbJavaGen{
+	static Result<DbJavaGen> createGenerator(Supplier<Result<Connection>> connector, DbJavaGenOptions options){
+		return Result.success(new PostgresJavaGen(options.getSelection(), options.getRootPackage(), options.getNameTransformer()));
+	}
 
-
-	static Result<DbJavaGen> createGenerator(DbConnector connector, DbJavaGenOptions options){
+	/*static Result<DbJavaGen> createGenerator(DbConnector connector, DbJavaGenOptions options){
 		return DbTypeRegistry.defaultInst.getDbType(connector)
 			.flatMap(dbType -> createGenerator(dbType, connector,options));
 	}
@@ -28,8 +32,9 @@ public  interface DbJavaGen{
 			return Result.failure("Can't generate java code for database type " + dbType);
 		});
 	}
+	*/
 
-	Result<PList<GeneratedJavaSource>>	generate();
+	Result<PList<GeneratedJavaSource>> generate();
 
 	/*static public Result<GeneratedJavaSource> generateStateClasses(DbJavaGenOptions options, DbMetaSchema schema, DbMetaTable table){
 		JClass cls = new JClass(options.javaName(table));

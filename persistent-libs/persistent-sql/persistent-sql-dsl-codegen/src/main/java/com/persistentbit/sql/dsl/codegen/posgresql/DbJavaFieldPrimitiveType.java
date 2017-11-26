@@ -1,14 +1,17 @@
 package com.persistentbit.sql.dsl.codegen.posgresql;
 
-import com.persistentbit.javacodegen.annotations.NoBuilder;
-import com.persistentbit.sql.meta.data.DbMetaColumn;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.reflection.UReflect;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.reflection.UReflect;
+import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
+import com.persistentbit.string.UString;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.Objects;
 
 /**
  * TODOC
@@ -30,6 +33,49 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 			this.fieldName = Objects.requireNonNull(fieldName, "fieldName can not be null");
 			this.primitiveType = Objects.requireNonNull(primitiveType, "primitiveType can not be null");
 	}
+
+	@Override
+	public DbMetaColumn getDbMetaColumn() {
+		return column;
+	}
+
+	@Override
+	public JField createTableColumnField() {
+		return new JField(fieldName,getTableColumnClass().getSimpleName())
+			   .addImport(getTableColumnClass());
+	}
+	@Override
+	public String getJavaName() {
+		return fieldName;
+	}
+
+
+	public Class getTableColumnClass() {
+		switch(primitiveType.getSimpleName()){
+			case "boolean": return DExprBoolean.class;
+			case "byte": return DExprByte.class;
+			case "int": return DExprInt.class;
+			case "short": return DExprShort.class;
+			case "long": return DExprLong.class;
+			case "double": return DExprDouble.class;
+			default: throw new ToDo("Unknown: " + primitiveType);
+		}
+	}
+
+
+	@Override
+	public String createTableColumnFieldInitializer() {
+		switch(primitiveType.getSimpleName()){
+			case "boolean": return "this." + fieldName + "\t=\tcontext.createExprBoolean(this, \"" + fieldName + "\");";
+			case "byte": return "this." + fieldName + "\t=\tcontext.createExprByte(this, \"" + fieldName + "\");";
+			case "int": return "this." + fieldName + "\t=\tcontext.createExprInt(this, \"" + fieldName + "\");";
+			case "short": return "this." + fieldName + "\t=\tcontext.createExprShort(this, \"" + fieldName + "\");";
+			case "long": return "this." + fieldName + "\t=\tcontext.createExprLong(this, \"" + fieldName + "\");";
+			case "double": return "this." + fieldName + "\t=\tcontext.createExprDouble(this, \"" + fieldName + "\");";
+			default: throw new ToDo("Unknown: " + primitiveType);
+		}
+	}
+
 	@Override
 	public  JField	createJField(){
 	    Class cls = primitiveType;
@@ -42,6 +88,8 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	    }
 	    return res;
 	}
+
+
 	/**
 	 * Get the value of field {@link #column}.<br>
 	 * @return {@link #column}
