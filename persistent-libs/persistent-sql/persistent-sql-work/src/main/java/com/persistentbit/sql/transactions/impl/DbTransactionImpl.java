@@ -44,8 +44,20 @@ public class DbTransactionImpl implements DbTransaction{
 
 		} else {
 			//Run in existing transaction
+			return doExistingTransaction(code);
+
+		}
+
+	}
+
+	private <R> Result<R> doExistingTransaction(ThrowingFunction<Connection,Result<R>, Exception> code){
+		return Result.function().code(l -> {
 			try{
-				return code.apply(currentConnection);
+				l.info("Starting in existing transaction");
+				Result<R> res = code.apply(currentConnection);
+				l.info("Done in existing transaction");
+				return res;
+
 			}catch(Exception e){
 				Result<R> newFail = Result.failure(new RuntimeException("Transaction rollback",e));
 				close();
@@ -53,9 +65,9 @@ public class DbTransactionImpl implements DbTransaction{
 				failure = newFail;
 				return newFail;
 			}
-		}
-
+		});
 	}
+
 	private <R> Result<R> doTransaction(ThrowingFunction<Connection, Result<R>, Exception> code) {
 
 		return Result.function().code(l -> {
