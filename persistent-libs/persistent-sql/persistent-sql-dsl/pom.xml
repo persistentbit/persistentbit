@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>persistent-sql-dsl-generic</module>
+        <module>persistent-sql-dsl-postgres-rt</module>
     </modules>
 
 </project>

@@ -6,10 +6,8 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
-import com.persistentbit.sql.updater.SqlSnippets;
 import com.persistentbit.sql.work.DbWork;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.util.function.Supplier;
 
@@ -49,20 +47,12 @@ public class Main{
 	public static void main(String[] args) {
 		ModuleLogging.consoleLogPrint.registerAsGlobalHandler();
 
-		InputStream in = Main.class.getResourceAsStream("/dbupdates/createdb.sql");
-		if(in == null) {
-			throw new RuntimeException("Can't find Sql resource !!!");
-		}
-
-
-		SqlSnippets.load(Main.class.getResourceAsStream("/dbupdates/createdb.sql")).orElseThrow();
-
 		Result<OK> result = transSupplier
 			.flatMap(transSup ->
 				rebuildDb().run(transSup.get())
 			);
 		result.orElseThrow();
-		ModuleLogging.consoleLogPrint.print(result.getLog());
+		//ModuleLogging.consoleLogPrint.print(result.getLog());
 	}
 
 }
