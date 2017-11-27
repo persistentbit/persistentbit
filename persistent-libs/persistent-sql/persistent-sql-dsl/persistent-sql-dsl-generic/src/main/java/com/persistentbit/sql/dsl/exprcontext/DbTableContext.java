@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.exprcontext;
 
 import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
+import com.persistentbit.sql.dsl.generic.query.Query;
 
 /**
  * TODOC
@@ -22,4 +23,6 @@ public interface DbTableContext{
 	DExprDateTime createExprDateTime(DTable table, String columnName);
 
 	DbSqlContext	getSqlContext();
+
+	Query	createQuery(DTable table);
 }

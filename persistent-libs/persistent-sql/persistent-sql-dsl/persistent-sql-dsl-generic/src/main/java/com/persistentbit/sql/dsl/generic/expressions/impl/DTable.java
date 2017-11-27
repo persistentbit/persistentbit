@@ -4,6 +4,7 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
+import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.tuples.Tuple2;
 
 /**
@@ -19,4 +20,9 @@ public abstract class DTable<T> extends DImpl<T> implements DExprTable<T>{
 	protected DTable(DbTableContext tableContext){
 		this._tableContext = tableContext;
 	}
+
+	public Query	query() {
+		return _tableContext.createQuery(this);
+	}
+
 }

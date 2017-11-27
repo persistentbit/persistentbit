@@ -8,6 +8,8 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.DDateTimeTabl
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanTableFieldExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dnumber.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dstring.DStringTableFieldExpr;
+import com.persistentbit.sql.dsl.generic.query.Query;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -87,5 +89,11 @@ public class GenericDbTableContext implements DbTableContext{
 	@Override
 	public DbSqlContext getSqlContext() {
 		return sqlContext;
+	}
+
+	@Override
+	public Query createQuery(DTable table
+	) {
+		throw new ToDo();
 	}
 }

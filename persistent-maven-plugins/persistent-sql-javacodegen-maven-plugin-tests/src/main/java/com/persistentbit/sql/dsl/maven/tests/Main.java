@@ -1,9 +1,11 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
+import com.persistentbit.db.generated.Db;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
+import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbContext;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.work.DbWork;
@@ -53,6 +55,18 @@ public class Main{
 				rebuildDb().run(transSup.get())
 			);
 		result.orElseThrow();
+
+		Db db = new Db(new GenericDbContext(null));
+
+		db.person.query().where(db.person.userName.eq("mup")).selection(db.person);
+
+		db.invoice.query()
+			.leftJoin(db.invoiceLine).on(db.invoiceLine.invoiceId.eq(db.invoice.id))
+			.leftJoin(db.company).on(db.invoice.fromCompanyId.eq(db.company.id))
+	    .where(db.company.adresStreet.eq("Snoekstraat 77"))
+		.selection(db.invoice,db.invoiceLine,db.company);
+
+
 		//ModuleLogging.consoleLogPrint.print(result.getLog());
 	}
 

@@ -19,7 +19,7 @@ public abstract class DNumberAbstract<N extends Number> implements DExprNumber<N
 	abstract DExprNumber<N>	_value(N value);
 
 	@Override
-	public DExprBoolean eq(DExpr<Number> other) {
+	public DExprBoolean eq(DExpr<? extends Number> other) {
 		return new DBooleanBinOp(this, DBooleanBinOp.Operator.opEq,other);
 	}
 
@@ -29,7 +29,7 @@ public abstract class DNumberAbstract<N extends Number> implements DExprNumber<N
 	}
 
 	@Override
-	public DExprBoolean notEq(DExpr<Number> other) {
+	public DExprBoolean notEq(DExpr<? extends Number> other) {
 		return new DBooleanBinOp(this, DBooleanBinOp.Operator.opNotEq,other);
 	}
 
@@ -39,7 +39,7 @@ public abstract class DNumberAbstract<N extends Number> implements DExprNumber<N
 	}
 
 	@Override
-	public DExprBoolean lt(DExpr<Number> other) {
+	public DExprBoolean lt(DExpr<? extends Number> other) {
 		return new DBooleanBinOp(this, DBooleanBinOp.Operator.opLt,other);
 	}
 
@@ -49,7 +49,7 @@ public abstract class DNumberAbstract<N extends Number> implements DExprNumber<N
 	}
 
 	@Override
-	public DExprBoolean gt(DExpr<Number> other) {
+	public DExprBoolean gt(DExpr<? extends Number> other) {
 		return new DBooleanBinOp(this, DBooleanBinOp.Operator.opGt,other);
 	}
 
@@ -59,7 +59,7 @@ public abstract class DNumberAbstract<N extends Number> implements DExprNumber<N
 	}
 
 	@Override
-	public DExprBoolean ltEq(DExpr<Number> other) {
+	public DExprBoolean ltEq(DExpr<? extends Number> other) {
 		return new DBooleanBinOp(this, DBooleanBinOp.Operator.opLtEq,other);
 	}
 
@@ -69,7 +69,7 @@ public abstract class DNumberAbstract<N extends Number> implements DExprNumber<N
 	}
 
 	@Override
-	public DExprBoolean gtEq(DExpr<Number> other) {
+	public DExprBoolean gtEq(DExpr<? extends Number> other) {
 		return new DBooleanBinOp(this, DBooleanBinOp.Operator.opGtEq,other);
 	}
 
@@ -89,12 +89,12 @@ public abstract class DNumberAbstract<N extends Number> implements DExprNumber<N
 	}
 
 	@Override
-	public DExprBoolean in(PList<DExpr<Number>> values) {
+	public DExprBoolean in(PList<DExpr<? extends Number>> values) {
 		return new DBooleanIn((PList)values);
 	}
 
 	@Override
-	public DExprBoolean in(DExpr<Number>... values) {
+	public DExprBoolean in(DExpr<? extends Number>... values) {
 		return in(PList.val(values));
 	}
 
