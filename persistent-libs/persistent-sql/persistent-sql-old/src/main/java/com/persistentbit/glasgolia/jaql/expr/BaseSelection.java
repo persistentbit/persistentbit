@@ -1,4 +1,4 @@
-package com.persistentbit.glasgolia.jaql.expr;
+ package com.persistentbit.glasgolia.jaql.expr;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.work.DbWork;

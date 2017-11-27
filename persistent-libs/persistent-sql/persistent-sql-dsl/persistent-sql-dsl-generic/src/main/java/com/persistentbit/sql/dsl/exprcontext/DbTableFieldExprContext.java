@@ -1,0 +1,11 @@
+package com.persistentbit.sql.dsl.exprcontext;
+
+/**
+ * TODOC
+ *
+ * @author petermuys
+ * @since 27/11/17
+ */
+public interface DbTableFieldExprContext{
+
+}

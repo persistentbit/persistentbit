@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.generic;
+package com.persistentbit.sql.dsl.exprcontext;
 
 /**
  * TODOC

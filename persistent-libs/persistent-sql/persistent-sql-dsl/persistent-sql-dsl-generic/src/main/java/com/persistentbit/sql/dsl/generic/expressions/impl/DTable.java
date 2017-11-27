@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.generic.DbTableContext;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.tuples.Tuple2;

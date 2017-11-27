@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.generic;
+package com.persistentbit.sql.dsl.exprcontext;
 
 import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
@@ -20,4 +20,6 @@ public interface DbTableContext{
 	DExprBigDecimal createExprBigDecimal(DTable table,String columnName);
 	DExprString createExprString(DTable table,String columnName);
 	DExprDateTime createExprDateTime(DTable table, String columnName);
+
+	DbSqlContext	getSqlContext();
 }

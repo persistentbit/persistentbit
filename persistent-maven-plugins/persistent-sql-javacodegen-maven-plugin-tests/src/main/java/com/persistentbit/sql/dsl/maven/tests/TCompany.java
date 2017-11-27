@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
-import com.persistentbit.sql.dsl.generic.DbTableContext;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;

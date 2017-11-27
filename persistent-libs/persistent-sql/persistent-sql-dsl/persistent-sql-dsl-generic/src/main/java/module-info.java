@@ -5,7 +5,9 @@
  */
 module persistent.sql.dsl.generic {
 	requires persistent.collections;
-	exports com.persistentbit.sql.dsl.generic;
+	requires persistent.utils;
+	exports com.persistentbit.sql.dsl.exprcontext;
+	exports com.persistentbit.sql.dsl.exprcontext.impl;
 	exports com.persistentbit.sql.dsl.generic.expressions;
 	exports com.persistentbit.sql.dsl.annotations;
 	exports com.persistentbit.sql.dsl.generic.expressions.impl;

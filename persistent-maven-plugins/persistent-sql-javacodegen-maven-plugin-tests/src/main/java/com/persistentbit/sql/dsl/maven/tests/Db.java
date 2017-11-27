@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
-import com.persistentbit.sql.dsl.generic.DbContext;
+import com.persistentbit.sql.dsl.exprcontext.DbContext;
 
 /**
  * TODOC
