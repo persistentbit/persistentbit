@@ -4,8 +4,6 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 
-import java.io.File;
-
 /**
  * Base class for sql mojo's
  *
@@ -18,8 +16,8 @@ public abstract class AbstractDslCodeGenPlugin extends AbstractMojo{
 	@Parameter(property = "project", required = true, readonly = true)
 	MavenProject project;
 
-	@Parameter(defaultValue = "src/main/resources", required = true)
-	File resourcesDirectory;
+	//@Parameter(defaultValue = "src/main/resources", required = true)
+	//File resourcesDirectory;
 	/*
 	protected DependencySupplier createDependencySupplier() throws MojoExecutionException {
 

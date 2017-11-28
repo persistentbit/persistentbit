@@ -10,6 +10,7 @@ module persistent.sql.javacodegen.maven.plugin.tests {
 	requires persistent.sql.updater;
 	requires persistent.sql.work;
 	requires persistent.functions;
+	requires persistent.collections;
 	requires java.sql;
 	requires persistent.javacodegen.annotations;
 	requires persistent.sql.dsl.generic;

@@ -61,6 +61,7 @@
                     <url>jdbc:postgresql://localhost:5432/persistenttest?currentSchema=persistenttest</url>
                     <username>persistenttest_usr</username>
                     <password>persistenttest_pwd</password>
+                    <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
                 </configuration>
                 <dependencies>
                     <dependency>
