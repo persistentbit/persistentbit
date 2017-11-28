@@ -12,7 +12,7 @@ public abstract class DImpl<T> implements DExpr<T>,DInternal<T>{
 
 
 	@SuppressWarnings("unchecked")
-	static <T> DInternal<T> _get(DExpr<T> expr){
+	static public <T> DInternal<T> _get(DExpr<T> expr){
 		return (DInternal<T>)expr;
 	}
 }

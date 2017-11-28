@@ -4,6 +4,8 @@ import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.generic.query.Query;
 
+import java.util.Optional;
+
 /**
  * TODOC
  *
@@ -25,4 +27,11 @@ public interface DbTableContext{
 	DbSqlContext	getSqlContext();
 
 	Query	createQuery(DTable table);
+
+	DbTableContext	withAlias(String alias);
+	Optional<String> getAlias();
+
+	default String getNameOrAlias() {
+		return getAlias().orElse(getTableName());
+	}
 }

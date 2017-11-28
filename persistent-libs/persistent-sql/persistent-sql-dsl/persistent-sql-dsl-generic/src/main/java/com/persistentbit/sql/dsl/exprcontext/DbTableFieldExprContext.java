@@ -8,4 +8,5 @@ package com.persistentbit.sql.dsl.exprcontext;
  */
 public interface DbTableFieldExprContext{
 
+	String _getFieldSelectionName();
 }

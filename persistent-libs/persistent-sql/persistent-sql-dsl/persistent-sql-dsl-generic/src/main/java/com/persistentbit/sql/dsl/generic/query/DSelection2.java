@@ -10,4 +10,7 @@ import com.persistentbit.tuples.Tuple2;
  * @since 27/11/17
  */
 public interface DSelection2<T1,T2> extends DExprSelectable<Tuple2<T1,T2>>{
+	T1	v1();
+	T2	v2();
+
 }

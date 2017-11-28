@@ -6,6 +6,8 @@
 module persistent.sql.dsl.generic {
 	requires persistent.collections;
 	requires persistent.utils;
+	requires persistent.code.annotations;
+	requires java.sql;
 	exports com.persistentbit.sql.dsl.exprcontext;
 	exports com.persistentbit.sql.dsl.exprcontext.impl;
 	exports com.persistentbit.sql.dsl.generic.expressions;

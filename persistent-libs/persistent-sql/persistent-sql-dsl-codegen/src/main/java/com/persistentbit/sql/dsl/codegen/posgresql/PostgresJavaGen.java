@@ -237,7 +237,8 @@ public class PostgresJavaGen implements DbJavaGen{
 
 	private Result<GeneratedJavaSource> generateTableClassSource(DbJavaTable table){
 		return Result.function(table).code(l -> {
-			JClass cls = new JClass("T" + table.getJavaClassName());
+			String clsName = "T" + table.getJavaClassName();
+			JClass cls = new JClass(clsName);
 			cls = cls.addImport(DTable.class);
 			cls = cls.extendsDef(DTable.class.getSimpleName() + "<" + table.getJavaClassName() + ">");
 			cls = cls.addImport(new JImport(table.getPackName() + "." + table.getJavaClassName()));
@@ -247,7 +248,7 @@ public class PostgresJavaGen implements DbJavaGen{
 				cls = cls.addField(jfield);
 			}
 
-			JMethod constructor = new JMethod("T" + table.getJavaClassName())
+			JMethod constructor = new JMethod(clsName)
 				.withAccessLevel(AccessLevel.Public)
 				.addArg(new JArgument(DbTableContext.class.getSimpleName(),"context"))
 				.addImport(JImport.forClass(DbTableContext.class));
@@ -264,8 +265,18 @@ public class PostgresJavaGen implements DbJavaGen{
 			cls = cls.addImport(Tuple2.class);
 			cls = cls.addMethod(constructor);
 
+			JMethod alias = new JMethod("alias")
+					.withAccessLevel(AccessLevel.Public)
+					.withResultType(clsName)
+					.addArg("String","aliasName",false)
+					.withCode(pw -> {
+						pw.println("return new " + clsName + "(_tableContext.withAlias(aliasName));");
+					});
+			cls = cls.addMethod(alias);
+
 			JJavaFile file = new JJavaFile(table.getPackName())
 				.addClass(cls);
+
 			return Result.success(file.toJavaSource());
 		});
 	}

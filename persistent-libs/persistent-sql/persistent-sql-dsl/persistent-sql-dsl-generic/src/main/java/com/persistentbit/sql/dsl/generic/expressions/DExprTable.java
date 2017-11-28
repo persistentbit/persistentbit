@@ -6,5 +6,5 @@ package com.persistentbit.sql.dsl.generic.expressions;
  * @author petermuys
  * @since 26/11/17
  */
-public interface DExprTable<T> extends DExpr<T> {
+public interface DExprTable<T> extends DExprSelectable<T> {
 }

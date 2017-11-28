@@ -1,5 +1,7 @@
 package com.persistentbit.sql.dsl.exprcontext.impl;
 
+import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.*;
@@ -9,7 +11,10 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanTable
 import com.persistentbit.sql.dsl.generic.expressions.impl.dnumber.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dstring.DStringTableFieldExpr;
 import com.persistentbit.sql.dsl.generic.query.Query;
-import com.persistentbit.utils.exceptions.ToDo;
+import com.persistentbit.sql.dsl.generic.query.impl.QueryImpl;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * TODOC
@@ -20,15 +25,24 @@ import com.persistentbit.utils.exceptions.ToDo;
 public class GenericDbTableContext implements DbTableContext{
 	private final DbSqlContext	sqlContext;
 	private final String fullTableName;
+	@Nullable
+	private final String alias;
 
-	public GenericDbTableContext(DbSqlContext sqlContext, String fullTableName) {
-		this.sqlContext = sqlContext;
-		this.fullTableName = fullTableName;
+	public GenericDbTableContext(DbSqlContext sqlContext, String fullTableName,@Nullable String alias) {
+		this.sqlContext = Objects.requireNonNull(sqlContext);
+		this.fullTableName = Objects.requireNonNull(fullTableName);
+		this.alias = alias;
 	}
 
 	@Override
 	public String getTableName() {
 		return fullTableName;
+	}
+
+
+	@Override
+	public Optional<String> getAlias() {
+		return Optional.ofNullable(alias);
 	}
 
 	@Override
@@ -94,6 +108,11 @@ public class GenericDbTableContext implements DbTableContext{
 	@Override
 	public Query createQuery(DTable table
 	) {
-		throw new ToDo();
+		return new QueryImpl(sqlContext, PList.val(table));
+	}
+
+	@Override
+	public DbTableContext withAlias(String alias) {
+		return new GenericDbTableContext(sqlContext,fullTableName,alias);
 	}
 }

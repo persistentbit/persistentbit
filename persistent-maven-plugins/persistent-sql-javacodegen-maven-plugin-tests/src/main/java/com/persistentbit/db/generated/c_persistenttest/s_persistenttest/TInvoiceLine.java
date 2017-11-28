@@ -17,8 +17,11 @@ public class TInvoiceLine extends DTable<InvoiceLine> {
 	public TInvoiceLine(DbTableContext context){
 		super(context);
 		this.id	=	context.createExprLong(this, "id");
-		this.invoiceId	=	context.createExprLong(this, "invoiceId");
+		this.invoiceId	=	context.createExprLong(this, "invoice_id");
 		this.product	=	context.createExprString(this, "product");
 		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("invoiceId",invoiceId), Tuple2.of("product",product));
+	}
+	public  TInvoiceLine	alias(String aliasName){
+		return new TInvoiceLine(_tableContext.withAlias(aliasName));
 	}
 }

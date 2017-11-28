@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.generic.query;
 
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
+import com.persistentbit.sql.dsl.generic.expressions.DExprSelectable;
 
 /**
  * TODOC
@@ -13,19 +13,19 @@ import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 public interface Query{
 
 
-	Query distinct();
+
 
 	Query orderByDesc(DExpr<?> expr);
 
 	Query orderByAsc(DExpr<?> expr);
 
-	Join leftJoin(DExprTable table);
+	Join leftJoin(DExprSelectable table);
 
-	Join rightJoin(DExprTable table);
+	Join rightJoin(DExprSelectable table);
 
-	Join innerJoin(DExprTable table);
+	Join innerJoin(DExprSelectable table);
 
-	Join fullJoin(DExprTable table);
+	Join fullJoin(DExprSelectable table);
 
 	Query where(DExprBoolean whereExpr);
 

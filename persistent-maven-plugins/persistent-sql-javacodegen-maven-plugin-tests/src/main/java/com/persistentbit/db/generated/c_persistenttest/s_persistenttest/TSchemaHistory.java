@@ -17,8 +17,11 @@ public class TSchemaHistory extends DTable<SchemaHistory> {
 	public TSchemaHistory(DbTableContext context){
 		super(context);
 		this.createddate	=	context.createExprDateTime(this, "createddate");
-		this.packageName	=	context.createExprString(this, "packageName");
-		this.updateName	=	context.createExprString(this, "updateName");
+		this.packageName	=	context.createExprString(this, "package_name");
+		this.updateName	=	context.createExprString(this, "update_name");
 		super._all = PList.val(Tuple2.of("createddate",createddate), Tuple2.of("packageName",packageName), Tuple2.of("updateName",updateName));
+	}
+	public  TSchemaHistory	alias(String aliasName){
+		return new TSchemaHistory(_tableContext.withAlias(aliasName));
 	}
 }

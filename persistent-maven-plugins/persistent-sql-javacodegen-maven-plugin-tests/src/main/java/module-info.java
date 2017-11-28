@@ -14,5 +14,6 @@ module persistent.sql.javacodegen.maven.plugin.tests {
 	requires java.sql;
 	requires persistent.javacodegen.annotations;
 	requires persistent.sql.dsl.generic;
+	requires persistent.sql.dsl.postgres.rt;
 	exports com.persistentbit.sql.dsl.maven.tests;
 }

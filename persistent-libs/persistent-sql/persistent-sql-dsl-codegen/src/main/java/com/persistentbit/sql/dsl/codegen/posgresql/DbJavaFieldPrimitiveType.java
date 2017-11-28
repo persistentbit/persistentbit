@@ -66,12 +66,12 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	@Override
 	public String createTableColumnFieldInitializer() {
 		switch(primitiveType.getSimpleName()){
-			case "boolean": return "this." + fieldName + "\t=\tcontext.createExprBoolean(this, \"" + fieldName + "\");";
-			case "byte": return "this." + fieldName + "\t=\tcontext.createExprByte(this, \"" + fieldName + "\");";
-			case "int": return "this." + fieldName + "\t=\tcontext.createExprInt(this, \"" + fieldName + "\");";
-			case "short": return "this." + fieldName + "\t=\tcontext.createExprShort(this, \"" + fieldName + "\");";
-			case "long": return "this." + fieldName + "\t=\tcontext.createExprLong(this, \"" + fieldName + "\");";
-			case "double": return "this." + fieldName + "\t=\tcontext.createExprDouble(this, \"" + fieldName + "\");";
+			case "boolean": return "this." + fieldName + "\t=\tcontext.createExprBoolean(this, \"" + column.getName() + "\");";
+			case "byte": return "this." + fieldName + "\t=\tcontext.createExprByte(this, \"" + column.getName() + "\");";
+			case "int": return "this." + fieldName + "\t=\tcontext.createExprInt(this, \"" + column.getName() + "\");";
+			case "short": return "this." + fieldName + "\t=\tcontext.createExprShort(this, \"" + column.getName() + "\");";
+			case "long": return "this." + fieldName + "\t=\tcontext.createExprLong(this, \"" + column.getName() + "\");";
+			case "double": return "this." + fieldName + "\t=\tcontext.createExprDouble(this, \"" + column.getName() + "\");";
 			default: throw new ToDo("Unknown: " + primitiveType);
 		}
 	}

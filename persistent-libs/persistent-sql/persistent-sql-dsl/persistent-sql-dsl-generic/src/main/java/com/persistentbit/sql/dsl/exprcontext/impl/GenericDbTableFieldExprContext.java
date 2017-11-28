@@ -11,10 +11,15 @@ import com.persistentbit.sql.dsl.exprcontext.DbTableFieldExprContext;
  */
 public class GenericDbTableFieldExprContext implements DbTableFieldExprContext{
 	private final DbTableContext tableContext;
-	private final String fieldName;
+	private final String columnName;
 
-	public GenericDbTableFieldExprContext(DbTableContext tableContext, String fieldName) {
+	public GenericDbTableFieldExprContext(DbTableContext tableContext, String columnName) {
 		this.tableContext = tableContext;
-		this.fieldName = fieldName;
+		this.columnName = columnName;
+	}
+
+	@Override
+	public String _getFieldSelectionName() {
+		return tableContext.getNameOrAlias() + "." + columnName;
 	}
 }

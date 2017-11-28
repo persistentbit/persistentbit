@@ -24,14 +24,17 @@ public class TPerson extends DTable<Person> {
 	public TPerson(DbTableContext context){
 		super(context);
 		this.id	=	context.createExprLong(this, "id");
-		this.userName	=	context.createExprString(this, "userName");
+		this.userName	=	context.createExprString(this, "user_name");
 		this.password	=	context.createExprString(this, "password");
 		this.street	=	context.createExprString(this, "street");
-		this.houseNumber	=	context.createExprInt(this, "houseNumber");
-		this.busNumber	=	context.createExprString(this, "busNumber");
+		this.houseNumber	=	context.createExprInt(this, "house_number");
+		this.busNumber	=	context.createExprString(this, "bus_number");
 		this.postalcode	=	context.createExprString(this, "postalcode");
 		this.city	=	context.createExprString(this, "city");
 		this.country	=	context.createExprString(this, "country");
 		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("userName",userName), Tuple2.of("password",password), Tuple2.of("street",street), Tuple2.of("houseNumber",houseNumber), Tuple2.of("busNumber",busNumber), Tuple2.of("postalcode",postalcode), Tuple2.of("city",city), Tuple2.of("country",country));
+	}
+	public  TPerson	alias(String aliasName){
+		return new TPerson(_tableContext.withAlias(aliasName));
 	}
 }

@@ -1,11 +1,14 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
 import com.persistentbit.db.generated.Db;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TCompany;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoice;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceLine;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
-import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbContext;
+import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.work.DbWork;
@@ -56,15 +59,19 @@ public class Main{
 			);
 		result.orElseThrow();
 
-		Db db = new Db(new GenericDbContext(null));
+		Db db = new Db(new PostgresDbContext());
 
-		db.person.query().where(db.person.userName.eq("mup")).selection(db.person);
+		System.out.println(db.person.query().where(db.person.userName.eq("mup")).selection(db.person));
 
-		db.invoice.query()
-			.leftJoin(db.invoiceLine).on(db.invoiceLine.invoiceId.eq(db.invoice.id))
-			.leftJoin(db.company).on(db.invoice.fromCompanyId.eq(db.company.id))
-	    .where(db.company.adresStreet.eq("Snoekstraat 77"))
-		.selection(db.invoice,db.invoiceLine,db.company);
+		TInvoiceLine line = db.invoiceLine.alias("iline");
+		TInvoice invoice = db.invoice.alias("invoice");
+		TCompany company = db.company.alias("company");
+		System.out.println(invoice.query()
+			.leftJoin(line).on(line.invoiceId.eq(invoice.id))
+			.leftJoin(company).on(invoice.fromCompanyId.eq(company.id))
+	    .where(company.adresStreet.eq("Snoekstraat 77"))
+		.selection(invoice,line.id,line.invoiceId, line.product,company)
+		);
 
 
 		//ModuleLogging.consoleLogPrint.print(result.getLog());

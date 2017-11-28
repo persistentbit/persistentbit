@@ -1,6 +1,8 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableFieldExprContext;
+import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
  * TODOC
@@ -13,5 +15,10 @@ public class DIntTableFieldExpr extends DIntAbstract{
 
 	public DIntTableFieldExpr(DbTableFieldExprContext context) {
 		this.context = context;
+	}
+
+	@Override
+	public SqlWithParams toSql(DbSqlContext context) {
+		return new SqlWithParams(this.context._getFieldSelectionName());
 	}
 }

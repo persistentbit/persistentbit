@@ -18,9 +18,12 @@ public class TInvoice extends DTable<Invoice> {
 	public TInvoice(DbTableContext context){
 		super(context);
 		this.id	=	context.createExprLong(this, "id");
-		this.invoiceNummer	=	context.createExprString(this, "invoiceNummer");
-		this.fromCompanyId	=	context.createExprLong(this, "fromCompanyId");
-		this.toCompanyId	=	context.createExprLong(this, "toCompanyId");
+		this.invoiceNummer	=	context.createExprString(this, "invoice_nummer");
+		this.fromCompanyId	=	context.createExprLong(this, "from_company_id");
+		this.toCompanyId	=	context.createExprLong(this, "to_company_id");
 		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("invoiceNummer",invoiceNummer), Tuple2.of("fromCompanyId",fromCompanyId), Tuple2.of("toCompanyId",toCompanyId));
+	}
+	public  TInvoice	alias(String aliasName){
+		return new TInvoice(_tableContext.withAlias(aliasName));
 	}
 }

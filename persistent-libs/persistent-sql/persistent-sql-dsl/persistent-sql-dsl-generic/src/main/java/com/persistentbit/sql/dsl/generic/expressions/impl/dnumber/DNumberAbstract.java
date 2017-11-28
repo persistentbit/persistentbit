@@ -4,6 +4,7 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.DExprNumber;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanBinOp;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanIn;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanSingleOp;
@@ -14,9 +15,9 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanSingl
  * @author petermuys
  * @since 23/11/17
  */
-public abstract class DNumberAbstract<N extends Number> implements DExprNumber<N>{
+public abstract class DNumberAbstract<N extends Number> extends DImpl<N> implements DExprNumber<N>{
 
-	abstract DExprNumber<N>	_value(N value);
+	abstract DExprNumber<N> _value(N value);
 
 	@Override
 	public DExprBoolean eq(DExpr<? extends Number> other) {
