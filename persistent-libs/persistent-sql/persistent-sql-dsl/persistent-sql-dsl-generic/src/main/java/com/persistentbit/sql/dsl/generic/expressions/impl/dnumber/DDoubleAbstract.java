@@ -1,6 +1,9 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
+import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.utils.rowreader.RowReader;
 
 /**
  * TODOC
@@ -153,5 +156,11 @@ public abstract class DDoubleAbstract extends DNumberAbstract<Double> implements
 	@Override
 	public DExprDouble mul(double value) {
 		return add(_value(value));
+	}
+
+	@Override
+	public Double read(DbSqlContext context, RowReader rowReader
+	) {
+		return rowReader.readNext(Double.class);
 	}
 }

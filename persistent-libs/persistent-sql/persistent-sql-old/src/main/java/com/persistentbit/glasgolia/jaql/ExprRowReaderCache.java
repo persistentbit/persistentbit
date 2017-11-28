@@ -3,6 +3,7 @@ package com.persistentbit.glasgolia.jaql;
 /**
  * Created by petermuys on 5/10/16.
  */
+
 public interface ExprRowReaderCache{
 
 	/**

@@ -28,33 +28,30 @@ public class ResultSetRowReader implements RowReader{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> Result<T> readNext(Class<T> cls) {
-		return Result.function(cls).code(l -> {
-			try {
-				if(cls.equals(LocalDate.class)) {
-					Date dt = rs.getObject(index++, Date.class);
-					if(dt == null) { return Result.empty(); }
+	public <T> T readNext(Class<T> cls) {
+		try {
+			if(cls.equals(LocalDate.class)) {
+				Date dt = rs.getObject(index++, Date.class);
+				if(dt == null) { return null; }
 
-					return Result.success((T) dt.toLocalDate());
-				}
-				else if(cls.equals(LocalDateTime.class)) {
-					Timestamp ts = rs.getObject(index++, Timestamp.class);
-					if(ts == null) { return Result.empty(); }
-					return Result.success((T) ts.toLocalDateTime());
-				}
-				else if(cls.equals(PByteList.class)) {
-					byte[] bytes = rs.getBytes(index++);
-					return (bytes == null
-						? Result.empty()
-						: Result.success((T)PByteList.from(bytes)));
-				}
-
-				return Result.success(rs.getObject(index++, cls));
-			} catch(SQLException e) {
-				return Result.failure(new RuntimeException("SQL error while reading column " + index + " from result set",e));
+				return (T) dt.toLocalDate();
+			}
+			else if(cls.equals(LocalDateTime.class)) {
+				Timestamp ts = rs.getObject(index++, Timestamp.class);
+				if(ts == null) { return null; }
+				return (T) ts.toLocalDateTime();
+			}
+			else if(cls.equals(PByteList.class)) {
+				byte[] bytes = rs.getBytes(index++);
+				return (bytes == null
+					? null
+					: (T)PByteList.from(bytes));
 			}
 
-		});
+			return rs.getObject(index++, cls);
+		} catch(SQLException e) {
+			throw new RuntimeException("SQL error while reading column " + index + " from result set",e);
+		}
 
 	}
 

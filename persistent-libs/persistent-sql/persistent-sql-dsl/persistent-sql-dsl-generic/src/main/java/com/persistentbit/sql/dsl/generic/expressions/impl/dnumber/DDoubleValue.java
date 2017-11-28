@@ -29,4 +29,6 @@ public class DDoubleValue extends DDoubleAbstract implements PrepStatParam{
 	public SqlWithParams toSqlSelection(DbSqlContext context) {
 		return new SqlWithParams(this);
 	}
+
+
 }

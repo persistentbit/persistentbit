@@ -3,9 +3,9 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
-import com.persistentbit.utils.exceptions.ToDo;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * TODOC
@@ -21,11 +21,17 @@ public class DIntValue extends DIntAbstract implements PrepStatParam{
 	}
 
 	@Override
-	public void _setPrepStatement(PreparedStatement stat, int index) {
-		throw new ToDo();
+	public void _setPrepStatement(PreparedStatement stat, int index) throws SQLException{
+		stat.setInt(index, value);
 	}
 
 	@Override
 	public SqlWithParams toSqlSelection(DbSqlContext context) {
 		return new SqlWithParams(this);
-	}}
+	}
+
+	@Override
+	public String toString() {
+		return "$(" + value + ")";
+	}
+}

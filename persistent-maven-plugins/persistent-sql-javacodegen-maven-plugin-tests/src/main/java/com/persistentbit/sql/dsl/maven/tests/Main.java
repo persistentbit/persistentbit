@@ -8,6 +8,7 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
+import com.persistentbit.sql.dsl.generic.query.DSelection1;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
@@ -61,7 +62,11 @@ public class Main{
 
 		Db db = new Db(new PostgresDbContext());
 
-		System.out.println(db.person.query().where(db.person.userName.eq("mup")).selection(db.person));
+		DSelection1 per = db.person.query()
+			   .where(db.person.street.like("Snoekstraat").and(db.person.houseNumber.eq(77)))
+			   .selection(db.person);
+		System.out.println(per);
+		System.out.println(transSupplier.flatMap(trans -> per.run(trans.get())).orElseThrow());
 
 		TInvoiceLine line = db.invoiceLine.alias("iline");
 		TInvoice invoice = db.invoice.alias("invoice");
@@ -73,6 +78,12 @@ public class Main{
 		.selection(invoice,line.id,line.invoiceId, line.product,company)
 		);
 
+		DSelection1<Long> lineSubQuery = line.query().selection(line.invoiceId);
+
+		DSelection1 withSub = invoice.query()
+			   .leftJoin(lineSubQuery).on(invoice.id.eq(lineSubQuery.v1()))
+			   .selection(invoice);
+		System.out.println(withSub);
 
 		//ModuleLogging.consoleLogPrint.print(result.getLog());
 	}

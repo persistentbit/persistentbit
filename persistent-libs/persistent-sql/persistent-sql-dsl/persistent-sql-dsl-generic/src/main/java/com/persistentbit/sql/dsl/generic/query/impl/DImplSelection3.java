@@ -1,8 +1,12 @@
 package com.persistentbit.sql.dsl.generic.query.impl;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.DSelection3;
+import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.tuples.Tuple3;
 
 /**
  * TODOC
@@ -10,25 +14,41 @@ import com.persistentbit.sql.dsl.generic.query.DSelection3;
  * @author petermuys
  * @since 28/11/17
  */
-public class DImplSelection3<T1,T2,T3> extends DImplSelectionAbstract implements DSelection3<T1,T2,T3>{
+public class DImplSelection3<T1,T2,T3> extends DImplSelectionAbstract<Tuple3<T1,T2,T3>> implements DSelection3<T1,T2,T3>{
 
 	public DImplSelection3(QueryImpl query,
-						   PList<DExpr> columns
+						   PList<DExpr> columns,String aliasName
 	) {
-		super(query, columns);
+		super(query, columns,aliasName);
 	}
 
 	@Override
-	public T1 v1() {
-		return (T1)columns.get(0);
+	public DExpr<T1> v1() {
+		return (DExpr<T1>)columns.get(0);
 	}
 
 	@Override
-	public T2 v2() {
-		return (T2)columns.get(1);
+	public DExpr<T2> v2() {
+		return (DExpr<T2>)columns.get(1);
 	}
 	@Override
-	public T3 v3() {
-		return (T3)columns.get(2);
+	public DExpr<T3> v3() {
+		return (DExpr<T3>)columns.get(2);
+	}
+
+	@Override
+	public Tuple3<T1, T2, T3> read(DbSqlContext context, RowReader rr
+	) {
+		return Tuple3.of(
+			DImpl._get(v1()).read(query.sqlContext,rr),
+			DImpl._get(v2()).read(query.sqlContext,rr),
+			DImpl._get(v3()).read(query.sqlContext,rr)
+		);
+	}
+
+	@Override
+	public DSelection3<T1, T2, T3> withAlias(String aliasName) {
+		return new DImplSelection3<>(query,columns,aliasName);
+
 	}
 }

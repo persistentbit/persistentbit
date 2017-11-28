@@ -4,6 +4,9 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.generic.expressions.impl.PrepStatParam;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  * TODOC
  *
@@ -19,6 +22,10 @@ public class SqlWithParams{
 	) {
 		this.sql = sql;
 		this.params = params;
+	}
+	public SqlWithParams(PStream<SqlWithParams> collection, String sep){
+		sql = collection.map(s -> s.sql).toString(sep);
+		params = collection.map(s -> s.params).fold(PList.empty(),(a,b)-> a.plusAll(b));
 	}
 	public SqlWithParams(String sql){
 		this(sql,PList.empty());
@@ -60,5 +67,15 @@ public class SqlWithParams{
 	@Override
 	public String toString() {
 		return nl().sql + "Params: " + params.toString(", ");
+	}
+
+	void setParams(PreparedStatement stat) throws SQLException{
+		int t = 1;
+		for(PrepStatParam p : params){
+			p._setPrepStatement(stat, t++);
+		}
+	}
+	String getSql() {
+		return sql;
 	}
 }

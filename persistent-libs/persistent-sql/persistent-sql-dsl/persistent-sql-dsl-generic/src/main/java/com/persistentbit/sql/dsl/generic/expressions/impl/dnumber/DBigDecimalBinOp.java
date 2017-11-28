@@ -1,6 +1,10 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.utils.rowreader.RowReader;
+
+import java.math.BigDecimal;
 
 /**
  * TODOC
@@ -19,5 +23,11 @@ public class DBigDecimalBinOp extends DBigDecimalAbstract{
 		this.left = left;
 		this.operator = operator;
 		this.right = right;
+	}
+
+	@Override
+	public BigDecimal read(DbSqlContext context, RowReader rowReader
+	) {
+		return rowReader.readNext(BigDecimal.class);
 	}
 }

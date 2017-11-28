@@ -1,6 +1,9 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
+import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.utils.rowreader.RowReader;
 
 /**
  * TODOC
@@ -162,5 +165,11 @@ public abstract class DLongAbstract extends DNumberAbstract<Long> implements DEx
 	@Override
 	public DExprLong mul(long value) {
 		return mul(_value(value));
+	}
+
+	@Override
+	public Long read(DbSqlContext context, RowReader rowReader
+	) {
+		return rowReader.readNext(Long.class);
 	}
 }

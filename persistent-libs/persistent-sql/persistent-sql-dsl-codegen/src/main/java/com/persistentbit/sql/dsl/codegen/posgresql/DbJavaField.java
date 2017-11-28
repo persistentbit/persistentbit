@@ -17,6 +17,7 @@ public interface DbJavaField{
 	String createTableColumnFieldInitializer();
 	DbMetaColumn	getDbMetaColumn();
 	String getJavaName();
+
 	default PList<DbJavaFieldEnum> getUsedEnums() {
 		return PList.empty();
 	}

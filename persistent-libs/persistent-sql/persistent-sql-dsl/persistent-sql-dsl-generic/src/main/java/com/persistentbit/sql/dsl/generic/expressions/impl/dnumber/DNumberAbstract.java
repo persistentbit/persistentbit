@@ -25,8 +25,8 @@ public abstract class DNumberAbstract<N extends Number> extends DImpl<N> impleme
 	}
 
 	@Override
-	public DExprBoolean eq(Number other) {
-		return null;
+	public DExprBoolean eq(N other) {
+		return eq(_value(other));
 	}
 
 	@Override
@@ -35,8 +35,8 @@ public abstract class DNumberAbstract<N extends Number> extends DImpl<N> impleme
 	}
 
 	@Override
-	public DExprBoolean notEq(Number other) {
-		return null;
+	public DExprBoolean notEq(N other) {
+		return notEq(_value(other));
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public abstract class DNumberAbstract<N extends Number> extends DImpl<N> impleme
 	}
 
 	@Override
-	public DExprBoolean lt(Number other) {
-		return null;
+	public DExprBoolean lt(N other) {
+		return lt(_value(other));
 	}
 
 	@Override
@@ -55,8 +55,8 @@ public abstract class DNumberAbstract<N extends Number> extends DImpl<N> impleme
 	}
 
 	@Override
-	public DExprBoolean gt(Number other) {
-		return null;
+	public DExprBoolean gt(N other) {
+		return gt(_value(other));
 	}
 
 	@Override
@@ -65,8 +65,8 @@ public abstract class DNumberAbstract<N extends Number> extends DImpl<N> impleme
 	}
 
 	@Override
-	public DExprBoolean ltEq(Number other) {
-		return null;
+	public DExprBoolean ltEq(N other) {
+		return ltEq(_value(other));
 	}
 
 	@Override
@@ -75,8 +75,8 @@ public abstract class DNumberAbstract<N extends Number> extends DImpl<N> impleme
 	}
 
 	@Override
-	public DExprBoolean gtEq(Number other) {
-		return null;
+	public DExprBoolean gtEq(N other) {
+		return gtEq(_value(other));
 	}
 
 	@Override

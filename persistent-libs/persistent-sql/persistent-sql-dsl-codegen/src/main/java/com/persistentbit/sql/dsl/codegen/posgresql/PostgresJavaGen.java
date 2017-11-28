@@ -7,6 +7,7 @@ import com.persistentbit.sql.dsl.annotations.DbColumnName;
 import com.persistentbit.sql.dsl.codegen.DbJavaGen;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.*;
 import com.persistentbit.sql.meta.DbMetaDataImporter;
@@ -260,7 +261,24 @@ public class PostgresJavaGen implements DbJavaGen{
 				pw.println(table.getJavaFields()
 					 .map(jf -> "Tuple2.of(\"" + jf.getJavaName() + "\"," + jf.getJavaName() +")")
 					 .toString("super._all = PList.val(",", ", ");"));
+				pw.println();
+				pw.println("_recordReader = _scon -> _rr -> {");
+				pw.indent(pt -> {
+					for(DbJavaField field : table.getJavaFields()){
+						JField jf = field.createJField();
+						pt.println(jf.getDefinition() + "\t" + jf.getName() + " = DImpl._get(this." + jf.getName() + ").read(_scon,_rr);");
+					}
+					pt.println("return new " + table.getJavaClassName() + "(" + table.getJavaFields().map(f -> f.getJavaName()).toString(", ") + ");");
+				});
+				pw.println("};");
 			});
+			for(DbJavaField field : table.getJavaFields()){
+				JField jf = field.createJField();
+				for(JImport imp : jf.getAllImports()){
+					cls = cls.addImport(imp);
+				}
+			}
+			cls = cls.addImport(DImpl.class);
 			cls = cls.addImport(PList.class);
 			cls = cls.addImport(Tuple2.class);
 			cls = cls.addMethod(constructor);

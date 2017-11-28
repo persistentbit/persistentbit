@@ -21,4 +21,5 @@ public class DStringTableFieldExpr extends DStringAbstract{
 	public SqlWithParams toSql(DbSqlContext context) {
 		return new SqlWithParams(this.context._getFieldSelectionName());
 	}
+
 }

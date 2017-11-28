@@ -45,4 +45,10 @@ CREATE TABLE invoice_line (
   product    VARCHAR(256)
 );
 
+-->>insertTestData
+INSERT into person (id, user_name, password, street, house_number, bus_number, postalcode, city, country)
+    VALUES
+      (1,'PeterMuys','pw','Snoekstraat',77,'','9000','Gent','BE'),
+      (2, 'ElsVanOost','pw','Snoekstraat',10,'','9000','Gent','BE')
+;
 -->>

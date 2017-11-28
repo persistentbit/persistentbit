@@ -10,5 +10,5 @@ import com.persistentbit.result.Result;
 @FunctionalInterface
 public interface RowReader{
 
-	<T> Result<T> readNext(Class<T> cls);
+	<T> T readNext(Class<T> cls);
 }

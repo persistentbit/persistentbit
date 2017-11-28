@@ -3,6 +3,7 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
+import com.persistentbit.sql.utils.rowreader.RowReader;
 import com.persistentbit.utils.exceptions.ToDo;
 
 import java.sql.PreparedStatement;
@@ -27,5 +28,11 @@ public class DLongValue extends DLongAbstract implements PrepStatParam{
 	@Override
 	public SqlWithParams toSqlSelection(DbSqlContext context) {
 		return new SqlWithParams(this);
+	}
+
+	@Override
+	public Long read(DbSqlContext context, RowReader rowReader
+	) {
+		return rowReader.readNext(Long.class);
 	}
 }

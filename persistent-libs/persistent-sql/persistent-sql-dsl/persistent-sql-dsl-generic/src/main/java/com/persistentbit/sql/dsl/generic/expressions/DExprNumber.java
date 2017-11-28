@@ -10,22 +10,22 @@ import com.persistentbit.collections.PList;
  */
 public interface DExprNumber<N extends Number> extends DExpr<N>{
 	DExprBoolean eq(DExpr<? extends Number> other);
-	DExprBoolean eq(Number other);
+	DExprBoolean eq(N other);
 
 	DExprBoolean notEq(DExpr<? extends Number> other);
-	DExprBoolean notEq(Number other);
+	DExprBoolean notEq(N other);
 
 	DExprBoolean lt(DExpr<? extends Number> other);
-	DExprBoolean lt(Number other);
+	DExprBoolean lt(N other);
 
 	DExprBoolean gt(DExpr<? extends Number> other);
-	DExprBoolean gt(Number other);
+	DExprBoolean gt(N other);
 
 	DExprBoolean ltEq(DExpr<? extends Number> other);
-	DExprBoolean ltEq(Number other);
+	DExprBoolean ltEq(N other);
 
 	DExprBoolean gtEq(DExpr<? extends Number> other);
-	DExprBoolean gtEq(Number other);
+	DExprBoolean gtEq(N other);
 
 	DExprBoolean isNull();
 	DExprBoolean isNotNull();

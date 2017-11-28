@@ -1,8 +1,12 @@
 package com.persistentbit.sql.dsl.generic.query.impl;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.DSelection7;
+import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.tuples.Tuple7;
 
 /**
  * TODOC
@@ -10,45 +14,65 @@ import com.persistentbit.sql.dsl.generic.query.DSelection7;
  * @author petermuys
  * @since 28/11/17
  */
-public class DImplSelection7<T1,T2,T3,T4,T5,T6,T7> extends DImplSelectionAbstract implements
+public class DImplSelection7<T1,T2,T3,T4,T5,T6,T7> extends DImplSelectionAbstract<Tuple7<T1,T2,T3,T4,T5,T6,T7>> implements
 																				  DSelection7<T1,T2,T3,T4,T5,T6,T7>{
 
 	public DImplSelection7(QueryImpl query,
-						   PList<DExpr> columns
+						   PList<DExpr> columns,String aliasName
 	) {
-		super(query, columns);
+		super(query, columns,aliasName);
 	}
 
 	@Override
-	public T1 v1() {
-		return (T1)columns.get(0);
+	public DExpr<T1> v1() {
+		return (DExpr<T1>)columns.get(0);
 	}
 
 	@Override
-	public T2 v2() {
-		return (T2)columns.get(1);
+	public DExpr<T2> v2() {
+		return (DExpr<T2>)columns.get(1);
 	}
 	@Override
-	public T3 v3() {
-		return (T3)columns.get(2);
+	public DExpr<T3> v3() {
+		return (DExpr<T3>)columns.get(2);
 	}
 	@Override
-	public T4 v4() {
-		return (T4)columns.get(3);
+	public DExpr<T4> v4() {
+		return (DExpr<T4>)columns.get(3);
 	}
-	public T5 v5() {
-		return (T5)columns.get(4);
+	public DExpr<T5> v5() {
+		return (DExpr<T5>)columns.get(4);
 	}
-	public T6 v6() {
-		return (T6)columns.get(5);
+	public DExpr<T6> v6() {
+		return (DExpr<T6>)columns.get(5);
 	}
-	public T7 v7() {
-		return (T7)columns.get(6);
+	public DExpr<T7> v7() {
+		return (DExpr<T7>)columns.get(6);
 	}
 
 	@Override
 	public String toString() {
 		//TODO
 		return super.toString();
+	}
+
+	@Override
+	public Tuple7<T1, T2, T3, T4, T5, T6, T7> read(DbSqlContext context, RowReader rr
+	) {
+		return Tuple7.of(
+			DImpl._get(v1()).read(query.sqlContext,rr),
+			DImpl._get(v2()).read(query.sqlContext,rr),
+			DImpl._get(v3()).read(query.sqlContext,rr),
+			DImpl._get(v4()).read(query.sqlContext,rr),
+			DImpl._get(v5()).read(query.sqlContext,rr),
+			DImpl._get(v6()).read(query.sqlContext,rr),
+			DImpl._get(v7()).read(query.sqlContext,rr)
+		);
+	}
+
+	@Override
+	public DSelection7<T1, T2, T3, T4, T5, T6, T7> withAlias(String aliasName) {
+		return new DImplSelection7<>(query,columns,aliasName);
+
 	}
 }

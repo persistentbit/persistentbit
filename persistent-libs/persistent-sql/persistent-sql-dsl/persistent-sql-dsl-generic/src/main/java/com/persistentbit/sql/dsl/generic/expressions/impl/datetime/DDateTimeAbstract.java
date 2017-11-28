@@ -1,10 +1,12 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.datetime;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.utils.rowreader.RowReader;
 import com.persistentbit.utils.exceptions.ToDo;
 
 import java.time.LocalDateTime;
@@ -98,5 +100,11 @@ public class DDateTimeAbstract extends DImpl<LocalDateTime> implements DExprDate
 	@Override
 	public DExprBoolean in(DExpr<LocalDateTime>... values) {
 		throw new ToDo();
+	}
+
+	@Override
+	public LocalDateTime read(DbSqlContext context, RowReader rowReader
+	) {
+		return rowReader.readNext(LocalDateTime.class);
 	}
 }

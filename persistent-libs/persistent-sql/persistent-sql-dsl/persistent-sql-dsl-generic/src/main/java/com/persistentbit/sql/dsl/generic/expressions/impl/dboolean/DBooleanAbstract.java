@@ -1,8 +1,10 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dboolean;
 
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.utils.rowreader.RowReader;
 
 /**
  * TODOC
@@ -44,5 +46,11 @@ public abstract class DBooleanAbstract extends DImpl<Boolean> implements DExprBo
 	@Override
 	public DExprBoolean isNotNull() {
 		return new DBooleanSingleOp(this, DBooleanSingleOp.Operator.opIsNotNull);
+	}
+
+	@Override
+	public Boolean read(DbSqlContext context, RowReader rowReader
+	) {
+		return rowReader.readNext(Boolean.class);
 	}
 }

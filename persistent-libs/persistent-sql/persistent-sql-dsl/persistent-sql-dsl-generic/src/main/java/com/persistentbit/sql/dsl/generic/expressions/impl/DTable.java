@@ -7,7 +7,10 @@ import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
+import com.persistentbit.sql.utils.rowreader.RowReader;
 import com.persistentbit.tuples.Tuple2;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -18,6 +21,7 @@ import com.persistentbit.tuples.Tuple2;
 public abstract class DTable<T> extends DImpl<T> implements DExprTable<T>{
 	protected final DbTableContext	_tableContext;
 	protected PList<Tuple2<String,DExpr<?>>> _all;
+	protected Function<DbSqlContext,Function<RowReader,T>> _recordReader;
 
 	protected DTable(DbTableContext tableContext){
 		this._tableContext = tableContext;
@@ -31,9 +35,10 @@ public abstract class DTable<T> extends DImpl<T> implements DExprTable<T>{
 	@Override
 	public SqlWithParams toSqlSelection(DbSqlContext context
 	) {
-		return new SqlWithParams(_tableContext.getAlias()
-			.orElse(_tableContext.getTableName())
-			+ ".*");
+		return new SqlWithParams(_all.map(t -> DImpl._get(t._2).toSqlSelection(context)),", ");
+
+
+
 	}
 
 	@Override
@@ -48,5 +53,11 @@ public abstract class DTable<T> extends DImpl<T> implements DExprTable<T>{
 	public SqlWithParams toSql(DbSqlContext context
 	) {
 		return toSqlSelection(context);
+	}
+
+	@Override
+	public T read(DbSqlContext context, RowReader rowReader
+	) {
+		return _recordReader.apply(context).apply(rowReader);
 	}
 }

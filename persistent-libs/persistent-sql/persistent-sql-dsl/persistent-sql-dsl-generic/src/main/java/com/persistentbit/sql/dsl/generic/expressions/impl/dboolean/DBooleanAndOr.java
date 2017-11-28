@@ -1,6 +1,11 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dboolean;
 
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
+
+import java.util.Objects;
 
 /**
  * TODOC
@@ -20,8 +25,37 @@ public class DBooleanAndOr extends DBooleanAbstract{
 						 Operator operator,
 						 DExpr<Boolean> right
 	) {
-		this.left = left;
-		this.operator = operator;
-		this.right = right;
+		this.left = Objects.requireNonNull(left);
+		this.operator = Objects.requireNonNull(operator);
+		this.right = Objects.requireNonNull(right);
+	}
+
+
+	@Override
+	public SqlWithParams toSqlSelection(DbSqlContext context
+	) {
+		return DImpl._get(left).toSqlSelection(context)
+					.add(" "+ opString() + " ")
+					.add(DImpl._get(right).toSqlSelection(context));
+	}
+
+	@Override
+	public SqlWithParams toSqlSelectableFrom(DbSqlContext context
+	) {
+		return DImpl._get(left).toSqlSelectableFrom(context)
+					.add(" "+ opString() + " ")
+					.add(DImpl._get(right).toSqlSelectableFrom(context));
+	}
+
+	@Override
+	public SqlWithParams toSql(DbSqlContext context
+	) {
+		return DImpl._get(left).toSql(context)
+					.add(" "+ opString() + " ")
+					.add(DImpl._get(right).toSql(context));
+	}
+
+	private String opString() {
+		return operator.name().toUpperCase().substring(2);
 	}
 }

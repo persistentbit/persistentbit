@@ -427,7 +427,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 	}
 
 	/**
-	 * Get the Success value orOf throw a RuntimeException.<br>
+	 * Get the Success value or throw a RuntimeException.<br>
 	 *
 	 * @return The value on Success
 	 */

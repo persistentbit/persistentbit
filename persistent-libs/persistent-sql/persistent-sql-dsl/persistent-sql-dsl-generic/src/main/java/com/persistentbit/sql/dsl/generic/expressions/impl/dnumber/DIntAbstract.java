@@ -1,6 +1,8 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.utils.rowreader.RowReader;
 
 /**
  * TODOC
@@ -163,5 +165,11 @@ public abstract class DIntAbstract extends DNumberAbstract<Integer> implements D
 	@Override
 	public DExprInt mul(int value) {
 		return mul(_value(value));
+	}
+
+	@Override
+	public Integer read(DbSqlContext context, RowReader rowReader
+	) {
+		return rowReader.readNext(Integer.class);
 	}
 }

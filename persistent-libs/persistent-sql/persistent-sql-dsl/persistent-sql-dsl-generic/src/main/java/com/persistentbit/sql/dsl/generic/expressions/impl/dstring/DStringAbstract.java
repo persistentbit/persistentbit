@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dstring;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
@@ -8,6 +9,7 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanBinOp;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanIn;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanSingleOp;
+import com.persistentbit.sql.utils.rowreader.RowReader;
 
 /**
  * TODOC
@@ -122,5 +124,11 @@ public abstract class DStringAbstract extends DImpl<String> implements DExprStri
 	@Override
 	public DExprBoolean in(DExpr<String>... values) {
 		return in(PList.val(values));
+	}
+
+	@Override
+	public String read(DbSqlContext context, RowReader rowReader
+	) {
+		return rowReader.readNext(String.class);
 	}
 }
