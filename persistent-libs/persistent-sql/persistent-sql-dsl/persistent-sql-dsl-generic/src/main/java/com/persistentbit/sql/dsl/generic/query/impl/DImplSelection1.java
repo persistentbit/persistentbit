@@ -23,7 +23,7 @@ public class DImplSelection1<T> extends DImplSelectionAbstract<T> implements DSe
 
 	@Override
 	public DExpr<T> v1() {
-		return (DExpr<T>)columns.get(0);
+		return (DExpr<T>)getWithAlias(0);
 	}
 
 

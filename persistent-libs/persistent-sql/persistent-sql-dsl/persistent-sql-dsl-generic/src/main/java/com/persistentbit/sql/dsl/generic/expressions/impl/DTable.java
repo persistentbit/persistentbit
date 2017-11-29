@@ -60,4 +60,10 @@ public abstract class DTable<T> extends DImpl<T> implements DExprTable<T>{
 	) {
 		return _recordReader.apply(context).apply(rowReader);
 	}
+
+	@Override
+	public DExpr<T> _prefixAlias(String parentName, String prefixAlias, DExpr<T> self
+	) {
+		return this;
+	}
 }

@@ -23,7 +23,7 @@ public abstract class DImplSelectionAbstract<T> extends DImpl<T> implements DbWo
 	protected final QueryImpl query;
 	protected final PList<DExpr> columns;
 	protected final String aliasName;
-
+	protected final PList<DExpr> columnsWithAlias;
 	public DImplSelectionAbstract(QueryImpl query,
 								  PList<DExpr> columns,
 								  String aliasName
@@ -31,12 +31,17 @@ public abstract class DImplSelectionAbstract<T> extends DImpl<T> implements DbWo
 		this.query = query;
 		this.columns = columns;
 		this.aliasName = aliasName;
+		this.columnsWithAlias = columns.lazy().zipWithIndex().map(t ->
+			//DImpl._get(t._2)._prefixAlias(aliasName,"v" + (t._1+1),t._2)
+			t._2
+		).plist();
 	}
 
 	@Override
 	public SqlWithParams toSql(DbSqlContext sqlContext){
+		//PStream<DExpr> wrapped = columns.lazy().zipWithIndex().map(t -> getWithAlias(t._1));
 		return new SqlWithParams("SELECT ")
-			.add(columns.map(e -> DImpl._get(e).toSqlSelection(sqlContext)),", ")
+			.add(toSqlSelection(sqlContext))
 			.add(" FROM ").add(
 				query.from.map(e -> DImpl._get(e).toSqlSelectableFrom(sqlContext))
 			)
@@ -49,8 +54,19 @@ public abstract class DImplSelectionAbstract<T> extends DImpl<T> implements DbWo
 	}
 
 	@Override
+	public SqlWithParams toSqlSelection(DbSqlContext sqlContext) {
+		return new SqlWithParams(columnsWithAlias.map(e -> DImpl._get(e).toSqlSelection(sqlContext)),", ");
+	}
+
+	protected  DExpr getWithAlias(int index){
+
+		return columnsWithAlias.get(index);
+	}
+
+	@Override
 	public SqlWithParams toSqlSelectableFrom(DbSqlContext context) {
-		return new SqlWithParams("(").add(toSql(context)).add(")");
+		return new SqlWithParams("(").add(toSql(context))
+				 .add(")" + (aliasName != null ? " AS " + aliasName : "" ));
 	}
 
 	@Override

@@ -21,4 +21,9 @@ public class DBooleanTableFieldExpr extends DBooleanAbstract{
 	public SqlWithParams toSql(DbSqlContext context) {
 		return new SqlWithParams(this.context._getFieldSelectionName());
 	}
+
+	@Override
+	public SqlWithParams toSqlSelection(DbSqlContext context) {
+		return null;
+	}
 }

@@ -24,20 +24,20 @@ public class DImplSelection4<T1,T2,T3,T4> extends DImplSelectionAbstract<Tuple4<
 
 	@Override
 	public DExpr<T1> v1() {
-		return (DExpr<T1>)columns.get(0);
+		return (DExpr<T1>)getWithAlias(0);
 	}
 
 	@Override
 	public DExpr<T2> v2() {
-		return (DExpr<T2>)columns.get(1);
+		return (DExpr<T2>)getWithAlias(1);
 	}
 	@Override
 	public DExpr<T3> v3() {
-		return (DExpr<T3>)columns.get(2);
+		return (DExpr<T3>)getWithAlias(2);
 	}
 	@Override
 	public DExpr<T4> v4() {
-		return (DExpr<T4>)columns.get(3);
+		return (DExpr<T4>)getWithAlias(3);
 	}
 
 	@Override

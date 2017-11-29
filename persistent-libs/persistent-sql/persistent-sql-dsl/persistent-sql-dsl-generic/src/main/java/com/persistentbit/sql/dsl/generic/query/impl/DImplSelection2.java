@@ -24,12 +24,12 @@ public class DImplSelection2<T1,T2> extends DImplSelectionAbstract<Tuple2<T1,T2>
 
 	@Override
 	public DExpr<T1> v1() {
-		return (DExpr<T1>)columns.get(0);
+		return (DExpr<T1>)getWithAlias(0);
 	}
 
 	@Override
 	public DExpr<T2> v2() {
-		return (DExpr<T2>)columns.get(1);
+		return (DExpr<T2>)getWithAlias(1);
 	}
 
 

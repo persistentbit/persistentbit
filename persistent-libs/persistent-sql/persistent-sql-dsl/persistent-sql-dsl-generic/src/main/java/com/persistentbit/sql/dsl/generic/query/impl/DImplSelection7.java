@@ -25,29 +25,29 @@ public class DImplSelection7<T1,T2,T3,T4,T5,T6,T7> extends DImplSelectionAbstrac
 
 	@Override
 	public DExpr<T1> v1() {
-		return (DExpr<T1>)columns.get(0);
+		return (DExpr<T1>)getWithAlias(0);
 	}
 
 	@Override
 	public DExpr<T2> v2() {
-		return (DExpr<T2>)columns.get(1);
+		return (DExpr<T2>)getWithAlias(1);
 	}
 	@Override
 	public DExpr<T3> v3() {
-		return (DExpr<T3>)columns.get(2);
+		return (DExpr<T3>)getWithAlias(2);
 	}
 	@Override
 	public DExpr<T4> v4() {
-		return (DExpr<T4>)columns.get(3);
+		return (DExpr<T4>)getWithAlias(3);
 	}
 	public DExpr<T5> v5() {
-		return (DExpr<T5>)columns.get(4);
+		return (DExpr<T5>)getWithAlias(4);
 	}
 	public DExpr<T6> v6() {
-		return (DExpr<T6>)columns.get(5);
+		return (DExpr<T6>)getWithAlias(5);
 	}
 	public DExpr<T7> v7() {
-		return (DExpr<T7>)columns.get(6);
+		return (DExpr<T7>)getWithAlias(6);
 	}
 
 	@Override
