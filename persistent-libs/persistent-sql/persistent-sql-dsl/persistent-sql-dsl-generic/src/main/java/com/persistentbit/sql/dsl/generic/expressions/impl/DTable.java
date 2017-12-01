@@ -34,9 +34,9 @@ public abstract class DTable<T> extends DImpl<T> implements DExprTable<T>, DImpl
 
 
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext context
+	public SqlWithParams _toSqlSelection(DbSqlContext context
 	) {
-		return new SqlWithParams(_all.map(t -> DImpl._get(t._2).toSqlSelection(context)),", ");
+		return new SqlWithParams(_all.map(t -> DImpl._get(t._2)._toSqlSelection(context)),", ");
 
 
 
@@ -51,13 +51,13 @@ public abstract class DTable<T> extends DImpl<T> implements DExprTable<T>, DImpl
 
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context
+	public SqlWithParams _toSql(DbSqlContext context
 	) {
-		return toSqlSelection(context);
+		return _toSqlSelection(context);
 	}
 
 	@Override
-	public T read(DbSqlContext context, RowReader rowReader
+	public T _read(DbSqlContext context, RowReader rowReader
 	) {
 		return _recordReader.apply(context).apply(rowReader);
 	}

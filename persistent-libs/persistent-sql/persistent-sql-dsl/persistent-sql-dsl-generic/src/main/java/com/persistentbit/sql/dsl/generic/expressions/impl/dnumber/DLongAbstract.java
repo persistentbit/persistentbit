@@ -167,12 +167,12 @@ public abstract class DLongAbstract extends DNumberAbstract<Long> implements DEx
 	}
 
 	@Override
-	public Long read(DbSqlContext context, RowReader rowReader
+	public Long _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Long.class);
 	}
 	@Override
-	public DExprLong withSelectionAlias(String alias) {
+	public DExprLong _withAlias(String alias) {
 		return alias == null ? this : new DLongAlias(alias, this);
 	}
 }

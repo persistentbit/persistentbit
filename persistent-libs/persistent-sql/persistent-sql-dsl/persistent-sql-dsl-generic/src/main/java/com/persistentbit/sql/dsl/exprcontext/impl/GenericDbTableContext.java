@@ -52,56 +52,56 @@ public class GenericDbTableContext implements DbTableContext{
 	@Override
 	public DExprBoolean createExprBoolean(DTable table, String columnName
 	) {
-		return new DBooleanTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DBooleanTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 	}
 
 	@Override
 	public DExprByte createExprByte(DTable table, String columnName
 	) {
-		return new DByteTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DByteTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 	}
 
 	@Override
 	public DExprShort createExprShort(DTable table, String columnName
 	) {
-		return new DShortTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DShortTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 	}
 
 	@Override
 	public DExprInt createExprInt(DTable table, String columnName
 	) {
-		return new DIntTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DIntTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 	}
 
 	@Override
 	public DExprLong createExprLong(DTable table, String columnName
 	) {
-		return new DLongTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DLongTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 	}
 
 	@Override
 	public DExprDouble createExprDouble(DTable table, String columnName
 	) {
-		return new DDoubleTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DDoubleTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 	}
 
 	@Override
 	public DExprBigDecimal createExprBigDecimal(DTable table, String columnName
 	) {
-		return new DBigDecimalTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DBigDecimalTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 	}
 
 	@Override
 	public DExprString createExprString(DTable table, String columnName
 	) {
-		return new DStringTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DStringTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 
 	}
 
 	@Override
 	public DExprDateTime createExprDateTime(DTable table, String columnName
 	) {
-		return new DDateTimeTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias)).withSelectionAlias(alias);
+		return new DDateTimeTableFieldExpr(new GenericDbTableFieldExprContext(this, columnName,alias))._withAlias(alias);
 	}
 
 

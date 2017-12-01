@@ -171,13 +171,13 @@ public abstract class DByteAbstract extends DNumberAbstract<Byte> implements DEx
 	}
 
 	@Override
-	public Byte read(DbSqlContext context, RowReader rowReader
+	public Byte _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Byte.class);
 	}
 
 	@Override
-	public DExprByte withSelectionAlias(String alias) {
+	public DExprByte _withAlias(String alias) {
 		throw new ToDo();
 	}
 }

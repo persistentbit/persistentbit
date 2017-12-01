@@ -6,8 +6,8 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
-import com.persistentbit.sql.dsl.generic.query.DSelection1;
-import com.persistentbit.sql.dsl.generic.query.DSelection2;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
+import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
@@ -61,7 +61,7 @@ public class Main{
 
 		Db db = new Db(new PostgresDbContext());
 		TPerson persoon = db.person.withTableAlias("menchen");
-		DSelection2 per = persoon.query()
+		Selection per = persoon.query()
 				.leftJoin(db.company).on(db.company.ownerPersonId.eq(persoon.id))
 			   .where(persoon.street.like("Snoekstraat").and(persoon.houseNumber.eq(77)))
 			   .selection(persoon,db.company);
@@ -72,24 +72,24 @@ public class Main{
 		System.out.println(transSupplier.flatMap(trans -> per.run(trans.get())).orElseThrow());
 		System.out.println("------------------------------");
 
-		TInvoiceLine line    = db.invoiceLine.withSelectionAlias("iline");
-		TInvoice     invoice = db.invoice.withSelectionAlias("invoice");
-		TCompany     company = db.company.withSelectionAlias("company");
+		TInvoiceLine line    = db.invoiceLine._withAlias("iline");
+		TInvoice     invoice = db.invoice._withAlias("invoice");
+		TCompany     company = db.company._withAlias("company");
 
 		System.out.println("------------------------------");
-		DSelection1<Company> allCompany = company.query().selection(company).asTableExpr("ac");
+		DExprTable<Company> allCompany = company.query().selection(company).asTableExpr("ac");
 		System.out.println(allCompany);
 		System.out.println("------------------------------");
 
-		DSelection1<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
-		System.out.println(withSubCompany);
-		System.out.println("------------------------------");
+		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
+		//System.out.println(withSubCompany);
+		//System.out.println("------------------------------");
 
 
-		DSelection2<Person,Company> cp = persoon.query()
-												.leftJoin(allCompany).query()
-												.selection(persoon,allCompany);
-		System.out.println(cp);
+		//Selection<Tuple2<Person,Company>> cp = persoon.query()
+//													 .leftJoin(allCompany).query()
+//													 .selection(persoon,allCompany);
+//		System.out.println(cp);
 
 
 		/*

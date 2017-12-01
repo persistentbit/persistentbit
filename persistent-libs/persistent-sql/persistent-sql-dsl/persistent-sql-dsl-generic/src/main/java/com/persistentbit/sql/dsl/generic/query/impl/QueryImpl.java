@@ -6,8 +6,12 @@ import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.sql.dsl.generic.query.*;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTuple2;
+import com.persistentbit.sql.dsl.generic.query.Join;
+import com.persistentbit.sql.dsl.generic.query.Query;
+import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -105,53 +109,9 @@ public class QueryImpl implements Query{
 	}
 
 	@Override
-	public <T> DSelection1<T> selection(DExpr<T> selection
+	public <T> Selection<T> selection(DExpr<T> selection
 	) {
-		return new DImplSelection1<>(this,PList.val(selection),null);
+		return new SelectionImpl<>(this,selection);
 	}
 
-	@Override
-	public <T1, T2> DSelection2<T1, T2> selection(DExpr<T1> col1, DExpr<T2> col2
-	) {
-		return new DImplSelection2<>(this,PList.val(col1,col2),null);
-	}
-
-	@Override
-	public <T1, T2, T3> DSelection3<T1, T2, T3> selection(DExpr<T1> col1, DExpr<T2> col2, DExpr<T3> col3
-	) {
-		return new DImplSelection3<>(this,PList.val(col1,col2,col3),null);
-	}
-
-	@Override
-	public <T1, T2, T3, T4> DSelection4<T1, T2, T3, T4> selection(DExpr<T1> col1, DExpr<T2> col2, DExpr<T3> col3,
-																  DExpr<T4> col4
-	) {
-		return new DImplSelection4<>(this,PList.val(col1,col2,col3,col4),null);
-	}
-
-	@Override
-	public <T1, T2, T3, T4, T5> DSelection5<T1, T2, T3, T4, T5> selection(DExpr<T1> col1, DExpr<T2> col2,
-																		  DExpr<T3> col3, DExpr<T4> col4, DExpr<T5> col5
-	) {
-		return new DImplSelection5<>(this,PList.val(col1,col2,col3,col4,col5),null);
-	}
-
-	@Override
-	public <T1, T2, T3, T4, T5, T6> DSelection6<T1, T2, T3, T4, T5, T6> selection(DExpr<T1> col1, DExpr<T2> col2,
-																				  DExpr<T3> col3, DExpr<T4> col4,
-																				  DExpr<T5> col5, DExpr<T6> col6
-	) {
-		return new DImplSelection6<>(this,PList.val(col1,col2,col3,col4,col5,col6),null);
-	}
-
-	@Override
-	public <T1, T2, T3, T4, T5, T6, T7> DSelection7<T1, T2, T3, T4, T5, T6, T7> selection(DExpr<T1> col1,
-																						  DExpr<T2> col2,
-																						  DExpr<T3> col3,
-																						  DExpr<T4> col4,
-																						  DExpr<T5> col5,
-																						  DExpr<T6> col6, DExpr<T7> col7
-	) {
-		return new DImplSelection7<>(this,PList.val(col1,col2,col3,col4,col5,col6,col7),null);
-	}
 }

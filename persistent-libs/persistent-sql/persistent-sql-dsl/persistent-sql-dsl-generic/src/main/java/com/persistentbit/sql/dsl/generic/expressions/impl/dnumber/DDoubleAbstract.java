@@ -159,12 +159,12 @@ public abstract class DDoubleAbstract extends DNumberAbstract<Double> implements
 	}
 
 	@Override
-	public Double read(DbSqlContext context, RowReader rowReader
+	public Double _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Double.class);
 	}
 	@Override
-	public DExprDouble withSelectionAlias(String alias) {
+	public DExprDouble _withAlias(String alias) {
 		throw new ToDo();
 	}
 }

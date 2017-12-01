@@ -127,13 +127,13 @@ public abstract class DStringAbstract extends DImpl<String> implements DExprStri
 	}
 
 	@Override
-	public String read(DbSqlContext context, RowReader rowReader
+	public String _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(String.class);
 	}
 
 	@Override
-	public DExprString withSelectionAlias(String alias) {
+	public DExprString _withAlias(String alias) {
 		return alias == null ? this : new DStringAlias(alias,this);
 	}
 }

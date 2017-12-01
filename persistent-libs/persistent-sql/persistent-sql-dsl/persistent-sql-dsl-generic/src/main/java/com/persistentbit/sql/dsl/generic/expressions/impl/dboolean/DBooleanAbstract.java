@@ -50,13 +50,13 @@ public abstract class DBooleanAbstract extends DImpl<Boolean> implements DExprBo
 	}
 
 	@Override
-	public Boolean read(DbSqlContext context, RowReader rowReader
+	public Boolean _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Boolean.class);
 	}
 
 	@Override
-	public DExprBoolean withSelectionAlias(String alias) {
+	public DExprBoolean _withAlias(String alias) {
 		throw new ToDo();
 	}
 }

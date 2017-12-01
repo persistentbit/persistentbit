@@ -72,7 +72,7 @@ public class JoinImpl implements Join{
 		SqlWithParams result = new SqlWithParams("").nl().add(res)
 			.add(DImplTable._get(selectable).toSqlFrom(sqlContext));
 		if(joinExpr != null){
-			result = result.add(" ON ").add(DImpl._get(joinExpr).toSqlSelection(sqlContext));
+			result = result.add(" ON ").add(DImpl._get(joinExpr)._toSqlSelection(sqlContext));
 		}
 		return result;
 	}

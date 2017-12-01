@@ -21,13 +21,13 @@ public class DIntAlias extends DIntAbstract{
 	}
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
+	public SqlWithParams _toSql(DbSqlContext context) {
 		return new SqlWithParams(alias);
 	}
 
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext context) {
-		return DImpl._get(expr).toSqlSelection(context).add(" AS " + alias);
+	public SqlWithParams _toSqlSelection(DbSqlContext context) {
+		return DImpl._get(expr)._toSqlSelection(context).add(" AS " + alias);
 	}
 
 

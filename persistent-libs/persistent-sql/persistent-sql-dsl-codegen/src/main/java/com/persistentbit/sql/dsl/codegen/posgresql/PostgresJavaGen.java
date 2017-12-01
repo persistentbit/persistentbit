@@ -267,7 +267,7 @@ public class PostgresJavaGen implements DbJavaGen{
 				pw.indent(pt -> {
 					for(DbJavaField field : table.getJavaFields()){
 						JField jf = field.createJField(false);
-						pt.println(jf.getDefinition() + "\t" + jf.getName() + " = DImpl._get(this." + jf.getName() + ").read(_scon,_rr);");
+						pt.println(jf.getDefinition() + "\t" + jf.getName() + " = DImpl._get(this." + jf.getName() + ")._read(_scon,_rr);");
 					}
 					String cond = table.getJavaFields().map(jf -> jf.getJavaName() + "== null").toString(" && ");
 					pt.println("if(" + cond + ") { return null; }");

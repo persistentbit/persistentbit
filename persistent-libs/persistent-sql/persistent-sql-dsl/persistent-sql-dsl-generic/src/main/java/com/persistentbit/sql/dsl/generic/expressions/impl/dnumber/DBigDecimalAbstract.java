@@ -62,12 +62,12 @@ public abstract class DBigDecimalAbstract extends DNumberAbstract<BigDecimal> im
 	}
 
 	@Override
-	public BigDecimal read(DbSqlContext context, RowReader rowReader
+	public BigDecimal _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(BigDecimal.class);
 	}
 	@Override
-	public DExprBigDecimal withSelectionAlias(String alias) {
+	public DExprBigDecimal _withAlias(String alias) {
 		throw new ToDo();
 	}
 }

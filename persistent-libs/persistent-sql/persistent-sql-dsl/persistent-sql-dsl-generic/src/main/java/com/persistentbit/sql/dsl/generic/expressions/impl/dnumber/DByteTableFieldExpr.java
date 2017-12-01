@@ -19,13 +19,13 @@ public class DByteTableFieldExpr extends DByteAbstract{
 	}
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
+	public SqlWithParams _toSql(DbSqlContext context) {
 		return new SqlWithParams(this.context._getFieldSelectionName(context));
 	}
 
 	@Override
-	public DExprByte withSelectionAlias(String alias) {
-		return alias == null ? this : super.withSelectionAlias(alias + "_" + context._getFieldName());
+	public DExprByte _withAlias(String alias) {
+		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
 	}
 
 }

@@ -32,21 +32,21 @@ public class DBooleanAndOr extends DBooleanAbstract{
 
 
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext context
+	public SqlWithParams _toSqlSelection(DbSqlContext context
 	) {
-		return DImpl._get(left).toSqlSelection(context)
+		return DImpl._get(left)._toSqlSelection(context)
 					.add(" "+ opString() + " ")
-					.add(DImpl._get(right).toSqlSelection(context));
+					.add(DImpl._get(right)._toSqlSelection(context));
 	}
 
 
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context
+	public SqlWithParams _toSql(DbSqlContext context
 	) {
-		return DImpl._get(left).toSql(context)
+		return DImpl._get(left)._toSql(context)
 					.add(" "+ opString() + " ")
-					.add(DImpl._get(right).toSql(context));
+					.add(DImpl._get(right)._toSql(context));
 	}
 
 	private String opString() {

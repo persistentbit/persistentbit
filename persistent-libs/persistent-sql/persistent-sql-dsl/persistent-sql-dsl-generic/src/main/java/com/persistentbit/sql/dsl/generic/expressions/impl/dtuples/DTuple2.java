@@ -24,38 +24,38 @@ public class DTuple2<T1,T2> extends DImpl<Tuple2<T1,T2>> implements DExprTuple2<
 	}
 
 	@Override
-	public DExpr<Tuple2<T1, T2>> withSelectionAlias(String alias) {
+	public DExpr<Tuple2<T1, T2>> _withAlias(String alias) {
 		return new DTuple2<>(
-			v1.withSelectionAlias("v1_" + alias),
-			v2.withSelectionAlias("v2_" + alias)
+			DImpl._get(v1)._withAlias("v1_" + alias),
+				DImpl._get(v2)._withAlias("v2_" + alias)
 		);
 	}
 
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext context
+	public SqlWithParams _toSqlSelection(DbSqlContext context
 	) {
 		return
-			DImpl._get(v1).toSqlSelection(context)
+			DImpl._get(v1)._toSqlSelection(context)
 			 .add(", ")
-			 .add(DImpl._get(v2).toSqlSelection(context))
+			 .add(DImpl._get(v2)._toSqlSelection(context))
 		;
 	}
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
+	public SqlWithParams _toSql(DbSqlContext context) {
 		return
-			DImpl._get(v1).toSql(context)
+			DImpl._get(v1)._toSql(context)
 				 .add(", ")
-				 .add(DImpl._get(v2).toSql(context))
+				 .add(DImpl._get(v2)._toSql(context))
 			;
 	}
 
 	@Override
-	public Tuple2<T1, T2> read(DbSqlContext context, RowReader rowReader
+	public Tuple2<T1, T2> _read(DbSqlContext context, RowReader rowReader
 	) {
 		return new Tuple2<>(
-			DImpl._get(v1).read(context,rowReader)
-			,DImpl._get(v2).read(context,rowReader)
+			DImpl._get(v1)._read(context,rowReader)
+			,DImpl._get(v2)._read(context,rowReader)
 		);
 	}
 

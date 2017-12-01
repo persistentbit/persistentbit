@@ -19,12 +19,12 @@ public class DIntTableFieldExpr extends DIntAbstract{
 	}
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
+	public SqlWithParams _toSql(DbSqlContext context) {
 		return new SqlWithParams(this.context._getFieldSelectionName(context));
 	}
 	@Override
-	public DExprInt withSelectionAlias(String alias) {
-		return alias == null ? this : super.withSelectionAlias(alias + "_" + context._getFieldName());
+	public DExprInt _withAlias(String alias) {
+		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
 	}
 
 }

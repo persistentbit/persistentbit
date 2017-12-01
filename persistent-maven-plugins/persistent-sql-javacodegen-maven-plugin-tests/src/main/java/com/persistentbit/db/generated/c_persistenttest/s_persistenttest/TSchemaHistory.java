@@ -1,6 +1,5 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.SchemaHistory;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
@@ -25,14 +24,14 @@ public class TSchemaHistory extends DTable<SchemaHistory> {
 		super._all = PList.val(Tuple2.of("createddate",createddate), Tuple2.of("packageName",packageName), Tuple2.of("updateName",updateName));
 		
 		_recordReader = _scon -> _rr -> {
-			LocalDateTime	createddate = DImpl._get(this.createddate).read(_scon,_rr);
-			String	packageName = DImpl._get(this.packageName).read(_scon,_rr);
-			String	updateName = DImpl._get(this.updateName).read(_scon,_rr);
+			LocalDateTime	createddate = DImpl._get(this.createddate)._read(_scon,_rr);
+			String	packageName = DImpl._get(this.packageName)._read(_scon,_rr);
+			String	updateName = DImpl._get(this.updateName)._read(_scon,_rr);
 			if(createddate== null && packageName== null && updateName== null) { return null; }
 			return new SchemaHistory(createddate, packageName, updateName);
 		};
 	}
-	public  TSchemaHistory	withSelectionAlias(String selectionAliasName){
+	public  TSchemaHistory _withAlias(String selectionAliasName){
 		return new TSchemaHistory(_tableContext.withAlias(selectionAliasName));
 	}
 	public  TSchemaHistory	withTableAlias(String tableAlias){

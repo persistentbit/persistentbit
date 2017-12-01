@@ -26,17 +26,17 @@ public class DLongValue extends DLongAbstract implements PrepStatParam{
 	}
 
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext context) {
+	public SqlWithParams _toSqlSelection(DbSqlContext context) {
 		return new SqlWithParams(this);
 	}
 
 	@Override
-	public Long read(DbSqlContext context, RowReader rowReader
+	public Long _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Long.class);
 	}
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
+	public SqlWithParams _toSql(DbSqlContext context) {
 		return new SqlWithParams(this);
 	}
 }

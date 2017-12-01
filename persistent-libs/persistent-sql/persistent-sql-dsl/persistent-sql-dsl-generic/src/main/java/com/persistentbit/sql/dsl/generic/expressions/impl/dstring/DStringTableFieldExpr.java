@@ -19,18 +19,18 @@ public class DStringTableFieldExpr extends DStringAbstract{
 	}
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
+	public SqlWithParams _toSql(DbSqlContext context) {
 		return new SqlWithParams(this.context._getFieldSelectionName(context));
 	}
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext sqlContext) {
-		SqlWithParams inside = toSql(sqlContext);
+	public SqlWithParams _toSqlSelection(DbSqlContext sqlContext) {
+		SqlWithParams inside = _toSql(sqlContext);
 		return inside;
 	}
 
 	@Override
-	public DExprString withSelectionAlias(String alias) {
-		return alias == null ? this : super.withSelectionAlias(alias + "_" + context._getFieldName());
+	public DExprString _withAlias(String alias) {
+		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
 	}
 
 }

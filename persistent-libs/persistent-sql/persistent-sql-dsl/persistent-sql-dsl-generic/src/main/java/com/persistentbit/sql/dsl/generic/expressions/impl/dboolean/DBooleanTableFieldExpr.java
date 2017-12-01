@@ -19,18 +19,18 @@ public class DBooleanTableFieldExpr extends DBooleanAbstract{
 	}
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
+	public SqlWithParams _toSql(DbSqlContext context) {
 		return new SqlWithParams(this.context._getFieldSelectionName(context));
 	}
 
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext context) {
+	public SqlWithParams _toSqlSelection(DbSqlContext context) {
 		return null;
 	}
 
 	@Override
-	public DExprBoolean withSelectionAlias(String alias) {
-		return alias == null ? this : super.withSelectionAlias(alias + "_" + context._getFieldName());
+	public DExprBoolean _withAlias(String alias) {
+		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
 	}
 
 }

@@ -103,13 +103,13 @@ public class DDateTimeAbstract extends DImpl<LocalDateTime> implements DExprDate
 	}
 
 	@Override
-	public LocalDateTime read(DbSqlContext context, RowReader rowReader
+	public LocalDateTime _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(LocalDateTime.class);
 	}
 
 	@Override
-	public DExprDateTime withSelectionAlias(String alias) {
-		return alias == null ? this : new DDateTimeAlias(alias,this);
+	public DExprDateTime _withAlias(String alias) {
+		return new DDateTimeAlias(alias,this);
 	}
 }

@@ -5,11 +5,10 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.collections.PList;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Person;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.tuples.Tuple2;
-import com.persistentbit.code.annotations.Nullable;
+
 import java.lang.String;
 
 public class TPerson extends DTable<Person> {
@@ -38,20 +37,20 @@ public class TPerson extends DTable<Person> {
 		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("userName",userName), Tuple2.of("password",password), Tuple2.of("street",street), Tuple2.of("houseNumber",houseNumber), Tuple2.of("busNumber",busNumber), Tuple2.of("postalcode",postalcode), Tuple2.of("city",city), Tuple2.of("country",country));
 		
 		_recordReader = _scon -> _rr -> {
-			Long	id = DImpl._get(this.id).read(_scon,_rr);
-			String	userName = DImpl._get(this.userName).read(_scon,_rr);
-			String	password = DImpl._get(this.password).read(_scon,_rr);
-			String	street = DImpl._get(this.street).read(_scon,_rr);
-			Integer	houseNumber = DImpl._get(this.houseNumber).read(_scon,_rr);
-			String	busNumber = DImpl._get(this.busNumber).read(_scon,_rr);
-			String	postalcode = DImpl._get(this.postalcode).read(_scon,_rr);
-			String	city = DImpl._get(this.city).read(_scon,_rr);
-			String	country = DImpl._get(this.country).read(_scon,_rr);
+			Long	id = DImpl._get(this.id)._read(_scon,_rr);
+			String	userName = DImpl._get(this.userName)._read(_scon,_rr);
+			String	password = DImpl._get(this.password)._read(_scon,_rr);
+			String	street = DImpl._get(this.street)._read(_scon,_rr);
+			Integer	houseNumber = DImpl._get(this.houseNumber)._read(_scon,_rr);
+			String	busNumber = DImpl._get(this.busNumber)._read(_scon,_rr);
+			String	postalcode = DImpl._get(this.postalcode)._read(_scon,_rr);
+			String	city = DImpl._get(this.city)._read(_scon,_rr);
+			String	country = DImpl._get(this.country)._read(_scon,_rr);
 			if(id== null && userName== null && password== null && street== null && houseNumber== null && busNumber== null && postalcode== null && city== null && country== null) { return null; }
 			return new Person(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 		};
 	}
-	public  TPerson	withSelectionAlias(String selectionAliasName){
+	public  TPerson _withAlias(String selectionAliasName){
 		return new TPerson(_tableContext.withAlias(selectionAliasName));
 	}
 	public  TPerson	withTableAlias(String tableAlias){

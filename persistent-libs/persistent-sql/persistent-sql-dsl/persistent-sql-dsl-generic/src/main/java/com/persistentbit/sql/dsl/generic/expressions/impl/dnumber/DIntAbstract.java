@@ -168,12 +168,12 @@ public abstract class DIntAbstract extends DNumberAbstract<Integer> implements D
 	}
 
 	@Override
-	public Integer read(DbSqlContext context, RowReader rowReader
+	public Integer _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Integer.class);
 	}
 	@Override
-	public DExprInt withSelectionAlias(String alias) {
+	public DExprInt _withAlias(String alias) {
 		return alias == null ? this : new DIntAlias(alias, this);
 	}
 }
