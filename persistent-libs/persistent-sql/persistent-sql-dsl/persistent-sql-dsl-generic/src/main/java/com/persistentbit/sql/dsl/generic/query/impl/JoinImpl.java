@@ -1,9 +1,11 @@
 package com.persistentbit.sql.dsl.generic.query.impl;
 
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
-import com.persistentbit.sql.dsl.generic.expressions.DExprSelectable;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.dsl.generic.expressions.impl.dtable.DImplTable;
 import com.persistentbit.sql.dsl.generic.query.Join;
 import com.persistentbit.sql.dsl.generic.query.Query;
 
@@ -20,11 +22,11 @@ public class JoinImpl implements Join{
 
 	private final QueryImpl	query;
 	private final Type type;
-	private final DExprSelectable	selectable;
+	private final DExprTable selectable;
 	@Nullable
 	private final DExprBoolean joinExpr;
 
-	public JoinImpl(QueryImpl query, Type type, DExprSelectable selectable,
+	public JoinImpl(QueryImpl query, Type type, DExprTable selectable,
 					@Nullable
 					DExprBoolean joinExpr
 	) {
@@ -33,7 +35,7 @@ public class JoinImpl implements Join{
 		this.selectable = selectable;
 		this.joinExpr = joinExpr;
 	}
-	public JoinImpl(QueryImpl query, Type type, DExprSelectable selectable){
+	public JoinImpl(QueryImpl query, Type type, DExprTable selectable){
 		this(query,type,selectable,null);
 	}
 
@@ -48,7 +50,7 @@ public class JoinImpl implements Join{
 		return query.addJoin(this);
 	}
 
-	public SqlWithParams toSql(){
+	public SqlWithParams toSql(DbSqlContext sqlContext){
 		String res = "";
 		switch(type) {
 			case full:
@@ -68,9 +70,9 @@ public class JoinImpl implements Join{
 
 		}
 		SqlWithParams result = new SqlWithParams("").nl().add(res)
-			.add(DImpl._get(selectable).toSqlSelectableFrom(query.sqlContext));
+			.add(DImplTable._get(selectable).toSqlFrom(sqlContext));
 		if(joinExpr != null){
-			result = result.add(" ON ").add(DImpl._get(joinExpr).toSqlSelection(query.sqlContext));
+			result = result.add(" ON ").add(DImpl._get(joinExpr).toSqlSelection(sqlContext));
 		}
 		return result;
 	}

@@ -50,17 +50,17 @@ public class DImplSelection6<T1,T2,T3,T4,T5,T6> extends DImplSelectionAbstract<T
 	public Tuple6<T1, T2, T3, T4, T5, T6> read(DbSqlContext context, RowReader rr
 	) {
 		return Tuple6.of(
-			DImpl._get(v1()).read(query.sqlContext,rr),
-			DImpl._get(v2()).read(query.sqlContext,rr),
-			DImpl._get(v3()).read(query.sqlContext,rr),
-			DImpl._get(v4()).read(query.sqlContext,rr),
-			DImpl._get(v5()).read(query.sqlContext,rr),
-			DImpl._get(v6()).read(query.sqlContext,rr)
+			DImpl._get(v1()).read(context,rr),
+			DImpl._get(v2()).read(context,rr),
+			DImpl._get(v3()).read(context,rr),
+			DImpl._get(v4()).read(context,rr),
+			DImpl._get(v5()).read(context,rr),
+			DImpl._get(v6()).read(context,rr)
 		);
 	}
 
 	@Override
-	public DSelection6<T1, T2, T3, T4, T5, T6> withAlias(String aliasName) {
+	public DSelection6<T1, T2, T3, T4, T5, T6> withSelectionAlias(String aliasName) {
 		return new DImplSelection6<>(query,columns,aliasName);
 
 	}

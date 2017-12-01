@@ -28,10 +28,14 @@ public class TSchemaHistory extends DTable<SchemaHistory> {
 			LocalDateTime	createddate = DImpl._get(this.createddate).read(_scon,_rr);
 			String	packageName = DImpl._get(this.packageName).read(_scon,_rr);
 			String	updateName = DImpl._get(this.updateName).read(_scon,_rr);
+			if(createddate== null && packageName== null && updateName== null) { return null; }
 			return new SchemaHistory(createddate, packageName, updateName);
 		};
 	}
-	public  TSchemaHistory	alias(String aliasName){
-		return new TSchemaHistory(_tableContext.withAlias(aliasName));
+	public  TSchemaHistory	withSelectionAlias(String selectionAliasName){
+		return new TSchemaHistory(_tableContext.withAlias(selectionAliasName));
+	}
+	public  TSchemaHistory	withTableAlias(String tableAlias){
+		return new TSchemaHistory(_tableContext.withTableAlias(tableAlias));
 	}
 }

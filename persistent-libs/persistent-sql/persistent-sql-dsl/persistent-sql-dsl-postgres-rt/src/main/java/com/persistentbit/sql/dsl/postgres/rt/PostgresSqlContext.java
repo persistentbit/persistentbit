@@ -12,6 +12,15 @@ import java.sql.ResultSet;
  * @since 28/11/17
  */
 public class PostgresSqlContext implements DbSqlContext{
+	private boolean isOutsideSelection;
+
+	public PostgresSqlContext(boolean isOutsideSelection) {
+		this.isOutsideSelection = isOutsideSelection;
+	}
+	public PostgresSqlContext(){
+		this(false);
+	}
+
 
 	@Override
 	public ResultSetRowReader createResultSetRowReader(ResultSet rs) {

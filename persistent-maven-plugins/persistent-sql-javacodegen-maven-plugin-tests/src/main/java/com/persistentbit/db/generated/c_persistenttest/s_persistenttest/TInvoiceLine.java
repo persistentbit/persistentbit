@@ -25,13 +25,17 @@ public class TInvoiceLine extends DTable<InvoiceLine> {
 		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("invoiceId",invoiceId), Tuple2.of("product",product));
 		
 		_recordReader = _scon -> _rr -> {
-			long	id = DImpl._get(this.id).read(_scon,_rr);
-			long	invoiceId = DImpl._get(this.invoiceId).read(_scon,_rr);
+			Long	id = DImpl._get(this.id).read(_scon,_rr);
+			Long	invoiceId = DImpl._get(this.invoiceId).read(_scon,_rr);
 			String	product = DImpl._get(this.product).read(_scon,_rr);
+			if(id== null && invoiceId== null && product== null) { return null; }
 			return new InvoiceLine(id, invoiceId, product);
 		};
 	}
-	public  TInvoiceLine	alias(String aliasName){
-		return new TInvoiceLine(_tableContext.withAlias(aliasName));
+	public  TInvoiceLine	withSelectionAlias(String selectionAliasName){
+		return new TInvoiceLine(_tableContext.withAlias(selectionAliasName));
+	}
+	public  TInvoiceLine	withTableAlias(String tableAlias){
+		return new TInvoiceLine(_tableContext.withTableAlias(tableAlias));
 	}
 }

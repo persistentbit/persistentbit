@@ -60,21 +60,35 @@ public class Main{
 		result.orElseThrow();
 
 		Db db = new Db(new PostgresDbContext());
-		TPerson persoon = db.person.alias("menchen");
-		DSelection1 per = persoon.query()
+		TPerson persoon = db.person.withTableAlias("menchen");
+		DSelection2 per = persoon.query()
+				.leftJoin(db.company).on(db.company.ownerPersonId.eq(persoon.id))
 			   .where(persoon.street.like("Snoekstraat").and(persoon.houseNumber.eq(77)))
-			   .selection(persoon);
+			   .selection(persoon,db.company);
 		System.out.println(per);
+
+
+
 		System.out.println(transSupplier.flatMap(trans -> per.run(trans.get())).orElseThrow());
+		System.out.println("------------------------------");
 
-		TInvoiceLine line = db.invoiceLine.alias("iline");
-		TInvoice invoice = db.invoice.alias("invoice");
-		TCompany company = db.company.alias("company");
+		TInvoiceLine line    = db.invoiceLine.withSelectionAlias("iline");
+		TInvoice     invoice = db.invoice.withSelectionAlias("invoice");
+		TCompany     company = db.company.withSelectionAlias("company");
 
-		DSelection1<Company> allCompany = company.query().selection(company).withAlias("ac");
+		System.out.println("------------------------------");
+		DSelection1<Company> allCompany = company.query().selection(company).asTableExpr("ac");
+		System.out.println(allCompany);
+		System.out.println("------------------------------");
+
+		DSelection1<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
+		System.out.println(withSubCompany);
+		System.out.println("------------------------------");
+
+
 		DSelection2<Person,Company> cp = persoon.query()
-			.leftJoin(allCompany).query()
-			.selection(persoon,allCompany);
+												.leftJoin(allCompany).query()
+												.selection(persoon,allCompany);
 		System.out.println(cp);
 
 
@@ -86,7 +100,7 @@ public class Main{
 		.selection(invoice,line.id,line.invoiceId, line.product,company)
 		);
 
-		DSelection1<Long> lineSubQuery = line.query().selection(line.invoiceId).withAlias("subquery");
+		DSelection1<Long> lineSubQuery = line.query().selection(line.invoiceId).asTableExpr("subquery");
 
 		DSelection1 withSub = invoice.query()
 			   .leftJoin(lineSubQuery).on(invoice.id.eq(lineSubQuery.v1()))

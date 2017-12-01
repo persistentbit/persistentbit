@@ -255,8 +255,9 @@ public class PostgresJavaGen implements DbJavaGen{
 				.addImport(JImport.forClass(DbTableContext.class));
 			constructor = constructor.withCode(pw -> {
 				pw.println("super(context);");
+
 				for(DbJavaField field : table.getJavaFields()){
-					pw.println(field.createTableColumnFieldInitializer());
+					pw.println(field.createTableColumnFieldInitializer() + ";");
 				}
 				pw.println(table.getJavaFields()
 					 .map(jf -> "Tuple2.of(\"" + jf.getJavaName() + "\"," + jf.getJavaName() +")")
@@ -265,15 +266,17 @@ public class PostgresJavaGen implements DbJavaGen{
 				pw.println("_recordReader = _scon -> _rr -> {");
 				pw.indent(pt -> {
 					for(DbJavaField field : table.getJavaFields()){
-						JField jf = field.createJField();
+						JField jf = field.createJField(false);
 						pt.println(jf.getDefinition() + "\t" + jf.getName() + " = DImpl._get(this." + jf.getName() + ").read(_scon,_rr);");
 					}
+					String cond = table.getJavaFields().map(jf -> jf.getJavaName() + "== null").toString(" && ");
+					pt.println("if(" + cond + ") { return null; }");
 					pt.println("return new " + table.getJavaClassName() + "(" + table.getJavaFields().map(f -> f.getJavaName()).toString(", ") + ");");
 				});
 				pw.println("};");
 			});
 			for(DbJavaField field : table.getJavaFields()){
-				JField jf = field.createJField();
+				JField jf = field.createJField(false);
 				for(JImport imp : jf.getAllImports()){
 					cls = cls.addImport(imp);
 				}
@@ -283,14 +286,22 @@ public class PostgresJavaGen implements DbJavaGen{
 			cls = cls.addImport(Tuple2.class);
 			cls = cls.addMethod(constructor);
 
-			JMethod alias = new JMethod("alias")
+			JMethod selAlias = new JMethod("asTableExpr")
 					.withAccessLevel(AccessLevel.Public)
 					.withResultType(clsName)
-					.addArg("String","aliasName",false)
+					.addArg("String","selectionAliasName",false)
 					.withCode(pw -> {
-						pw.println("return new " + clsName + "(_tableContext.withAlias(aliasName));");
+						pw.println("return new " + clsName + "(_tableContext.withAlias(selectionAliasName));");
 					});
-			cls = cls.addMethod(alias);
+			cls = cls.addMethod(selAlias);
+			JMethod tableAlias = new JMethod("withTableAlias")
+				.withAccessLevel(AccessLevel.Public)
+				.withResultType(clsName)
+				.addArg("String","tableAlias",false)
+				.withCode(pw -> {
+					pw.println("return new " + clsName + "(_tableContext.withTableAlias(tableAlias));");
+				});
+			cls = cls.addMethod(tableAlias);
 
 			JJavaFile file = new JJavaFile(table.getPackName())
 				.addClass(cls);
@@ -491,7 +502,7 @@ public class PostgresJavaGen implements DbJavaGen{
 		return Result.function(customType).code(l -> {
 			JClass cls = new JClass(customType.getJavaClassName());
 			for(DbJavaField field : customType.getFields()){
-				cls = cls.addField(field.createJField());
+				cls = cls.addField(field.createJField(true));
 			}
 			cls = cls.makeCaseClass();
 
@@ -509,7 +520,7 @@ public class PostgresJavaGen implements DbJavaGen{
 			JClass cls = new JClass(table.getJavaClassName());
 
 			for(DbJavaField field : table.getJavaFields()){
-				JField jfield = field.createJField();
+				JField jfield = field.createJField(true);
 				jfield = jfield.addImport(JImport.forClass(DbColumnName.class));
 				jfield = jfield.addAnnotation("@" + DbColumnName.class.getSimpleName() + "(\"" + field.getDbMetaColumn().getName()+ "\")");
 				cls = cls.addField(jfield);

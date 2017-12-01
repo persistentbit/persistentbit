@@ -39,13 +39,7 @@ public class DBooleanAndOr extends DBooleanAbstract{
 					.add(DImpl._get(right).toSqlSelection(context));
 	}
 
-	@Override
-	public SqlWithParams toSqlSelectableFrom(DbSqlContext context
-	) {
-		return DImpl._get(left).toSqlSelectableFrom(context)
-					.add(" "+ opString() + " ")
-					.add(DImpl._get(right).toSqlSelectableFrom(context));
-	}
+
 
 	@Override
 	public SqlWithParams toSql(DbSqlContext context

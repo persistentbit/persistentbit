@@ -46,8 +46,8 @@ public class DbJavaFieldArray implements DbJavaField {
 	}
 
 	@Override
-	public  JField	createJField(){
-	    JField el = elementField.createJField();
+	public  JField	createJField(boolean allowPrimitives){
+	    JField el = elementField.createJField(true);
 	    JField f = new JField(fieldName, "PList<" + el.getDefinition() + ">");
 	    for (JImport imp : el.getAllImports()) {
 	        f = f.addImport(imp);

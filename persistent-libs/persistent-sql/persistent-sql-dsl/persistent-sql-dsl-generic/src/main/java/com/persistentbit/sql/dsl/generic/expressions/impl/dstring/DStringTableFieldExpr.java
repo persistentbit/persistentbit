@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dstring;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableFieldExprContext;
+import com.persistentbit.sql.dsl.generic.expressions.DExprString;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
@@ -19,7 +20,17 @@ public class DStringTableFieldExpr extends DStringAbstract{
 
 	@Override
 	public SqlWithParams toSql(DbSqlContext context) {
-		return new SqlWithParams(this.context._getFieldSelectionName());
+		return new SqlWithParams(this.context._getFieldSelectionName(context));
+	}
+	@Override
+	public SqlWithParams toSqlSelection(DbSqlContext sqlContext) {
+		SqlWithParams inside = toSql(sqlContext);
+		return inside;
+	}
+
+	@Override
+	public DExprString withSelectionAlias(String alias) {
+		return alias == null ? this : super.withSelectionAlias(alias + "_" + context._getFieldName());
 	}
 
 }

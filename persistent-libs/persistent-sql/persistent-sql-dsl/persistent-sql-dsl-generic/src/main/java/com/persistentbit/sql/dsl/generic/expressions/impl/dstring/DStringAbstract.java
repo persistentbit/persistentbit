@@ -131,4 +131,9 @@ public abstract class DStringAbstract extends DImpl<String> implements DExprStri
 	) {
 		return rowReader.readNext(String.class);
 	}
+
+	@Override
+	public DExprString withSelectionAlias(String alias) {
+		return alias == null ? this : new DStringAlias(alias,this);
+	}
 }

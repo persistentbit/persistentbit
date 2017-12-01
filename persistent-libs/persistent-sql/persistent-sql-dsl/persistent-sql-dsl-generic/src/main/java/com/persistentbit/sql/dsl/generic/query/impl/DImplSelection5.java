@@ -49,16 +49,16 @@ public class DImplSelection5<T1,T2,T3,T4,T5> extends DImplSelectionAbstract<Tupl
 	public Tuple5<T1, T2, T3, T4, T5> read(DbSqlContext context, RowReader rr
 	) {
 		return Tuple5.of(
-			DImpl._get(v1()).read(query.sqlContext,rr),
-			DImpl._get(v2()).read(query.sqlContext,rr),
-			DImpl._get(v3()).read(query.sqlContext,rr),
-			DImpl._get(v4()).read(query.sqlContext,rr),
-			DImpl._get(v5()).read(query.sqlContext,rr)
+			DImpl._get(v1()).read(context,rr),
+			DImpl._get(v2()).read(context,rr),
+			DImpl._get(v3()).read(context,rr),
+			DImpl._get(v4()).read(context,rr),
+			DImpl._get(v5()).read(context,rr)
 		);
 	}
 
 	@Override
-	public DSelection5<T1, T2, T3, T4, T5> withAlias(String aliasName) {
+	public DSelection5<T1, T2, T3, T4, T5> withSelectionAlias(String aliasName) {
 		return new DImplSelection5<>(query,columns,aliasName);
 
 	}

@@ -1,8 +1,6 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
-import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.query.impl.DSelectionAliasWrapper;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.sql.utils.rowreader.RowReader;
 
@@ -19,9 +17,9 @@ public interface DInternal<T>{
 		return toSql(context);
 	}
 
-	default SqlWithParams toSqlSelectableFrom(DbSqlContext context){
-		return new SqlWithParams(toString());
-	}
+	//default SqlWithParams toSqlSelectableFrom(DbSqlContext context){
+	//	return new SqlWithParams(toString());
+	//}
 
 	default SqlWithParams toSql(DbSqlContext context) {
 		return new SqlWithParams(toString());
@@ -29,7 +27,4 @@ public interface DInternal<T>{
 
 	T read(DbSqlContext context, RowReader rowReader);
 
-	default DExpr<T> _prefixAlias(String parentName, String prefixAlias,DExpr<T> self){
-		return new DSelectionAliasWrapper<>(parentName,prefixAlias,self);
-	}
 }

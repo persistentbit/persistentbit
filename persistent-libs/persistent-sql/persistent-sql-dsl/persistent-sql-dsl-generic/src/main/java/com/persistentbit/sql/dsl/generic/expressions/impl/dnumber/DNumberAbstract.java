@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.DExprNumber;
@@ -8,6 +9,7 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanBinOp;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanIn;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanSingleOp;
+import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
  * TODOC

@@ -172,4 +172,8 @@ public abstract class DIntAbstract extends DNumberAbstract<Integer> implements D
 	) {
 		return rowReader.readNext(Integer.class);
 	}
+	@Override
+	public DExprInt withSelectionAlias(String alias) {
+		return alias == null ? this : new DIntAlias(alias, this);
+	}
 }

@@ -100,7 +100,7 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 	@Override
 	public String createTableColumnFieldInitializer() {
 		String pre = "this." + fieldName + "\t=\tcontext.createExpr" ;
-		String post = "(this, \"" + column.getName() + "\");";
+		String post = "(this, \"" + column.getName() + "\")";
 		switch(javaClass.getSimpleName()){
 			case "String":
 				return pre + "String" + post;
@@ -126,7 +126,7 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 	}
 
 	@Override
-	public  JField	createJField(){
+	public  JField	createJField(boolean allowPrimitives){
 	    JField res = new JField(fieldName, javaClass.getSimpleName());
 	    res = res.addImport(javaClass);
 	    if (column.getType().getIsNullable()) {

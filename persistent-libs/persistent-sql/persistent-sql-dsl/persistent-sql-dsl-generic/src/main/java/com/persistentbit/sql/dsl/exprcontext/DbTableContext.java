@@ -24,14 +24,18 @@ public interface DbTableContext{
 	DExprString createExprString(DTable table,String columnName);
 	DExprDateTime createExprDateTime(DTable table, String columnName);
 
-	DbSqlContext	getSqlContext();
 
 	Query	createQuery(DTable table);
 
 	DbTableContext	withAlias(String alias);
 	Optional<String> getAlias();
 
-	default String getNameOrAlias() {
-		return getAlias().orElse(getTableName());
+	DbTableContext withTableAlias(String tableAlias);
+	Optional<String> getTableAlias();
+
+
+	default String getTableNameOrAlias() {
+		return getTableAlias().orElse(getTableName());
 	}
+
 }

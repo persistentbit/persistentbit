@@ -39,5 +39,5 @@ public interface DExprInt extends DExprNumber<Integer>{
 	DExprInt	sub(int value);
 	DExprInt	div(int value);
 	DExprInt	mul(int value);
-
+	DExprInt withSelectionAlias(String alias);
 }

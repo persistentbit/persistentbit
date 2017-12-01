@@ -7,4 +7,6 @@ package com.persistentbit.sql.dsl.generic.expressions;
  * @since 23/11/17
  */
 public interface DExpr<T>{
+
+	DExpr<T> withSelectionAlias(String alias);
 }

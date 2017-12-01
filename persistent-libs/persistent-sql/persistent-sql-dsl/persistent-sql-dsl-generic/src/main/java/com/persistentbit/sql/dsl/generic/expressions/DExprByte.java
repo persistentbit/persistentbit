@@ -39,4 +39,7 @@ public interface DExprByte extends DExprNumber<Byte>{
 	DExprInt	sub(int value);
 	DExprInt	div(int value);
 	DExprInt	mul(int value);
+
+	@Override
+	DExprByte withSelectionAlias(String alias);
 }

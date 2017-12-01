@@ -31,6 +31,11 @@ public class DIntValue extends DIntAbstract implements PrepStatParam{
 	}
 
 	@Override
+	public SqlWithParams toSql(DbSqlContext context) {
+		return new SqlWithParams(this);
+	}
+
+	@Override
 	public String toString() {
 		return "$(" + value + ")";
 	}

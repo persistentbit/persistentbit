@@ -5,6 +5,7 @@ import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.DSelection1;
+import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.utils.rowreader.RowReader;
 
 /**
@@ -30,11 +31,16 @@ public class DImplSelection1<T> extends DImplSelectionAbstract<T> implements DSe
 	@Override
 	public T read(DbSqlContext context, RowReader rowReader
 	) {
-		return DImpl._get(v1()).read(query.sqlContext,rowReader);
+		return DImpl._get(v1()).read(context,rowReader);
 	}
 
 	@Override
-	public DSelection1<T> withAlias(String aliasName) {
+	public DSelection1<T> asTableExpr(String aliasName) {
 		return new DImplSelection1<>(query,columns,aliasName);
+	}
+
+	@Override
+	public Query query() {
+		return new QueryImpl(query.dbContext,PList.val(this));
 	}
 }

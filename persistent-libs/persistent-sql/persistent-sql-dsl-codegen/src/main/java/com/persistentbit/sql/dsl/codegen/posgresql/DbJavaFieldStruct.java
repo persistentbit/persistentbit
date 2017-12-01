@@ -46,7 +46,7 @@ public class DbJavaFieldStruct implements DbJavaField {
 	}
 
 	@Override
-	public  JField	createJField(){
+	public  JField	createJField(boolean allowPrimitives){
 	    JField res = new JField(fieldName, javaClassName);
 	    res = res.addImport(new JImport(javaPackageName + "." + javaClassName));
 	    return res;

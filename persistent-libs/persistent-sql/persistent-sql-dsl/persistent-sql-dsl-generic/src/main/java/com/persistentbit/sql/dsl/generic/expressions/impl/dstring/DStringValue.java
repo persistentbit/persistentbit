@@ -30,7 +30,10 @@ public class DStringValue extends DStringAbstract implements PrepStatParam{
 	public SqlWithParams toSqlSelection(DbSqlContext context) {
 		return new SqlWithParams(this);
 	}
-
+	@Override
+	public SqlWithParams toSql(DbSqlContext context) {
+		return new SqlWithParams(this);
+	}
 	@Override
 	public String toString() {
 		return "$(\'" + value + "\')";

@@ -40,14 +40,14 @@ public class DImplSelection3<T1,T2,T3> extends DImplSelectionAbstract<Tuple3<T1,
 	public Tuple3<T1, T2, T3> read(DbSqlContext context, RowReader rr
 	) {
 		return Tuple3.of(
-			DImpl._get(v1()).read(query.sqlContext,rr),
-			DImpl._get(v2()).read(query.sqlContext,rr),
-			DImpl._get(v3()).read(query.sqlContext,rr)
+			DImpl._get(v1()).read(context,rr),
+			DImpl._get(v2()).read(context,rr),
+			DImpl._get(v3()).read(context,rr)
 		);
 	}
 
 	@Override
-	public DSelection3<T1, T2, T3> withAlias(String aliasName) {
+	public DSelection3<T1, T2, T3> withSelectionAlias(String aliasName) {
 		return new DImplSelection3<>(query,columns,aliasName);
 
 	}

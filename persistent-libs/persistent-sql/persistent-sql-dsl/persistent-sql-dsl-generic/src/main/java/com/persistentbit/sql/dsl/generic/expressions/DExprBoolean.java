@@ -18,4 +18,6 @@ public interface DExprBoolean extends DExpr<Boolean>{
 	DExprBoolean	isNull();
 	DExprBoolean	isNotNull();
 
+	@Override
+	DExprBoolean withSelectionAlias(String alias);
 }

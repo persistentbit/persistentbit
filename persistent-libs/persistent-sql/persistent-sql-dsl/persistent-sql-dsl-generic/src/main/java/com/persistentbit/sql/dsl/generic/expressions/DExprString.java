@@ -41,4 +41,6 @@ public interface DExprString extends DExpr<String>{
 	DExprBoolean in(PList<DExpr<String>> values);
 	DExprBoolean in(DExpr<String>...values);
 
+	DExprString withSelectionAlias(String alias);
+
 }

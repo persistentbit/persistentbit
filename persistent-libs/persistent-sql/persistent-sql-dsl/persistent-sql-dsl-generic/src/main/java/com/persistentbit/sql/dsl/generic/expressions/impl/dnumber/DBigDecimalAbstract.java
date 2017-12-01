@@ -1,10 +1,10 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
-import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBigDecimal;
 import com.persistentbit.sql.dsl.generic.expressions.DExprNumber;
 import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.utils.exceptions.ToDo;
 
 import java.math.BigDecimal;
 
@@ -65,5 +65,9 @@ public abstract class DBigDecimalAbstract extends DNumberAbstract<BigDecimal> im
 	public BigDecimal read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(BigDecimal.class);
+	}
+	@Override
+	public DExprBigDecimal withSelectionAlias(String alias) {
+		throw new ToDo();
 	}
 }

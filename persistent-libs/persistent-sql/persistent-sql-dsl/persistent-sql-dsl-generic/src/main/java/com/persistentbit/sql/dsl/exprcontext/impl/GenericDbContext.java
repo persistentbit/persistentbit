@@ -24,8 +24,11 @@ public class GenericDbContext implements DbContext{
 		if(schemaName != null){
 			fullName = schemaName + "." + tableName;
 		}
-		return new GenericDbTableContext(sqlContext, fullName,null);
+		return new GenericDbTableContext(this, fullName,null,null);
 	}
 
-
+	@Override
+	public DbSqlContext createSqlContext() {
+		return sqlContext;
+	}
 }

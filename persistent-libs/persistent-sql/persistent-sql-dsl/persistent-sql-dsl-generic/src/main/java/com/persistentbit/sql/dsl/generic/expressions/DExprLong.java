@@ -39,5 +39,5 @@ public interface DExprLong extends DExprNumber<Long>{
 	DExprLong	sub(long value);
 	DExprLong	div(long value);
 	DExprLong	mul(long value);
-
+	DExprLong withSelectionAlias(String alias);
 }

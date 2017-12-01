@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableFieldExprContext;
+import com.persistentbit.sql.dsl.generic.expressions.DExprDouble;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
@@ -18,6 +19,11 @@ public class DDoubleTableFieldExpr extends DDoubleAbstract{
 	}
 	@Override
 	public SqlWithParams toSql(DbSqlContext context) {
-		return new SqlWithParams(this.context._getFieldSelectionName());
+		return new SqlWithParams(this.context._getFieldSelectionName(context));
 	}
+	@Override
+	public DExprDouble withSelectionAlias(String alias) {
+		return alias == null ? this : super.withSelectionAlias(alias + "_" + context._getFieldName());
+	}
+
 }

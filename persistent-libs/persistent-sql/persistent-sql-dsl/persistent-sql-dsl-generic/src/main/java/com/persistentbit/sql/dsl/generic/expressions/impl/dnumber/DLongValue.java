@@ -35,4 +35,8 @@ public class DLongValue extends DLongAbstract implements PrepStatParam{
 	) {
 		return rowReader.readNext(Long.class);
 	}
+	@Override
+	public SqlWithParams toSql(DbSqlContext context) {
+		return new SqlWithParams(this);
+	}
 }

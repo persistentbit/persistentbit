@@ -30,5 +30,8 @@ public class DDoubleValue extends DDoubleAbstract implements PrepStatParam{
 		return new SqlWithParams(this);
 	}
 
-
+	@Override
+	public SqlWithParams toSql(DbSqlContext context) {
+		return new SqlWithParams(this);
+	}
 }

@@ -36,13 +36,13 @@ public class DImplSelection2<T1,T2> extends DImplSelectionAbstract<Tuple2<T1,T2>
 	@Override
 	public Tuple2<T1, T2> read(DbSqlContext context, RowReader rr) {
 		return Tuple2.of(
-			DImpl._get(v1()).read(query.sqlContext,rr),
-			DImpl._get(v2()).read(query.sqlContext,rr)
+			DImpl._get(v1()).read(context,rr),
+			DImpl._get(v2()).read(context,rr)
 		);
 	}
 
 	@Override
-	public DSelection2<T1, T2> withAlias(String aliasName) {
+	public DSelection2<T1, T2> withSelectionAlias(String aliasName) {
 		return new DImplSelection2<>(query,columns,aliasName);
 	}
 }

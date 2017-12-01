@@ -6,6 +6,7 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.dsl.generic.expressions.impl.dtable.DImplTable;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.utils.rowreader.ResultSetRowReader;
 import com.persistentbit.sql.work.DbWork;
@@ -32,8 +33,7 @@ public abstract class DImplSelectionAbstract<T> extends DImpl<T> implements DbWo
 		this.columns = columns;
 		this.aliasName = aliasName;
 		this.columnsWithAlias = columns.lazy().zipWithIndex().map(t ->
-			//DImpl._get(t._2)._prefixAlias(aliasName,"v" + (t._1+1),t._2)
-			t._2
+			t._2.withSelectionAlias("v" + (t._1+1))
 		).plist();
 	}
 
@@ -43,19 +43,22 @@ public abstract class DImplSelectionAbstract<T> extends DImpl<T> implements DbWo
 		return new SqlWithParams("SELECT ")
 			.add(toSqlSelection(sqlContext))
 			.add(" FROM ").add(
-				query.from.map(e -> DImpl._get(e).toSqlSelectableFrom(sqlContext))
+				query.from.map(e -> DImplTable._get(e).toSqlFrom(sqlContext))
 			)
-			.add(query.joins.map(j -> j.toSql().nl()))
+			.add(query.joins.map(j -> j.toSql(sqlContext).nl()))
 			.add(query.where == null
 				? SqlWithParams.empty()
-				: new SqlWithParams(" WHERE ").add(DImpl._get(query.where).toSqlSelection(sqlContext))
+				: new SqlWithParams(" WHERE ").add(DImpl._get(query.where).toSql(sqlContext))
 			)
 		;
 	}
 
 	@Override
 	public SqlWithParams toSqlSelection(DbSqlContext sqlContext) {
+
+
 		return new SqlWithParams(columnsWithAlias.map(e -> DImpl._get(e).toSqlSelection(sqlContext)),", ");
+
 	}
 
 	protected  DExpr getWithAlias(int index){
@@ -71,20 +74,21 @@ public abstract class DImplSelectionAbstract<T> extends DImpl<T> implements DbWo
 
 	@Override
 	public String toString() {
-		return toSql(query.sqlContext).toString();
+		return toSql(query.dbContext.createSqlContext()).toString();
 	}
 
 	@Override
 	public Result<PStream<T>> run(DbTransaction transaction) {
 		return transaction.run(con -> {
-			SqlWithParams sqlWithParams = toSql(query.sqlContext);
+			DbSqlContext sqlContext = query.dbContext.createSqlContext();
+			SqlWithParams sqlWithParams = toSql(sqlContext);
 			try(PreparedStatement stat = con.prepareStatement(sqlWithParams.getSql())){
 				sqlWithParams.setParams(stat);
 				try(ResultSet rs = stat.executeQuery()){
 					PList<T>  res = PList.empty();
-					ResultSetRowReader rr  = query.sqlContext.createResultSetRowReader(rs);
+					ResultSetRowReader rr  = sqlContext.createResultSetRowReader(rs);
 					while(rs.next()){
-						T rec = read(query.sqlContext,rr);
+						T rec = read(sqlContext,rr);
 
 						res = res.plus(rec);
 						rr.nextRow();

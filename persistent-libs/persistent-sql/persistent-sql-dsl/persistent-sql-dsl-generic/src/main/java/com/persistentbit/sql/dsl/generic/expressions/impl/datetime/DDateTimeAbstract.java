@@ -107,4 +107,9 @@ public class DDateTimeAbstract extends DImpl<LocalDateTime> implements DExprDate
 	) {
 		return rowReader.readNext(LocalDateTime.class);
 	}
+
+	@Override
+	public DExprDateTime withSelectionAlias(String alias) {
+		return alias == null ? this : new DDateTimeAlias(alias,this);
+	}
 }

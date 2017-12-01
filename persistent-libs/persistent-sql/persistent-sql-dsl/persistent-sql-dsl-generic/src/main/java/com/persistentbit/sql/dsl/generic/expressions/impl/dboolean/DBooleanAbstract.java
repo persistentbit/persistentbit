@@ -5,6 +5,7 @@ import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -52,5 +53,10 @@ public abstract class DBooleanAbstract extends DImpl<Boolean> implements DExprBo
 	public Boolean read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Boolean.class);
+	}
+
+	@Override
+	public DExprBoolean withSelectionAlias(String alias) {
+		throw new ToDo();
 	}
 }
