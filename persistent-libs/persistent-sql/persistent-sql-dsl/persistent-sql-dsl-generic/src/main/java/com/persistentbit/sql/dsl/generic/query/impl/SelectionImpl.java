@@ -9,11 +9,11 @@ import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DInternal;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dtable.DImplTable;
+import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
 import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.utils.rowreader.ResultSetRowReader;
 import com.persistentbit.sql.work.DbWork;
-import com.persistentbit.utils.exceptions.ToDo;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,8 +25,8 @@ import java.sql.ResultSet;
  * @since 28/11/17
  */
 public class SelectionImpl<T> implements Selection<T>,DbWork<PStream<T>>{
-	protected final QueryImpl query;
-	protected final DExpr<T> columns;
+	final QueryImpl query;
+	final DExpr<T> columns;
 	public SelectionImpl(QueryImpl query,
 						 DExpr<T> columns
 	) {
@@ -34,11 +34,16 @@ public class SelectionImpl<T> implements Selection<T>,DbWork<PStream<T>>{
 		this.columns = columns;
 	}
 
+
 	public SqlWithParams toSql(DbSqlContext sqlContext){
+		return toSql(sqlContext,columns);
+	}
 
-		SqlWithParams selection = DImpl._get(columns)._toSqlSelection(sqlContext);
+	SqlWithParams toSql(DbSqlContext sqlContext, DExpr<T> columnWithAlias){
 
-		SqlWithParams from = new SqlWithParams(query.from.map(e -> DImplTable._get(e).toSqlFrom(sqlContext)),", ");
+		SqlWithParams selection = DImpl._get(columnWithAlias)._toSqlSelection(sqlContext);
+
+		SqlWithParams from = new SqlWithParams(query.from.map(e -> DImplTable._get(e)._toSqlFrom(sqlContext)),", ");
 
 		SqlWithParams joins = new SqlWithParams(query.joins.map(j -> j.toSql(sqlContext)),System.lineSeparator());
 		return new SqlWithParams("SELECT ")
@@ -90,7 +95,7 @@ public class SelectionImpl<T> implements Selection<T>,DbWork<PStream<T>>{
 	}
 
 	@Override
-	public DExprTable<T> asTableExpr(String aliasName) {
-		throw new ToDo();
+	public DSelectionTable<T> asTableExpr(String aliasName) {
+		return new SelectionAsTableImpl<>(this,aliasName);
 	}
 }

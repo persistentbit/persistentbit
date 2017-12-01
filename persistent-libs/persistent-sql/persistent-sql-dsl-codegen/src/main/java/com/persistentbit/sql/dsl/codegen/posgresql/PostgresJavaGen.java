@@ -241,7 +241,7 @@ public class PostgresJavaGen implements DbJavaGen{
 			String clsName = "T" + table.getJavaClassName();
 			JClass cls = new JClass(clsName);
 			cls = cls.addImport(DTable.class);
-			cls = cls.extendsDef(DTable.class.getSimpleName() + "<" + table.getJavaClassName() + ">");
+			cls = cls.extendsDef(DTable.class.getSimpleName() + "<" + table.getJavaClassName() +", T" + table.getJavaClassName() + ">");
 			cls = cls.addImport(new JImport(table.getPackName() + "." + table.getJavaClassName()));
 
 			for(DbJavaField field : table.getJavaFields()){
@@ -274,6 +274,7 @@ public class PostgresJavaGen implements DbJavaGen{
 					pt.println("return new " + table.getJavaClassName() + "(" + table.getJavaFields().map(f -> f.getJavaName()).toString(", ") + ");");
 				});
 				pw.println("};");
+				pw.println("_doWithAlias = alias -> new T" + table.getJavaClassName()+"(_tableContext.withAlias(alias));");
 			});
 			for(DbJavaField field : table.getJavaFields()){
 				JField jf = field.createJField(false);
@@ -286,14 +287,14 @@ public class PostgresJavaGen implements DbJavaGen{
 			cls = cls.addImport(Tuple2.class);
 			cls = cls.addMethod(constructor);
 
-			JMethod selAlias = new JMethod("asTableExpr")
+			/*JMethod selAlias = new JMethod("asTableExpr")
 					.withAccessLevel(AccessLevel.Public)
 					.withResultType(clsName)
 					.addArg("String","selectionAliasName",false)
 					.withCode(pw -> {
 						pw.println("return new " + clsName + "(_tableContext.withAlias(selectionAliasName));");
 					});
-			cls = cls.addMethod(selAlias);
+			cls = cls.addMethod(selAlias);*/
 			JMethod tableAlias = new JMethod("withTableAlias")
 				.withAccessLevel(AccessLevel.Public)
 				.withResultType(clsName)

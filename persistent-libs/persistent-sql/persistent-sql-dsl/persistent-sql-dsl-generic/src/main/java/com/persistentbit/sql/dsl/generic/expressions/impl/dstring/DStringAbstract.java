@@ -17,7 +17,7 @@ import com.persistentbit.sql.utils.rowreader.RowReader;
  * @author petermuys
  * @since 23/11/17
  */
-public abstract class DStringAbstract extends DImpl<String> implements DExprString{
+public abstract class DStringAbstract implements DImpl<String> , DExprString{
 
 
 	DExprString _value(String value){

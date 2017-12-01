@@ -14,7 +14,7 @@ import com.persistentbit.tuples.Tuple3;
  * @author petermuys
  * @since 1/12/17
  */
-public class DTuple3<T1,T2,T3> extends DImpl<Tuple3<T1,T2,T3>> implements
+public class DTuple3<T1,T2,T3> implements DImpl<Tuple3<T1,T2,T3>> ,
 																	 DExprTuple3<T1,T2,T3>{
 	private final DExpr<T1> v1;
 	private final DExpr<T2>	v2;

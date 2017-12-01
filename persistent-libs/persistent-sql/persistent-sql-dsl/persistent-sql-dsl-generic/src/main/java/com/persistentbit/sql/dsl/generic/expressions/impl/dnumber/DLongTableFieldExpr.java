@@ -24,7 +24,7 @@ public class DLongTableFieldExpr extends DLongAbstract{
 	}
 	@Override
 	public DExprLong _withAlias(String alias) {
-		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
+		return alias == null ? this : super._withAlias(alias +  "_" + context._getFieldName() );
 	}
 
 }

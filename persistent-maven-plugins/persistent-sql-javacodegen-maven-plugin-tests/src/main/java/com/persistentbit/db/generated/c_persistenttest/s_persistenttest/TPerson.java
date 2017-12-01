@@ -5,13 +5,14 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.collections.PList;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Person;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.tuples.Tuple2;
-
+import com.persistentbit.code.annotations.Nullable;
 import java.lang.String;
 
-public class TPerson extends DTable<Person> {
+public class TPerson extends DTable<Person, TPerson> {
 	public  final	DExprLong	id;
 	public  final	DExprString	userName;
 	public  final	DExprString	password;
@@ -49,9 +50,7 @@ public class TPerson extends DTable<Person> {
 			if(id== null && userName== null && password== null && street== null && houseNumber== null && busNumber== null && postalcode== null && city== null && country== null) { return null; }
 			return new Person(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 		};
-	}
-	public  TPerson _withAlias(String selectionAliasName){
-		return new TPerson(_tableContext.withAlias(selectionAliasName));
+		_doWithAlias = alias -> new TPerson(_tableContext.withAlias(alias));
 	}
 	public  TPerson	withTableAlias(String tableAlias){
 		return new TPerson(_tableContext.withTableAlias(tableAlias));

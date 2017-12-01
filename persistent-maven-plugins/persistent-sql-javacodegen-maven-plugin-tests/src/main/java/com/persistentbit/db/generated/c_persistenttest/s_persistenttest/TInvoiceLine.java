@@ -7,10 +7,11 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.tuples.Tuple2;
-
+import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.InvoiceLine;
 import java.lang.String;
 
-public class TInvoiceLine extends DTable<InvoiceLine> {
+public class TInvoiceLine extends DTable<InvoiceLine, TInvoiceLine> {
 	public  final	DExprLong	id;
 	public  final	DExprLong	invoiceId;
 	public  final	DExprString	product;
@@ -30,9 +31,7 @@ public class TInvoiceLine extends DTable<InvoiceLine> {
 			if(id== null && invoiceId== null && product== null) { return null; }
 			return new InvoiceLine(id, invoiceId, product);
 		};
-	}
-	public  TInvoiceLine _withAlias(String selectionAliasName){
-		return new TInvoiceLine(_tableContext.withAlias(selectionAliasName));
+		_doWithAlias = alias -> new TInvoiceLine(_tableContext.withAlias(alias));
 	}
 	public  TInvoiceLine	withTableAlias(String tableAlias){
 		return new TInvoiceLine(_tableContext.withTableAlias(tableAlias));

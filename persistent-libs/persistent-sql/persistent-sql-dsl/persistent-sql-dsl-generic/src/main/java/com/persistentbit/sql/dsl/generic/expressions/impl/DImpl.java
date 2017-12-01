@@ -8,7 +8,7 @@ import com.persistentbit.sql.dsl.generic.expressions.DExpr;
  * @author petermuys
  * @since 23/11/17
  */
-public abstract class DImpl<T> implements DExpr<T>,DInternal<T>{
+public interface DImpl<T> extends DExpr<T>,DInternal<T>{
 
 
 	@SuppressWarnings("unchecked")

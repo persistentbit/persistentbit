@@ -14,8 +14,7 @@ import com.persistentbit.tuples.Tuple6;
  * @author petermuys
  * @since 1/12/17
  */
-public class DTuple6<T1,T2,T3,T4,T5,T6> extends DImpl<Tuple6<T1,T2,T3,T4,T5,T6>> implements
-																					   DExprTuple6<T1,T2,T3,T4,T5,T6>{
+public class DTuple6<T1,T2,T3,T4,T5,T6> implements DImpl<Tuple6<T1,T2,T3,T4,T5,T6>> ,  DExprTuple6<T1,T2,T3,T4,T5,T6>{
 	private final DExpr<T1> v1;
 	private final DExpr<T2>	v2;
 	private final DExpr<T3>	v3;

@@ -14,7 +14,7 @@ import com.persistentbit.tuples.Tuple2;
  * @author petermuys
  * @since 1/12/17
  */
-public class DTuple2<T1,T2> extends DImpl<Tuple2<T1,T2>> implements DExprTuple2<T1,T2>{
+public class DTuple2<T1,T2> implements DImpl<Tuple2<T1,T2>> , DExprTuple2<T1,T2>{
 	private final DExpr<T1>	v1;
 	private final DExpr<T2>	v2;
 
@@ -26,8 +26,8 @@ public class DTuple2<T1,T2> extends DImpl<Tuple2<T1,T2>> implements DExprTuple2<
 	@Override
 	public DExpr<Tuple2<T1, T2>> _withAlias(String alias) {
 		return new DTuple2<>(
-			DImpl._get(v1)._withAlias("v1_" + alias),
-				DImpl._get(v2)._withAlias("v2_" + alias)
+			DImpl._get(v1)._withAlias(alias + "v1"),
+				DImpl._get(v2)._withAlias(alias + "v2")
 		);
 	}
 

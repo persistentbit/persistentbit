@@ -3,13 +3,14 @@ package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Invoice;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.tuples.Tuple2;
 import java.lang.String;
 
-public class TInvoice extends DTable<Invoice> {
+public class TInvoice extends DTable<Invoice, TInvoice> {
 	public  final	DExprLong	id;
 	public  final	DExprString	invoiceNummer;
 	public  final	DExprLong	fromCompanyId;
@@ -32,9 +33,7 @@ public class TInvoice extends DTable<Invoice> {
 			if(id== null && invoiceNummer== null && fromCompanyId== null && toCompanyId== null) { return null; }
 			return new Invoice(id, invoiceNummer, fromCompanyId, toCompanyId);
 		};
-	}
-	public  TInvoice _withAlias(String selectionAliasName){
-		return new TInvoice(_tableContext.withAlias(selectionAliasName));
+		_doWithAlias = alias -> new TInvoice(_tableContext.withAlias(alias));
 	}
 	public  TInvoice	withTableAlias(String tableAlias){
 		return new TInvoice(_tableContext.withTableAlias(tableAlias));

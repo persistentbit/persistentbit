@@ -1,7 +1,6 @@
 package com.persistentbit.sql.dsl.generic.query;
 
 import com.persistentbit.collections.PStream;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.work.DbWork;
 
 /**
@@ -12,7 +11,7 @@ import com.persistentbit.sql.work.DbWork;
  */
 public interface Selection<T> extends DbWork<PStream<T>>{
 
-	DExprTable<T> asTableExpr(String aliasName);
+	DSelectionTable<T> asTableExpr(String aliasName);
 
 
 

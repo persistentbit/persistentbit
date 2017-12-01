@@ -9,4 +9,5 @@ package com.persistentbit.sql.dsl.exprcontext;
 public interface DbContext{
 	DbTableContext forTable(String schemaName, String tableName);
 	DbSqlContext	createSqlContext();
+
 }

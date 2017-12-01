@@ -13,7 +13,7 @@ import com.persistentbit.utils.exceptions.ToDo;
  * @author petermuys
  * @since 23/11/17
  */
-public abstract class DBooleanAbstract extends DImpl<Boolean> implements DExprBoolean{
+public abstract class DBooleanAbstract implements DImpl<Boolean> , DExprBoolean{
 
 	@Override
 	public DExprBoolean not() {

@@ -1,5 +1,6 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.SchemaHistory;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
@@ -10,7 +11,7 @@ import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.tuples.Tuple2;
 import java.lang.String;
 
-public class TSchemaHistory extends DTable<SchemaHistory> {
+public class TSchemaHistory extends DTable<SchemaHistory, TSchemaHistory> {
 	public  final	DExprDateTime	createddate;
 	public  final	DExprString	packageName;
 	public  final	DExprString	updateName;
@@ -30,9 +31,7 @@ public class TSchemaHistory extends DTable<SchemaHistory> {
 			if(createddate== null && packageName== null && updateName== null) { return null; }
 			return new SchemaHistory(createddate, packageName, updateName);
 		};
-	}
-	public  TSchemaHistory _withAlias(String selectionAliasName){
-		return new TSchemaHistory(_tableContext.withAlias(selectionAliasName));
+		_doWithAlias = alias -> new TSchemaHistory(_tableContext.withAlias(alias));
 	}
 	public  TSchemaHistory	withTableAlias(String tableAlias){
 		return new TSchemaHistory(_tableContext.withTableAlias(tableAlias));

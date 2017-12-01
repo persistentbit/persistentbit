@@ -12,9 +12,9 @@ import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
  */
 public interface DImplTable {
 
-	SqlWithParams	toSqlFrom(DbSqlContext context);
+	SqlWithParams _toSqlFrom(DbSqlContext context);
 
-	static public DImplTable _get(DExprTable tableExpr){
+	static DImplTable _get(DExprTable tableExpr){
 		return (DImplTable)tableExpr;
 	}
 }

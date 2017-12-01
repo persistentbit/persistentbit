@@ -1,5 +1,7 @@
 package com.persistentbit.sql.dsl.generic.expressions;
 
+import com.persistentbit.sql.dsl.generic.query.Query;
+
 /**
  * TODOC
  *
@@ -7,4 +9,5 @@ package com.persistentbit.sql.dsl.generic.expressions;
  * @since 26/11/17
  */
 public interface DExprTable<T>{
+	Query query();
 }

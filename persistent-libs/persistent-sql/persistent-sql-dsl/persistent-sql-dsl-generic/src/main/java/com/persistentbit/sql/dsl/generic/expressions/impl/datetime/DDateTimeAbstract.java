@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  * @author petermuys
  * @since 27/11/17
  */
-public class DDateTimeAbstract extends DImpl<LocalDateTime> implements DExprDateTime{
+public class DDateTimeAbstract implements DImpl<LocalDateTime>,  DExprDateTime{
 
 
 

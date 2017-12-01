@@ -6,12 +6,13 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
+import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
 import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.work.DbWork;
+import com.persistentbit.tuples.Tuple2;
 
 import java.sql.Connection;
 import java.util.function.Supplier;
@@ -76,11 +77,16 @@ public class Main{
 		TInvoice     invoice = db.invoice._withAlias("invoice");
 		TCompany     company = db.company._withAlias("company");
 
+		System.out.println(
+			company.query().leftJoin(invoice).query().selection(company,invoice));
+
 		System.out.println("------------------------------");
-		DExprTable<Company> allCompany = company.query().selection(company).asTableExpr("ac");
+		DSelectionTable<Tuple2<Company,Invoice>> allCompany = company.query().leftJoin(invoice).query()
+																	 .selection(company,invoice).asTableExpr("ac");
 		System.out.println(allCompany);
 		System.out.println("------------------------------");
 
+		System.out.println(allCompany.query().selection(allCompany));
 		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
 		//System.out.println(withSubCompany);
 		//System.out.println("------------------------------");

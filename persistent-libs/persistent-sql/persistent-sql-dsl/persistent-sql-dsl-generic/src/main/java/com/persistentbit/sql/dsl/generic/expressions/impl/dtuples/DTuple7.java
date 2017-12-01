@@ -14,7 +14,7 @@ import com.persistentbit.tuples.Tuple7;
  * @author petermuys
  * @since 1/12/17
  */
-public class DTuple7<T1,T2,T3,T4,T5,T6,T7> extends DImpl<Tuple7<T1,T2,T3,T4,T5,T6,T7>> implements DExprTuple7<T1,T2,T3,T4,T5,T6,T7>{
+public class DTuple7<T1,T2,T3,T4,T5,T6,T7> implements DImpl<Tuple7<T1,T2,T3,T4,T5,T6,T7>> , DExprTuple7<T1,T2,T3,T4,T5,T6,T7>{
 	private final DExpr<T1> v1;
 	private final DExpr<T2>	v2;
 	private final DExpr<T3>	v3;
