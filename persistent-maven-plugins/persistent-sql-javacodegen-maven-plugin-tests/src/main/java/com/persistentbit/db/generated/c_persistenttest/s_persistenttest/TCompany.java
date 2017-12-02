@@ -1,13 +1,16 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
-import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.code.annotations.Nullable;
+import java.lang.String;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Company;
 
 public class TCompany extends DTable<Company> {
 	public  final	DExprLong	id;

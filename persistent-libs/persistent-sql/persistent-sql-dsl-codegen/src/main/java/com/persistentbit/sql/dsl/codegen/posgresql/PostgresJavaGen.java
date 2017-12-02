@@ -9,6 +9,8 @@ import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
+import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
+import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.*;
 import com.persistentbit.sql.meta.DbMetaDataImporter;
 import com.persistentbit.sql.meta.data.*;
@@ -201,7 +203,9 @@ public class PostgresJavaGen implements DbJavaGen{
 
 	private Result<GeneratedJavaSource> generateDbSource(PList<DbJavaTable> tables){
 		return Result.function().code(l -> {
-			JClass cls = new JClass("Db");
+			JClass cls = new JClass("Db").extendsDef(DbPostgres.class.getSimpleName());
+			cls.addImport(DbPostgres.class);
+
 
 			for(DbJavaTable table : tables){
 				JField field = new JField(UString.firstLowerCase(table.getJavaClassName()),"T" + table.getJavaClassName())
@@ -214,9 +218,10 @@ public class PostgresJavaGen implements DbJavaGen{
 			}
 			JMethod constructor = new JMethod("Db")
 				.withAccessLevel(AccessLevel.Public)
-				.addArg(new JArgument(DbContext.class.getSimpleName(),"context"))
+				.addArg(new JArgument(PostgresDbContext.class.getSimpleName(), "context"))
 				.addImport(JImport.forClass(DbContext.class));
 			constructor = constructor.withCode(pw -> {
+				pw.println("super(context);");
 					//this.company = new TCompany(context.forTable("schemaName","tableName"));
 				for(DbJavaTable table : tables){
 
@@ -227,7 +232,12 @@ public class PostgresJavaGen implements DbJavaGen{
 			});
 			cls = cls.addMethod(constructor);
 
-
+			JMethod emptyConstructor = new JMethod("Db")
+				.withAccessLevel(AccessLevel.Public);
+			emptyConstructor = emptyConstructor.withCode(pw -> {
+				pw.println("this(new PostgresDbContext());");
+			});
+			cls = cls.addMethod(emptyConstructor);
 
 
 			JJavaFile file = new JJavaFile(rootPackage)

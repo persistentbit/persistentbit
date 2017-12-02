@@ -1,7 +1,8 @@
 package com.persistentbit.sql.dsl.codegen;
 
 
-import com.persistentbit.reflection.BaseValueClass;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
 
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -12,7 +13,9 @@ import java.util.function.Predicate;
  * @author petermuys
  * @since 22/06/17
  */
-public class DbProtoTypeField extends BaseValueClass{
+@CaseClass
+@NoBuilder
+public class DbProtoTypeField{
 	private final Predicate<String> fieldSelector;
 	private final Function<String, String> nameConverter;
 
@@ -21,7 +24,7 @@ public class DbProtoTypeField extends BaseValueClass{
 	) {
 		this.fieldSelector = fieldSelector;
 		this.nameConverter = nameConverter;
-		checkNullFields();
+
 	}
 
 	static public DbProtoTypeField	nameStartingWith(String prefix){
