@@ -60,6 +60,8 @@ public class Main{
 			);
 		result.orElseThrow();
 
+		Supplier<DbTransaction> newTrans = ()-> transSupplier.map(Supplier::get).orElseThrow();
+
 		Db db = new Db(new PostgresDbContext());
 		TPerson persoon = db.person.withTableAlias("menchen");
 		Selection per = persoon.query()
@@ -73,20 +75,36 @@ public class Main{
 		System.out.println(transSupplier.flatMap(trans -> per.run(trans.get())).orElseThrow());
 		System.out.println("------------------------------");
 
-		TInvoiceLine line    = db.invoiceLine._withAlias("iline");
-		TInvoice     invoice = db.invoice._withAlias("invoice");
-		TCompany     company = db.company._withAlias("company");
+		TInvoiceLine line    = db.invoiceLine.withTableAlias("iline");
+		TInvoice     invoice = db.invoice.withTableAlias("invoice");
+		TCompany     company = db.company.withTableAlias("company");
 
 		System.out.println(
 			company.query().leftJoin(invoice).query().selection(company,invoice));
 
 		System.out.println("------------------------------");
-		DSelectionTable<Tuple2<Company,Invoice>> allCompany = company.query().leftJoin(invoice).query()
-																	 .selection(company,invoice).asTableExpr("ac");
+
+		Selection<Tuple2<Company,Invoice>> allCompanySel =
+			company.query()
+				   .leftJoin(invoice).on(invoice.fromCompanyId.eq(company.id).or(invoice.invoiceNummer.eq("12345")))
+			.selection(company,invoice);
+
+		System.out.println("allCompanySel: " + allCompanySel);
+		System.out.println("------------------------------");
+		DSelectionTable<Tuple2<Company,Invoice>> allCompany = allCompanySel.asTableExpr("ac");
 		System.out.println(allCompany);
 		System.out.println("------------------------------");
 
 		System.out.println(allCompany.query().selection(allCompany));
+		System.out.println("------------------------------");
+
+		Selection<Tuple2<Person,Company>> persAndCompSel = persoon.query()
+			   .leftJoin(company).on(persoon.id.eq(company.id))
+			   .selection(persoon,company);
+
+		persAndCompSel.run(newTrans.get()).orElseThrow().forEach(System.out::println);
+
+
 		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
 		//System.out.println(withSubCompany);
 		//System.out.println("------------------------------");

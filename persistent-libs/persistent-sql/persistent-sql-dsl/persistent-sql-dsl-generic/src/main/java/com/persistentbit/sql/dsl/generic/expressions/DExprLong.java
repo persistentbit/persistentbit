@@ -40,4 +40,8 @@ public interface DExprLong extends DExprNumber<Long>{
 	DExprLong	div(long value);
 	DExprLong	mul(long value);
 
+	static DExprLong cast(DExpr<Long> expr){
+		return (DExprLong)expr;
+	}
+
 }

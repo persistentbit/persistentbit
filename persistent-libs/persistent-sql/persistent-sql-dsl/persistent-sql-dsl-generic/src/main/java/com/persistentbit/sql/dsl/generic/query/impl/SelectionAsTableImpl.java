@@ -25,12 +25,12 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 	public SelectionAsTableImpl(SelectionImpl<T> selection, String alias) {
 		this.selection = selection;
 		this.alias = alias;
-		this.columnWithAlias = DImpl._get(selection.columns)._withAlias("sel");
+		this.columnWithAlias = DImpl._get(selection.columns)._withAlias(alias + ".sel_");
 	}
 
 	@Override
 	public SqlWithParams _toSqlFrom(DbSqlContext context) {
-		return new SqlWithParams("(").add(selection.toSql(context,columnWithAlias))
+		return SqlWithParams.sql("(").add(selection.toSql(context, "sel"))
 									 .add(") AS " + alias);
 	}
 
@@ -45,14 +45,13 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 	}
 
 	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext context) {
-		//return DImpl._get(columnWithAlias)._toSql(context);
-		return _toSql(context);
+	public SqlWithParams _toSqlSelection(DbSqlContext context,String alias) {
+		return _toSql(context).add(alias == null ? "" : " AS " + alias);
 	}
 
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
-		return DImpl._get(DImpl._get(columnWithAlias)._withAlias(alias + "."))._toSql(context);
+		return DImpl._get(columnWithAlias)._toSql(context);
 	}
 
 	@Override

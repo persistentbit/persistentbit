@@ -69,10 +69,10 @@ public class JoinImpl implements Join{
 				throw new IllegalArgumentException(type.toString());
 
 		}
-		SqlWithParams result = new SqlWithParams("").nl().add(res)
+		SqlWithParams result = SqlWithParams.nl.add(res)
 			.add(DImplTable._get(selectable)._toSqlFrom(sqlContext));
 		if(joinExpr != null){
-			result = result.add(" ON ").add(DImpl._get(joinExpr)._toSqlSelection(sqlContext));
+			result = result.add(" ON ").add(DImpl._get(joinExpr)._toSql(sqlContext));
 		}
 		return result;
 	}

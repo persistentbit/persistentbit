@@ -22,12 +22,12 @@ public class DStringAlias extends DStringAbstract{
 
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
-		return new SqlWithParams(alias);
+		return SqlWithParams.sql(alias);
 	}
 
 	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext context) {
-		return DImpl._get(expr)._toSqlSelection(context).add(" AS " + alias);
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+		return DImpl._get(expr)._toSqlSelection(context,alias);
 	}
 
 

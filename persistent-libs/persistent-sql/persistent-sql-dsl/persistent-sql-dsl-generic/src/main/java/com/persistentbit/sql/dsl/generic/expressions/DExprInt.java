@@ -40,4 +40,8 @@ public interface DExprInt extends DExprNumber<Integer>{
 	DExprInt	div(int value);
 	DExprInt	mul(int value);
 
+	static DExprInt from(DExpr<Integer> expr){
+		return (DExprInt)expr;
+	}
+
 }

@@ -32,13 +32,12 @@ public class DTuple2<T1,T2> implements DImpl<Tuple2<T1,T2>> , DExprTuple2<T1,T2>
 	}
 
 	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext context
-	) {
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+
 		return
-			DImpl._get(v1)._toSqlSelection(context)
-			 .add(", ")
-			 .add(DImpl._get(v2)._toSqlSelection(context))
-		;
+			DImpl._get(v1)._toSqlSelection(context,alias == null ? null : alias + "_v1")
+				 .add(", ").add(DImpl._get(v2)._toSqlSelection(context,alias == null ? null : alias + "_v2"))
+			;
 	}
 
 	@Override

@@ -19,7 +19,12 @@ public class DBigDecimalTableFieldExpr extends DBigDecimalAbstract{
 	}
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
-		return new SqlWithParams(this.context._getFieldSelectionName(context));
+		return SqlWithParams.sql(this.context._getFieldSelectionName(context));
+	}
+
+	@Override
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+		return _toSql(context).add(alias == null ? "" : " AS " + alias  +  "_" + this.context._getFieldName());
 	}
 
 	@Override

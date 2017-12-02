@@ -5,7 +5,6 @@ import com.persistentbit.collections.PStream;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DInternal;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dtable.DImplTable;
@@ -36,23 +35,23 @@ public class SelectionImpl<T> implements Selection<T>,DbWork<PStream<T>>{
 
 
 	public SqlWithParams toSql(DbSqlContext sqlContext){
-		return toSql(sqlContext,columns);
+		return toSql(sqlContext,null);
 	}
 
-	SqlWithParams toSql(DbSqlContext sqlContext, DExpr<T> columnWithAlias){
+	SqlWithParams toSql(DbSqlContext sqlContext, String alias){
 
-		SqlWithParams selection = DImpl._get(columnWithAlias)._toSqlSelection(sqlContext);
+		SqlWithParams selection = DImpl._get(columns)._toSqlSelection(sqlContext,alias);
 
-		SqlWithParams from = new SqlWithParams(query.from.map(e -> DImplTable._get(e)._toSqlFrom(sqlContext)),", ");
+		SqlWithParams from = SqlWithParams.empty.add(query.from.map(e -> DImplTable._get(e)._toSqlFrom(sqlContext)),", ");
 
-		SqlWithParams joins = new SqlWithParams(query.joins.map(j -> j.toSql(sqlContext)),System.lineSeparator());
-		return new SqlWithParams("SELECT ")
-			.add(selection).nl()
-			.add(" FROM ").add(from).nl()
+		SqlWithParams joins = SqlWithParams.empty.add(query.joins.map(j -> j.toSql(sqlContext)),System.lineSeparator());
+		return SqlWithParams.sql("SELECT ")
+			.add(selection)
+			.add(" FROM ").add(from)
 			.add(joins)
 			.add(query.where == null
-				? SqlWithParams.empty()
-				: new SqlWithParams(System.lineSeparator() + " WHERE ").add(DImpl._get(query.where)._toSql(sqlContext))
+				? SqlWithParams.empty
+				: SqlWithParams.sql(System.lineSeparator() + " WHERE ").add(DImpl._get(query.where)._toSql(sqlContext))
 			)
 		;
 	}
@@ -76,7 +75,8 @@ public class SelectionImpl<T> implements Selection<T>,DbWork<PStream<T>>{
 		return transaction.run(con -> {
 			DbSqlContext sqlContext = query.dbContext.createSqlContext();
 			SqlWithParams sqlWithParams = toSql(sqlContext);
-			try(PreparedStatement stat = con.prepareStatement(sqlWithParams.getSql())){
+			String sql = sqlWithParams.getSql();
+			try(PreparedStatement stat = con.prepareStatement(sql)){
 				sqlWithParams.setParams(stat);
 				try(ResultSet rs = stat.executeQuery()){
 					PList<T>           res    = PList.empty();

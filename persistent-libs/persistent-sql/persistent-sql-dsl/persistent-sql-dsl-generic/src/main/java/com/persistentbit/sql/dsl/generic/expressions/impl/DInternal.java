@@ -14,12 +14,10 @@ import com.persistentbit.sql.utils.rowreader.RowReader;
 public interface DInternal<T>{
 
 
-	default SqlWithParams _toSqlSelection(DbSqlContext context){
-		return _toSql(context);
-	}
+	SqlWithParams _toSqlSelection(DbSqlContext context,String alias);
 
 	default SqlWithParams _toSql(DbSqlContext context) {
-		return new SqlWithParams(toString());
+		return SqlWithParams.sql(toString());
 	}
 
 	T _read(DbSqlContext context, RowReader rowReader);

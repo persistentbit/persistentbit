@@ -34,22 +34,21 @@ public abstract class DTable<T, X extends DTable> implements DImpl<T> , DExprTab
 
 
 	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext context
-	) {
-		return new SqlWithParams(_all.map(t -> DImpl._get(t._2)._toSqlSelection(context)),", ");
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+		return SqlWithParams.empty.add(_all.map(t ->DImpl._get(t._2)._toSqlSelection(context,alias)),", ");
 
 	}
 
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context
 	) {
-		return new SqlWithParams(_all.map(t -> DImpl._get(t._2)._toSql(context)),", ");
+		return SqlWithParams.empty.add(_all.map(t -> DImpl._get(t._2)._toSql(context)),", ");
 	}
 
 
 	@Override
 	public SqlWithParams _toSqlFrom(DbSqlContext context) {
-		return new SqlWithParams(_tableContext.getTableName())
+		return SqlWithParams.sql(_tableContext.getTableName())
 			.add(_tableContext.getTableAlias().map(a -> " AS " + a).orElse(""));
 
 	}

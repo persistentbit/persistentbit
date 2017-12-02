@@ -43,14 +43,14 @@ public class DTuple5<T1,T2,T3,T4,T5> implements DImpl<Tuple5<T1,T2,T3,T4,T5>> , 
 	}
 
 	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext context
-	) {
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+
 		return
-			DImpl._get(v1)._toSqlSelection(context)
-				 .add(", ").add(DImpl._get(v2)._toSqlSelection(context))
-				 .add(", ").add(DImpl._get(v3)._toSqlSelection(context))
-				 .add(", ").add(DImpl._get(v4)._toSqlSelection(context))
-				 .add(", ").add(DImpl._get(v5)._toSqlSelection(context))
+			DImpl._get(v1)._toSqlSelection(context,alias == null ? null : alias + "_v1")
+				 .add(", ").add(DImpl._get(v2)._toSqlSelection(context,alias == null ? null : alias + "_v2"))
+				 .add(", ").add(DImpl._get(v3)._toSqlSelection(context,alias == null ? null : alias + "_v3"))
+				 .add(", ").add(DImpl._get(v4)._toSqlSelection(context,alias == null ? null : alias + "_v4"))
+				 .add(", ").add(DImpl._get(v5)._toSqlSelection(context,alias == null ? null : alias + "_v5"))
 			;
 	}
 

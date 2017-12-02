@@ -5,7 +5,6 @@ import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.utils.rowreader.RowReader;
-import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -57,6 +56,6 @@ public abstract class DBooleanAbstract implements DImpl<Boolean> , DExprBoolean{
 
 	@Override
 	public DExprBoolean _withAlias(String alias) {
-		throw new ToDo();
+		return new DBooleanAlias(this, alias);
 	}
 }

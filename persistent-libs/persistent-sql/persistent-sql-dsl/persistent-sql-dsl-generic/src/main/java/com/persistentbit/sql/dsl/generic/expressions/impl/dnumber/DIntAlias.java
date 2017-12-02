@@ -2,7 +2,6 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
@@ -22,13 +21,12 @@ public class DIntAlias extends DIntAbstract{
 
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
-		return new SqlWithParams(alias);
+		return SqlWithParams.sql(alias);
 	}
 
 	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext context) {
-		return DImpl._get(expr)._toSqlSelection(context).add(" AS " + alias);
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+		return _toSql(context).add(alias == null ? "" : " AS " + alias);
 	}
-
 
 }

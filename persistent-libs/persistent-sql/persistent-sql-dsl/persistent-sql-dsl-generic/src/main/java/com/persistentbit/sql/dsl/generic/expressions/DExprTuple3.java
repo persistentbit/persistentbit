@@ -17,4 +17,6 @@ public interface DExprTuple3<T1,T2,T3> extends DExpr<Tuple3<T1,T2,T3>>{
 	default <T4> DExprTuple4<T1,T2,T3,T4>	tuple4(DExpr<T4> v4){
 		return new DTuple4<>(v1(),v2(),v3(),v4);
 	}
+
+
 }

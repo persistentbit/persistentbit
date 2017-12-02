@@ -37,12 +37,12 @@ public class DTuple3<T1,T2,T3> implements DImpl<Tuple3<T1,T2,T3>> ,
 	}
 
 	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext context
-	) {
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+
 		return
-			DImpl._get(v1)._toSqlSelection(context)
-				 .add(", ").add(DImpl._get(v2)._toSqlSelection(context))
-				 .add(", ").add(DImpl._get(v3)._toSqlSelection(context))
+			DImpl._get(v1)._toSqlSelection(context,alias == null ? null : alias + "_v1")
+				 .add(", ").add(DImpl._get(v2)._toSqlSelection(context,alias == null ? null : alias + "_v2"))
+				 .add(", ").add(DImpl._get(v3)._toSqlSelection(context,alias == null ? null : alias + "_v3"))
 			;
 	}
 

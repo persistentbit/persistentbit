@@ -20,14 +20,13 @@ public class DStringTableFieldExpr extends DStringAbstract{
 
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
-		return new SqlWithParams(this.context._getFieldSelectionName(context));
-	}
-	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext sqlContext) {
-		SqlWithParams inside = _toSql(sqlContext);
-		return inside;
+		return SqlWithParams.sql(this.context._getFieldSelectionName(context));
 	}
 
+	@Override
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+		return _toSql(context).add(alias == null ? "" : " AS " + alias+ "_" + this.context._getFieldName());
+	}
 	@Override
 	public DExprString _withAlias(String alias) {
 		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());

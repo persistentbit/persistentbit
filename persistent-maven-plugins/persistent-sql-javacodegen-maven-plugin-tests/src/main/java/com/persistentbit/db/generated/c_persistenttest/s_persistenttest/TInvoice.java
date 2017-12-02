@@ -1,5 +1,6 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
@@ -37,5 +38,8 @@ public class TInvoice extends DTable<Invoice, TInvoice> {
 	}
 	public  TInvoice	withTableAlias(String tableAlias){
 		return new TInvoice(_tableContext.withTableAlias(tableAlias));
+	}
+	public  TInvoice	cast(DExpr<Invoice> expr){
+		return (TInvoice)expr;
 	}
 }

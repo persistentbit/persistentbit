@@ -1,6 +1,7 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
 import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.SchemaHistory;
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
@@ -35,5 +36,8 @@ public class TSchemaHistory extends DTable<SchemaHistory, TSchemaHistory> {
 	}
 	public  TSchemaHistory	withTableAlias(String tableAlias){
 		return new TSchemaHistory(_tableContext.withTableAlias(tableAlias));
+	}
+	public  TSchemaHistory	cast(DExpr<SchemaHistory> expr){
+		return (TSchemaHistory)expr;
 	}
 }

@@ -1,25 +1,23 @@
-package com.persistentbit.sql.dsl.generic.expressions.impl.datetime;
+package com.persistentbit.sql.dsl.generic.expressions.impl.dboolean;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
-import java.time.LocalDateTime;
-
 /**
  * TODOC
  *
  * @author petermuys
- * @since 30/11/17
+ * @since 2/12/17
  */
-public class DDateTimeAlias extends DDateTimeAbstract{
+public class DBooleanAlias extends DBooleanAbstract{
+	private final DExpr<Boolean> expr;
 	private final String alias;
-	private final DExpr<LocalDateTime> expr;
 
-	public DDateTimeAlias(String alias, DExpr<LocalDateTime> expr) {
-		this.alias = alias;
+	public DBooleanAlias(DExpr<Boolean> expr, String alias) {
 		this.expr = expr;
+		this.alias = alias;
 	}
 
 	@Override
@@ -31,6 +29,4 @@ public class DDateTimeAlias extends DDateTimeAbstract{
 	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
 		return DImpl._get(expr)._toSql(context).add(" AS " + alias);
 	}
-
-
 }

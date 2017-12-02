@@ -7,6 +7,7 @@ import com.persistentbit.sql.dsl.annotations.DbColumnName;
 import com.persistentbit.sql.dsl.codegen.DbJavaGen;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
@@ -204,7 +205,7 @@ public class PostgresJavaGen implements DbJavaGen{
 	private Result<GeneratedJavaSource> generateDbSource(PList<DbJavaTable> tables){
 		return Result.function().code(l -> {
 			JClass cls = new JClass("Db").extendsDef(DbPostgres.class.getSimpleName());
-			cls.addImport(DbPostgres.class);
+			cls = cls.addImport(DbPostgres.class);
 
 
 			for(DbJavaTable table : tables){
@@ -313,6 +314,15 @@ public class PostgresJavaGen implements DbJavaGen{
 					pw.println("return new " + clsName + "(_tableContext.withTableAlias(tableAlias));");
 				});
 			cls = cls.addMethod(tableAlias);
+
+			JMethod methodCast = new JMethod("cast")
+					.withAccessLevel(AccessLevel.Public)
+				.withResultType(clsName)
+				.addArg(DExpr.class.getSimpleName() + "<" + table.getJavaClassName() + ">","expr",false)
+				.withCode(pw -> {
+					pw.println("return (" + clsName + ")expr;");
+				}).addImport(JImport.forClass(DExpr.class));
+			cls = cls.addMethod(methodCast);
 
 			JJavaFile file = new JJavaFile(table.getPackName())
 				.addClass(cls);

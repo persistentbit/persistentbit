@@ -20,11 +20,14 @@ public class DShortTableFieldExpr extends DShortAbstract{
 
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
-		return new SqlWithParams(this.context._getFieldSelectionName(context));
+		return SqlWithParams.sql(this.context._getFieldSelectionName(context));
 	}
 	@Override
 	public DExprShort _withAlias(String alias) {
 		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
 	}
-
+	@Override
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+		return _toSql(context).add(alias == null ? "" : " AS " + alias  +  "_" + this.context._getFieldName());
+	}
 }

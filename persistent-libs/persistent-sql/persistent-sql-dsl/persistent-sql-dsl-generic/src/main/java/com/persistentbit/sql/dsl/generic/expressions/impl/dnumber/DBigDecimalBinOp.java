@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.sql.utils.rowreader.RowReader;
 
 import java.math.BigDecimal;
@@ -29,5 +30,15 @@ public class DBigDecimalBinOp extends DBigDecimalAbstract{
 	public BigDecimal _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(BigDecimal.class);
+	}
+
+	@Override
+	public SqlWithParams _toSql(DbSqlContext context) {
+		return operator.asSql(context,left,right);
+	}
+
+	@Override
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
+		return _toSql(context).add(alias == null ? "" : " AS " + alias);
 	}
 }

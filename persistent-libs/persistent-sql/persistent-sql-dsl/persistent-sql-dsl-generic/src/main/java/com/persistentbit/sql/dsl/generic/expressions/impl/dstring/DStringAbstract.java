@@ -10,6 +10,7 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanBinOp
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanIn;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanSingleOp;
 import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -26,7 +27,7 @@ public abstract class DStringAbstract implements DImpl<String> , DExprString{
 
 	@Override
 	public DExprString concat(DExpr<String> other) {
-		return new DStringFunction("CONCAT", PList.val(this,other));
+		throw new ToDo();
 	}
 
 	@Override

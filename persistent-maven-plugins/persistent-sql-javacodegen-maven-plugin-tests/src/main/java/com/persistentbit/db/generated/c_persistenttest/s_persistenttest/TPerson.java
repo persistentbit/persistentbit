@@ -1,5 +1,6 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
@@ -54,5 +55,8 @@ public class TPerson extends DTable<Person, TPerson> {
 	}
 	public  TPerson	withTableAlias(String tableAlias){
 		return new TPerson(_tableContext.withTableAlias(tableAlias));
+	}
+	public  TPerson	cast(DExpr<Person> expr){
+		return (TPerson)expr;
 	}
 }
