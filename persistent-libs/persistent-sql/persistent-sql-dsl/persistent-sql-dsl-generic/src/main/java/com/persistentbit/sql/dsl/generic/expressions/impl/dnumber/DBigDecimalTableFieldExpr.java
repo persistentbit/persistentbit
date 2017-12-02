@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableFieldExprContext;
+import com.persistentbit.sql.dsl.generic.expressions.DExprBigDecimal;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
@@ -17,7 +18,13 @@ public class DBigDecimalTableFieldExpr extends DBigDecimalAbstract{
 		this.context = context;
 	}
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
-		return new SqlWithParams(this.context._getFieldSelectionName());
+	public SqlWithParams _toSql(DbSqlContext context) {
+		return new SqlWithParams(this.context._getFieldSelectionName(context));
 	}
+
+	@Override
+	public DExprBigDecimal _withAlias(String alias) {
+		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
+	}
+
 }

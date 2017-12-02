@@ -10,7 +10,7 @@ import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.tuples.Tuple2;
 import java.lang.String;
 
-public class TInvoice extends DTable<Invoice> {
+public class TInvoice extends DTable<Invoice, TInvoice> {
 	public  final	DExprLong	id;
 	public  final	DExprString	invoiceNummer;
 	public  final	DExprLong	fromCompanyId;
@@ -26,14 +26,16 @@ public class TInvoice extends DTable<Invoice> {
 		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("invoiceNummer",invoiceNummer), Tuple2.of("fromCompanyId",fromCompanyId), Tuple2.of("toCompanyId",toCompanyId));
 		
 		_recordReader = _scon -> _rr -> {
-			long	id = DImpl._get(this.id).read(_scon,_rr);
-			String	invoiceNummer = DImpl._get(this.invoiceNummer).read(_scon,_rr);
-			long	fromCompanyId = DImpl._get(this.fromCompanyId).read(_scon,_rr);
-			long	toCompanyId = DImpl._get(this.toCompanyId).read(_scon,_rr);
+			Long	id = DImpl._get(this.id)._read(_scon,_rr);
+			String	invoiceNummer = DImpl._get(this.invoiceNummer)._read(_scon,_rr);
+			Long	fromCompanyId = DImpl._get(this.fromCompanyId)._read(_scon,_rr);
+			Long	toCompanyId = DImpl._get(this.toCompanyId)._read(_scon,_rr);
+			if(id== null && invoiceNummer== null && fromCompanyId== null && toCompanyId== null) { return null; }
 			return new Invoice(id, invoiceNummer, fromCompanyId, toCompanyId);
 		};
+		_doWithAlias = alias -> new TInvoice(_tableContext.withAlias(alias));
 	}
-	public  TInvoice	alias(String aliasName){
-		return new TInvoice(_tableContext.withAlias(aliasName));
+	public  TInvoice	withTableAlias(String tableAlias){
+		return new TInvoice(_tableContext.withTableAlias(tableAlias));
 	}
 }

@@ -1,18 +1,18 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
 import com.persistentbit.db.generated.Db;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TCompany;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoice;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceLine;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.*;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
-import com.persistentbit.sql.dsl.generic.query.DSelection1;
+import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
+import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.work.DbWork;
+import com.persistentbit.tuples.Tuple2;
 
 import java.sql.Connection;
 import java.util.function.Supplier;
@@ -61,16 +61,44 @@ public class Main{
 		result.orElseThrow();
 
 		Db db = new Db(new PostgresDbContext());
-
-		DSelection1 per = db.person.query()
-			   .where(db.person.street.like("Snoekstraat").and(db.person.houseNumber.eq(77)))
-			   .selection(db.person);
+		TPerson persoon = db.person.withTableAlias("menchen");
+		Selection per = persoon.query()
+				.leftJoin(db.company).on(db.company.ownerPersonId.eq(persoon.id))
+			   .where(persoon.street.like("Snoekstraat").and(persoon.houseNumber.eq(77)))
+			   .selection(persoon,db.company);
 		System.out.println(per);
-		System.out.println(transSupplier.flatMap(trans -> per.run(trans.get())).orElseThrow());
 
-		TInvoiceLine line = db.invoiceLine.alias("iline");
-		TInvoice invoice = db.invoice.alias("invoice");
-		TCompany company = db.company.alias("company");
+
+
+		System.out.println(transSupplier.flatMap(trans -> per.run(trans.get())).orElseThrow());
+		System.out.println("------------------------------");
+
+		TInvoiceLine line    = db.invoiceLine._withAlias("iline");
+		TInvoice     invoice = db.invoice._withAlias("invoice");
+		TCompany     company = db.company._withAlias("company");
+
+		System.out.println(
+			company.query().leftJoin(invoice).query().selection(company,invoice));
+
+		System.out.println("------------------------------");
+		DSelectionTable<Tuple2<Company,Invoice>> allCompany = company.query().leftJoin(invoice).query()
+																	 .selection(company,invoice).asTableExpr("ac");
+		System.out.println(allCompany);
+		System.out.println("------------------------------");
+
+		System.out.println(allCompany.query().selection(allCompany));
+		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
+		//System.out.println(withSubCompany);
+		//System.out.println("------------------------------");
+
+
+		//Selection<Tuple2<Person,Company>> cp = persoon.query()
+//													 .leftJoin(allCompany).query()
+//													 .selection(persoon,allCompany);
+//		System.out.println(cp);
+
+
+		/*
 		System.out.println(invoice.query()
 			.leftJoin(line).on(line.invoiceId.eq(invoice.id))
 			.leftJoin(company).on(invoice.fromCompanyId.eq(company.id))
@@ -78,12 +106,12 @@ public class Main{
 		.selection(invoice,line.id,line.invoiceId, line.product,company)
 		);
 
-		DSelection1<Long> lineSubQuery = line.query().selection(line.invoiceId);
+		DSelection1<Long> lineSubQuery = line.query().selection(line.invoiceId).asTableExpr("subquery");
 
 		DSelection1 withSub = invoice.query()
 			   .leftJoin(lineSubQuery).on(invoice.id.eq(lineSubQuery.v1()))
 			   .selection(invoice);
-		System.out.println(withSub);
+		System.out.println(withSub);*/
 
 		//ModuleLogging.consoleLogPrint.print(result.getLog());
 	}

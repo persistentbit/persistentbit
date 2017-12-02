@@ -44,7 +44,7 @@ public class DbJavaFieldEnum implements DbJavaField {
 	}
 
 	@Override
-	public  JField	createJField(){
+	public  JField	createJField(boolean allowPrimitives){
 	    JField f = new JField(fieldName, enumClassName);
 	    if (column.getType().getIsNullable()) {
 	        f = f.asNullable();

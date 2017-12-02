@@ -26,7 +26,12 @@ public class DIntValue extends DIntAbstract implements PrepStatParam{
 	}
 
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext context) {
+	public SqlWithParams _toSqlSelection(DbSqlContext context) {
+		return new SqlWithParams(this);
+	}
+
+	@Override
+	public SqlWithParams _toSql(DbSqlContext context) {
 		return new SqlWithParams(this);
 	}
 

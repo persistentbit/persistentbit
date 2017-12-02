@@ -355,10 +355,10 @@ public  interface DbJavaGen{
 //					be();
 //
 //
-//					// **************** read
+//					// **************** _read
 //					addImport(RowReader.class);
 //					addImport(ExprRowReaderCache.class);
-//					bs("public " + vcCls.getClassName() + " read(RowReader _rowReader, " + ExprRowReaderCache.class
+//					bs("public " + vcCls.getClassName() + " _read(RowReader _rowReader, " + ExprRowReaderCache.class
 //						.getSimpleName() + " _cache)");
 //					{
 //						vc.getProperties().forEach(p -> {
@@ -376,7 +376,7 @@ public  interface DbJavaGen{
 //									javaClassName = LocalDate.class.getSimpleName();
 //								}
 //								println(javaClassName + " " + p.getName() + " = this." + p
-//									.getName() + ".read(_rowReader,_cache);");
+//									.getName() + "._read(_rowReader,_cache);");
 //							}
 //							else {
 //
@@ -397,7 +397,7 @@ public  interface DbJavaGen{
 //									RClass nc = toExprClass(propCls);
 //									addImport(nc);
 //									println(javaClassName + " " + p.getName() + " = this." + p
-//										.getName() + ".read(_rowReader,_cache);");
+//										.getName() + "._read(_rowReader,_cache);");
 //								}
 //
 //							}

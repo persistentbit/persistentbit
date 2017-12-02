@@ -45,7 +45,7 @@ public class DbJavaFieldDomain implements DbJavaField {
 	}
 
 	@Override
-	public  JField	createJField(){
+	public  JField	createJField(boolean allowPrimitives){
 	    JField res = new JField(fieldName, udtClassName);
 	    res = res.addImport(new JImport(udtPack + "." + udtClassName));
 	    if (column.getType().getIsNullable()) {

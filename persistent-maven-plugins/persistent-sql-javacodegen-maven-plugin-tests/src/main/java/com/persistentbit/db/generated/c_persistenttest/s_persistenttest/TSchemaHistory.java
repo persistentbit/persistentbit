@@ -11,7 +11,7 @@ import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.tuples.Tuple2;
 import java.lang.String;
 
-public class TSchemaHistory extends DTable<SchemaHistory> {
+public class TSchemaHistory extends DTable<SchemaHistory, TSchemaHistory> {
 	public  final	DExprDateTime	createddate;
 	public  final	DExprString	packageName;
 	public  final	DExprString	updateName;
@@ -25,13 +25,15 @@ public class TSchemaHistory extends DTable<SchemaHistory> {
 		super._all = PList.val(Tuple2.of("createddate",createddate), Tuple2.of("packageName",packageName), Tuple2.of("updateName",updateName));
 		
 		_recordReader = _scon -> _rr -> {
-			LocalDateTime	createddate = DImpl._get(this.createddate).read(_scon,_rr);
-			String	packageName = DImpl._get(this.packageName).read(_scon,_rr);
-			String	updateName = DImpl._get(this.updateName).read(_scon,_rr);
+			LocalDateTime	createddate = DImpl._get(this.createddate)._read(_scon,_rr);
+			String	packageName = DImpl._get(this.packageName)._read(_scon,_rr);
+			String	updateName = DImpl._get(this.updateName)._read(_scon,_rr);
+			if(createddate== null && packageName== null && updateName== null) { return null; }
 			return new SchemaHistory(createddate, packageName, updateName);
 		};
+		_doWithAlias = alias -> new TSchemaHistory(_tableContext.withAlias(alias));
 	}
-	public  TSchemaHistory	alias(String aliasName){
-		return new TSchemaHistory(_tableContext.withAlias(aliasName));
+	public  TSchemaHistory	withTableAlias(String tableAlias){
+		return new TSchemaHistory(_tableContext.withTableAlias(tableAlias));
 	}
 }

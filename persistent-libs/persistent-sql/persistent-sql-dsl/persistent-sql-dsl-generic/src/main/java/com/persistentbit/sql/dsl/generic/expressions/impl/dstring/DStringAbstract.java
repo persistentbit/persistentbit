@@ -17,7 +17,7 @@ import com.persistentbit.sql.utils.rowreader.RowReader;
  * @author petermuys
  * @since 23/11/17
  */
-public abstract class DStringAbstract extends DImpl<String> implements DExprString{
+public abstract class DStringAbstract implements DImpl<String> , DExprString{
 
 
 	DExprString _value(String value){
@@ -127,8 +127,13 @@ public abstract class DStringAbstract extends DImpl<String> implements DExprStri
 	}
 
 	@Override
-	public String read(DbSqlContext context, RowReader rowReader
+	public String _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(String.class);
+	}
+
+	@Override
+	public DExprString _withAlias(String alias) {
+		return alias == null ? this : new DStringAlias(alias,this);
 	}
 }

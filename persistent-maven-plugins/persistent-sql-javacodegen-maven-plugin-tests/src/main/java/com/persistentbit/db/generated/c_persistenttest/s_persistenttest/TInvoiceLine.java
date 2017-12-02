@@ -11,7 +11,7 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.InvoiceLine;
 import java.lang.String;
 
-public class TInvoiceLine extends DTable<InvoiceLine> {
+public class TInvoiceLine extends DTable<InvoiceLine, TInvoiceLine> {
 	public  final	DExprLong	id;
 	public  final	DExprLong	invoiceId;
 	public  final	DExprString	product;
@@ -25,13 +25,15 @@ public class TInvoiceLine extends DTable<InvoiceLine> {
 		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("invoiceId",invoiceId), Tuple2.of("product",product));
 		
 		_recordReader = _scon -> _rr -> {
-			long	id = DImpl._get(this.id).read(_scon,_rr);
-			long	invoiceId = DImpl._get(this.invoiceId).read(_scon,_rr);
-			String	product = DImpl._get(this.product).read(_scon,_rr);
+			Long	id = DImpl._get(this.id)._read(_scon,_rr);
+			Long	invoiceId = DImpl._get(this.invoiceId)._read(_scon,_rr);
+			String	product = DImpl._get(this.product)._read(_scon,_rr);
+			if(id== null && invoiceId== null && product== null) { return null; }
 			return new InvoiceLine(id, invoiceId, product);
 		};
+		_doWithAlias = alias -> new TInvoiceLine(_tableContext.withAlias(alias));
 	}
-	public  TInvoiceLine	alias(String aliasName){
-		return new TInvoiceLine(_tableContext.withAlias(aliasName));
+	public  TInvoiceLine	withTableAlias(String tableAlias){
+		return new TInvoiceLine(_tableContext.withTableAlias(tableAlias));
 	}
 }

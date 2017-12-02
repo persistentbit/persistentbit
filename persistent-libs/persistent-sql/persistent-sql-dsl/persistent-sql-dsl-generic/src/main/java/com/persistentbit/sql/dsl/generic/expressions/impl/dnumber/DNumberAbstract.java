@@ -15,7 +15,7 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanSingl
  * @author petermuys
  * @since 23/11/17
  */
-public abstract class DNumberAbstract<N extends Number> extends DImpl<N> implements DExprNumber<N>{
+public abstract class DNumberAbstract<N extends Number> implements DImpl<N> , DExprNumber<N>{
 
 	abstract DExprNumber<N> _value(N value);
 

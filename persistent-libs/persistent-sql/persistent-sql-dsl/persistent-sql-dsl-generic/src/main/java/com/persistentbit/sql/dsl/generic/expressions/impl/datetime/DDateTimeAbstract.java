@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  * @author petermuys
  * @since 27/11/17
  */
-public class DDateTimeAbstract extends DImpl<LocalDateTime> implements DExprDateTime{
+public class DDateTimeAbstract implements DImpl<LocalDateTime>,  DExprDateTime{
 
 
 
@@ -103,8 +103,13 @@ public class DDateTimeAbstract extends DImpl<LocalDateTime> implements DExprDate
 	}
 
 	@Override
-	public LocalDateTime read(DbSqlContext context, RowReader rowReader
+	public LocalDateTime _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(LocalDateTime.class);
+	}
+
+	@Override
+	public DExprDateTime _withAlias(String alias) {
+		return new DDateTimeAlias(alias,this);
 	}
 }

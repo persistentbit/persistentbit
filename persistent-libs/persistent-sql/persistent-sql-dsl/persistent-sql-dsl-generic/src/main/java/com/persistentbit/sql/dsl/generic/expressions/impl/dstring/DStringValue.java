@@ -27,17 +27,20 @@ public class DStringValue extends DStringAbstract implements PrepStatParam{
 	}
 
 	@Override
-	public SqlWithParams toSqlSelection(DbSqlContext context) {
+	public SqlWithParams _toSqlSelection(DbSqlContext context) {
 		return new SqlWithParams(this);
 	}
-
+	@Override
+	public SqlWithParams _toSql(DbSqlContext context) {
+		return new SqlWithParams(this);
+	}
 	@Override
 	public String toString() {
 		return "$(\'" + value + "\')";
 	}
 
 	@Override
-	public String read(DbSqlContext context, RowReader rowReader
+	public String _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(String.class);
 	}

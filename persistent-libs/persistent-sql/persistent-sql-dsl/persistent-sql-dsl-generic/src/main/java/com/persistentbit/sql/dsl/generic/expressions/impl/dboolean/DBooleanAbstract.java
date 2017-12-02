@@ -5,6 +5,7 @@ import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -12,7 +13,7 @@ import com.persistentbit.sql.utils.rowreader.RowReader;
  * @author petermuys
  * @since 23/11/17
  */
-public abstract class DBooleanAbstract extends DImpl<Boolean> implements DExprBoolean{
+public abstract class DBooleanAbstract implements DImpl<Boolean> , DExprBoolean{
 
 	@Override
 	public DExprBoolean not() {
@@ -49,8 +50,13 @@ public abstract class DBooleanAbstract extends DImpl<Boolean> implements DExprBo
 	}
 
 	@Override
-	public Boolean read(DbSqlContext context, RowReader rowReader
+	public Boolean _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Boolean.class);
+	}
+
+	@Override
+	public DExprBoolean _withAlias(String alias) {
+		throw new ToDo();
 	}
 }

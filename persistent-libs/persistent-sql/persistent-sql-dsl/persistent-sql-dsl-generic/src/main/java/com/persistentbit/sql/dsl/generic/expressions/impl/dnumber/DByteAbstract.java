@@ -1,9 +1,9 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
-import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -171,8 +171,13 @@ public abstract class DByteAbstract extends DNumberAbstract<Byte> implements DEx
 	}
 
 	@Override
-	public Byte read(DbSqlContext context, RowReader rowReader
+	public Byte _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(Byte.class);
+	}
+
+	@Override
+	public DExprByte _withAlias(String alias) {
+		throw new ToDo();
 	}
 }

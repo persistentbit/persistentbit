@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableFieldExprContext;
+import com.persistentbit.sql.dsl.generic.expressions.DExprByte;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
@@ -18,7 +19,13 @@ public class DByteTableFieldExpr extends DByteAbstract{
 	}
 
 	@Override
-	public SqlWithParams toSql(DbSqlContext context) {
-		return new SqlWithParams(this.context._getFieldSelectionName());
+	public SqlWithParams _toSql(DbSqlContext context) {
+		return new SqlWithParams(this.context._getFieldSelectionName(context));
 	}
+
+	@Override
+	public DExprByte _withAlias(String alias) {
+		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
+	}
+
 }

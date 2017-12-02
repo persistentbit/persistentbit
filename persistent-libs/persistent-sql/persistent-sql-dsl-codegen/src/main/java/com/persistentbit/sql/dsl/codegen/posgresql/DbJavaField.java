@@ -12,7 +12,8 @@ import com.persistentbit.sql.meta.data.DbMetaColumn;
  */
 
 public interface DbJavaField{
-	JField createJField();
+	JField createJField(boolean allowPrimitives);
+
 	JField createTableColumnField();
 	String createTableColumnFieldInitializer();
 	DbMetaColumn	getDbMetaColumn();

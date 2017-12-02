@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dboolean;
 
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -19,4 +20,6 @@ public class DBooleanSingleOp extends DBooleanAbstract{
 		this.expr = expr;
 		this.operator = operator;
 	}
+
+
 }

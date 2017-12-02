@@ -26,7 +26,7 @@ public class DBigDecimalBinOp extends DBigDecimalAbstract{
 	}
 
 	@Override
-	public BigDecimal read(DbSqlContext context, RowReader rowReader
+	public BigDecimal _read(DbSqlContext context, RowReader rowReader
 	) {
 		return rowReader.readNext(BigDecimal.class);
 	}
