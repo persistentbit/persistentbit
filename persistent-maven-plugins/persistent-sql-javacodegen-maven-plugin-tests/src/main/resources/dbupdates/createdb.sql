@@ -58,4 +58,7 @@ INSERT INTO company (id, company_name, adres_street, adres_house_number, adres_b
 VALUES
   (2, 'Eau De Mie', 'Snoekstraat', 10, NULL, '9000', 'Gent', 'BE', 2);
 
+INSERT into invoice (invoice_nummer, from_company_id, to_company_id)
+    values('2017-01',2,1);
+
 -->>

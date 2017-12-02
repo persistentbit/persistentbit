@@ -1,17 +1,14 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
+import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
-import com.persistentbit.collections.PList;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Person;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.tuples.Tuple2;
-import com.persistentbit.code.annotations.Nullable;
-import java.lang.String;
 
 public class TPerson extends DTable<Person, TPerson> {
 	public  final	DExprLong	id;
@@ -56,7 +53,7 @@ public class TPerson extends DTable<Person, TPerson> {
 	public  TPerson	withTableAlias(String tableAlias){
 		return new TPerson(_tableContext.withTableAlias(tableAlias));
 	}
-	public  TPerson	cast(DExpr<Person> expr){
+	public  static TPerson	cast(DExpr<Person> expr){
 		return (TPerson)expr;
 	}
 }

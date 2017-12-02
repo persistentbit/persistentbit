@@ -37,7 +37,7 @@ public class TInvoiceLine extends DTable<InvoiceLine, TInvoiceLine> {
 	public  TInvoiceLine	withTableAlias(String tableAlias){
 		return new TInvoiceLine(_tableContext.withTableAlias(tableAlias));
 	}
-	public  TInvoiceLine	cast(DExpr<InvoiceLine> expr){
+	public  static TInvoiceLine	cast(DExpr<InvoiceLine> expr){
 		return (TInvoiceLine)expr;
 	}
 }

@@ -5,7 +5,6 @@ import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.sql.dsl.generic.expressions.impl.dtable.DImplTable;
 import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.sql.utils.rowreader.RowReader;
@@ -65,4 +64,8 @@ public abstract class DTable<T, X extends DTable> implements DImpl<T> , DExprTab
 		return _doWithAlias.apply(selectionAliasName);
 	}
 
+	@Override
+	public DExpr<T> all() {
+		return this;
+	}
 }

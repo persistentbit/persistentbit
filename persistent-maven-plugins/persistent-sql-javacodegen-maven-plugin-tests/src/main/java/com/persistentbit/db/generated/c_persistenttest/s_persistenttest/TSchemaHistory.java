@@ -37,7 +37,7 @@ public class TSchemaHistory extends DTable<SchemaHistory, TSchemaHistory> {
 	public  TSchemaHistory	withTableAlias(String tableAlias){
 		return new TSchemaHistory(_tableContext.withTableAlias(tableAlias));
 	}
-	public  TSchemaHistory	cast(DExpr<SchemaHistory> expr){
+	public  static TSchemaHistory	cast(DExpr<SchemaHistory> expr){
 		return (TSchemaHistory)expr;
 	}
 }

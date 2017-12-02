@@ -4,7 +4,7 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.impl.dtable.DImplTable;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImplTable;
 import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
 import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.utils.rowreader.RowReader;
@@ -62,5 +62,10 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 	@Override
 	public DExpr<T> _withAlias(String alias) {
 		throw new ToDo();
+	}
+
+	@Override
+	public DExpr<T> all(){
+		return columnWithAlias;
 	}
 }

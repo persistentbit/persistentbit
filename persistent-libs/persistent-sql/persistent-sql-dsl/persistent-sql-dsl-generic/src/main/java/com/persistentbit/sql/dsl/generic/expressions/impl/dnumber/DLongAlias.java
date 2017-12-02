@@ -2,7 +2,6 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
@@ -27,7 +26,7 @@ public class DLongAlias extends DLongAbstract{
 
 	@Override
 	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
-		return DImpl._get(expr)._toSqlSelection(context,alias);
+		return _toSql(context).add(alias == null ? "" : " AS " + alias);
 	}
 
 }

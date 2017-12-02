@@ -7,7 +7,7 @@ import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DInternal;
-import com.persistentbit.sql.dsl.generic.expressions.impl.dtable.DImplTable;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImplTable;
 import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
 import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.sql.transactions.DbTransaction;
@@ -73,24 +73,28 @@ public class SelectionImpl<T> implements Selection<T>,DbWork<PStream<T>>{
 	@Override
 	public Result<PStream<T>> run(DbTransaction transaction) {
 		return transaction.run(con -> {
-			DbSqlContext sqlContext = query.dbContext.createSqlContext();
-			SqlWithParams sqlWithParams = toSql(sqlContext);
-			String sql = sqlWithParams.getSql();
-			try(PreparedStatement stat = con.prepareStatement(sql)){
-				sqlWithParams.setParams(stat);
-				try(ResultSet rs = stat.executeQuery()){
-					PList<T>           res    = PList.empty();
-					ResultSetRowReader rr     = sqlContext.createResultSetRowReader(rs);
-					DInternal<T>       reader = DImpl._get(columns);
-					while(rs.next()){
-						T rec = reader._read(sqlContext,rr);
+			return Result.function().code(l -> {
+				DbSqlContext sqlContext = query.dbContext.createSqlContext();
+				SqlWithParams sqlWithParams = toSql(sqlContext);
+				String sql = sqlWithParams.getSql();
+				l.info("Executing " + sqlWithParams);
+				try(PreparedStatement stat = con.prepareStatement(sql)){
+					sqlWithParams.setParams(stat);
+					try(ResultSet rs = stat.executeQuery()){
+						PList<T>           res    = PList.empty();
+						ResultSetRowReader rr     = sqlContext.createResultSetRowReader(rs);
+						DInternal<T>       reader = DImpl._get(columns);
+						while(rs.next()){
+							T rec = reader._read(sqlContext,rr);
 
-						res = res.plus(rec);
-						rr.nextRow();
+							res = res.plus(rec);
+							rr.nextRow();
+						}
+						return Result.success(res);
 					}
-					return Result.success(res);
 				}
-			}
+			});
+
 		});
 	}
 

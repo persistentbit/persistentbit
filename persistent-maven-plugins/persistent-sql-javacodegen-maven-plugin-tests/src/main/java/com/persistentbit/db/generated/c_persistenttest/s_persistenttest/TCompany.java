@@ -53,7 +53,7 @@ public class TCompany extends DTable<Company, TCompany> {
 	public  TCompany	withTableAlias(String tableAlias){
 		return new TCompany(_tableContext.withTableAlias(tableAlias));
 	}
-	public  TCompany	cast(DExpr<Company> expr){
+	public  static TCompany	cast(DExpr<Company> expr){
 		return (TCompany)expr;
 	}
 }

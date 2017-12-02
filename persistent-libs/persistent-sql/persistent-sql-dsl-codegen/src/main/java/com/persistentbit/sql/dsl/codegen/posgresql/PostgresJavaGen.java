@@ -317,6 +317,7 @@ public class PostgresJavaGen implements DbJavaGen{
 
 			JMethod methodCast = new JMethod("cast")
 					.withAccessLevel(AccessLevel.Public)
+					.asStatic()
 				.withResultType(clsName)
 				.addArg(DExpr.class.getSimpleName() + "<" + table.getJavaClassName() + ">","expr",false)
 				.withCode(pw -> {

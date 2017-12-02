@@ -5,7 +5,7 @@ import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.impl.dtable.DImplTable;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImplTable;
 import com.persistentbit.sql.dsl.generic.query.Join;
 import com.persistentbit.sql.dsl.generic.query.Query;
 

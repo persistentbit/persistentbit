@@ -10,4 +10,6 @@ import com.persistentbit.sql.dsl.generic.query.Query;
  */
 public interface DExprTable<T>{
 	Query query();
+
+	DExpr<T> all();
 }

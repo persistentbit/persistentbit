@@ -4,7 +4,7 @@ import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.*;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 
-public class Db extends DbPostgres{
+public class Db extends DbPostgres {
 	public  final	TCompany	company;
 	public  final	TInvoice	invoice;
 	public  final	TInvoiceLine	invoiceLine;

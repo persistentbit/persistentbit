@@ -6,9 +6,9 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTuple2;
 import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
 import com.persistentbit.sql.dsl.generic.query.Selection;
-import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.work.DbWork;
@@ -62,7 +62,7 @@ public class Main{
 
 		Supplier<DbTransaction> newTrans = ()-> transSupplier.map(Supplier::get).orElseThrow();
 
-		Db db = new Db(new PostgresDbContext());
+		Db db = new Db();
 		TPerson persoon = db.person.withTableAlias("menchen");
 		Selection per = persoon.query()
 				.leftJoin(db.company).on(db.company.ownerPersonId.eq(persoon.id))
@@ -95,7 +95,7 @@ public class Main{
 		System.out.println(allCompany);
 		System.out.println("------------------------------");
 
-		System.out.println(allCompany.query().selection(allCompany));
+		System.out.println(allCompany.query().selection(allCompany.all()));
 		System.out.println("------------------------------");
 
 		Selection<Tuple2<Person,Company>> persAndCompSel = persoon.query()
@@ -103,6 +103,34 @@ public class Main{
 			   .selection(persoon,company);
 
 		persAndCompSel.run(newTrans.get()).orElseThrow().forEach(System.out::println);
+
+		System.out.println("------------------------------");
+
+		DSelectionTable<Tuple2<Person,Company>> subSelPC = persAndCompSel.asTableExpr("pc");
+		DExprTuple2<Person,Company> subSelPCTuple = DExprTuple2.cast(subSelPC.all());
+
+		TPerson subSelPerson = TPerson.cast(subSelPCTuple.v1());
+		TCompany subSelCompany = TCompany.cast(subSelPCTuple.v2());
+
+		invoice.query()
+			.leftJoin(subSelPC).on(invoice.fromCompanyId.eq(subSelCompany.id))
+			.selection(invoice,subSelPerson,subSelCompany)
+		   .run(newTrans.get()).orElseThrow().forEach(t -> {
+				System.out.println("Record: ");
+				System.out.println("  Invoice: " + t._1);
+				System.out.println("  Person:  " + t._2);
+				System.out.println("  Company: " + t._3);
+		});
+		System.out.println("------------------------------");
+
+		TCompany invoiceFrom = db.company.withTableAlias("fromCompany");
+		TCompany invoiceTo = db.company.withTableAlias("toCompany");
+		invoice.query()
+			   .leftJoin(invoiceFrom).on(invoice.fromCompanyId.eq(invoiceFrom.id))
+			   .leftJoin(invoiceTo).on(invoice.toCompanyId.eq(invoiceTo.id))
+			   .selection(invoice,invoiceFrom,invoiceTo)
+			   .run(newTrans.get()).orElseThrow()
+			   .forEach(r -> System.out.println(r));
 
 
 		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());

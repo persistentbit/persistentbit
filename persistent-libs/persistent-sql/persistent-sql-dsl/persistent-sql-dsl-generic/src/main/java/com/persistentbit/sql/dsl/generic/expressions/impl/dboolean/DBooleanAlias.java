@@ -2,7 +2,6 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dboolean;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
@@ -27,6 +26,6 @@ public class DBooleanAlias extends DBooleanAbstract{
 
 	@Override
 	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
-		return DImpl._get(expr)._toSql(context).add(" AS " + alias);
+		return _toSql(context).add(alias == null ? "" : " AS " + alias);
 	}
 }

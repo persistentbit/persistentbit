@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.generic.expressions.impl.dtable;
+package com.persistentbit.sql.dsl.generic.expressions.impl;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
