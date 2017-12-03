@@ -42,5 +42,5 @@ public abstract class DTableExprImpl<T> implements DExpr<T>{
 		};
 	}
 
-	protected abstract DExpr<T> _doWithAlias(String alias)
+	protected abstract DExpr<T> _doWithAlias(String alias);
 }

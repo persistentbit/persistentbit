@@ -1,43 +1,39 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
-import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.tuples.Tuple2;
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.InvoiceLine;
-import java.lang.String;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 
-public class TInvoiceLine extends DTable<InvoiceLine, TInvoiceLine> {
+public class TInvoiceLine extends DTableExprImpl<InvoiceLine> {
 	public  final	DExprLong	id;
 	public  final	DExprLong	invoiceId;
 	public  final	DExprString	product;
 	
 	
-	public TInvoiceLine(DbTableContext context){
-		super(context);
-		this.id	=	context.createExprLong(this, "id");
-		this.invoiceId	=	context.createExprLong(this, "invoice_id");
-		this.product	=	context.createExprString(this, "product");
-		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("invoiceId",invoiceId), Tuple2.of("product",product));
+	public TInvoiceLine(DExprLong id, DExprLong invoiceId, DExprString product){
+		super(
+			PList.val(id, invoiceId, product),
+			_scon -> _rr -> {
+				Long	_id = DImpl._get(id)._read(_scon,_rr);
+				Long	_invoiceId = DImpl._get(invoiceId)._read(_scon,_rr);
+				String	_product = DImpl._get(product)._read(_scon,_rr);
+				if(_id== null && _invoiceId== null && _product== null) { return null; }
+				return new InvoiceLine(_id, _invoiceId, _product);
+			}
+		);
+		this.id	=	id;
+		this.invoiceId	=	invoiceId;
+		this.product	=	product;
+	}
+	@Override
+	protected  TInvoiceLine	_doWithAlias(String alias){
+		return new TInvoiceLine(
+			(DExprLong)DImpl._get(id)._withAlias(alias), 
+			(DExprLong)DImpl._get(invoiceId)._withAlias(alias), 
+			(DExprString)DImpl._get(product)._withAlias(alias)
+		);
 		
-		_recordReader = _scon -> _rr -> {
-			Long	id = DImpl._get(this.id)._read(_scon,_rr);
-			Long	invoiceId = DImpl._get(this.invoiceId)._read(_scon,_rr);
-			String	product = DImpl._get(this.product)._read(_scon,_rr);
-			if(id== null && invoiceId== null && product== null) { return null; }
-			return new InvoiceLine(id, invoiceId, product);
-		};
-		_doWithAlias = alias -> new TInvoiceLine(_tableContext.withAlias(alias));
-	}
-	public  TInvoiceLine	withTableAlias(String tableAlias){
-		return new TInvoiceLine(_tableContext.withTableAlias(tableAlias));
-	}
-	public  static TInvoiceLine	cast(DExpr<InvoiceLine> expr){
-		return (TInvoiceLine)expr;
 	}
 }

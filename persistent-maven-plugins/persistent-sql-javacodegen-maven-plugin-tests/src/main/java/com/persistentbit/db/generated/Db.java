@@ -1,8 +1,12 @@
 package com.persistentbit.db.generated;
 
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.*;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TSchemaHistory;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoice;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TPerson;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceLine;
+import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
-import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TCompany;
 
 public class Db extends DbPostgres {
 	public  final	TCompany	company;

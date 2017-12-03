@@ -43,5 +43,4 @@ public class TCountry extends DTableExprImpl<Country>{
 			(DExprString)DImpl._get(code)._withAlias(alias)
 		);
 	}
-
 }

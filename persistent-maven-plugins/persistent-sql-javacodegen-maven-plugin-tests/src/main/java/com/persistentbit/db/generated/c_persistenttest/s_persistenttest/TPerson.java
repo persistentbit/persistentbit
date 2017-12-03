@@ -1,16 +1,15 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
-import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import java.lang.Override;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
+import com.persistentbit.collections.PList;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Person;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
-import com.persistentbit.tuples.Tuple2;
 
-public class TPerson extends DTable<Person, TPerson> {
+public class TPerson extends DTableExprImpl<Person> {
 	public  final	DExprLong	id;
 	public  final	DExprString	userName;
 	public  final	DExprString	password;
@@ -22,38 +21,46 @@ public class TPerson extends DTable<Person, TPerson> {
 	public  final	DExprString	country;
 	
 	
-	public TPerson(DbTableContext context){
-		super(context);
-		this.id	=	context.createExprLong(this, "id");
-		this.userName	=	context.createExprString(this, "user_name");
-		this.password	=	context.createExprString(this, "password");
-		this.street	=	context.createExprString(this, "street");
-		this.houseNumber	=	context.createExprInt(this, "house_number");
-		this.busNumber	=	context.createExprString(this, "bus_number");
-		this.postalcode	=	context.createExprString(this, "postalcode");
-		this.city	=	context.createExprString(this, "city");
-		this.country	=	context.createExprString(this, "country");
-		super._all = PList.val(Tuple2.of("id",id), Tuple2.of("userName",userName), Tuple2.of("password",password), Tuple2.of("street",street), Tuple2.of("houseNumber",houseNumber), Tuple2.of("busNumber",busNumber), Tuple2.of("postalcode",postalcode), Tuple2.of("city",city), Tuple2.of("country",country));
+	public TPerson(DExprLong id, DExprString userName, DExprString password, DExprString street, DExprInt houseNumber, DExprString busNumber, DExprString postalcode, DExprString city, DExprString country){
+		super(
+			PList.val(id, userName, password, street, houseNumber, busNumber, postalcode, city, country),
+			_scon -> _rr -> {
+				Long	_id = DImpl._get(id)._read(_scon,_rr);
+				String	_userName = DImpl._get(userName)._read(_scon,_rr);
+				String	_password = DImpl._get(password)._read(_scon,_rr);
+				String	_street = DImpl._get(street)._read(_scon,_rr);
+				Integer	_houseNumber = DImpl._get(houseNumber)._read(_scon,_rr);
+				String	_busNumber = DImpl._get(busNumber)._read(_scon,_rr);
+				String	_postalcode = DImpl._get(postalcode)._read(_scon,_rr);
+				String	_city = DImpl._get(city)._read(_scon,_rr);
+				String	_country = DImpl._get(country)._read(_scon,_rr);
+				if(_id== null && _userName== null && _password== null && _street== null && _houseNumber== null && _busNumber== null && _postalcode== null && _city== null && _country== null) { return null; }
+				return new Person(_id, _userName, _password, _street, _houseNumber, _busNumber, _postalcode, _city, _country);
+			}
+		);
+		this.id	=	id;
+		this.userName	=	userName;
+		this.password	=	password;
+		this.street	=	street;
+		this.houseNumber	=	houseNumber;
+		this.busNumber	=	busNumber;
+		this.postalcode	=	postalcode;
+		this.city	=	city;
+		this.country	=	country;
+	}
+	@Override
+	protected  TPerson	_doWithAlias(String alias){
+		return new TPerson(
+			(DExprLong)DImpl._get(id)._withAlias(alias), 
+			(DExprString)DImpl._get(userName)._withAlias(alias), 
+			(DExprString)DImpl._get(password)._withAlias(alias), 
+			(DExprString)DImpl._get(street)._withAlias(alias), 
+			(DExprInt)DImpl._get(houseNumber)._withAlias(alias), 
+			(DExprString)DImpl._get(busNumber)._withAlias(alias), 
+			(DExprString)DImpl._get(postalcode)._withAlias(alias), 
+			(DExprString)DImpl._get(city)._withAlias(alias), 
+			(DExprString)DImpl._get(country)._withAlias(alias)
+		);
 		
-		_recordReader = _scon -> _rr -> {
-			Long	id = DImpl._get(this.id)._read(_scon,_rr);
-			String	userName = DImpl._get(this.userName)._read(_scon,_rr);
-			String	password = DImpl._get(this.password)._read(_scon,_rr);
-			String	street = DImpl._get(this.street)._read(_scon,_rr);
-			Integer	houseNumber = DImpl._get(this.houseNumber)._read(_scon,_rr);
-			String	busNumber = DImpl._get(this.busNumber)._read(_scon,_rr);
-			String	postalcode = DImpl._get(this.postalcode)._read(_scon,_rr);
-			String	city = DImpl._get(this.city)._read(_scon,_rr);
-			String	country = DImpl._get(this.country)._read(_scon,_rr);
-			if(id== null && userName== null && password== null && street== null && houseNumber== null && busNumber== null && postalcode== null && city== null && country== null) { return null; }
-			return new Person(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
-		};
-		_doWithAlias = alias -> new TPerson(_tableContext.withAlias(alias));
-	}
-	public  TPerson	withTableAlias(String tableAlias){
-		return new TPerson(_tableContext.withTableAlias(tableAlias));
-	}
-	public  static TPerson	cast(DExpr<Person> expr){
-		return (TPerson)expr;
 	}
 }
