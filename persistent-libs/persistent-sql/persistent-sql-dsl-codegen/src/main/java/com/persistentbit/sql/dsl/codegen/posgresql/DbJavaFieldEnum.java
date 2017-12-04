@@ -53,7 +53,7 @@ public class DbJavaFieldEnum implements DbJavaField {
 	    return f;
 	}
 	@Override
-	public String createTableColumnFieldInitializer() {
+	public String createTableColumnFieldInitializer(String tableContext) {
 		throw new ToDo(this.toString());
 	}
 	@Override

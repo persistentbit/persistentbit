@@ -1,6 +1,7 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
 import java.lang.Override;
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
@@ -8,6 +9,9 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Person;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.code.annotations.Nullable;
+import java.lang.String;
 
 public class TPerson extends DTableExprImpl<Person> {
 	public  final	DExprLong	id;
@@ -61,6 +65,8 @@ public class TPerson extends DTableExprImpl<Person> {
 			(DExprString)DImpl._get(city)._withAlias(alias), 
 			(DExprString)DImpl._get(country)._withAlias(alias)
 		);
-		
+	}
+	public  static TPerson	cast(DExpr<Person> expr){
+		return (TPerson)expr;
 	}
 }

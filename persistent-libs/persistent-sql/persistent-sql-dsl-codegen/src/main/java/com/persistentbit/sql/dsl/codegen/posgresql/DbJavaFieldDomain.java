@@ -44,6 +44,8 @@ public class DbJavaFieldDomain implements DbJavaField {
 		return column;
 	}
 
+
+
 	@Override
 	public  JField	createJField(boolean allowPrimitives){
 	    JField res = new JField(fieldName, udtClassName);
@@ -59,7 +61,7 @@ public class DbJavaFieldDomain implements DbJavaField {
 	}
 
 	@Override
-	public String createTableColumnFieldInitializer() {
+	public String createTableColumnFieldInitializer(String tableContext) {
 		throw new ToDo(this.toString());
 	}
 

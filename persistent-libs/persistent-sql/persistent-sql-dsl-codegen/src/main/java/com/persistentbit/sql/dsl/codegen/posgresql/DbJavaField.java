@@ -15,9 +15,14 @@ public interface DbJavaField{
 	JField createJField(boolean allowPrimitives);
 
 	JField createTableColumnField();
-	String createTableColumnFieldInitializer();
+	String createTableColumnFieldInitializer(String tableContext);
 	DbMetaColumn	getDbMetaColumn();
 	String getJavaName();
+
+
+	default boolean isNullable() {
+		return getDbMetaColumn().type.getIsNullable();
+	}
 
 	default PList<DbJavaFieldEnum> getUsedEnums() {
 		return PList.empty();

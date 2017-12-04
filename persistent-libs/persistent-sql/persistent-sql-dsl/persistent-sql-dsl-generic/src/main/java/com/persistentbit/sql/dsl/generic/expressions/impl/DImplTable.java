@@ -15,6 +15,9 @@ public interface DImplTable {
 	SqlWithParams _toSqlFrom(DbSqlContext context);
 
 	static DImplTable _get(DExprTable tableExpr){
+		if(tableExpr instanceof DTableExprImpl){
+			return ((DTableExprImpl) tableExpr)._internalTable;
+		}
 		return (DImplTable)tableExpr;
 	}
 }

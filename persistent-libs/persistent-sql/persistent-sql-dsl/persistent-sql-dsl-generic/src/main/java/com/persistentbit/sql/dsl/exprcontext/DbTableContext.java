@@ -41,4 +41,5 @@ public interface DbTableContext{
 	Optional<String> getTableAlias();
 
 
+	DbContext	getDbContext();
 }

@@ -1,10 +1,15 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
-import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
+import java.lang.Override;
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Invoice;
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
+import com.persistentbit.sql.dsl.generic.expressions.DExprString;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import java.lang.String;
 
 public class TInvoice extends DTableExprImpl<Invoice> {
 	public  final	DExprLong	id;
@@ -38,6 +43,8 @@ public class TInvoice extends DTableExprImpl<Invoice> {
 			(DExprLong)DImpl._get(fromCompanyId)._withAlias(alias), 
 			(DExprLong)DImpl._get(toCompanyId)._withAlias(alias)
 		);
-		
+	}
+	public  static TInvoice	cast(DExpr<Invoice> expr){
+		return (TInvoice)expr;
 	}
 }

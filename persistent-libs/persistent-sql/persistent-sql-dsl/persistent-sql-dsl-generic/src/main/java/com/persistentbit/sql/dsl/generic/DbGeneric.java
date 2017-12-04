@@ -2,10 +2,6 @@ package com.persistentbit.sql.dsl.generic;
 
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.generic.expressions.*;
-import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.DDateTimeValue;
-import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanValue;
-import com.persistentbit.sql.dsl.generic.expressions.impl.dnumber.*;
-import com.persistentbit.sql.dsl.generic.expressions.impl.dstring.DStringValue;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -17,33 +13,33 @@ import java.time.LocalDateTime;
  * @since 2/12/17
  */
 public abstract class DbGeneric{
-
+	protected final DbContext context;
 	public DbGeneric(DbContext context){
-
+		this.context = context;
 	}
 
 	public DExprInt	val(Integer value){
-		return new DIntValue(value);
+		return context.val(value);
 	}
 	public DExprLong val(Long value){
-		return new DLongValue(value);
+		return context.val(value);
 	}
 	public DExprBoolean val(Boolean value){
-		return new DBooleanValue(value);
+		return context.val(value);
 	}
 	public DExprString val(String value){
-		return new DStringValue(value);
+		return context.val(value);
 	}
 	public DExprShort val(Short value){
-		return new DShortValue(value);
+		return context.val(value);
 	}
 	public DExprDouble val(Double value){
-		return new DDoubleValue(value);
+		return context.val(value);
 	}
 	public DExprBigDecimal val(BigDecimal value){
-		return new DBigDecimalValue(value);
+		return context.val(value);
 	}
 	public DExprDateTime val(LocalDateTime value){
-		return new DDateTimeValue(value);
+		return context.val(value);
 	}
 }

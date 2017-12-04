@@ -63,7 +63,7 @@ public class Main{
 		Supplier<DbTransaction> newTrans = ()-> transSupplier.map(Supplier::get).orElseThrow();
 
 		Db db = new Db();
-		TPerson persoon = db.person.withTableAlias("menchen");
+		TPersonTable persoon = db.person.alias("menchen");
 		Selection per = persoon.query()
 				.leftJoin(db.company).on(db.company.ownerPersonId.eq(persoon.id))
 			   .where(persoon.street.like("Snoekstraat").and(persoon.houseNumber.eq(77)))
@@ -75,9 +75,9 @@ public class Main{
 		System.out.println(transSupplier.flatMap(trans -> per.run(trans.get())).orElseThrow());
 		System.out.println("------------------------------");
 
-		TInvoiceLine line    = db.invoiceLine.withTableAlias("iline");
-		TInvoice     invoice = db.invoice.withTableAlias("invoice");
-		TCompany     company = db.company.withTableAlias("company");
+		TInvoiceLineTable line    = db.invoiceLine.alias("iline");
+		TInvoiceTable     invoice = db.invoice.alias("invoice");
+		TCompanyTable     company = db.company.alias("company");
 
 		System.out.println(
 			company.query().leftJoin(invoice).query().selection(company,invoice));
@@ -123,8 +123,8 @@ public class Main{
 		});
 		System.out.println("------------------------------");
 
-		TCompany invoiceFrom = db.company.withTableAlias("fromCompany");
-		TCompany invoiceTo = db.company.withTableAlias("toCompany");
+		TCompanyTable invoiceFrom = db.company.alias("fromCompany");
+		TCompanyTable invoiceTo = db.company.alias("toCompany");
 		invoice.query()
 			   .leftJoin(invoiceFrom).on(invoice.fromCompanyId.eq(invoiceFrom.id))
 			   .leftJoin(invoiceTo).on(invoice.toCompanyId.eq(invoiceTo.id))

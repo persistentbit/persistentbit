@@ -52,7 +52,7 @@ public class DbJavaFieldStruct implements DbJavaField {
 	    return res;
 	}
 	@Override
-	public String createTableColumnFieldInitializer() {
+	public String createTableColumnFieldInitializer(String tableContext) {
 		throw new ToDo(this.toString());
 	}
 

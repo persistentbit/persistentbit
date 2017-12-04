@@ -59,13 +59,15 @@ public class DbJavaFieldArray implements DbJavaField {
 	    return f;
 	}
 
+
+
 	@Override
 	public JField createTableColumnField() {
 		throw new ToDo(this.toString());
 	}
 
 	@Override
-	public String createTableColumnFieldInitializer() {
+	public String createTableColumnFieldInitializer(String tableContext) {
 		throw new ToDo(this.toString());
 	}
 

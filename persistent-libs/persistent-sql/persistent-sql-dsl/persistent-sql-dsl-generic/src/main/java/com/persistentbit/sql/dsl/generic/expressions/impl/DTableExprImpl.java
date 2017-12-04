@@ -1,7 +1,9 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl;
 
+import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.sql.utils.rowreader.RowReader;
@@ -17,6 +19,9 @@ import java.util.function.Function;
 public abstract class DTableExprImpl<T> implements DExpr<T>{
 
 	final DInternal _internal;
+	final DImplTable _internalTable;
+	@Nullable
+	protected DbTableContext _tableContext;
 
 	public DTableExprImpl(
 		PList<DExpr> all,
@@ -38,6 +43,13 @@ public abstract class DTableExprImpl<T> implements DExpr<T>{
 			@Override
 			public DExpr<T> _withAlias(String alias) {
 				return _doWithAlias(alias);
+			}
+		};
+		_internalTable = new DImplTable(){
+			@Override
+			public SqlWithParams _toSqlFrom(DbSqlContext sqlContext) {
+				return SqlWithParams.sql(_tableContext.getTableName())
+									.add(_tableContext.getTableAlias().map(a -> " AS " + a).orElse(""));
 			}
 		};
 	}

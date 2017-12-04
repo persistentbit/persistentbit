@@ -8,9 +8,10 @@ import com.persistentbit.sql.dsl.codegen.DbJavaGen;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
+import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.*;
@@ -210,13 +211,13 @@ public class PostgresJavaGen implements DbJavaGen{
 		return Result.function().code(l -> {
 			JClass cls = new JClass("Db").extendsDef(DbPostgres.class.getSimpleName());
 			cls = cls.addImport(DbPostgres.class);
-
+			cls = cls.addImport(PostgresDbContext.class);
 
 			for(DbJavaTable table : tables){
-				JField field = new JField(UString.firstLowerCase(table.getJavaClassName()),"T" + table.getJavaClassName())
+				JField field = new JField(UString.firstLowerCase(table.getJavaClassName()),"T" + table.getJavaClassName() + "Table")
 					.asFinal()
 					.withAccessLevel(AccessLevel.Public)
-					.addImport(new JImport(table.getPackName() + ".T" + table.getJavaClassName()));
+					.addImport(new JImport(table.getPackName() + ".T" + table.getJavaClassName() + "Table"));
 				cls = cls.addField(field);
 
 
@@ -230,7 +231,7 @@ public class PostgresJavaGen implements DbJavaGen{
 					//this.company = new TCompany(context.forTable("schemaName","tableName"));
 				for(DbJavaTable table : tables){
 
-					pw.println("this." + UString.firstLowerCase(table.getJavaClassName()) + " = new T" + table.getJavaClassName()
+					pw.println("this." + UString.firstLowerCase(table.getJavaClassName()) + " = new T" + table.getJavaClassName() + "Table"
 					 + "(context.forTable(\"" + table.getTable().getSchema().getName().orElse("null") + "\", \"" + table.getTable().getName()	+ "\"));"
 					);
 				}
@@ -243,6 +244,26 @@ public class PostgresJavaGen implements DbJavaGen{
 				pw.println("this(new PostgresDbContext());");
 			});
 			cls = cls.addMethod(emptyConstructor);
+
+			for(DbJavaTable table : tables){
+				JMethod val = new JMethod("val","T" + table.getJavaClassName())
+						.withAccessLevel(AccessLevel.Public)
+						.addImport(new JImport(table.getPackName() + ".T" + table.getJavaClassName()))
+						.addImport(new JImport(table.getPackName() + "." + table.getJavaClassName()))
+						.addArg(new JArgument(table.getJavaClassName(),"v"))
+						.withCode(pw -> {
+							pw.println("return new T" + table.getJavaClassName() + "(");
+							pw.indent(pt -> {
+								pt.println(table.getJavaFields().map(jf ->
+									"val(v.get" + UString.firstUpperCase(jf.getJavaName()) + "()" +
+										(jf.isNullable() ? ".orElse(null)" : "")
+										+ ")").toString(", "));
+							});
+							pw.println(");");
+						});
+
+				cls = cls.addMethod(val);
+			}
 
 
 			JJavaFile file = new JJavaFile(rootPackage)
@@ -258,6 +279,7 @@ public class PostgresJavaGen implements DbJavaGen{
 			cls = cls.addImport(DTableExprImpl.class);
 			cls = cls.extendsDef(DTableExprImpl.class.getSimpleName() + "<" + table.getJavaClassName() +">");
 			cls = cls.addImport(new JImport(table.getPackName() + "." + table.getJavaClassName()));
+			cls = cls.addImport(DbTableContext.class);
 
 			for(DbJavaField field : table.getJavaFields()){
 				JField jfield = field.createTableColumnField().withAccessLevel(AccessLevel.Public);
@@ -276,6 +298,7 @@ public class PostgresJavaGen implements DbJavaGen{
 					ps.indent(pt -> {
 						for(DbJavaField field : table.getJavaFields()){
 							JField jf = field.createJField(false);
+
 							pt.println(jf.getDefinition() + "\t_" + jf.getName() + " = DImpl._get(" + jf.getName() + ")._read(_scon,_rr);");
 						}
 						String cond = table.getJavaFields().map(jf -> "_" + jf.getJavaName() + "== null").toString(" && ");
@@ -284,6 +307,9 @@ public class PostgresJavaGen implements DbJavaGen{
 					});
 					ps.println("}");
 				});
+
+
+
 				pw.println(");");
 				for(DbJavaField field : table.getJavaFields()){
 					JField jfield = field.createTableColumnField().withAccessLevel(AccessLevel.Public);
@@ -293,6 +319,12 @@ public class PostgresJavaGen implements DbJavaGen{
 			for(DbJavaField field : table.getJavaFields()){
 				JField jfield = field.createTableColumnField().withAccessLevel(AccessLevel.Public);
 				constructor = constructor.addArg(jfield.asArgument());
+			}
+			for(DbJavaField field : table.getJavaFields()){
+				JField jf = field.createJField(false);
+				for(JImport ji : jf.getAllImports()){
+					cls = cls.addImport(ji);
+				}
 			}
 			cls = cls.addMethod(constructor);
 
@@ -317,6 +349,17 @@ public class PostgresJavaGen implements DbJavaGen{
 
 					});
 			cls = cls.addMethod(doWithAlias);
+
+			JMethod methodCast = new JMethod("cast")
+					.withAccessLevel(AccessLevel.Public)
+					.asStatic()
+				.withResultType(clsName)
+				.addArg(DExpr.class.getSimpleName() + "<" + table.getJavaClassName() + ">","expr",false)
+				.withCode(pw -> {
+					pw.println("return (" + clsName + ")expr;");
+				}).addImport(JImport.forClass(DExpr.class));
+			cls = cls.addMethod(methodCast);
+
 			JJavaFile file = new JJavaFile(table.getPackName())
 				.addClass(cls);
 
@@ -328,51 +371,33 @@ public class PostgresJavaGen implements DbJavaGen{
 		return Result.function(table).code(l -> {
 			String clsName = "T" + table.getJavaClassName() + "Table";
 			JClass cls = new JClass(clsName);
-			cls = cls.addImport(DTable.class);
-			cls = cls.extendsDef(DTable.class.getSimpleName() + "<" + table.getJavaClassName() +", T" + table.getJavaClassName() + ">");
+			cls = cls.addImport(DExprTable.class);
+			cls = cls.addImport(DbTableContext.class);
+			cls = cls.extendsDef("T" + table.getJavaClassName() + " implements DExprTable<" + table.getJavaClassName() +">");
 			cls = cls.addImport(new JImport(table.getPackName() + "." + table.getJavaClassName()));
 
-			for(DbJavaField field : table.getJavaFields()){
-				JField jfield = field.createTableColumnField().withAccessLevel(AccessLevel.Public);
-				cls = cls.addField(jfield);
-			}
+			//cls = cls.addField(new JField("_tableContext",DbTableContext.class));
 
 			JMethod constructor = new JMethod(clsName)
 				.withAccessLevel(AccessLevel.Public)
-				.addArg(new JArgument(DbTableContext.class.getSimpleName(),"context"))
+				.addArg(new JArgument(DbTableContext.class.getSimpleName(),"tableContext"))
 				.addImport(JImport.forClass(DbTableContext.class));
 			constructor = constructor.withCode(pw -> {
-				pw.println("super(context);");
+				pw.println("super(" +
+					table.getJavaFields().map(field -> field.createTableColumnFieldInitializer("tableContext")).toString(",")+");");
+				pw.println("this._tableContext = tableContext;");
 
-				for(DbJavaField field : table.getJavaFields()){
-					pw.println(field.createTableColumnFieldInitializer() + ";");
-				}
-				pw.println(table.getJavaFields()
-					 .map(jf -> "Tuple2.of(\"" + jf.getJavaName() + "\"," + jf.getJavaName() +")")
-					 .toString("super._all = PList.val(",", ", ");"));
-				pw.println();
-				pw.println("_recordReader = _scon -> _rr -> {");
-				pw.indent(pt -> {
-					for(DbJavaField field : table.getJavaFields()){
-						JField jf = field.createJField(false);
-						pt.println(jf.getDefinition() + "\t" + jf.getName() + " = DImpl._get(this." + jf.getName() + ")._read(_scon,_rr);");
-					}
-					String cond = table.getJavaFields().map(jf -> jf.getJavaName() + "== null").toString(" && ");
-					pt.println("if(" + cond + ") { return null; }");
-					pt.println("return new " + table.getJavaClassName() + "(" + table.getJavaFields().map(f -> f.getJavaName()).toString(", ") + ");");
-				});
-				pw.println("};");
-				pw.println("_doWithAlias = alias -> new T" + table.getJavaClassName()+"(_tableContext.withAlias(alias));");
 			});
+
 			for(DbJavaField field : table.getJavaFields()){
 				JField jf = field.createJField(false);
 				for(JImport imp : jf.getAllImports()){
 					cls = cls.addImport(imp);
 				}
 			}
-			cls = cls.addImport(DImpl.class);
-			cls = cls.addImport(PList.class);
-			cls = cls.addImport(Tuple2.class);
+			//cls = cls.addImport(DImpl.class);
+			//cls = cls.addImport(PList.class);
+			//cls = cls.addImport(Tuple2.class);
 			cls = cls.addMethod(constructor);
 
 			/*JMethod selAlias = new JMethod("asTableExpr")
@@ -383,7 +408,7 @@ public class PostgresJavaGen implements DbJavaGen{
 						pw.println("return new " + clsName + "(_tableContext.withAlias(selectionAliasName));");
 					});
 			cls = cls.addMethod(selAlias);*/
-			JMethod tableAlias = new JMethod("withTableAlias")
+			JMethod tableAlias = new JMethod("alias")
 				.withAccessLevel(AccessLevel.Public)
 				.withResultType(clsName)
 				.addArg("String","tableAlias",false)
@@ -392,15 +417,25 @@ public class PostgresJavaGen implements DbJavaGen{
 				});
 			cls = cls.addMethod(tableAlias);
 
-			JMethod methodCast = new JMethod("cast")
+			JMethod query = new JMethod("query")
 					.withAccessLevel(AccessLevel.Public)
-					.asStatic()
-				.withResultType(clsName)
-				.addArg(DExpr.class.getSimpleName() + "<" + table.getJavaClassName() + ">","expr",false)
-				.withCode(pw -> {
-					pw.println("return (" + clsName + ")expr;");
-				}).addImport(JImport.forClass(DExpr.class));
-			cls = cls.addMethod(methodCast);
+					.addImport(JImport.forClass(Override.class))
+					.addAnnotation("@" + Override.class.getSimpleName())
+					.withResultType(Query.class.getSimpleName())
+					.addImport(JImport.forClass(Query.class))
+					.withCode(pw -> {
+						pw.println("return _tableContext.createQuery(this);");
+					});
+			cls = cls.addMethod(query);
+
+			JMethod all = new JMethod("all")
+					.withAccessLevel(AccessLevel.Public)
+					.withResultType("T" + table.getJavaClassName())
+					.withCode(pw -> pw.println("return this;"))
+					.addAnnotation("@" + Override.class.getSimpleName());
+			cls = cls.addMethod(all);
+
+
 
 			JJavaFile file = new JJavaFile(table.getPackName())
 				.addClass(cls);

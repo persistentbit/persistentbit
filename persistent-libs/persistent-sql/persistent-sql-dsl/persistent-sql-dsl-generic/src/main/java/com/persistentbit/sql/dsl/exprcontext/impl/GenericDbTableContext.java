@@ -34,6 +34,10 @@ public class GenericDbTableContext implements DbTableContext{
 		this.tableAlias = tableAlias;
 	}
 
+	@Override
+	public DbContext getDbContext() {
+		return dbContext;
+	}
 
 	@Override
 	public String getTableName() {

@@ -51,6 +51,9 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 		return fieldName;
 	}
 
+
+
+
 	@Override
 	public JField createTableColumnField() {
 		JField f;
@@ -98,9 +101,9 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 	}
 
 	@Override
-	public String createTableColumnFieldInitializer() {
-		String pre = "this." + fieldName + "\t=\tcontext.createExpr" ;
-		String post = "(this, \"" + column.getName() + "\")";
+	public String createTableColumnFieldInitializer(String tableContext) {
+		String pre = tableContext + ".createExpr" ;
+		String post = "(\"" + column.getName() + "\")";
 		switch(javaClass.getSimpleName()){
 			case "String":
 				return pre + "String" + post;
