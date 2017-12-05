@@ -22,6 +22,7 @@ public abstract class DTableExprImpl<T> implements DExpr<T>{
 	final DImplTable _internalTable;
 	@Nullable
 	protected DbTableContext _tableContext;
+	protected PList<String> _insertFieldNames = PList.empty();
 
 	public DTableExprImpl(
 		PList<DExpr> all,
@@ -41,11 +42,21 @@ public abstract class DTableExprImpl<T> implements DExpr<T>{
 			}
 
 			@Override
+			public SqlWithParams _toSql(DbSqlContext context) {
+				return SqlWithParams.empty.add(all.map(t ->DImpl._get(t)._toSql(context)),", ");
+			}
+
+			@Override
 			public DExpr<T> _withAlias(String alias) {
 				return _doWithAlias(alias);
 			}
 		};
 		_internalTable = new DImplTable(){
+			@Override
+			public SqlWithParams _getInsertList(DbSqlContext context) {
+				return SqlWithParams.sql(_insertFieldNames.toString(", "));
+			}
+
 			@Override
 			public SqlWithParams _toSqlFrom(DbSqlContext sqlContext) {
 				return SqlWithParams.sql(_tableContext.getTableName())

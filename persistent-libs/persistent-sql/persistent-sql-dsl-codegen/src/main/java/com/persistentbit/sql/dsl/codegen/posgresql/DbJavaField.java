@@ -21,7 +21,9 @@ public interface DbJavaField{
 
 
 	default boolean isNullable() {
-		return getDbMetaColumn().type.getIsNullable();
+		return getDbMetaColumn().type.getIsNullable()
+			|| getDbMetaColumn().type.getIsAutoIncrement()
+		;
 	}
 
 	default PList<DbJavaFieldEnum> getUsedEnums() {

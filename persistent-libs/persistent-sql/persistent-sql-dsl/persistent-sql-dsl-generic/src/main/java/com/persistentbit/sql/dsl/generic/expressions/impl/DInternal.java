@@ -20,6 +20,10 @@ public interface DInternal<T>{
 		return SqlWithParams.sql(toString());
 	}
 
+	default SqlWithParams _toSqlValues(DbSqlContext context) {
+		return SqlWithParams.sql("VALUES(").add(_toSql(context)).add(")");
+	}
+
 	T _read(DbSqlContext context, RowReader rowReader);
 
 	DExpr<T> _withAlias(String alias);

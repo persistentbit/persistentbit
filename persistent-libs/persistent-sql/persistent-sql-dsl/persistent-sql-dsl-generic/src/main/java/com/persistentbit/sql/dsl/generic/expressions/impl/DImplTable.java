@@ -13,6 +13,7 @@ import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 public interface DImplTable {
 
 	SqlWithParams _toSqlFrom(DbSqlContext context);
+	SqlWithParams _getInsertList(DbSqlContext context);
 
 	static DImplTable _get(DExprTable tableExpr){
 		if(tableExpr instanceof DTableExprImpl){

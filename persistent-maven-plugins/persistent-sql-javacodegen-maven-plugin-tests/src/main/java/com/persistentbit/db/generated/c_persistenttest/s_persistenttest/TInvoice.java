@@ -9,6 +9,7 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.code.annotations.Nullable;
 import java.lang.String;
 
 public class TInvoice extends DTableExprImpl<Invoice> {

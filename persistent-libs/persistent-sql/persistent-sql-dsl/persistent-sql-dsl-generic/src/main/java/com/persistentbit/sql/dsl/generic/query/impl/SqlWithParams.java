@@ -116,13 +116,13 @@ public class SqlWithParams{
 		return items.map(i ->i.toString()).fold("",(a,b)-> a + b);
 	}
 
-	void setParams(PreparedStatement stat) throws SQLException {
+	public void setParams(PreparedStatement stat) throws SQLException {
 		int t = 1;
 		for(Item i : items){
 			t = i.setParams(stat,t);
 		}
 	}
-	String getSql() {
+	public String getSql() {
 		return items.map(i -> i.toSqlString()).fold("",(a,b)-> a + b);
 	}
 

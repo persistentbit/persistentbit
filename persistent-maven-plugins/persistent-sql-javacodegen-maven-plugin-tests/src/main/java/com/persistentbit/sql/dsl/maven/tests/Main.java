@@ -7,8 +7,10 @@ import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTuple2;
+import com.persistentbit.sql.dsl.generic.inserts.Insert;
 import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
 import com.persistentbit.sql.dsl.generic.query.Selection;
+import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.work.DbWork;
@@ -132,6 +134,26 @@ public class Main{
 			   .run(newTrans.get()).orElseThrow()
 			   .forEach(r -> System.out.println(r));
 
+
+		Person katrien = Person.build(b -> b
+			.setUserName("KatrienMuys")
+			.setStreet("BakkerijStraat")
+			.setHouseNumber(1)
+			.setPostalcode("8000")
+			.setCity("Bredene")
+			.setCountry("BE")
+			.setPassword("eclaire")
+		);
+
+
+		Insert<Person> ip = new Insert<>(new PostgresDbContext(),db.person,db.person.val(
+			katrien
+		));
+		System.out.println(ip);
+
+		System.out.println(db.person.insert(katrien).run(newTrans.get()).orElseThrow());
+
+		db.person.query().selection(db.person).run(newTrans.get()).orElseThrow().forEach(System.out::println);
 
 		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
 		//System.out.println(withSubCompany);

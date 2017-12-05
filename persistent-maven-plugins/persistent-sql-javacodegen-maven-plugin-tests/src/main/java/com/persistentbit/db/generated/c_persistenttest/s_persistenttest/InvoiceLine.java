@@ -17,8 +17,9 @@ import java.lang.String;
 import com.persistentbit.javacodegen.annotations.NoWith;
 
 public class InvoiceLine {
+	@Nullable
 	@DbColumnName("id")
-	private  final	long	id;
+	private  final	Long	id;
 	@DbColumnName("invoice_id")
 	private  final	long	invoiceId;
 	@Nullable
@@ -27,32 +28,32 @@ public class InvoiceLine {
 	
 	
 	@Generated
-	public InvoiceLine(long id, long invoiceId, @Nullable String product){
-			this.id = Objects.requireNonNull(id, "id can not be null");
+	public InvoiceLine(@Nullable Long id, long invoiceId, @Nullable String product){
+			this.id = id;
 			this.invoiceId = Objects.requireNonNull(invoiceId, "invoiceId can not be null");
 			this.product = product;
 	}
 	@Generated
-	public InvoiceLine(long id, long invoiceId){
-			this(id, invoiceId, null);
+	public InvoiceLine(long invoiceId){
+			this(null, invoiceId, null);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder<_T1, _T2> {
-		private	long	id;
+	static public class Builder<_T1> {
+		private	Long	id;
 		private	long	invoiceId;
 		private	String	product;
 		
 		
-		public  Builder<SET, _T2>	setId(long id){
+		public  Builder<_T1>	setId(@Nullable Long id){
 			this.id	=	id;
-			return (Builder<SET, _T2>)this;
+			return this;
 		}
-		public  Builder<_T1, SET>	setInvoiceId(long invoiceId){
+		public  Builder<SET>	setInvoiceId(long invoiceId){
 			this.invoiceId	=	invoiceId;
-			return (Builder<_T1, SET>)this;
+			return (Builder<SET>)this;
 		}
-		public  Builder<_T1, _T2>	setProduct(@Nullable String product){
+		public  Builder<_T1>	setProduct(@Nullable String product){
 			this.product	=	product;
 			return this;
 		}
@@ -62,8 +63,8 @@ public class InvoiceLine {
 	 * @return {@link #id}
 	 */
 	@Generated
-	public  long	getId(){
-		return this.id;
+	public  Optional<Long>	getId(){
+		return Optional.ofNullable(this.id);
 	}
 	/**
 	 * Create a copy of this InvoiceLine object with a new value for field {@link #id}.<br>
@@ -71,7 +72,7 @@ public class InvoiceLine {
 	 * @return A new instance of {@link InvoiceLine}
 	 */
 	@Generated
-	public  InvoiceLine	withId(long id){
+	public  InvoiceLine	withId(@Nullable Long id){
 		return new InvoiceLine(id, invoiceId, product);
 	}
 	/**
@@ -114,7 +115,7 @@ public class InvoiceLine {
 		if(this == o) return true;
 		if(o instanceof InvoiceLine == false) return false;
 		InvoiceLine obj = (InvoiceLine)o;
-		if(id!= obj.id) return false;
+		if(id != null ? !id.equals(obj.id) : obj.id!= null) return false;
 		if(invoiceId!= obj.invoiceId) return false;
 		if(product != null ? !product.equals(obj.product) : obj.product!= null) return false;
 		return true;
@@ -123,7 +124,7 @@ public class InvoiceLine {
 	@Override
 	public  int	hashCode(){
 		int result;
-		result = (int) (this.id ^ (this.id>>> 32));
+		result = (this.id != null ? this.id.hashCode() : 0);
 		result = 31 * result + (int) (this.invoiceId ^ (this.invoiceId>>> 32));
 		result = 31 * result + (this.product != null ? this.product.hashCode() : 0);
 		return result;
@@ -148,13 +149,13 @@ public class InvoiceLine {
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static InvoiceLine	build(ThrowingFunction<Builder<NOT,NOT>, Builder<SET,SET>, Exception> setter){
+	public  static InvoiceLine	build(ThrowingFunction<Builder<NOT>, Builder<SET>, Exception> setter){
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new InvoiceLine(b.id, b.invoiceId, b.product);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Result<InvoiceLine>	buildExc(ThrowingFunction<Builder<NOT,NOT>, Builder<SET,SET>,Exception> setter){
+	public  static Result<InvoiceLine>	buildExc(ThrowingFunction<Builder<NOT>, Builder<SET>,Exception> setter){
 		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new InvoiceLine(b.id, b.invoiceId, b.product));
 	}
 }

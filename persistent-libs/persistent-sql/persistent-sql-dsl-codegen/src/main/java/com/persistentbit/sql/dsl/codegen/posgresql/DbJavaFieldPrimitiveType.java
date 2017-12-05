@@ -79,11 +79,11 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	@Override
 	public  JField	createJField(boolean allowPrimitives){
 	    Class cls = primitiveType;
-	    if (column.getType().getIsNullable() || allowPrimitives == false) {
+	    if (isNullable() || allowPrimitives == false) {
 	        cls = UReflect.convertPrimitiveClassToObjectClass(cls).get();
 	    }
 	    JField res = new JField(fieldName, cls);
-	    if (column.getType().getIsNullable()) {
+	    if (isNullable()) {
 	        res = res.asNullable();
 	    }
 	    return res;

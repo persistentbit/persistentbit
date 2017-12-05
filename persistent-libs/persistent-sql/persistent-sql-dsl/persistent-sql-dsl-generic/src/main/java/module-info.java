@@ -17,5 +17,5 @@ module persistent.sql.dsl.generic {
 	exports com.persistentbit.sql.dsl.generic.expressions.impl;
 	exports com.persistentbit.sql.dsl.generic.query;
 	exports com.persistentbit.sql.dsl.generic;
-
+	exports com.persistentbit.sql.dsl.generic.inserts;
 }

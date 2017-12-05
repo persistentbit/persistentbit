@@ -1,6 +1,7 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
 import java.lang.SuppressWarnings;
+import java.util.Optional;
 import com.persistentbit.sql.dsl.annotations.DbColumnName;
 import com.persistentbit.javacodegen.annotations.NoGet;
 import com.persistentbit.javacodegen.annotations.NOT;
@@ -16,8 +17,9 @@ import java.lang.String;
 import com.persistentbit.javacodegen.annotations.NoWith;
 
 public class Invoice {
+	@Nullable
 	@DbColumnName("id")
-	private  final	long	id;
+	private  final	Long	id;
 	@DbColumnName("invoice_nummer")
 	private  final	String	invoiceNummer;
 	@DbColumnName("from_company_id")
@@ -27,36 +29,40 @@ public class Invoice {
 	
 	
 	@Generated
-	public Invoice(long id, String invoiceNummer, long fromCompanyId, long toCompanyId){
-			this.id = Objects.requireNonNull(id, "id can not be null");
+	public Invoice(@Nullable Long id, String invoiceNummer, long fromCompanyId, long toCompanyId){
+			this.id = id;
 			this.invoiceNummer = Objects.requireNonNull(invoiceNummer, "invoiceNummer can not be null");
 			this.fromCompanyId = Objects.requireNonNull(fromCompanyId, "fromCompanyId can not be null");
 			this.toCompanyId = Objects.requireNonNull(toCompanyId, "toCompanyId can not be null");
 	}
 	@Generated
+	public Invoice(String invoiceNummer, long fromCompanyId, long toCompanyId){
+			this(null, invoiceNummer, fromCompanyId, toCompanyId);
+	}
+	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder<_T1, _T2, _T3, _T4> {
-		private	long	id;
+	static public class Builder<_T1, _T2, _T3> {
+		private	Long	id;
 		private	String	invoiceNummer;
 		private	long	fromCompanyId;
 		private	long	toCompanyId;
 		
 		
-		public  Builder<SET, _T2, _T3, _T4>	setId(long id){
+		public  Builder<_T1, _T2, _T3>	setId(@Nullable Long id){
 			this.id	=	id;
-			return (Builder<SET, _T2, _T3, _T4>)this;
+			return this;
 		}
-		public  Builder<_T1, SET, _T3, _T4>	setInvoiceNummer(String invoiceNummer){
+		public  Builder<SET, _T2, _T3>	setInvoiceNummer(String invoiceNummer){
 			this.invoiceNummer	=	invoiceNummer;
-			return (Builder<_T1, SET, _T3, _T4>)this;
+			return (Builder<SET, _T2, _T3>)this;
 		}
-		public  Builder<_T1, _T2, SET, _T4>	setFromCompanyId(long fromCompanyId){
+		public  Builder<_T1, SET, _T3>	setFromCompanyId(long fromCompanyId){
 			this.fromCompanyId	=	fromCompanyId;
-			return (Builder<_T1, _T2, SET, _T4>)this;
+			return (Builder<_T1, SET, _T3>)this;
 		}
-		public  Builder<_T1, _T2, _T3, SET>	setToCompanyId(long toCompanyId){
+		public  Builder<_T1, _T2, SET>	setToCompanyId(long toCompanyId){
 			this.toCompanyId	=	toCompanyId;
-			return (Builder<_T1, _T2, _T3, SET>)this;
+			return (Builder<_T1, _T2, SET>)this;
 		}
 	}
 	/**
@@ -64,8 +70,8 @@ public class Invoice {
 	 * @return {@link #id}
 	 */
 	@Generated
-	public  long	getId(){
-		return this.id;
+	public  Optional<Long>	getId(){
+		return Optional.ofNullable(this.id);
 	}
 	/**
 	 * Create a copy of this Invoice object with a new value for field {@link #id}.<br>
@@ -73,7 +79,7 @@ public class Invoice {
 	 * @return A new instance of {@link Invoice}
 	 */
 	@Generated
-	public  Invoice	withId(long id){
+	public  Invoice	withId(@Nullable Long id){
 		return new Invoice(id, invoiceNummer, fromCompanyId, toCompanyId);
 	}
 	/**
@@ -133,7 +139,7 @@ public class Invoice {
 		if(this == o) return true;
 		if(o instanceof Invoice == false) return false;
 		Invoice obj = (Invoice)o;
-		if(id!= obj.id) return false;
+		if(id != null ? !id.equals(obj.id) : obj.id!= null) return false;
 		if(!invoiceNummer.equals(obj.invoiceNummer)) return false;
 		if(fromCompanyId!= obj.fromCompanyId) return false;
 		if(toCompanyId!= obj.toCompanyId) return false;
@@ -143,7 +149,7 @@ public class Invoice {
 	@Override
 	public  int	hashCode(){
 		int result;
-		result = (int) (this.id ^ (this.id>>> 32));
+		result = (this.id != null ? this.id.hashCode() : 0);
 		result = 31 * result + (this.invoiceNummer != null ? this.invoiceNummer.hashCode() : 0);
 		result = 31 * result + (int) (this.fromCompanyId ^ (this.fromCompanyId>>> 32));
 		result = 31 * result + (int) (this.toCompanyId ^ (this.toCompanyId>>> 32));
@@ -171,13 +177,13 @@ public class Invoice {
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Invoice	build(ThrowingFunction<Builder<NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET>, Exception> setter){
+	public  static Invoice	build(ThrowingFunction<Builder<NOT,NOT,NOT>, Builder<SET,SET,SET>, Exception> setter){
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Invoice(b.id, b.invoiceNummer, b.fromCompanyId, b.toCompanyId);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Result<Invoice>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET>,Exception> setter){
+	public  static Result<Invoice>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT>, Builder<SET,SET,SET>,Exception> setter){
 		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new Invoice(b.id, b.invoiceNummer, b.fromCompanyId, b.toCompanyId));
 	}
 }

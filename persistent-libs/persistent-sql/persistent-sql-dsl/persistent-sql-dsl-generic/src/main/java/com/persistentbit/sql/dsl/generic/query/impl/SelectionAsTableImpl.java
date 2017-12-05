@@ -55,6 +55,16 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 	}
 
 	@Override
+	public SqlWithParams _toSqlValues(DbSqlContext context) {
+		throw new ToDo();
+	}
+
+	@Override
+	public SqlWithParams _getInsertList(DbSqlContext context) {
+		throw new RuntimeException("Insert not supported on SelectionAsTable");
+	}
+
+	@Override
 	public T _read(DbSqlContext context, RowReader rowReader) {
 		return DImpl._get(columnWithAlias)._read(context,rowReader);
 	}

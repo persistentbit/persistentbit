@@ -1,8 +1,13 @@
 package com.persistentbit.db.generated;
 
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.*;
-import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TPersonTable;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceTable;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TSchemaHistoryTable;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TCompanyTable;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceLineTable;
+import com.persistentbit.sql.dsl.exprcontext.DbContext;
+import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
 
 public class Db extends DbPostgres {
 	public  final	TCompanyTable	company;
@@ -22,30 +27,5 @@ public class Db extends DbPostgres {
 	}
 	public Db(){
 		this(new PostgresDbContext());
-	}
-	public  TCompany	val(Company v){
-		return new TCompany(
-			val(v.getId()), val(v.getCompanyName()), val(v.getAdresStreet()), val(v.getAdresHouseNumber()), val(v.getAdresBusNumber().orElse(null)), val(v.getAdresPostalcode()), val(v.getAdresCity()), val(v.getAdresCountry()), val(v.getOwnerPersonId().orElse(null))
-		);
-	}
-	public  TInvoice	val(Invoice v){
-		return new TInvoice(
-			val(v.getId()), val(v.getInvoiceNummer()), val(v.getFromCompanyId()), val(v.getToCompanyId())
-		);
-	}
-	public  TInvoiceLine	val(InvoiceLine v){
-		return new TInvoiceLine(
-			val(v.getId()), val(v.getInvoiceId()), val(v.getProduct().orElse(null))
-		);
-	}
-	public  TPerson	val(Person v){
-		return new TPerson(
-			val(v.getId()), val(v.getUserName()), val(v.getPassword()), val(v.getStreet()), val(v.getHouseNumber()), val(v.getBusNumber().orElse(null)), val(v.getPostalcode()), val(v.getCity()), val(v.getCountry())
-		);
-	}
-	public  TSchemaHistory	val(SchemaHistory v){
-		return new TSchemaHistory(
-			val(v.getCreateddate()), val(v.getPackageName()), val(v.getUpdateName())
-		);
 	}
 }
