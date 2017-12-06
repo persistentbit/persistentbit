@@ -19,11 +19,11 @@
         <module>persistent-sql-dsl-codegen</module>
     </modules>
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>com.persistentbit</groupId>
             <artifactId>persistent-core</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency>-->
     </dependencies>
     <artifactId>persistent-sql</artifactId>
 
