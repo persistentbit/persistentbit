@@ -10,5 +10,4 @@ public interface DbTableFieldExprContext{
 
 	String _getFieldSelectionName(DbSqlContext context);
 	String _getFieldName();
-
 }

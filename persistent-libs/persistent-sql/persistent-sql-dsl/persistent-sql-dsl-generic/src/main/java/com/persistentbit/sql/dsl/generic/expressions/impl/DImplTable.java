@@ -1,5 +1,6 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl;
 
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
@@ -14,6 +15,8 @@ public interface DImplTable {
 
 	SqlWithParams _toSqlFrom(DbSqlContext context);
 	SqlWithParams _getInsertList(DbSqlContext context);
+	PList<String> _getAutoGenKeyFieldNames();
+	String getFullTableName();
 
 	static DImplTable _get(DExprTable tableExpr){
 		if(tableExpr instanceof DTableExprImpl){

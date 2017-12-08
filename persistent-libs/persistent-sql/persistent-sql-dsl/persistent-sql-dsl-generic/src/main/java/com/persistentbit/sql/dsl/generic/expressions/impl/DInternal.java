@@ -1,5 +1,6 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl;
 
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
@@ -27,5 +28,9 @@ public interface DInternal<T>{
 	T _read(DbSqlContext context, RowReader rowReader);
 
 	DExpr<T> _withAlias(String alias);
+	PList<DExpr> _expand();
 
+	default String _getColumnName() {
+		throw new UnsupportedOperationException("Get Column Name is not supported on " + this.getClass());
+	}
 }

@@ -1,5 +1,6 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dtuples;
 
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTuple6;
@@ -7,6 +8,7 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.sql.utils.rowreader.RowReader;
 import com.persistentbit.tuples.Tuple6;
+import com.persistentbit.utils.Lazy;
 
 /**
  * TODOC
@@ -111,6 +113,21 @@ public class DTuple6<T1,T2,T3,T4,T5,T6> implements DImpl<Tuple6<T1,T2,T3,T4,T5,T
 	@Override
 	public DExpr<T6> v6() {
 		return v6;
+	}
+
+	private final Lazy<PList<DExpr>> _expandList = new Lazy<>(() ->
+		PList.<DExpr>empty()
+			.plusAll(DImpl._get(v1())._expand())
+			.plusAll(DImpl._get(v2())._expand())
+			.plusAll(DImpl._get(v3())._expand())
+			.plusAll(DImpl._get(v4())._expand())
+			.plusAll(DImpl._get(v5())._expand())
+			.plusAll(DImpl._get(v6())._expand())
+	);
+
+	@Override
+	public PList<DExpr> _expand() {
+		return _expandList.get();
 	}
 
 

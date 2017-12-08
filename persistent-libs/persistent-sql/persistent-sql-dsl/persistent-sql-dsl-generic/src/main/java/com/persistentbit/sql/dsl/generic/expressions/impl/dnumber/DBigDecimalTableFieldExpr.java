@@ -31,5 +31,9 @@ public class DBigDecimalTableFieldExpr extends DBigDecimalAbstract{
 	public DExprBigDecimal _withAlias(String alias) {
 		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
 	}
+	@Override
+	public String _getColumnName() {
+		return context._getFieldName();
+	}
 
 }

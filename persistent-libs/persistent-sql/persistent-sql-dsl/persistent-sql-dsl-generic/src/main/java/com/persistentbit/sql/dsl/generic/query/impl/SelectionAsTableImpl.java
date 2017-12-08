@@ -61,7 +61,17 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 
 	@Override
 	public SqlWithParams _getInsertList(DbSqlContext context) {
-		throw new RuntimeException("Insert not supported on SelectionAsTable");
+		throw new UnsupportedOperationException("Insert not supported on SelectionAsTable");
+	}
+
+	@Override
+	public PList<String> _getAutoGenKeyFieldNames() {
+		throw new UnsupportedOperationException("Not supported on SelectionAsTable");
+	}
+
+	@Override
+	public String getFullTableName() {
+		throw new UnsupportedOperationException("Not supported on SelectionAsTable");
 	}
 
 	@Override
@@ -72,6 +82,11 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 	@Override
 	public DExpr<T> _withAlias(String alias) {
 		throw new ToDo();
+	}
+
+	@Override
+	public PList<DExpr> _expand() {
+		return DImpl._get(columnWithAlias)._expand();
 	}
 
 	@Override

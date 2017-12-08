@@ -17,9 +17,8 @@ import java.lang.String;
 import com.persistentbit.javacodegen.annotations.NoWith;
 
 public class Company {
-	@Nullable
 	@DbColumnName("id")
-	private  final	Long	id;
+	private  final	long	id;
 	@DbColumnName("company_name")
 	private  final	String	companyName;
 	@DbColumnName("adres_street")
@@ -41,8 +40,8 @@ public class Company {
 	
 	
 	@Generated
-	public Company(@Nullable Long id, String companyName, String adresStreet, int adresHouseNumber, @Nullable String adresBusNumber, String adresPostalcode, String adresCity, String adresCountry, @Nullable Long ownerPersonId){
-			this.id = id;
+	public Company(long id, String companyName, String adresStreet, int adresHouseNumber, @Nullable String adresBusNumber, String adresPostalcode, String adresCity, String adresCountry, @Nullable Long ownerPersonId){
+			this.id = Objects.requireNonNull(id, "id can not be null");
 			this.companyName = Objects.requireNonNull(companyName, "companyName can not be null");
 			this.adresStreet = Objects.requireNonNull(adresStreet, "adresStreet can not be null");
 			this.adresHouseNumber = Objects.requireNonNull(adresHouseNumber, "adresHouseNumber can not be null");
@@ -53,13 +52,13 @@ public class Company {
 			this.ownerPersonId = ownerPersonId;
 	}
 	@Generated
-	public Company(String companyName, String adresStreet, int adresHouseNumber, String adresPostalcode, String adresCity, String adresCountry){
-			this(null, companyName, adresStreet, adresHouseNumber, null, adresPostalcode, adresCity, adresCountry, null);
+	public Company(long id, String companyName, String adresStreet, int adresHouseNumber, String adresPostalcode, String adresCity, String adresCountry){
+			this(id, companyName, adresStreet, adresHouseNumber, null, adresPostalcode, adresCity, adresCountry, null);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6> {
-		private	Long	id;
+	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7> {
+		private	long	id;
 		private	String	companyName;
 		private	String	adresStreet;
 		private	int	adresHouseNumber;
@@ -70,39 +69,39 @@ public class Company {
 		private	Long	ownerPersonId;
 		
 		
-		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6>	setId(@Nullable Long id){
+		public  Builder<SET, _T2, _T3, _T4, _T5, _T6, _T7>	setId(long id){
 			this.id	=	id;
-			return this;
+			return (Builder<SET, _T2, _T3, _T4, _T5, _T6, _T7>)this;
 		}
-		public  Builder<SET, _T2, _T3, _T4, _T5, _T6>	setCompanyName(String companyName){
+		public  Builder<_T1, SET, _T3, _T4, _T5, _T6, _T7>	setCompanyName(String companyName){
 			this.companyName	=	companyName;
-			return (Builder<SET, _T2, _T3, _T4, _T5, _T6>)this;
+			return (Builder<_T1, SET, _T3, _T4, _T5, _T6, _T7>)this;
 		}
-		public  Builder<_T1, SET, _T3, _T4, _T5, _T6>	setAdresStreet(String adresStreet){
+		public  Builder<_T1, _T2, SET, _T4, _T5, _T6, _T7>	setAdresStreet(String adresStreet){
 			this.adresStreet	=	adresStreet;
-			return (Builder<_T1, SET, _T3, _T4, _T5, _T6>)this;
+			return (Builder<_T1, _T2, SET, _T4, _T5, _T6, _T7>)this;
 		}
-		public  Builder<_T1, _T2, SET, _T4, _T5, _T6>	setAdresHouseNumber(int adresHouseNumber){
+		public  Builder<_T1, _T2, _T3, SET, _T5, _T6, _T7>	setAdresHouseNumber(int adresHouseNumber){
 			this.adresHouseNumber	=	adresHouseNumber;
-			return (Builder<_T1, _T2, SET, _T4, _T5, _T6>)this;
+			return (Builder<_T1, _T2, _T3, SET, _T5, _T6, _T7>)this;
 		}
-		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6>	setAdresBusNumber(@Nullable String adresBusNumber){
+		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7>	setAdresBusNumber(@Nullable String adresBusNumber){
 			this.adresBusNumber	=	adresBusNumber;
 			return this;
 		}
-		public  Builder<_T1, _T2, _T3, SET, _T5, _T6>	setAdresPostalcode(String adresPostalcode){
+		public  Builder<_T1, _T2, _T3, _T4, SET, _T6, _T7>	setAdresPostalcode(String adresPostalcode){
 			this.adresPostalcode	=	adresPostalcode;
-			return (Builder<_T1, _T2, _T3, SET, _T5, _T6>)this;
+			return (Builder<_T1, _T2, _T3, _T4, SET, _T6, _T7>)this;
 		}
-		public  Builder<_T1, _T2, _T3, _T4, SET, _T6>	setAdresCity(String adresCity){
+		public  Builder<_T1, _T2, _T3, _T4, _T5, SET, _T7>	setAdresCity(String adresCity){
 			this.adresCity	=	adresCity;
-			return (Builder<_T1, _T2, _T3, _T4, SET, _T6>)this;
+			return (Builder<_T1, _T2, _T3, _T4, _T5, SET, _T7>)this;
 		}
-		public  Builder<_T1, _T2, _T3, _T4, _T5, SET>	setAdresCountry(String adresCountry){
+		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, SET>	setAdresCountry(String adresCountry){
 			this.adresCountry	=	adresCountry;
-			return (Builder<_T1, _T2, _T3, _T4, _T5, SET>)this;
+			return (Builder<_T1, _T2, _T3, _T4, _T5, _T6, SET>)this;
 		}
-		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6>	setOwnerPersonId(@Nullable Long ownerPersonId){
+		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7>	setOwnerPersonId(@Nullable Long ownerPersonId){
 			this.ownerPersonId	=	ownerPersonId;
 			return this;
 		}
@@ -112,8 +111,8 @@ public class Company {
 	 * @return {@link #id}
 	 */
 	@Generated
-	public  Optional<Long>	getId(){
-		return Optional.ofNullable(this.id);
+	public  long	getId(){
+		return this.id;
 	}
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #id}.<br>
@@ -121,7 +120,7 @@ public class Company {
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
-	public  Company	withId(@Nullable Long id){
+	public  Company	withId(long id){
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
 	/**
@@ -266,7 +265,7 @@ public class Company {
 		if(this == o) return true;
 		if(o instanceof Company == false) return false;
 		Company obj = (Company)o;
-		if(id != null ? !id.equals(obj.id) : obj.id!= null) return false;
+		if(id!= obj.id) return false;
 		if(!companyName.equals(obj.companyName)) return false;
 		if(!adresStreet.equals(obj.adresStreet)) return false;
 		if(adresHouseNumber!= obj.adresHouseNumber) return false;
@@ -281,7 +280,7 @@ public class Company {
 	@Override
 	public  int	hashCode(){
 		int result;
-		result = (this.id != null ? this.id.hashCode() : 0);
+		result = (int) (this.id ^ (this.id>>> 32));
 		result = 31 * result + (this.companyName != null ? this.companyName.hashCode() : 0);
 		result = 31 * result + (this.adresStreet != null ? this.adresStreet.hashCode() : 0);
 		result = 31 * result + this.adresHouseNumber;
@@ -324,13 +323,13 @@ public class Company {
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Company	build(ThrowingFunction<Builder<NOT,NOT,NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET>, Exception> setter){
+	public  static Company	build(ThrowingFunction<Builder<NOT,NOT,NOT,NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET,SET>, Exception> setter){
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Company(b.id, b.companyName, b.adresStreet, b.adresHouseNumber, b.adresBusNumber, b.adresPostalcode, b.adresCity, b.adresCountry, b.ownerPersonId);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Result<Company>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET>,Exception> setter){
+	public  static Result<Company>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT,NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET,SET>,Exception> setter){
 		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new Company(b.id, b.companyName, b.adresStreet, b.adresHouseNumber, b.adresBusNumber, b.adresPostalcode, b.adresCity, b.adresCountry, b.ownerPersonId));
 	}
 }

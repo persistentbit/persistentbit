@@ -1,5 +1,6 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.dboolean;
 
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
@@ -58,4 +59,9 @@ public abstract class DBooleanAbstract implements DImpl<Boolean> , DExprBoolean{
 	public DExprBoolean _withAlias(String alias) {
 		return new DBooleanAlias(this, alias);
 	}
+	@Override
+	public PList<DExpr> _expand() {
+		return PList.val(this);
+	}
+
 }

@@ -7,6 +7,7 @@ import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.utils.Lazy;
 
 import java.util.function.Function;
 
@@ -23,11 +24,15 @@ public abstract class DTableExprImpl<T> implements DExpr<T>{
 	@Nullable
 	protected DbTableContext _tableContext;
 	protected PList<String> _insertFieldNames = PList.empty();
-
+	protected PList<String>	_autoGenKeyFieldNames = PList.empty();
+	private final Lazy<PList<DExpr>> _allExpanded;
 	public DTableExprImpl(
 		PList<DExpr> all,
 		Function<DbSqlContext,Function<RowReader,T>> _recordReader
 	) {
+		_allExpanded = new Lazy<>(()->
+			all.map(e -> DImpl._get(e)._expand()).<DExpr>flatten().plist()
+		);
 
 		_internal = new DInternal<T>(){
 			@Override
@@ -50,7 +55,14 @@ public abstract class DTableExprImpl<T> implements DExpr<T>{
 			public DExpr<T> _withAlias(String alias) {
 				return _doWithAlias(alias);
 			}
+
+			@Override
+			public PList<DExpr> _expand() {
+				return _allExpanded.get();
+			}
 		};
+
+
 		_internalTable = new DImplTable(){
 			@Override
 			public SqlWithParams _getInsertList(DbSqlContext context) {
@@ -62,7 +74,18 @@ public abstract class DTableExprImpl<T> implements DExpr<T>{
 				return SqlWithParams.sql(_tableContext.getTableName())
 									.add(_tableContext.getTableAlias().map(a -> " AS " + a).orElse(""));
 			}
+
+			@Override
+			public String getFullTableName() {
+				return _tableContext.getTableName();
+			}
+
+			@Override
+			public PList<String> _getAutoGenKeyFieldNames() {
+				return _autoGenKeyFieldNames;
+			}
 		};
+
 	}
 
 	protected abstract DExpr<T> _doWithAlias(String alias);

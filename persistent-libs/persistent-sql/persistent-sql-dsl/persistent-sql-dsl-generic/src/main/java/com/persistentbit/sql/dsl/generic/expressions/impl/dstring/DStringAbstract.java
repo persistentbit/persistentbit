@@ -137,4 +137,10 @@ public abstract class DStringAbstract implements DImpl<String> , DExprString{
 	public DExprString _withAlias(String alias) {
 		return alias == null ? this : new DStringAlias(alias,this);
 	}
+
+	@Override
+	public PList<DExpr> _expand() {
+		return PList.val(this);
+	}
+
 }

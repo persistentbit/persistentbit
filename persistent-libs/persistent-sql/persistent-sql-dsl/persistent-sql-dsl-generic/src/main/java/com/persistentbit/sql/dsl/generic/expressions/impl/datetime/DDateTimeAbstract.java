@@ -112,4 +112,9 @@ public abstract class DDateTimeAbstract implements DImpl<LocalDateTime>,  DExprD
 	public DExprDateTime _withAlias(String alias) {
 		return new DDateTimeAlias(alias,this);
 	}
+
+	@Override
+	public PList<DExpr> _expand() {
+		return PList.val(this);
+	}
 }

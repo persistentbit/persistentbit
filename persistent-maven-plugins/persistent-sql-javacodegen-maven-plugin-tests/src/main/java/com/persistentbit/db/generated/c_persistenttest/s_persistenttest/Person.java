@@ -14,9 +14,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class Person {
-	@Nullable
 	@DbColumnName("id")
-	private  final	Long	id;
+	private  final	long	id;
 	@DbColumnName("user_name")
 	private  final	String	userName;
 	@DbColumnName("password")
@@ -37,8 +36,8 @@ public class Person {
 	
 	
 	@Generated
-	public Person(@Nullable Long id, String userName, String password, String street, int houseNumber, @Nullable String busNumber, String postalcode, String city, String country){
-			this.id = id;
+	public Person(long id, String userName, String password, String street, int houseNumber, @Nullable String busNumber, String postalcode, String city, String country){
+			this.id = Objects.requireNonNull(id, "id can not be null");
 			this.userName = Objects.requireNonNull(userName, "userName can not be null");
 			this.password = Objects.requireNonNull(password, "password can not be null");
 			this.street = Objects.requireNonNull(street, "street can not be null");
@@ -49,13 +48,13 @@ public class Person {
 			this.country = Objects.requireNonNull(country, "country can not be null");
 	}
 	@Generated
-	public Person(String userName, String password, String street, int houseNumber, String postalcode, String city, String country){
-			this(null, userName, password, street, houseNumber, null, postalcode, city, country);
+	public Person(long id, String userName, String password, String street, int houseNumber, String postalcode, String city, String country){
+			this(id, userName, password, street, houseNumber, null, postalcode, city, country);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7> {
-		private	Long	id;
+	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, _T8> {
+		private	long	id;
 		private	String	userName;
 		private	String	password;
 		private	String	street;
@@ -66,41 +65,41 @@ public class Person {
 		private	String	country;
 		
 		
-		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7>	setId(@Nullable Long id){
+		public  Builder<SET, _T2, _T3, _T4, _T5, _T6, _T7, _T8>	setId(long id){
 			this.id	=	id;
-			return this;
+			return (Builder<SET, _T2, _T3, _T4, _T5, _T6, _T7, _T8>)this;
 		}
-		public  Builder<SET, _T2, _T3, _T4, _T5, _T6, _T7>	setUserName(String userName){
+		public  Builder<_T1, SET, _T3, _T4, _T5, _T6, _T7, _T8>	setUserName(String userName){
 			this.userName	=	userName;
-			return (Builder<SET, _T2, _T3, _T4, _T5, _T6, _T7>)this;
+			return (Builder<_T1, SET, _T3, _T4, _T5, _T6, _T7, _T8>)this;
 		}
-		public  Builder<_T1, SET, _T3, _T4, _T5, _T6, _T7>	setPassword(String password){
+		public  Builder<_T1, _T2, SET, _T4, _T5, _T6, _T7, _T8>	setPassword(String password){
 			this.password	=	password;
-			return (Builder<_T1, SET, _T3, _T4, _T5, _T6, _T7>)this;
+			return (Builder<_T1, _T2, SET, _T4, _T5, _T6, _T7, _T8>)this;
 		}
-		public  Builder<_T1, _T2, SET, _T4, _T5, _T6, _T7>	setStreet(String street){
+		public  Builder<_T1, _T2, _T3, SET, _T5, _T6, _T7, _T8>	setStreet(String street){
 			this.street	=	street;
-			return (Builder<_T1, _T2, SET, _T4, _T5, _T6, _T7>)this;
+			return (Builder<_T1, _T2, _T3, SET, _T5, _T6, _T7, _T8>)this;
 		}
-		public  Builder<_T1, _T2, _T3, SET, _T5, _T6, _T7>	setHouseNumber(int houseNumber){
+		public  Builder<_T1, _T2, _T3, _T4, SET, _T6, _T7, _T8>	setHouseNumber(int houseNumber){
 			this.houseNumber	=	houseNumber;
-			return (Builder<_T1, _T2, _T3, SET, _T5, _T6, _T7>)this;
+			return (Builder<_T1, _T2, _T3, _T4, SET, _T6, _T7, _T8>)this;
 		}
-		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7>	setBusNumber(@Nullable String busNumber){
+		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, _T8>	setBusNumber(@Nullable String busNumber){
 			this.busNumber	=	busNumber;
 			return this;
 		}
-		public  Builder<_T1, _T2, _T3, _T4, SET, _T6, _T7>	setPostalcode(String postalcode){
+		public  Builder<_T1, _T2, _T3, _T4, _T5, SET, _T7, _T8>	setPostalcode(String postalcode){
 			this.postalcode	=	postalcode;
-			return (Builder<_T1, _T2, _T3, _T4, SET, _T6, _T7>)this;
+			return (Builder<_T1, _T2, _T3, _T4, _T5, SET, _T7, _T8>)this;
 		}
-		public  Builder<_T1, _T2, _T3, _T4, _T5, SET, _T7>	setCity(String city){
+		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, SET, _T8>	setCity(String city){
 			this.city	=	city;
-			return (Builder<_T1, _T2, _T3, _T4, _T5, SET, _T7>)this;
+			return (Builder<_T1, _T2, _T3, _T4, _T5, _T6, SET, _T8>)this;
 		}
-		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, SET>	setCountry(String country){
+		public  Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, SET>	setCountry(String country){
 			this.country	=	country;
-			return (Builder<_T1, _T2, _T3, _T4, _T5, _T6, SET>)this;
+			return (Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, SET>)this;
 		}
 	}
 	/**
@@ -108,8 +107,8 @@ public class Person {
 	 * @return {@link #id}
 	 */
 	@Generated
-	public  Optional<Long>	getId(){
-		return Optional.ofNullable(this.id);
+	public  long	getId(){
+		return this.id;
 	}
 	/**
 	 * Create a copy of this Person object with a new value for field {@link #id}.<br>
@@ -117,7 +116,7 @@ public class Person {
 	 * @return A new instance of {@link Person}
 	 */
 	@Generated
-	public  Person	withId(@Nullable Long id){
+	public  Person	withId(long id){
 		return new Person(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
 	/**
@@ -262,7 +261,7 @@ public class Person {
 		if(this == o) return true;
 		if(o instanceof Person == false) return false;
 		Person obj = (Person)o;
-		if(id != null ? !id.equals(obj.id) : obj.id!= null) return false;
+		if(id!= obj.id) return false;
 		if(!userName.equals(obj.userName)) return false;
 		if(!password.equals(obj.password)) return false;
 		if(!street.equals(obj.street)) return false;
@@ -277,7 +276,7 @@ public class Person {
 	@Override
 	public  int	hashCode(){
 		int result;
-		result = (this.id != null ? this.id.hashCode() : 0);
+		result = (int) (this.id ^ (this.id>>> 32));
 		result = 31 * result + (this.userName != null ? this.userName.hashCode() : 0);
 		result = 31 * result + (this.password != null ? this.password.hashCode() : 0);
 		result = 31 * result + (this.street != null ? this.street.hashCode() : 0);
@@ -320,13 +319,13 @@ public class Person {
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Person	build(ThrowingFunction<Builder<NOT,NOT,NOT,NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET,SET>, Exception> setter){
+	public  static Person	build(ThrowingFunction<Builder<NOT,NOT,NOT,NOT,NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET,SET,SET>, Exception> setter){
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Person(b.id, b.userName, b.password, b.street, b.houseNumber, b.busNumber, b.postalcode, b.city, b.country);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Result<Person>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT,NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET,SET>,Exception> setter){
+	public  static Result<Person>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT,NOT,NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET,SET,SET>,Exception> setter){
 		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new Person(b.id, b.userName, b.password, b.street, b.houseNumber, b.busNumber, b.postalcode, b.city, b.country));
 	}
 }

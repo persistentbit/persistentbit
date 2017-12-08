@@ -11,6 +11,8 @@ import com.persistentbit.sql.utils.UJdbc;
 import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.utils.exceptions.ToDo;
 
+import java.sql.ResultSet;
+
 /**
  * TODOC
  *
@@ -94,23 +96,26 @@ public class DbMetaDataImporter{
 
 	public static DbWork<PList<DbMetaTable>> getTables(DbMetaSchema schema, @Nullable String typeName){
 		return DbWork.function(schema,typeName).code(trans -> con -> log -> {
-			Result<PList<DbMetaTable>> tables = UJdbc.getList(con.getMetaData().getTables(
+			ResultSet tablesMeta = con.getMetaData().getTables(
 				schema.getCatalog().getName().orElse(""),
 				schema.getName().orElse(""),
 				null,
-				typeName == null ? null : new String[] { typeName }
-			), rs -> {
-				String table_cat = rs.getString("TABLE_CAT");
+				typeName == null ? null : new String[]{typeName}
+			);
+			Result<PList<DbMetaTable>> tables = UJdbc.getList(tablesMeta, rs -> {
+				String table_cat   = rs.getString("TABLE_CAT");
 				String table_schem = rs.getString("TABLE_SCHEM");
-				String table_name = rs.getString("TABLE_NAME");
-				String table_type = rs.getString("TABLE_TYPE");
-				String remarks = rs.getString("REMARKS");
+				String table_name  = rs.getString("TABLE_NAME");
+				String table_type  = rs.getString("TABLE_TYPE");
+				String remarks     = rs.getString("REMARKS");
+
 
 				//String type_cat = rs.getString("TYPE_CAT");
 				//String type_schem = rs.getString("TYPE_SCHEM");
 				//String type_name = rs.getString("TYPE_NAME");
 				//String self_referencing_col_name = rs.getString("SELF_REFERENCING_COL_NAME");
 				//String ref_generation = rs.getString("REF_GENERATION");
+
 				return DbMetaTable.build(b -> b
 					.setType(table_type)
 					.setSchema(schema)
@@ -118,10 +123,29 @@ public class DbMetaDataImporter{
 					.setComment(remarks)
 				);
 			});
+/*
+			PList<String> primKeys = UJdbc.getList(con.getMetaData().getPrimaryKeys(table_cat,table_schem,table_name),
+				rspk -> rspk.getString("COLUMN_NAME")
+			).orElseThrow();
+*/
+
+
 			return tables.flatMap(tableList ->
 				UPStreams.fromSequence(
 					tableList.mapExc(table -> loadColumns(table).run(trans)))
-				 .map(PStream::plist)
+						 .map(PStream::plist)
+			).flatMap(mtList ->
+				UPStreams.fromSequence(mtList.mapExc(mt -> {
+					Result<PList<DbMetaColumn>> primKeys = UJdbc.getList(con.getMetaData().getPrimaryKeys(
+						mt.getSchema().getCatalog().getName().orElse(null),
+						mt.getSchema().getName().orElse(null),
+						mt.getName()),
+						rspk -> rspk.getString("COLUMN_NAME")
+					).map(nameList ->
+						nameList.map(item -> mt.getColumns().find(c -> c.getName().equals(item)).get()
+					));
+					return primKeys.map(mt::withPrimKey);
+				})).map(PStream::plist)
 			);
 		});
 	}

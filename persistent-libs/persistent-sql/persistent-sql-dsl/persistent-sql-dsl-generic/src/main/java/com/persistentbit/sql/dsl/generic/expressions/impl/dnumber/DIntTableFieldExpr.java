@@ -30,4 +30,9 @@ public class DIntTableFieldExpr extends DIntAbstract{
 	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
 		return _toSql(context).add(alias == null ? "" : " AS " + alias  +  "_" + this.context._getFieldName());
 	}
+	@Override
+	public String _getColumnName() {
+		return context._getFieldName();
+	}
+
 }

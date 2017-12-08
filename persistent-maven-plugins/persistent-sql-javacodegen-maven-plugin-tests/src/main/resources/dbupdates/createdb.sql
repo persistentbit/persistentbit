@@ -50,6 +50,8 @@ VALUES
   (1, 'PeterMuys', 'pw', 'Snoekstraat', 77, '', '9000', 'Gent', 'BE'),
   (2, 'ElsVanOost', 'pw', 'Snoekstraat', 10, '', '9000', 'Gent', 'BE');
 
+ALTER SEQUENCE person_id_seq RESTART WITH 100;
+
 INSERT INTO company (id, company_name, adres_street, adres_house_number, adres_bus_number, adres_postalcode, adres_city, adres_country, owner_person_id)
 VALUES
   (1, 'MuysSoftware', 'Snoekstraat', 77, NULL, '9000', 'Gent', 'BE', 1);
@@ -57,8 +59,10 @@ VALUES
 INSERT INTO company (id, company_name, adres_street, adres_house_number, adres_bus_number, adres_postalcode, adres_city, adres_country, owner_person_id)
 VALUES
   (2, 'Eau De Mie', 'Snoekstraat', 10, NULL, '9000', 'Gent', 'BE', 2);
+ALTER SEQUENCE company_id_seq RESTART WITH 100;
 
 INSERT into invoice (invoice_nummer, from_company_id, to_company_id)
     values('2017-01',2,1);
 
+ALTER SEQUENCE invoice_id_seq RESTART WITH 100;
 -->>

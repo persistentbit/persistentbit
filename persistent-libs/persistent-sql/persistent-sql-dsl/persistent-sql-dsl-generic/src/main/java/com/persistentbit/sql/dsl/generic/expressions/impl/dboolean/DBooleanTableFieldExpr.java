@@ -33,5 +33,9 @@ public class DBooleanTableFieldExpr extends DBooleanAbstract{
 		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
 	}
 
+	@Override
+	public String _getColumnName() {
+		return context._getFieldName();
+	}
 
 }

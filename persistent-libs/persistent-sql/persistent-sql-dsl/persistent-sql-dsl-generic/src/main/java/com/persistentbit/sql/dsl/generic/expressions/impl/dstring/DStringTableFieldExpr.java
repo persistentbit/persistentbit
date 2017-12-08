@@ -31,5 +31,9 @@ public class DStringTableFieldExpr extends DStringAbstract{
 	public DExprString _withAlias(String alias) {
 		return alias == null ? this : super._withAlias(alias + "_" + context._getFieldName());
 	}
+	@Override
+	public String _getColumnName() {
+		return context._getFieldName();
+	}
 
 }

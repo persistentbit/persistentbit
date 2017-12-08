@@ -37,14 +37,18 @@ public interface DbWork<R>{
 
 	default <MAPT> DbWork<MAPT> map(Function<R,MAPT> mapper){
 		DbWork<R> self = this;
-		return transaction -> self.run(transaction)
-			.map(v -> mapper.apply(v));
+
+		return DbWork.function().code(trans -> con -> l ->
+			self.run(trans)
+				.map(v -> mapper.apply(v))
+		);
 	}
 
 	default <MAPT> DbWork<MAPT> flatMap(Function<R,Result<MAPT>> mapper){
 		DbWork<R> self = this;
-		return transaction -> self.run(transaction)
-								  .flatMap(v -> mapper.apply(v));
+		return DbWork.function().code(trans -> con -> l ->
+			self.run(trans).flatMap(v -> mapper.apply(v))
+		);
 	}
 
 	default <OTHER> DbWork<Tuple2<R, OTHER>> combine(Function<R, DbWork<OTHER>> other) {

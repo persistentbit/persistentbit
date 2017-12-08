@@ -99,5 +99,9 @@ public abstract class DNumberAbstract<N extends Number> implements DImpl<N> , DE
 		return in(PList.val(values));
 	}
 
+	@Override
+	public PList<DExpr> _expand() {
+		return PList.val(this);
+	}
 
 }

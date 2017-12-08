@@ -7,6 +7,7 @@ module persistent.sql.dsl.generic {
 	requires persistent.collections;
 	requires persistent.utils;
 	requires persistent.code.annotations;
+	requires persistent.javacodegen.annotations;
 	requires persistent.sql.work;
 	requires persistent.sql.utils;
 	requires java.sql;
