@@ -20,7 +20,6 @@
         <module>persistent-doc-annotations</module>
         <module>persistent-parser</module>
         <module>persistent-test</module>
-        <module>persistent-core-tests</module>
         <module>persistent-code-annotations</module>
         <module>persistent-javacodegen</module>
         <module>persistent-javacodegen-annotations</module>
@@ -43,5 +42,7 @@
         <module>persistent-resources</module>
         <module>persistent-locale</module>
         <module>persistent-sql</module>
+        <module>persistent-core-tests</module>
+
     </modules>
 </project>
