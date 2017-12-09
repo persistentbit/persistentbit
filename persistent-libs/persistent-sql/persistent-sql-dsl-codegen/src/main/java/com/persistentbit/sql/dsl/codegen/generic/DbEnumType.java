@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.generic;
 
 import com.persistentbit.javacodegen.annotations.NoBuilder;
 import java.util.Objects;

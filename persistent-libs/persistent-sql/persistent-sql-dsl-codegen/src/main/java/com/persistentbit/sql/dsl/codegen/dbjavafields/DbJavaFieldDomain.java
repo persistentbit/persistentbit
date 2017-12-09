@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
@@ -38,14 +38,10 @@ public class DbJavaFieldDomain implements DbJavaField {
 			this.udtClassName = Objects.requireNonNull(udtClassName, "udtClassName can not be null");
 			this.udtPack = Objects.requireNonNull(udtPack, "udtPack can not be null");
 	}
-
 	@Override
-	public DbMetaColumn getDbMetaColumn() {
-		return column;
+	public  DbMetaColumn	getDbMetaColumn(){
+	    return column;
 	}
-
-
-
 	@Override
 	public  JField	createJField(boolean allowPrimitives){
 	    JField res = new JField(fieldName, udtClassName);
@@ -56,20 +52,17 @@ public class DbJavaFieldDomain implements DbJavaField {
 	    return res;
 	}
 	@Override
-	public String getJavaName() {
-		return fieldName;
+	public  String	getJavaName(){
+	    return fieldName;
 	}
-
 	@Override
-	public String createTableColumnFieldInitializer(String tableContext) {
-		throw new ToDo(this.toString());
+	public  String	createTableColumnFieldInitializer(String tableContext){
+	    throw new ToDo(this.toString());
 	}
-
 	@Override
-	public JField createTableColumnField() {
-		throw new ToDo(this.toString());
+	public  JField	createTableColumnField(){
+	    throw new ToDo(this.toString());
 	}
-
 	@Override
 	public  PList<DbJavaFieldDomain>	getDomains(){
 	    return PList.val(this);

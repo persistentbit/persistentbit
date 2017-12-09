@@ -5,6 +5,11 @@ import com.persistentbit.javacodegen.*;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.annotations.DbColumnName;
 import com.persistentbit.sql.dsl.codegen.DbJavaGen;
+import com.persistentbit.sql.dsl.codegen.DbNameTransformer;
+import com.persistentbit.sql.dsl.codegen.JavaGenTableSelection;
+import com.persistentbit.sql.dsl.codegen.dbjavafields.*;
+import com.persistentbit.sql.dsl.codegen.generic.DbCustomType;
+import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
@@ -45,8 +50,8 @@ import java.util.function.Supplier;
  * @since 11/07/17
  */
 public class PostgresJavaGen implements DbJavaGen{
-	private final JavaGenTableSelection	selection;
-	private final DbNameTransformer	nameTransformer;
+	private final JavaGenTableSelection selection;
+	private final DbNameTransformer nameTransformer;
 	private final Supplier<DbTransaction> transactionSupplier;
 	private final String rootPackage;
 
@@ -94,15 +99,7 @@ public class PostgresJavaGen implements DbJavaGen{
 				log.info("UDT: " + udt);
 			});
 
-			PList<DbCustomType> customTypesWithFields = customTypes.map(dbCustomType -> {
-				DbMetaTable ctTable = dbCustomType.getDefinition();
-				DbCustomType res = dbCustomType;
-				for(DbMetaColumn col : res.getDefinition().getColumns()){
-					DbJavaField newField = getDbJavaField(ctTable,col.withType(col.getType().withIsNullable(false)),customTypes,enumTypes,udts);
-					res = res.withFields(res.getFields().plus(newField));
-				}
-				return res;
-			});
+			PList<DbCustomType> customTypesWithFields = addCustomTypesFields(enumTypes, customTypes, udts);
 
 
 
@@ -207,6 +204,20 @@ public class PostgresJavaGen implements DbJavaGen{
 			return result;
 		});
 
+	}
+
+	private PList<DbCustomType> addCustomTypesFields(PList<DbEnumType> enumTypes, PList<DbCustomType> customTypes,
+													 PList<DbMetaUDT> udts
+	) {
+		return customTypes.map(dbCustomType -> {
+			DbMetaTable  ctTable = dbCustomType.getDefinition();
+			DbCustomType res     = dbCustomType;
+			for(DbMetaColumn col : res.getDefinition().getColumns()){
+				DbJavaField newField = getDbJavaField(ctTable,col.withType(col.getType().withIsNullable(false)),customTypes,enumTypes,udts);
+				res = res.withFields(res.getFields().plus(newField));
+			}
+			return res;
+		});
 	}
 
 	private Result<GeneratedJavaSource> generateDbSource(PList<DbJavaTable> tables){
@@ -863,7 +874,7 @@ public class PostgresJavaGen implements DbJavaGen{
 		}
 	}
 
-	private DbJavaFieldArray	createArrayField(String javaName, DbMetaTable table, DbMetaColumn column,PList<DbCustomType> customTypes, PList<DbEnumType> enumTypes,PList<DbMetaUDT> udts){
+	private DbJavaFieldArray createArrayField(String javaName, DbMetaTable table, DbMetaColumn column, PList<DbCustomType> customTypes, PList<DbEnumType> enumTypes, PList<DbMetaUDT> udts){
 		String dbTypeName = column.getType().getDbTypeName().orElse(null);
 		DbJavaField element;
 		switch(dbTypeName){

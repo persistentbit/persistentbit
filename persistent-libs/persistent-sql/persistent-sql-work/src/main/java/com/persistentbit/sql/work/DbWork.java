@@ -23,6 +23,14 @@ public interface DbWork<R>{
 
 	Result<R>	run(DbTransaction transaction);
 
+	static  <T> DbWork<T> emptyWork(String message){
+		return trans -> Result.empty(message);
+	}
+
+	static <T> DbWork<T> defaultWork(T value){
+		return trans -> Result.result(value);
+	}
+
 	static <T> DbWork<T> create(Function<DbTransaction, ThrowingFunction<Connection, Result<T>, Exception>> code){
 		return trans -> trans.run( con -> Result.function().code(l -> {
 			Result<T> result;

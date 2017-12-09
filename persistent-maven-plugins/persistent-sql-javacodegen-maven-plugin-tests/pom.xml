@@ -54,6 +54,11 @@
             <artifactId>persistent-sql-dsl-postgres-rt</artifactId>
             <version>3.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

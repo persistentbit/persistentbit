@@ -1,17 +1,17 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PList;
-import com.persistentbit.javacodegen.JField;
-import com.persistentbit.javacodegen.JImport;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.javacodegen.JImport;
+import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
 import com.persistentbit.sql.meta.data.DbMetaColumn;
-import com.persistentbit.string.UString;
-import com.persistentbit.utils.exceptions.ToDo;
-
 import java.util.Objects;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.collections.PList;
+import com.persistentbit.utils.exceptions.ToDo;
+import com.persistentbit.string.UString;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.javacodegen.JField;
 
 /**
  * TODOC
@@ -24,7 +24,7 @@ import java.util.Objects;
 public class DbJavaFieldEnum implements DbJavaField {
 	private  final	DbMetaColumn	column;
 	private  final	String	fieldName;
-	private  final	DbEnumType	enumType;
+	private  final DbEnumType enumType;
 	private  final	String	enumClassName;
 	private  final	String	enumPack;
 	
@@ -37,12 +37,10 @@ public class DbJavaFieldEnum implements DbJavaField {
 			this.enumClassName = Objects.requireNonNull(enumClassName, "enumClassName can not be null");
 			this.enumPack = Objects.requireNonNull(enumPack, "enumPack can not be null");
 	}
-
 	@Override
-	public DbMetaColumn getDbMetaColumn() {
-		return column;
+	public  DbMetaColumn	getDbMetaColumn(){
+	    return column;
 	}
-
 	@Override
 	public  JField	createJField(boolean allowPrimitives){
 	    JField f = new JField(fieldName, enumClassName);
@@ -53,19 +51,17 @@ public class DbJavaFieldEnum implements DbJavaField {
 	    return f;
 	}
 	@Override
-	public String createTableColumnFieldInitializer(String tableContext) {
-		throw new ToDo(this.toString());
+	public  String	createTableColumnFieldInitializer(String tableContext){
+	    throw new ToDo(this.toString());
 	}
 	@Override
-	public String getJavaName() {
-		return fieldName;
+	public  String	getJavaName(){
+	    return fieldName;
 	}
-
 	@Override
-	public JField createTableColumnField() {
-		throw new ToDo(this.toString());
+	public  JField	createTableColumnField(){
+	    throw new ToDo(this.toString());
 	}
-
 	@Override
 	public  PList<DbJavaFieldEnum>	getUsedEnums(){
 	    return PList.val(this);

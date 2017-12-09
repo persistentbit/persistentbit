@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JField;

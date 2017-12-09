@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.javacodegen.JField;
@@ -36,98 +36,81 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 			this.javaClass = Objects.requireNonNull(javaClass, "javaClass can not be null");
 			this.javaSubType = javaSubType;
 	}
-
-	@Override
-	public DbMetaColumn getDbMetaColumn() {
-		return column;
-	}
-
 	@Generated
 	public DbJavaFieldCustomObject(DbMetaColumn column, String fieldName, Class javaClass){
 			this(column, fieldName, javaClass, null);
 	}
 	@Override
-	public String getJavaName() {
-		return fieldName;
+	public  DbMetaColumn	getDbMetaColumn(){
+	    return column;
 	}
-
-
-
-
 	@Override
-	public JField createTableColumnField() {
-		JField f;
-		switch(javaClass.getSimpleName()){
-			case "String":
-				f = new JField(fieldName, DExprString.class)
-					.addImport(DExprString.class);
-				break;
-			case "Boolean":
-				f = new JField(fieldName, DExprBoolean.class)
-					.addImport(DExprBoolean.class);
-				break;
-			case "Byte":
-				f = new JField(fieldName, DExprByte.class)
-					.addImport(DExprByte.class);
-				break;
-			case "Short":
-				f = new JField(fieldName, DExprShort.class)
-					.addImport(DExprShort.class);
-				break;
-			case "Integer":
-				f = new JField(fieldName, DExprInt.class)
-					.addImport(DExprInt.class);
-				break;
-			case "Long":
-				f = new JField(fieldName, DExprLong.class)
-					.addImport(DExprLong.class);
-				break;
-			case "Double":
-				f = new JField(fieldName, DExprDouble.class)
-					.addImport(DExprDouble.class);
-				break;
-			case "BigDecimal":
-				f = new JField(fieldName, DExprBigDecimal.class)
-					.addImport(DExprBigDecimal.class);
-				break;
-			case "LocalDateTime":
-				f = new JField(fieldName, DExprDateTime.class)
-					.addImport(DExprDateTime.class);
-				break;
-			default:
-				throw new ToDo("Unknown: " + javaClass);
-		}
-		return f;
+	public  String	getJavaName(){
+	    return fieldName;
 	}
-
 	@Override
-	public String createTableColumnFieldInitializer(String tableContext) {
-		String pre = tableContext + ".createExpr" ;
-		String post = "(\"" + column.getName() + "\")";
-		switch(javaClass.getSimpleName()){
-			case "String":
-				return pre + "String" + post;
-			case "Boolean":
-				return pre + "Boolean" + post;
-			case "Byte":
-				return pre + "Byte" + post;
-			case "Short":
-				return pre + "Short" + post;
-			case "Integer":
-				return pre + "Integer" + post;
-			case "Long":
-				return pre + "Long" + post;
-			case "Double":
-				return pre + "Double" + post;
-			case "BigDecimal":
-				return pre + "BigDecimal" + post;
-			case "LocalDateTime":
-				return pre + "DateTime" + post;
-			default:
-				throw new ToDo("Unknown: " + javaClass);
-		}
+	public  JField	createTableColumnField(){
+	    JField f;
+	    switch(javaClass.getSimpleName()) {
+	        case "String":
+	            f = new JField(fieldName, DExprString.class).addImport(DExprString.class);
+	            break;
+	        case "Boolean":
+	            f = new JField(fieldName, DExprBoolean.class).addImport(DExprBoolean.class);
+	            break;
+	        case "Byte":
+	            f = new JField(fieldName, DExprByte.class).addImport(DExprByte.class);
+	            break;
+	        case "Short":
+	            f = new JField(fieldName, DExprShort.class).addImport(DExprShort.class);
+	            break;
+	        case "Integer":
+	            f = new JField(fieldName, DExprInt.class).addImport(DExprInt.class);
+	            break;
+	        case "Long":
+	            f = new JField(fieldName, DExprLong.class).addImport(DExprLong.class);
+	            break;
+	        case "Double":
+	            f = new JField(fieldName, DExprDouble.class).addImport(DExprDouble.class);
+	            break;
+	        case "BigDecimal":
+	            f = new JField(fieldName, DExprBigDecimal.class).addImport(DExprBigDecimal.class);
+	            break;
+	        case "LocalDateTime":
+	            f = new JField(fieldName, DExprDateTime.class).addImport(DExprDateTime.class);
+	            break;
+	        default:
+	            throw new ToDo("Unknown: " + javaClass);
+	    }
+	    return f;
 	}
-
+	@Override
+	public  String	createTableColumnFieldInitializer(String tableContext){
+	    String pre = tableContext + ".createExpr";
+	    String post = "(\"" + column.getName() + "\")";
+	    switch(javaClass.getSimpleName()) {
+	        case "String":
+	            return pre + "String" + post;
+	        case "Boolean":
+	            return pre + "Boolean" + post;
+	        case "Byte":
+	            return pre + "Byte" + post;
+	        case "Short":
+	            return pre + "Short" + post;
+	        case "Integer":
+	            return pre + "Integer" + post;
+	        case "Long":
+	            return pre + "Long" + post;
+	        case "Double":
+	            return pre + "Double" + post;
+	        case "BigDecimal":
+	            return pre + "BigDecimal" + post;
+	        case "LocalDateTime":
+	            return pre + "DateTime" + post;
+	        default:
+	            throw new ToDo("Unknown: " + javaClass);
+	    }
+	}
 	@Override
 	public  JField	createJField(boolean allowPrimitives){
 	    JField res = new JField(fieldName, javaClass.getSimpleName());

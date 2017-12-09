@@ -4,8 +4,6 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.javacodegen.annotations.*;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.codegen.posgresql.DbNameTransformer;
-import com.persistentbit.sql.dsl.codegen.posgresql.JavaGenTableSelection;
 import com.persistentbit.string.UString;
 
 import java.util.Objects;
@@ -19,9 +17,9 @@ import java.util.function.Function;
  */
 @CaseClass
 public class DbJavaGenOptions {
-	private  final JavaGenTableSelection selection;
+	private  final	JavaGenTableSelection	selection;
 	@DefaultValue("new DbNameTransformer(name -> UString.firstUpperCase(UString.snake_toCamelCase(name)))")
-	private  final DbNameTransformer nameTransformer;
+	private  final	DbNameTransformer	nameTransformer;
 	private  final	String	rootPackage;
 	
 	

@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.javacodegen.JField;
@@ -33,49 +33,55 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 			this.fieldName = Objects.requireNonNull(fieldName, "fieldName can not be null");
 			this.primitiveType = Objects.requireNonNull(primitiveType, "primitiveType can not be null");
 	}
-
 	@Override
-	public DbMetaColumn getDbMetaColumn() {
-		return column;
-	}
-
-	@Override
-	public JField createTableColumnField() {
-		return new JField(fieldName,getTableColumnClass().getSimpleName())
-			   .addImport(getTableColumnClass());
+	public  DbMetaColumn	getDbMetaColumn(){
+	    return column;
 	}
 	@Override
-	public String getJavaName() {
-		return fieldName;
+	public  JField	createTableColumnField(){
+	    return new JField(fieldName, getTableColumnClass().getSimpleName()).addImport(getTableColumnClass());
 	}
-
-
-	public Class getTableColumnClass() {
-		switch(primitiveType.getSimpleName()){
-			case "boolean": return DExprBoolean.class;
-			case "byte": return DExprByte.class;
-			case "int": return DExprInt.class;
-			case "short": return DExprShort.class;
-			case "long": return DExprLong.class;
-			case "double": return DExprDouble.class;
-			default: throw new ToDo("Unknown: " + primitiveType);
-		}
-	}
-
-
 	@Override
-	public String createTableColumnFieldInitializer(String tableContext) {
-		switch(primitiveType.getSimpleName()){
-			case "boolean": return tableContext + ".createExprBoolean(\"" + column.getName() + "\")";
-			case "byte": return tableContext + ".createExprByte(\"" + column.getName() + "\")";
-			case "int": return tableContext + ".createExprInt( \"" + column.getName() + "\")";
-			case "short": return tableContext + ".createExprShort( \"" + column.getName() + "\")";
-			case "long": return tableContext + ".createExprLong(\"" + column.getName() + "\")";
-			case "double": return tableContext + ".createExprDouble( \"" + column.getName() + "\")";
-			default: throw new ToDo("Unknown: " + primitiveType);
-		}
+	public  String	getJavaName(){
+	    return fieldName;
 	}
-
+	public  Class	getTableColumnClass(){
+	    switch(primitiveType.getSimpleName()) {
+	        case "boolean":
+	            return DExprBoolean.class;
+	        case "byte":
+	            return DExprByte.class;
+	        case "int":
+	            return DExprInt.class;
+	        case "short":
+	            return DExprShort.class;
+	        case "long":
+	            return DExprLong.class;
+	        case "double":
+	            return DExprDouble.class;
+	        default:
+	            throw new ToDo("Unknown: " + primitiveType);
+	    }
+	}
+	@Override
+	public  String	createTableColumnFieldInitializer(String tableContext){
+	    switch(primitiveType.getSimpleName()) {
+	        case "boolean":
+	            return tableContext + ".createExprBoolean(\"" + column.getName() + "\")";
+	        case "byte":
+	            return tableContext + ".createExprByte(\"" + column.getName() + "\")";
+	        case "int":
+	            return tableContext + ".createExprInt( \"" + column.getName() + "\")";
+	        case "short":
+	            return tableContext + ".createExprShort( \"" + column.getName() + "\")";
+	        case "long":
+	            return tableContext + ".createExprLong(\"" + column.getName() + "\")";
+	        case "double":
+	            return tableContext + ".createExprDouble( \"" + column.getName() + "\")";
+	        default:
+	            throw new ToDo("Unknown: " + primitiveType);
+	    }
+	}
 	@Override
 	public  JField	createJField(boolean allowPrimitives){
 	    Class cls = primitiveType;
@@ -88,8 +94,6 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	    }
 	    return res;
 	}
-
-
 	/**
 	 * Get the value of field {@link #column}.<br>
 	 * @return {@link #column}

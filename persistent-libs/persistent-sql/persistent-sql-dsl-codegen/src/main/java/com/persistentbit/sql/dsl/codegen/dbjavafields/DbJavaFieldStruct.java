@@ -1,18 +1,17 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PList;
-import com.persistentbit.javacodegen.JField;
-import com.persistentbit.javacodegen.JImport;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.javacodegen.JImport;
 import com.persistentbit.sql.meta.data.DbMetaColumn;
-import com.persistentbit.sql.meta.data.DbMetaTable;
-import com.persistentbit.string.UString;
-import com.persistentbit.utils.exceptions.ToDo;
-
 import java.util.Objects;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.collections.PList;
+import com.persistentbit.utils.exceptions.ToDo;
+import com.persistentbit.string.UString;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.sql.meta.data.DbMetaTable;
+import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.javacodegen.JField;
 
 /**
  * TODOC
@@ -38,13 +37,10 @@ public class DbJavaFieldStruct implements DbJavaField {
 			this.javaClassName = Objects.requireNonNull(javaClassName, "javaClassName can not be null");
 			this.javaPackageName = Objects.requireNonNull(javaPackageName, "javaPackageName can not be null");
 	}
-
-
 	@Override
-	public DbMetaColumn getDbMetaColumn() {
-		return column;
+	public  DbMetaColumn	getDbMetaColumn(){
+	    return column;
 	}
-
 	@Override
 	public  JField	createJField(boolean allowPrimitives){
 	    JField res = new JField(fieldName, javaClassName);
@@ -52,21 +48,17 @@ public class DbJavaFieldStruct implements DbJavaField {
 	    return res;
 	}
 	@Override
-	public String createTableColumnFieldInitializer(String tableContext) {
-		throw new ToDo(this.toString());
+	public  String	createTableColumnFieldInitializer(String tableContext){
+	    throw new ToDo(this.toString());
 	}
-
 	@Override
-	public JField createTableColumnField() {
-		throw new ToDo(this.toString());
+	public  JField	createTableColumnField(){
+	    throw new ToDo(this.toString());
 	}
-
 	@Override
-	public String getJavaName() {
-		return fieldName;
+	public  String	getJavaName(){
+	    return fieldName;
 	}
-
-
 	@Override
 	public  PList<DbJavaFieldStruct>	getStructures(){
 	    return PList.val(this);

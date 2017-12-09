@@ -6,7 +6,7 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.dsl.codegen.DbJavaGen;
 import com.persistentbit.sql.dsl.codegen.DbJavaGenOptions;
-import com.persistentbit.sql.dsl.codegen.posgresql.JavaGenTableSelection;
+import com.persistentbit.sql.dsl.codegen.JavaGenTableSelection;
 import com.persistentbit.sql.transactions.DbTransaction;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -240,35 +240,7 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 			for(GeneratedJavaSource source : sourceFiles){
 				source.writeSource(outputDirectory.toPath()).orElseThrow();
 			}
-/*
-			DependencySupplier dependencySupplier = createDependencySupplier();
-			SubstemaCompiler   compiler           = new SubstemaCompiler(dependencySupplier);
-			//PList<RSubstema> substemas = PList.from(packages).map(p -> compiler.compile(p));
 
-			//substemas.forEach(ss -> getLog().info(ss.toString()));
-
-			if(!outputDirectory.exists()) {
-				if(outputDirectory.mkdirs() == false) {
-					throw new MojoExecutionException("Can't create output folder " + outputDirectory.getAbsolutePath());
-				}
-			}
-			project.addCompileSourceRoot(outputDirectory.getAbsolutePath());
-			JavaGenOptions genOptions = new JavaGenOptions(true, true);
-
-
-			PStream.from(packages).forEach(packageName -> {
-				//SubstemaJavaGen.generateAndWriteToFiles(compiler,genOptions,ss,outputDirectory);
-				PList<Result<GeneratedJava>> genCodeList = DbJavaGen.generate(genOptions, packageName, compiler);
-				genCodeList.forEach(resultGen -> {
-
-					Result<File> resultFile = resultGen.flatMap(rg -> rg.writeToFile(outputDirectory));
-					resultFile.ifFailure(failure -> getLog().error(failure.getException()));
-					resultFile.ifPresent(success -> getLog().info("Generated " + success.getValue().getAbsolutePath()));
-
-				});
-
-			});
-*/
 
 		} catch(Exception e) {
 			getLog().error("General error", e);

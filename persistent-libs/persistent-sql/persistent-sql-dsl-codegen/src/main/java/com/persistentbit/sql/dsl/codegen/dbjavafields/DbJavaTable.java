@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
@@ -32,11 +32,6 @@ public class DbJavaTable {
 			this.javaClassName = Objects.requireNonNull(javaClassName, "javaClassName can not be null");
 			this.packName = Objects.requireNonNull(packName, "packName can not be null");
 	}
-
-
-
-
-
 	/**
 	 * Get the value of field {@link #table}.<br>
 	 * @return {@link #table}

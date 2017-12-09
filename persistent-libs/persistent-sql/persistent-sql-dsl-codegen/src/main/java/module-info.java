@@ -18,4 +18,5 @@ module persistent.sql.dsl.codegen {
 	requires persistent.sql.connect;
 	requires persistent.sql.dsl.postgres.rt;
 	exports com.persistentbit.sql.dsl.codegen;
+	exports com.persistentbit.sql.dsl.codegen.generic;
 }
