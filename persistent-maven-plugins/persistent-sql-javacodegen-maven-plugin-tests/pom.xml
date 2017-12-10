@@ -80,11 +80,11 @@
                         <artifactId>postgresql</artifactId>
                         <version>${version.postgresql}</version>
                     </dependency>
-                    <dependency>
+                    <!--<dependency>
                         <groupId>com.persistentbit</groupId>
                         <artifactId>persistent-sql-dsl-codegen-postgres</artifactId>
                         <version>3.0-SNAPSHOT</version>
-                    </dependency>
+                    </dependency>-->
                 </dependencies>
             </plugin>
 

@@ -47,6 +47,7 @@ public class ModuleLogging{
 	public static LogPrint consoleLogPrint = LogPrintStream.sysOut(createLogFormatter());
 
 
+
 	public static LogCleaner cleaner() {
 		return LogCleaner.create()
 						 .orIf(LogEntryEmpty.class,(rc, le)-> Optional.empty())

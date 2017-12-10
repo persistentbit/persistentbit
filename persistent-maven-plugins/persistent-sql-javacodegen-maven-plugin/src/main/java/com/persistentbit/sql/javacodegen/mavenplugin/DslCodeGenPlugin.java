@@ -2,6 +2,8 @@ package com.persistentbit.sql.javacodegen.mavenplugin;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.GeneratedJavaSource;
+import com.persistentbit.logging.ModuleLogging;
+import com.persistentbit.logging.printing.LogPrintToString;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.dsl.codegen.DbJavaGen;
@@ -247,7 +249,9 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 
 
 		} catch(Exception e) {
-			getLog().error("General error", e);
+			LogPrintToString lp = new LogPrintToString(ModuleLogging.createLogFormatter());
+			lp.print(e);
+			getLog().error(lp.getLogString());
 			throw new MojoFailureException("Error while generating db code", e);
 		}
 
