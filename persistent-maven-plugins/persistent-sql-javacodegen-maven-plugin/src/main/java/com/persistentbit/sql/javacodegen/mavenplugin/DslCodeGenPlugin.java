@@ -99,6 +99,9 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 	@Parameter(property="driver", required = true)
 	private String driver;
 
+	@Parameter(property = "createGenericDbCode", defaultValue = "true",required = false)
+	private boolean createGenericDbCode;
+
 	/**
 	 * MNG-4384
 	 *
@@ -231,7 +234,7 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 			DbJavaGenOptions options = DbJavaGenOptions.build(b -> b
 				.setRootPackage("com.persistentbit.db.generated")
 				.setSelection(sel)
-				.setFullDbSupport(false)
+				.setFullDbSupport(createGenericDbCode == false)
 			);
 			DbJavaGen                  javaGen     = DbJavaGen.createGenerator(connector,options).orElseThrow();
 			PList<GeneratedJavaSource> sourceFiles = javaGen.generate().orElseThrow();

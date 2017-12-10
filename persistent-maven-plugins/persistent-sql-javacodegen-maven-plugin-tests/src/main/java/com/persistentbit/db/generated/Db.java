@@ -1,15 +1,10 @@
 package com.persistentbit.db.generated;
 
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TPersonTable;
-import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbContext;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceTable;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TSchemaHistoryTable;
-import com.persistentbit.sql.dsl.generic.DbGeneric;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TCompanyTable;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceLineTable;
-import com.persistentbit.sql.dsl.exprcontext.DbContext;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.*;
+import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
+import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 
-public class Db extends DbGeneric {
+public class Db extends DbPostgres {
 	public  final	TCompanyTable	company;
 	public  final	TInvoiceTable	invoice;
 	public  final	TInvoiceLineTable	invoiceLine;
@@ -17,7 +12,7 @@ public class Db extends DbGeneric {
 	public  final	TSchemaHistoryTable	schemaHistory;
 	
 	
-	public Db(GenericDbContext context){
+	public Db(PostgresDbContext context){
 		super(context);
 		this.company = new TCompanyTable(context.forTable("persistenttest", "company"));
 		this.invoice = new TInvoiceTable(context.forTable("persistenttest", "invoice"));
@@ -26,6 +21,6 @@ public class Db extends DbGeneric {
 		this.schemaHistory = new TSchemaHistoryTable(context.forTable("persistenttest", "schema_history"));
 	}
 	public Db(){
-		this(new GenericDbContext());
+		this(new PostgresDbContext());
 	}
 }
