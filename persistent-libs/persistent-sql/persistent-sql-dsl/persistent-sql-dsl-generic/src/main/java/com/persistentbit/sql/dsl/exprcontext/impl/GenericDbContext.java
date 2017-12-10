@@ -18,6 +18,11 @@ public class GenericDbContext implements DbContext{
 		this.sqlContext = sqlContext;
 	}
 
+	public GenericDbContext() {
+		this(new GenericDbSqlContext());
+	}
+
+
 	@Override
 	public DbTableContext forTable(String schemaName, String tableName) {
 		String fullName = tableName;

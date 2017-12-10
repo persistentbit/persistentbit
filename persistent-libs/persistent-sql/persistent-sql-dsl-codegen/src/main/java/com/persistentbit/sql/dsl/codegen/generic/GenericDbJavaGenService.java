@@ -9,6 +9,7 @@ import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaField;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaTable;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbContext;
 import com.persistentbit.sql.dsl.generic.DbGeneric;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
@@ -91,7 +92,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 		return DbGeneric.class;
 	}
 	protected Class<? extends DbContext> getContextClass(boolean isFullDb){
-		return DbContext.class;
+		return GenericDbContext.class;
 	}
 
 	protected Result<GeneratedJavaSource> generateDbSource(String rootPackage, PList<DbJavaTable> tables, boolean isFullDb){
@@ -128,7 +129,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 			JMethod emptyConstructor = new JMethod("Db")
 				.withAccessLevel(AccessLevel.Public);
 			emptyConstructor = emptyConstructor.withCode(pw -> {
-				pw.println("this(new PostgresDbContext());");
+				pw.println("this(new " + getContextClass(isFullDb).getSimpleName()+ "());");
 			});
 			cls = cls.addMethod(emptyConstructor);
 
