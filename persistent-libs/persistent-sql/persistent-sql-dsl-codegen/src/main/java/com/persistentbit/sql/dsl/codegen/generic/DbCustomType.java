@@ -1,19 +1,21 @@
 package com.persistentbit.sql.dsl.codegen.generic;
 
-import com.persistentbit.code.annotations.Nullable;
+import java.lang.SuppressWarnings;
+import com.persistentbit.javacodegen.annotations.NoGet;
+import com.persistentbit.javacodegen.annotations.NOT;
+import java.util.Objects;
+import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.collections.PList;
+import java.util.function.Function;
+import com.persistentbit.string.UString;
 import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.javacodegen.annotations.NOT;
-import com.persistentbit.javacodegen.annotations.SET;
-import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaField;
 import com.persistentbit.sql.meta.data.DbMetaTable;
-import com.persistentbit.string.UString;
-
-import java.util.Objects;
-import java.util.function.Function;
+import com.persistentbit.result.Result;
+import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaField;
+import com.persistentbit.javacodegen.annotations.SET;
+import com.persistentbit.javacodegen.annotations.NoWith;
 
 /**
  * TODOC

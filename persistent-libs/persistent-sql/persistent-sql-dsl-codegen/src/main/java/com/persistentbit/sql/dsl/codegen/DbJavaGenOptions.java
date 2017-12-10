@@ -21,37 +21,44 @@ public class DbJavaGenOptions {
 	@DefaultValue("new DbNameTransformer(name -> UString.firstUpperCase(UString.snake_toCamelCase(name)))")
 	private  final	DbNameTransformer	nameTransformer;
 	private  final	String	rootPackage;
+	private  final	boolean	fullDbSupport;
 	
 	
 	@Generated
-	public DbJavaGenOptions(JavaGenTableSelection selection, @Nullable DbNameTransformer nameTransformer, String rootPackage){
+	public DbJavaGenOptions(JavaGenTableSelection selection, @Nullable DbNameTransformer nameTransformer, String rootPackage, boolean fullDbSupport){
 			this.selection = Objects.requireNonNull(selection, "selection can not be null");
 			this.nameTransformer = nameTransformer == null ? new DbNameTransformer(name -> UString.firstUpperCase(UString.snake_toCamelCase(name))) : nameTransformer;
 			this.rootPackage = Objects.requireNonNull(rootPackage, "rootPackage can not be null");
+			this.fullDbSupport = Objects.requireNonNull(fullDbSupport, "fullDbSupport can not be null");
 	}
 	@Generated
-	public DbJavaGenOptions(JavaGenTableSelection selection, String rootPackage){
-			this(selection, null, rootPackage);
+	public DbJavaGenOptions(JavaGenTableSelection selection, String rootPackage, boolean fullDbSupport){
+			this(selection, null, rootPackage, fullDbSupport);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder<_T1, _T2> {
+	static public class Builder<_T1, _T2, _T3> {
 		private	JavaGenTableSelection	selection;
 		private	DbNameTransformer	nameTransformer;
 		private	String	rootPackage;
+		private	boolean	fullDbSupport;
 		
 		
-		public  Builder<SET, _T2>	setSelection(JavaGenTableSelection selection){
+		public  Builder<SET, _T2, _T3>	setSelection(JavaGenTableSelection selection){
 			this.selection	=	selection;
-			return (Builder<SET, _T2>)this;
+			return (Builder<SET, _T2, _T3>)this;
 		}
-		public  Builder<_T1, _T2>	setNameTransformer(@Nullable DbNameTransformer nameTransformer){
+		public  Builder<_T1, _T2, _T3>	setNameTransformer(@Nullable DbNameTransformer nameTransformer){
 			this.nameTransformer	=	nameTransformer;
 			return this;
 		}
-		public  Builder<_T1, SET>	setRootPackage(String rootPackage){
+		public  Builder<_T1, SET, _T3>	setRootPackage(String rootPackage){
 			this.rootPackage	=	rootPackage;
-			return (Builder<_T1, SET>)this;
+			return (Builder<_T1, SET, _T3>)this;
+		}
+		public  Builder<_T1, _T2, SET>	setFullDbSupport(boolean fullDbSupport){
+			this.fullDbSupport	=	fullDbSupport;
+			return (Builder<_T1, _T2, SET>)this;
 		}
 	}
 	/**
@@ -69,7 +76,7 @@ public class DbJavaGenOptions {
 	 */
 	@Generated
 	public  DbJavaGenOptions	withSelection(JavaGenTableSelection selection){
-		return new DbJavaGenOptions(selection, nameTransformer, rootPackage);
+		return new DbJavaGenOptions(selection, nameTransformer, rootPackage, fullDbSupport);
 	}
 	/**
 	 * Get the value of field {@link #nameTransformer}.<br>
@@ -86,7 +93,7 @@ public class DbJavaGenOptions {
 	 */
 	@Generated
 	public  DbJavaGenOptions	withNameTransformer(@Nullable DbNameTransformer nameTransformer){
-		return new DbJavaGenOptions(selection, nameTransformer, rootPackage);
+		return new DbJavaGenOptions(selection, nameTransformer, rootPackage, fullDbSupport);
 	}
 	/**
 	 * Get the value of field {@link #rootPackage}.<br>
@@ -103,7 +110,24 @@ public class DbJavaGenOptions {
 	 */
 	@Generated
 	public  DbJavaGenOptions	withRootPackage(String rootPackage){
-		return new DbJavaGenOptions(selection, nameTransformer, rootPackage);
+		return new DbJavaGenOptions(selection, nameTransformer, rootPackage, fullDbSupport);
+	}
+	/**
+	 * Get the value of field {@link #fullDbSupport}.<br>
+	 * @return {@link #fullDbSupport}
+	 */
+	@Generated
+	public  boolean	getFullDbSupport(){
+		return this.fullDbSupport;
+	}
+	/**
+	 * Create a copy of this DbJavaGenOptions object with a new value for field {@link #fullDbSupport}.<br>
+	 * @param fullDbSupport The new value for field {@link #fullDbSupport}
+	 * @return A new instance of {@link DbJavaGenOptions}
+	 */
+	@Generated
+	public  DbJavaGenOptions	withFullDbSupport(boolean fullDbSupport){
+		return new DbJavaGenOptions(selection, nameTransformer, rootPackage, fullDbSupport);
 	}
 	@Generated
 	@Override
@@ -114,6 +138,7 @@ public class DbJavaGenOptions {
 		if(!selection.equals(obj.selection)) return false;
 		if(!nameTransformer.equals(obj.nameTransformer)) return false;
 		if(!rootPackage.equals(obj.rootPackage)) return false;
+		if(fullDbSupport!= obj.fullDbSupport) return false;
 		return true;
 	}
 	@Generated
@@ -123,6 +148,7 @@ public class DbJavaGenOptions {
 		result = (this.selection != null ? this.selection.hashCode() : 0);
 		result = 31 * result + (this.nameTransformer != null ? this.nameTransformer.hashCode() : 0);
 		result = 31 * result + (this.rootPackage != null ? this.rootPackage.hashCode() : 0);
+		result = 31 * result + (this.fullDbSupport ? 1 : 0);
 		return result;
 	}
 	@Generated
@@ -132,6 +158,7 @@ public class DbJavaGenOptions {
 			"selection=" + selection + 
 			", nameTransformer=" + nameTransformer + 
 			", rootPackage=" + (rootPackage == null ? "null" : '\"' + UString.present(UString.escapeToJavaString(rootPackage),32,"...") + '\"') +
+			", fullDbSupport=" + fullDbSupport + 
 			']';
 	}
 	@Generated
@@ -140,18 +167,19 @@ public class DbJavaGenOptions {
 		b.setSelection(this.selection);
 		b.setNameTransformer(this.nameTransformer);
 		b.setRootPackage(this.rootPackage);
+		b.setFullDbSupport(this.fullDbSupport);
 		b = updater.apply(b);
-		return new DbJavaGenOptions(b.selection, b.nameTransformer, b.rootPackage);
+		return new DbJavaGenOptions(b.selection, b.nameTransformer, b.rootPackage, b.fullDbSupport);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static DbJavaGenOptions	build(ThrowingFunction<Builder<NOT,NOT>, Builder<SET,SET>, Exception> setter){
+	public  static DbJavaGenOptions	build(ThrowingFunction<Builder<NOT,NOT,NOT>, Builder<SET,SET,SET>, Exception> setter){
 		Builder b = setter.toNonChecked().apply(new Builder());
-		return new DbJavaGenOptions(b.selection, b.nameTransformer, b.rootPackage);
+		return new DbJavaGenOptions(b.selection, b.nameTransformer, b.rootPackage, b.fullDbSupport);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Result<DbJavaGenOptions>	buildExc(ThrowingFunction<Builder<NOT,NOT>, Builder<SET,SET>,Exception> setter){
-		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new DbJavaGenOptions(b.selection, b.nameTransformer, b.rootPackage));
+	public  static Result<DbJavaGenOptions>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT>, Builder<SET,SET,SET>,Exception> setter){
+		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new DbJavaGenOptions(b.selection, b.nameTransformer, b.rootPackage, b.fullDbSupport));
 	}
 }

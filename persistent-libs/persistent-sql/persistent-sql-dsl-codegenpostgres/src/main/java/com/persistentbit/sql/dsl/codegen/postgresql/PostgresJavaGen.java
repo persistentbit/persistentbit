@@ -1,47 +1,4 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
-
-import com.persistentbit.collections.*;
-import com.persistentbit.javacodegen.*;
-import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.annotations.DbColumnName;
-import com.persistentbit.sql.dsl.codegen.DbJavaGen;
-import com.persistentbit.sql.dsl.codegen.DbNameTransformer;
-import com.persistentbit.sql.dsl.codegen.JavaGenTableSelection;
-import com.persistentbit.sql.dsl.codegen.dbjavafields.*;
-import com.persistentbit.sql.dsl.codegen.generic.DbCustomType;
-import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
-import com.persistentbit.sql.dsl.exprcontext.DbContext;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
-import com.persistentbit.sql.dsl.generic.inserts.Insert;
-import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
-import com.persistentbit.sql.dsl.generic.query.Query;
-import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
-import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.*;
-import com.persistentbit.sql.meta.DbMetaDataImporter;
-import com.persistentbit.sql.meta.data.*;
-import com.persistentbit.sql.transactions.DbTransaction;
-import com.persistentbit.sql.work.DbWork;
-import com.persistentbit.string.UString;
-import com.persistentbit.tuples.Tuple2;
-import com.persistentbit.utils.exceptions.ToDo;
-
-import java.math.BigDecimal;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Time;
-import java.sql.Types;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Supplier;
+package com.persistentbit.sql.dsl.codegen.postgresql;
 
 /**
  * TODOC
@@ -49,7 +6,11 @@ import java.util.function.Supplier;
  * @author petermuys
  * @since 11/07/17
  */
-public class PostgresJavaGen implements DbJavaGen{
+public class PostgresJavaGen{
+
+}
+/*
+	implements DbJavaGen{
 	private final JavaGenTableSelection selection;
 	private final DbNameTransformer nameTransformer;
 	private final Supplier<DbTransaction> transactionSupplier;
@@ -257,27 +218,7 @@ public class PostgresJavaGen implements DbJavaGen{
 				pw.println("this(new PostgresDbContext());");
 			});
 			cls = cls.addMethod(emptyConstructor);
-/*
-			for(DbJavaTable table : tables){
-				JMethod val = new JMethod("val","T" + table.getJavaClassName())
-						.withAccessLevel(AccessLevel.Public)
-						.addImport(new JImport(table.getPackName() + ".T" + table.getJavaClassName()))
-						.addImport(new JImport(table.getPackName() + "." + table.getJavaClassName()))
-						.addArg(new JArgument(table.getJavaClassName(),"v"))
-						.withCode(pw -> {
-							pw.println("return new T" + table.getJavaClassName() + "(");
-							pw.indent(pt -> {
-								pt.println(table.getJavaFields().map(jf ->
-									"val(v.get" + UString.firstUpperCase(jf.getJavaName()) + "()" +
-										(jf.isNullable() ? ".orElse(null)" : "")
-										+ ")").toString(", "));
-							});
-							pw.println(");");
-						});
 
-				cls = cls.addMethod(val);
-			}
-			*/
 
 
 			JJavaFile file = new JJavaFile(rootPackage)
@@ -419,14 +360,7 @@ public class PostgresJavaGen implements DbJavaGen{
 			//cls = cls.addImport(Tuple2.class);
 			cls = cls.addMethod(constructor);
 
-			/*JMethod selAlias = new JMethod("asTableExpr")
-					.withAccessLevel(AccessLevel.Public)
-					.withResultType(clsName)
-					.addArg("String","selectionAliasName",false)
-					.withCode(pw -> {
-						pw.println("return new " + clsName + "(_tableContext.withAlias(selectionAliasName));");
-					});
-			cls = cls.addMethod(selAlias);*/
+
 			JMethod tableAlias = new JMethod("alias")
 				.withAccessLevel(AccessLevel.Public)
 				.withResultType(clsName)
@@ -472,18 +406,7 @@ public class PostgresJavaGen implements DbJavaGen{
 
 			cls = cls.addMethod(val);
 
-			/*JMethod insert = new JMethod("insert","DbWork<"+ table.getJavaClassName() + ">")
-					.addImport(JImport.forClass(DbWork.class))
-					.addImport(JImport.forClass(Insert.class))
-					.addImport(JImport.forClass(Result.class))
-					.addArg(new JArgument(table.getJavaClassName(),"record"))
-					.withAccessLevel(AccessLevel.Public)
-					.withCode(pw -> {
-						pw.println("DbWork<Integer> count = new Insert<>(this._tableContext.getDbContext(), this, val(record));");
-						pw.println("return count.flatMap(c -> c==0 ? Result.empty() : Result.success(record));");
-					})
-			;
-			*/
+
 			JMethod insert = new JMethod("insert","DbWork<"+ table.getJavaClassName() + ">")
 				.addImport(JImport.forClass(DbWork.class))
 				.addImport(JImport.forClass(Insert.class))
@@ -978,16 +901,7 @@ public class PostgresJavaGen implements DbJavaGen{
 					element = new DbJavaFieldStruct(column,javaName,customType.getDefinition(),clsName,pack);
 					break;
 				}
-				/*if(dbTypeName.startsWith("_")){
-					DbMetaTable customTypeMeta = getCustomTypeMetaTable(table.getSchema(),dbTypeName).orElse(null);
-					if(customTypeMeta != null){
-						return new DbJavaFieldArray(column,javaName,new DbJavaFieldStruct(column,javaName,customTypeMeta));
-					}
-					//MUST BE AN ENUM
-				}
 
-
-				if(true) return null;*/
 
 				throw new RuntimeException("Don't know array element type " + dbTypeName + " for " + column);
 		}
@@ -997,3 +911,4 @@ public class PostgresJavaGen implements DbJavaGen{
 
 
 }
+*/

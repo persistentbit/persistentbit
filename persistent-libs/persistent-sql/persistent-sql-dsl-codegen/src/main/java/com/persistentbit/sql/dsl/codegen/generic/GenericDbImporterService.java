@@ -2,10 +2,7 @@ package com.persistentbit.sql.dsl.codegen.generic;
 
 import com.persistentbit.collections.*;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.codegen.DbImportSettings;
-import com.persistentbit.sql.dsl.codegen.DbImporterService;
-import com.persistentbit.sql.dsl.codegen.DbNameTransformer;
-import com.persistentbit.sql.dsl.codegen.SqlImportedData;
+import com.persistentbit.sql.dsl.codegen.*;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.*;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.Money;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.Xml;
@@ -31,13 +28,19 @@ import java.util.function.Supplier;
  */
 public class GenericDbImporterService implements DbImporterService{
 
+
+	@Override
+	public DbHandlingLevel getHandlingLevel(DbMetaDatabase db) {
+		return DbHandlingLevel.onlyGeneric;
+	}
+
 	@Override
 	public String getDescription() {
 		return "Generic Database Importer Service";
 	}
 
 	@Override
-	public Result<SqlImportedData> importDb(DbImportSettings settings) {
+	public Result<DbDefinition> importDb(DbImportSettings settings) {
 		return Result.function(settings).code(log -> {
 
 			Supplier<DbTransaction> transSup        = settings.getTransactionSupplier();
@@ -45,7 +48,7 @@ public class GenericDbImporterService implements DbImporterService{
 			String                  rootPackage     = settings.getRootPackage();
 			DbNameTransformer       nameTransformer = settings.getNameTransformer();
 
-			SqlImportedData result = new SqlImportedData();
+			DbDefinition result = new DbDefinition();
 
 			log.info("Getting all Schemas");
 			PList<DbMetaSchema> allSchemas = DbMetaDataImporter
@@ -81,7 +84,7 @@ public class GenericDbImporterService implements DbImporterService{
 
 			log.info("Find used domains");
 			PSet<DbMetaUDT> usedDomains = findUsedDomains(javaTables,usedTypes);
-			return Result.success(SqlImportedData.build(b -> b
+			return Result.success(DbDefinition.build(b -> b
 				.setTables(javaTables)
 				.setCustomTypes(usedTypes)
 				.setDomainObjects(usedDomains)

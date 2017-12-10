@@ -17,6 +17,7 @@
         <module>persistent-sql-meta</module>
         <module>persistent-sql-dsl</module>
         <module>persistent-sql-dsl-codegen</module>
+        <module>persistent-sql-dsl-codegenpostgres</module>
     </modules>
     <dependencies>
         <!--<dependency>

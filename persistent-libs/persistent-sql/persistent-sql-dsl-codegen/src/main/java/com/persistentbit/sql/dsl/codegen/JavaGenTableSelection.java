@@ -96,31 +96,14 @@ public class JavaGenTableSelection {
 	    };
 	}
 	public  Result<JavaGenTableSelection>	addCatalogs(Predicate<DbMetaCatalog> catalogFilter){
-	    return DbMetaDataImporter
-			.getCatalogs()
-			.run(transactionSupplier.get())
-			.map(catList -> catList.filter(catalogFilter))
-			.map(catList -> updated(b -> b.setCatalogs(catalogs.plusAll(catList))));
+	    return DbMetaDataImporter.getCatalogs().run(transactionSupplier.get()).map(catList -> catList.filter(catalogFilter)).map(catList -> updated(b -> b.setCatalogs(catalogs.plusAll(catList))));
 	}
 	public  Result<JavaGenTableSelection>	addSchemas(Predicate<DbMetaSchema> schemaFilter){
 	    Predicate<DbMetaSchema> catFilter = schema -> catalogs.contains(schema.getCatalog());
-	    return DbMetaDataImporter
-			.getAllSchemas()
-			.run(transactionSupplier.get())
-			.map(schemaList -> schemaList.filter(catFilter.and(schemaFilter)))
-			.map(schemaList -> updated(b -> b.setSchemas(schemas.plusAll(schemaList))));
+	    return DbMetaDataImporter.getAllSchemas().run(transactionSupplier.get()).map(schemaList -> schemaList.filter(catFilter.and(schemaFilter))).map(schemaList -> updated(b -> b.setSchemas(schemas.plusAll(schemaList))));
 	}
 	public  Result<JavaGenTableSelection>	addTablesAndViews(Predicate<DbMetaTable> tableFilter){
-	    return UPStreams.fromSequence(
-	    	schemas
-				.map(schema ->
-					DbMetaDataImporter
-						.getTablesAndViews(schema)
-						.run(transactionSupplier.get())
-						.map(tableList -> tableList.filter(tableFilter)))
-		)
-						.map(listStream -> listStream.<DbMetaTable>flatten().plist())
-						.map(tableList -> updated(b -> b.setTablesAndViews(tablesAndViews.plusAll(tableList))));
+	    return UPStreams.fromSequence(schemas.map(schema -> DbMetaDataImporter.getTablesAndViews(schema).run(transactionSupplier.get()).map(tableList -> tableList.filter(tableFilter)))).map(listStream -> listStream.<DbMetaTable>flatten().plist()).map(tableList -> updated(b -> b.setTablesAndViews(tablesAndViews.plusAll(tableList))));
 	}
 	/**
 	 * Get the value of field {@link #transactionSupplier}.<br>

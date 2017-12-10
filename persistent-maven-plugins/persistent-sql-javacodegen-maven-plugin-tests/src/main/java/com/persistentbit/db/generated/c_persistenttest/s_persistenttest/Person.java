@@ -1,17 +1,20 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.functions.ThrowingFunction;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.javacodegen.annotations.NOT;
-import com.persistentbit.javacodegen.annotations.SET;
-import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.annotations.DbColumnName;
-import com.persistentbit.string.UString;
-
-import java.util.Objects;
+import java.lang.SuppressWarnings;
 import java.util.Optional;
+import com.persistentbit.sql.dsl.annotations.DbColumnName;
+import com.persistentbit.javacodegen.annotations.NoGet;
+import com.persistentbit.javacodegen.annotations.NOT;
+import java.util.Objects;
+import com.persistentbit.javacodegen.annotations.Generated;
 import java.util.function.Function;
+import com.persistentbit.string.UString;
+import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.result.Result;
+import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.javacodegen.annotations.SET;
+import java.lang.String;
+import com.persistentbit.javacodegen.annotations.NoWith;
 
 public class Person {
 	@DbColumnName("id")

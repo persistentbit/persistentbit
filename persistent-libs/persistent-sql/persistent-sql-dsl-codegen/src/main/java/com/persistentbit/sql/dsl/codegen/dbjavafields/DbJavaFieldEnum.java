@@ -2,10 +2,10 @@ package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
 import com.persistentbit.javacodegen.annotations.NoBuilder;
 import com.persistentbit.javacodegen.JImport;
-import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
 import com.persistentbit.sql.meta.data.DbMetaColumn;
 import java.util.Objects;
 import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
 import com.persistentbit.collections.PList;
 import com.persistentbit.utils.exceptions.ToDo;
 import com.persistentbit.string.UString;
@@ -24,7 +24,7 @@ import com.persistentbit.javacodegen.JField;
 public class DbJavaFieldEnum implements DbJavaField {
 	private  final	DbMetaColumn	column;
 	private  final	String	fieldName;
-	private  final DbEnumType enumType;
+	private  final	DbEnumType	enumType;
 	private  final	String	enumClassName;
 	private  final	String	enumPack;
 	

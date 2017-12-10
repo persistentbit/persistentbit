@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.codegen;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.meta.data.DbMetaDatabase;
 
 import java.util.ServiceLoader;
 
@@ -12,8 +13,11 @@ import java.util.ServiceLoader;
  * @since 9/12/17
  */
 public interface DbImporterService{
+
+	DbHandlingLevel getHandlingLevel(DbMetaDatabase db);
+
 	String getDescription();
-	Result<SqlImportedData> importDb(DbImportSettings settings);
+	Result<DbDefinition> importDb(DbImportSettings settings);
 
 	static PList<DbImporterService> getInstances() {
 

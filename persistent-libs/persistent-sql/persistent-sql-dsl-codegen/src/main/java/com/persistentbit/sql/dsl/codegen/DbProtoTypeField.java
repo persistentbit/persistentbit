@@ -1,11 +1,10 @@
 package com.persistentbit.sql.dsl.codegen;
 
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
-
+import com.persistentbit.javacodegen.annotations.Generated;
 import java.util.function.Function;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.code.annotations.Nullable;
 import java.util.function.Predicate;
 
 /**

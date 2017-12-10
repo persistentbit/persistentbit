@@ -1,14 +1,13 @@
 package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PList;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
-import com.persistentbit.sql.meta.data.DbMetaTable;
-import com.persistentbit.string.UString;
-
 import java.util.Objects;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.collections.PList;
+import com.persistentbit.string.UString;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.sql.meta.data.DbMetaTable;
+import com.persistentbit.code.annotations.Nullable;
 
 /**
  * TODOC

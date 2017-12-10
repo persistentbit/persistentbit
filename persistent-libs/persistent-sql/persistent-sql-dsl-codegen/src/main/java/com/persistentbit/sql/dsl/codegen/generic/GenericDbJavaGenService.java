@@ -4,8 +4,7 @@ import com.persistentbit.collections.*;
 import com.persistentbit.javacodegen.*;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.annotations.DbColumnName;
-import com.persistentbit.sql.dsl.codegen.DbJavaGenService;
-import com.persistentbit.sql.dsl.codegen.SqlImportedData;
+import com.persistentbit.sql.dsl.codegen.*;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaField;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaTable;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
@@ -20,6 +19,7 @@ import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.Xml;
+import com.persistentbit.sql.meta.data.DbMetaDatabase;
 import com.persistentbit.sql.meta.data.DbMetaSchema;
 import com.persistentbit.sql.meta.data.DbMetaUDT;
 import com.persistentbit.sql.work.DbWork;
@@ -41,27 +41,41 @@ import java.time.LocalTime;
 public class GenericDbJavaGenService implements DbJavaGenService{
 
 	@Override
-	public Result<PList<GeneratedJavaSource>> generate(SqlImportedData data) {
+	public DbHandlingLevel getHandlingLevel(DbMetaDatabase db) {
+		return DbHandlingLevel.onlyGeneric;
+	}
+
+	@Override
+	public String getDescription() {
+		return "Generic Database Code generator";
+	}
+
+	@Override
+	public Result<PList<GeneratedJavaSource>> generate(DbJavaGenOptions options, DbDefinition data) {
 		return Result.function().code(log -> {
+
+			String rootPackage = options.getRootPackage();
+			DbNameTransformer nameTransformer = options.getNameTransformer();
+
 
 			//CREATE STATE CLASSES SOURCE CODE
 			Result<PList<GeneratedJavaSource>> genSourceEnums = UPStreams.fromSequence(
-				data.getEnumTypes().map(this::generateEnumSource)
+				data.getEnumTypes().map(e -> generateEnumSource(rootPackage,nameTransformer,e))
 			).map(PStream::plist);
 
 
 			Result<PList<GeneratedJavaSource>> genSourceCustomTypes =
-				UPStreams.fromSequence(data.getCustomTypes().map(this::generateStateClass)).map(PStream::plist);
+				UPStreams.fromSequence(data.getCustomTypes().map(ct -> generateStateClass(rootPackage,nameTransformer,ct))).map(PStream::plist);
 			Result<PList<GeneratedJavaSource>> genSourceTableRecords =
 				UPStreams.fromSequence(data.getTables().map(this::generateStateClass)).map(PStream::plist);
 			Result<PList<GeneratedJavaSource>> genSourceDomains =
-				UPStreams.fromSequence(data.getDomainObjects().map(this::generateDomainSource)).map(PStream::plist);
+				UPStreams.fromSequence(data.getDomainObjects().map(d -> generateDomainSource(rootPackage,nameTransformer,d))).map(PStream::plist);
 			Result<PList<GeneratedJavaSource>> genSourceTables =
-				UPStreams.fromSequence(data.getTables().map(this::generateTableClassSource)).map(PStream::plist);
+				UPStreams.fromSequence(data.getTables().map(t -> generateTableClassSource(t))).map(PStream::plist);
 			Result<PList<GeneratedJavaSource>> genSourceTableExpr =
-				UPStreams.fromSequence(data.getTables().map(this::generateTableExprSource)).map(PStream::plist);
+				UPStreams.fromSequence(data.getTables().map(t -> generateTableExprSource(t))).map(PStream::plist);
 
-			Result<GeneratedJavaSource> dbSource = generateDbSource(data.getTables());
+			Result<GeneratedJavaSource> dbSource = generateDbSource(rootPackage,data.getTables());
 
 			Result<PList<GeneratedJavaSource>> result =
 				genSourceEnums.flatMap(res -> genSourceCustomTypes.map(res::plusAll));
@@ -75,7 +89,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 		});
 	}
 
-	protected Result<GeneratedJavaSource> generateDbSource(PList<DbJavaTable> tables){
+	protected Result<GeneratedJavaSource> generateDbSource(String rootPackage, PList<DbJavaTable> tables){
 		return Result.function().code(l -> {
 			JClass cls = new JClass("Db").extendsDef(DbPostgres.class.getSimpleName());
 			cls = cls.addImport(DbPostgres.class);
@@ -368,7 +382,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 		});
 	}
 
-	protected Result<GeneratedJavaSource> generateDomainSource(DbMetaUDT udt){
+	protected Result<GeneratedJavaSource> generateDomainSource(String rootPackage, DbNameTransformer nameTransformer, DbMetaUDT udt){
 		return Result.function(udt).code(l -> {
 			JClass cls   = new JClass(nameTransformer.toJavaName(udt.getName()));
 			JField field;
@@ -452,13 +466,13 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 			cls = cls.addField(field);
 			cls = cls.addMainConstructor(AccessLevel.Public);
 			cls = cls.addMethod(field.createGetter());
-			JJavaFile file = new JJavaFile(toJavaPackage(udt.getSchema()))
+			JJavaFile file = new JJavaFile(toJavaPackage(rootPackage,nameTransformer,udt.getSchema()))
 				.addClass(cls);
 			return Result.success(file.toJavaSource());
 		});
 	}
 
-	protected Result<GeneratedJavaSource> generateEnumSource(DbEnumType enumType){
+	protected Result<GeneratedJavaSource> generateEnumSource(String rootPackage, DbNameTransformer nameTransformer, DbEnumType enumType){
 		return Result.function(enumType).code(l-> {
 			JClass cls = new JClass(enumType.getJavaClassName());
 			JField dbValue = new JField("dbValue",String.class)
@@ -476,13 +490,13 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 			for(Tuple2<String,String> dbAndJava : enumType.getValueAndJavaNameList()){
 				j = j.addInstance(new JEnumInstance(dbAndJava._2,PList.val("\"" + UString.escapeToJavaString(dbAndJava._1) + "\"" )));
 			}
-			JJavaFile file = new JJavaFile(toJavaPackage(enumType.getSchema()))
+			JJavaFile file = new JJavaFile(toJavaPackage(rootPackage,nameTransformer,enumType.getSchema()))
 				.addEnum(j);
 			return Result.success(file.toJavaSource());
 		});
 	}
 
-	protected Result<GeneratedJavaSource> generateStateClass(DbCustomType customType){
+	protected Result<GeneratedJavaSource> generateStateClass(String rootPackage, DbNameTransformer nameTransformer, DbCustomType customType){
 		return Result.function(customType).code(l -> {
 			JClass cls = new JClass(customType.getJavaClassName());
 			for(DbJavaField field : customType.getFields()){
@@ -492,8 +506,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 
 
 
-
-			JJavaFile file = new JJavaFile(toJavaPackage(customType.getDefinition().getSchema()))
+			JJavaFile file = new JJavaFile(toJavaPackage(rootPackage, nameTransformer, customType.getDefinition().getSchema()))
 				.addClass(cls);
 			return Result.success(file.toJavaSource());
 		});
@@ -518,7 +531,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 			return Result.success(file.toJavaSource());
 		});
 	}
-	private String toJavaPackage(DbMetaSchema schema){
+	private String toJavaPackage(String rootPackage, DbNameTransformer nameTransformer, DbMetaSchema schema){
 		return rootPackage
 			+ "." + nameTransformer.toJavaName(schema.getCatalog())
 			+ "." + nameTransformer.toJavaName(schema);

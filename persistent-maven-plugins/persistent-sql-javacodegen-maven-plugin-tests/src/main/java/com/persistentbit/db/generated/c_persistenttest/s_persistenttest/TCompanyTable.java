@@ -1,12 +1,18 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
-import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.exprcontext.DbContext;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
+import java.lang.Override;
 import com.persistentbit.sql.dsl.generic.inserts.Insert;
+import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.query.Query;
+import com.persistentbit.collections.PList;
+import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.sql.work.DbWork;
+import com.persistentbit.sql.dsl.exprcontext.DbContext;
+import java.lang.String;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Company;
 
 public class TCompanyTable extends TCompany implements DExprTable<Company> {
 	

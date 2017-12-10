@@ -231,6 +231,7 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 			DbJavaGenOptions options = DbJavaGenOptions.build(b -> b
 				.setRootPackage("com.persistentbit.db.generated")
 				.setSelection(sel)
+				.setFullDbSupport(false)
 			);
 			DbJavaGen                  javaGen     = DbJavaGen.createGenerator(connector,options).orElseThrow();
 			PList<GeneratedJavaSource> sourceFiles = javaGen.generate().orElseThrow();

@@ -1,13 +1,12 @@
 package com.persistentbit.sql.dsl.generic.inserts;
 
-import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import java.util.Objects;
+import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.javacodegen.annotations.NoWith;
-
-import java.util.Objects;
 
 /**
  * TODOC
@@ -28,14 +27,11 @@ public class InsertResult {
 			this.updateCount = Objects.requireNonNull(updateCount, "updateCount can not be null");
 			this.autoGenKeys = Objects.requireNonNull(autoGenKeys, "autoGenKeys can not be null");
 	}
-
-	public static InsertResult empty() {
-		return new InsertResult(0,PList.empty());
+	public  static InsertResult	empty(){
+	    return new InsertResult(0, PList.empty());
 	}
-
-
-	public InsertResult	add(InsertResult other){
-		return new InsertResult(updateCount + other.updateCount, autoGenKeys.plusAll(other.autoGenKeys));
+	public  InsertResult	add(InsertResult other){
+	    return new InsertResult(updateCount + other.updateCount, autoGenKeys.plusAll(other.autoGenKeys));
 	}
 	/**
 	 * Get the value of field {@link #updateCount}.<br>

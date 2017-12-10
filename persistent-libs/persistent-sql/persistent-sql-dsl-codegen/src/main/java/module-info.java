@@ -19,4 +19,9 @@ module persistent.sql.dsl.codegen {
 	requires persistent.sql.dsl.postgres.rt;
 	exports com.persistentbit.sql.dsl.codegen;
 	exports com.persistentbit.sql.dsl.codegen.generic;
+	exports com.persistentbit.sql.dsl.codegen.dbjavafields;
+	uses com.persistentbit.sql.dsl.codegen.DbImporterService;
+	uses com.persistentbit.sql.dsl.codegen.DbJavaGenService;
+	provides com.persistentbit.sql.dsl.codegen.DbImporterService with com.persistentbit.sql.dsl.codegen.generic.GenericDbImporterService;
+	provides com.persistentbit.sql.dsl.codegen.DbJavaGenService with com.persistentbit.sql.dsl.codegen.generic.GenericDbJavaGenService;
 }

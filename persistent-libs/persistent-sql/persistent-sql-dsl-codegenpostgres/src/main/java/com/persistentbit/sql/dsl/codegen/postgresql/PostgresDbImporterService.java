@@ -1,20 +1,18 @@
-package com.persistentbit.sql.dsl.codegen.posgresql;
+package com.persistentbit.sql.dsl.codegen.postgresql;
 
 import com.persistentbit.collections.PBitList;
 import com.persistentbit.collections.PByteList;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.codegen.DbHandlingLevel;
 import com.persistentbit.sql.dsl.codegen.DbNameTransformer;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.*;
 import com.persistentbit.sql.dsl.codegen.generic.DbCustomType;
 import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
 import com.persistentbit.sql.dsl.codegen.generic.GenericDbImporterService;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.*;
-import com.persistentbit.sql.meta.data.DbMetaColumn;
-import com.persistentbit.sql.meta.data.DbMetaSchema;
-import com.persistentbit.sql.meta.data.DbMetaTable;
-import com.persistentbit.sql.meta.data.DbMetaUDT;
+import com.persistentbit.sql.meta.data.*;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.string.UString;
@@ -36,6 +34,21 @@ import java.util.function.Supplier;
  * @since 9/12/17
  */
 public class PostgresDbImporterService extends GenericDbImporterService{
+
+
+	@Override
+	public String getDescription() {
+		return "POSTGRES database import service";
+	}
+
+	@Override
+	public DbHandlingLevel getHandlingLevel(DbMetaDatabase db) {
+		if(db.getProductName().equals("PostgreSQL")){
+			return DbHandlingLevel.full;
+		}
+		return DbHandlingLevel.not;
+	}
+
 	@Override
 	protected DbWork<PList<DbEnumType>> loadEnumTypes(
 		Supplier<DbTransaction> transSup,

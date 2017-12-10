@@ -1,12 +1,12 @@
 package com.persistentbit.javacodegen.mavenplugin;
 
-import com.persistentbit.result.OK;
 import com.persistentbit.collections.PList;
 import com.persistentbit.io.IO;
 import com.persistentbit.io.IOFiles;
-import com.persistentbit.result.Result;
 import com.persistentbit.javacodegen.JClass;
 import com.persistentbit.javacodegen.JJavaFile;
+import com.persistentbit.result.OK;
+import com.persistentbit.result.Result;
 
 import java.nio.file.Path;
 
@@ -64,7 +64,7 @@ public class CaseClassCodeGenerator{
 			.flatMap(orgJFile -> makeCaseClasses(orgJFile)
 				.flatMap(newJFile -> {
 					if(newJFile.equals(orgJFile)){
-						return Result.empty("Nog Case classes to convert");
+						return Result.empty("No Case classes to convert");
 					} else {
 						return IOFiles.write(newJFile.print().printToString(),sourceFilePath.toFile(), IO.utf8);
 					}

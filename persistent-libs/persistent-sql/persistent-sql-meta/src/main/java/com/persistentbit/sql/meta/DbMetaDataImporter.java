@@ -11,6 +11,7 @@ import com.persistentbit.sql.utils.UJdbc;
 import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.utils.exceptions.ToDo;
 
+import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 
 /**
@@ -20,6 +21,27 @@ import java.sql.ResultSet;
  * @since 3/06/17
  */
 public class DbMetaDataImporter{
+
+	public static DbWork<DbMetaDatabase> getDatabase(){
+		return DbWork.function().code(trans -> con -> log -> {
+			DatabaseMetaData dbm = con.getMetaData();
+			DbMetaDatabase res = DbMetaDatabase.build(b -> b
+				.setCatalogSeparator(dbm.getCatalogSeparator())
+				.setDbMajorVersion(dbm.getDatabaseMajorVersion())
+				.setDbMinorVersion(dbm.getDatabaseMinorVersion())
+				.setDriveName(dbm.getDriverName())
+				.setDriverMajorVersion(dbm.getDriverMajorVersion())
+				.setDriverMinorVersion(dbm.getDriverMinorVersion())
+				.setJdbcMajorVersion(dbm.getJDBCMajorVersion())
+				.setJdbcMinorVersion(dbm.getJDBCMinorVersion())
+				.setProductName(dbm.getDatabaseProductName())
+				.setUrl(dbm.getURL())
+				.setSupportsGetGeneratedKeys(dbm.supportsGetGeneratedKeys())
+			);
+
+			return Result.success(res);
+		});
+	}
 
 	public static DbWork<PList<DbMetaCatalog>> getCatalogs(){
 		return DbWork.function().code(trans -> con -> log ->
@@ -79,19 +101,10 @@ public class DbMetaDataImporter{
 	public static DbWork<PList<DbMetaTable>> getTypes(DbMetaSchema schema){
 		return DbWork.function(schema).code(trans -> con -> log -> {
 			PList<DbMetaTable> res = PList.empty();
-			//res = res.plusAll(getTables(schema,typeName).execute(ctx).orElseThrow());
 
 			return Result.success(res);
 		});
-		/*
-		return DbWork.function(schema).code(log -> ctx -> {
-			PList<DbMetaTable> res = PList.empty();
 
-			for(String typeName : ctx.getDbType().map(dbType-> dbType.getDbMetaTypeNameForCustomTypes()).orElseThrow()){
-				res = res.plusAll(getTables(schema,typeName).execute(ctx).orElseThrow());
-			}
-			return Result.success(res);
-		});*/
 	}
 
 	public static DbWork<PList<DbMetaTable>> getTables(DbMetaSchema schema, @Nullable String typeName){

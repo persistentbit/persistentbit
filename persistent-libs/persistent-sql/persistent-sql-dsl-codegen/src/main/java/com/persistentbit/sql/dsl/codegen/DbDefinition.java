@@ -1,19 +1,23 @@
 package com.persistentbit.sql.dsl.codegen;
 
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PList;
-import com.persistentbit.collections.PSet;
-import com.persistentbit.functions.ThrowingFunction;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.javacodegen.annotations.DefaultValue;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.codegen.generic.DbCustomType;
-import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
+import java.lang.SuppressWarnings;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaTable;
-import com.persistentbit.sql.meta.data.DbMetaUDT;
-
+import com.persistentbit.javacodegen.annotations.NoGet;
+import com.persistentbit.javacodegen.annotations.NOT;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
+import com.persistentbit.collections.PSet;
+import com.persistentbit.collections.PList;
 import java.util.function.Function;
+import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.javacodegen.annotations.DefaultValue;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.result.Result;
+import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.javacodegen.annotations.SET;
+import com.persistentbit.javacodegen.annotations.NoWith;
+import com.persistentbit.sql.meta.data.DbMetaUDT;
+import com.persistentbit.sql.dsl.codegen.generic.DbCustomType;
 
 /**
  * TODOC
@@ -22,7 +26,7 @@ import java.util.function.Function;
  * @since 9/12/17
  */
 @CaseClass
-public class SqlImportedData {
+public class DbDefinition {
 	@DefaultValue("PList.empty()")
 	private  final	PList<DbJavaTable>	tables;
 	@DefaultValue("PSet.empty()")
@@ -34,14 +38,14 @@ public class SqlImportedData {
 	
 	
 	@Generated
-	public SqlImportedData(@Nullable PList<DbJavaTable> tables, @Nullable PSet<DbCustomType> customTypes, @Nullable PSet<DbEnumType> enumTypes, @Nullable PSet<DbMetaUDT> domainObjects){
+	public DbDefinition(@Nullable PList<DbJavaTable> tables, @Nullable PSet<DbCustomType> customTypes, @Nullable PSet<DbEnumType> enumTypes, @Nullable PSet<DbMetaUDT> domainObjects){
 			this.tables = tables == null ? PList.empty() : tables;
 			this.customTypes = customTypes == null ? PSet.empty() : customTypes;
 			this.enumTypes = enumTypes == null ? PSet.empty() : enumTypes;
 			this.domainObjects = domainObjects == null ? PSet.empty() : domainObjects;
 	}
 	@Generated
-	public SqlImportedData(){
+	public DbDefinition(){
 			this(null, null, null, null);
 	}
 	@Generated
@@ -79,13 +83,13 @@ public class SqlImportedData {
 		return this.tables;
 	}
 	/**
-	 * Create a copy of this SqlImportedData object with a new value for field {@link #tables}.<br>
+	 * Create a copy of this DbDefinition object with a new value for field {@link #tables}.<br>
 	 * @param tables The new value for field {@link #tables}
-	 * @return A new instance of {@link SqlImportedData}
+	 * @return A new instance of {@link DbDefinition}
 	 */
 	@Generated
-	public  SqlImportedData	withTables(@Nullable PList<DbJavaTable> tables){
-		return new SqlImportedData(tables, customTypes, enumTypes, domainObjects);
+	public  DbDefinition	withTables(@Nullable PList<DbJavaTable> tables){
+		return new DbDefinition(tables, customTypes, enumTypes, domainObjects);
 	}
 	/**
 	 * Get the value of field {@link #customTypes}.<br>
@@ -96,13 +100,13 @@ public class SqlImportedData {
 		return this.customTypes;
 	}
 	/**
-	 * Create a copy of this SqlImportedData object with a new value for field {@link #customTypes}.<br>
+	 * Create a copy of this DbDefinition object with a new value for field {@link #customTypes}.<br>
 	 * @param customTypes The new value for field {@link #customTypes}
-	 * @return A new instance of {@link SqlImportedData}
+	 * @return A new instance of {@link DbDefinition}
 	 */
 	@Generated
-	public  SqlImportedData	withCustomTypes(@Nullable PSet<DbCustomType> customTypes){
-		return new SqlImportedData(tables, customTypes, enumTypes, domainObjects);
+	public  DbDefinition	withCustomTypes(@Nullable PSet<DbCustomType> customTypes){
+		return new DbDefinition(tables, customTypes, enumTypes, domainObjects);
 	}
 	/**
 	 * Get the value of field {@link #enumTypes}.<br>
@@ -113,13 +117,13 @@ public class SqlImportedData {
 		return this.enumTypes;
 	}
 	/**
-	 * Create a copy of this SqlImportedData object with a new value for field {@link #enumTypes}.<br>
+	 * Create a copy of this DbDefinition object with a new value for field {@link #enumTypes}.<br>
 	 * @param enumTypes The new value for field {@link #enumTypes}
-	 * @return A new instance of {@link SqlImportedData}
+	 * @return A new instance of {@link DbDefinition}
 	 */
 	@Generated
-	public  SqlImportedData	withEnumTypes(@Nullable PSet<DbEnumType> enumTypes){
-		return new SqlImportedData(tables, customTypes, enumTypes, domainObjects);
+	public  DbDefinition	withEnumTypes(@Nullable PSet<DbEnumType> enumTypes){
+		return new DbDefinition(tables, customTypes, enumTypes, domainObjects);
 	}
 	/**
 	 * Get the value of field {@link #domainObjects}.<br>
@@ -130,20 +134,20 @@ public class SqlImportedData {
 		return this.domainObjects;
 	}
 	/**
-	 * Create a copy of this SqlImportedData object with a new value for field {@link #domainObjects}.<br>
+	 * Create a copy of this DbDefinition object with a new value for field {@link #domainObjects}.<br>
 	 * @param domainObjects The new value for field {@link #domainObjects}
-	 * @return A new instance of {@link SqlImportedData}
+	 * @return A new instance of {@link DbDefinition}
 	 */
 	@Generated
-	public  SqlImportedData	withDomainObjects(@Nullable PSet<DbMetaUDT> domainObjects){
-		return new SqlImportedData(tables, customTypes, enumTypes, domainObjects);
+	public  DbDefinition	withDomainObjects(@Nullable PSet<DbMetaUDT> domainObjects){
+		return new DbDefinition(tables, customTypes, enumTypes, domainObjects);
 	}
 	@Generated
 	@Override
 	public  boolean	equals(@Nullable Object o){
 		if(this == o) return true;
-		if(o instanceof SqlImportedData == false) return false;
-		SqlImportedData obj = (SqlImportedData)o;
+		if(o instanceof DbDefinition == false) return false;
+		DbDefinition obj = (DbDefinition)o;
 		if(!tables.equals(obj.tables)) return false;
 		if(!customTypes.equals(obj.customTypes)) return false;
 		if(!enumTypes.equals(obj.enumTypes)) return false;
@@ -163,7 +167,7 @@ public class SqlImportedData {
 	@Generated
 	@Override
 	public  String	toString(){
-		return "SqlImportedData[" + 
+		return "DbDefinition[" + 
 			"tables=" + tables + 
 			", customTypes=" + customTypes + 
 			", enumTypes=" + enumTypes + 
@@ -171,24 +175,24 @@ public class SqlImportedData {
 			']';
 	}
 	@Generated
-	public  SqlImportedData	updated(Function<Builder,Builder> updater){
+	public  DbDefinition	updated(Function<Builder,Builder> updater){
 		Builder b = new Builder();
 		b.setTables(this.tables);
 		b.setCustomTypes(this.customTypes);
 		b.setEnumTypes(this.enumTypes);
 		b.setDomainObjects(this.domainObjects);
 		b = updater.apply(b);
-		return new SqlImportedData(b.tables, b.customTypes, b.enumTypes, b.domainObjects);
+		return new DbDefinition(b.tables, b.customTypes, b.enumTypes, b.domainObjects);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static SqlImportedData	build(ThrowingFunction<Builder, Builder, Exception> setter){
+	public  static DbDefinition	build(ThrowingFunction<Builder, Builder, Exception> setter){
 		Builder b = setter.toNonChecked().apply(new Builder());
-		return new SqlImportedData(b.tables, b.customTypes, b.enumTypes, b.domainObjects);
+		return new DbDefinition(b.tables, b.customTypes, b.enumTypes, b.domainObjects);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Result<SqlImportedData>	buildExc(ThrowingFunction<Builder, Builder,Exception> setter){
-		return Result.noExceptions(() -> setter.apply(new Builder())).mapExc(b -> new SqlImportedData(b.tables, b.customTypes, b.enumTypes, b.domainObjects));
+	public  static Result<DbDefinition>	buildExc(ThrowingFunction<Builder, Builder,Exception> setter){
+		return Result.noExceptions(() -> setter.apply(new Builder())).mapExc(b -> new DbDefinition(b.tables, b.customTypes, b.enumTypes, b.domainObjects));
 	}
 }
