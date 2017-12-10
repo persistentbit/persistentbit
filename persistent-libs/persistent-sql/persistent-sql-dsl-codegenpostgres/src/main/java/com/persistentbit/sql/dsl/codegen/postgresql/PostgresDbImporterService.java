@@ -121,6 +121,21 @@ public class PostgresDbImporterService extends GenericDbImporterService{
 				throw new RuntimeException("Don't know other type " + column.getType().getDbTypeName() + " for " + column);
 		}
 	}
+
+	@Override
+	protected DbJavaFieldCustomObject getXmlJavaField(DbMetaColumn column, String javaName) {
+		return new DbJavaFieldCustomObject(column, javaName, Xml.class);
+	}
+
+	@Override
+	protected DbJavaField geDoubleDbJavaField(DbMetaColumn column, DbMetaDataType mt, String javaName) {
+		if(mt.getDbTypeName().orElse("").equals("money")){
+			return new DbJavaFieldCustomObject(column, javaName, Money.class);
+		}
+
+		return super.geDoubleDbJavaField(column, mt, javaName);
+	}
+
 	@Override
 	protected DbJavaFieldArray createArrayField(
 		String rootPackage,

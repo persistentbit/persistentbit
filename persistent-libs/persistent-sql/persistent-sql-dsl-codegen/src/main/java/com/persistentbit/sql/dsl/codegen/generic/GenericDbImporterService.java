@@ -4,8 +4,6 @@ import com.persistentbit.collections.*;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.codegen.*;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.*;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.Money;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.Xml;
 import com.persistentbit.sql.meta.DbMetaDataImporter;
 import com.persistentbit.sql.meta.data.*;
 import com.persistentbit.sql.transactions.DbTransaction;
@@ -282,10 +280,7 @@ public class GenericDbImporterService implements DbImporterService{
 			case Types.DECIMAL:
 				return new DbJavaFieldCustomObject(column, javaName, BigDecimal.class);
 			case Types.DOUBLE:
-				if(mt.getDbTypeName().orElse("").equals("money")){
-					return new DbJavaFieldCustomObject(column, javaName, Money.class);
-				}
-				return new DbJavaFieldPrimitiveType(column, javaName, double.class);
+				return geDoubleDbJavaField(column, mt, javaName);
 			case Types.REAL:
 			case Types.FLOAT:
 				return new DbJavaFieldPrimitiveType(column, javaName, float.class);
@@ -316,7 +311,7 @@ public class GenericDbImporterService implements DbImporterService{
 			case Types.JAVA_OBJECT:
 				throw new RuntimeException("Not Implemented: JAVA_OBJECT for " + column );
 			case Types.SQLXML:
-				return new DbJavaFieldCustomObject(column, javaName, Xml.class);
+				return getXmlJavaField(column, javaName);
 			case Types.DISTINCT:
 				DbMetaUDT udt = domains.find(u -> u.getName().equals(mt.getDbTypeName().orElse(null))).get();
 				return new DbJavaFieldDomain(column,udt,javaName,nameTransformer.toJavaName(udt.getName()),this.toJavaPackage(rootPackage,nameTransformer,udt.getSchema()));
@@ -332,6 +327,14 @@ public class GenericDbImporterService implements DbImporterService{
 			default:
 				throw new RuntimeException("Unknown: " + column);
 		}
+	}
+
+	protected DbJavaField geDoubleDbJavaField(DbMetaColumn column, DbMetaDataType mt, String javaName) {
+		return new DbJavaFieldPrimitiveType(column, javaName, double.class);
+	}
+
+	protected DbJavaFieldCustomObject getXmlJavaField(DbMetaColumn column, String javaName) {
+		throw new UnsupportedOperationException("XML field not supported: " + column);
 	}
 
 	protected DbJavaField getOtherJavaField(DbMetaColumn column, String javaName) {

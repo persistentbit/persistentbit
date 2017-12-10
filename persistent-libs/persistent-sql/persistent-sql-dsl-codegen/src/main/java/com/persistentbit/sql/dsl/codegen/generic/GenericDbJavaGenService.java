@@ -9,6 +9,7 @@ import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaField;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaTable;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.DbGeneric;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
@@ -16,9 +17,6 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 import com.persistentbit.sql.dsl.generic.inserts.Insert;
 import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
 import com.persistentbit.sql.dsl.generic.query.Query;
-import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
-import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.Xml;
 import com.persistentbit.sql.meta.data.DbMetaDatabase;
 import com.persistentbit.sql.meta.data.DbMetaSchema;
 import com.persistentbit.sql.meta.data.DbMetaUDT;
@@ -75,7 +73,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 			Result<PList<GeneratedJavaSource>> genSourceTableExpr =
 				UPStreams.fromSequence(data.getTables().map(t -> generateTableExprSource(t))).map(PStream::plist);
 
-			Result<GeneratedJavaSource> dbSource = generateDbSource(rootPackage,data.getTables());
+			Result<GeneratedJavaSource> dbSource = generateDbSource(rootPackage,data.getTables(),options.getFullDbSupport());
 
 			Result<PList<GeneratedJavaSource>> result =
 				genSourceEnums.flatMap(res -> genSourceCustomTypes.map(res::plusAll));
@@ -89,11 +87,18 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 		});
 	}
 
-	protected Result<GeneratedJavaSource> generateDbSource(String rootPackage, PList<DbJavaTable> tables){
+	protected Class<? extends DbGeneric>	getDbClass(boolean isFullDb){
+		return DbGeneric.class;
+	}
+	protected Class<? extends DbContext> getContextClass(boolean isFullDb){
+		return DbContext.class;
+	}
+
+	protected Result<GeneratedJavaSource> generateDbSource(String rootPackage, PList<DbJavaTable> tables, boolean isFullDb){
 		return Result.function().code(l -> {
-			JClass cls = new JClass("Db").extendsDef(DbPostgres.class.getSimpleName());
-			cls = cls.addImport(DbPostgres.class);
-			cls = cls.addImport(PostgresDbContext.class);
+			JClass cls = new JClass("Db").extendsDef(getDbClass(isFullDb).getSimpleName());
+			cls = cls.addImport(getDbClass(isFullDb));
+			cls = cls.addImport(getContextClass(isFullDb));
 
 			for(DbJavaTable table : tables){
 				JField field = new JField(UString.firstLowerCase(table.getJavaClassName()),"T" + table.getJavaClassName() + "Table")
@@ -106,7 +111,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 			}
 			JMethod constructor = new JMethod("Db")
 				.withAccessLevel(AccessLevel.Public)
-				.addArg(new JArgument(PostgresDbContext.class.getSimpleName(), "context"))
+				.addArg(new JArgument(getContextClass(isFullDb).getSimpleName(), "context"))
 				.addImport(JImport.forClass(DbContext.class));
 			constructor = constructor.withCode(pw -> {
 				pw.println("super(context);");
@@ -434,7 +439,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 					field = new JField(fname, Byte.class);
 					break;
 				case Types.SQLXML:
-					field = new JField(fname, Xml.class);
+					field = createXmlJField(fname);
 					break;
 				case Types.TIME:
 					field = new JField(fname,LocalTime.class);
@@ -470,6 +475,10 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 				.addClass(cls);
 			return Result.success(file.toJavaSource());
 		});
+	}
+
+	protected JField createXmlJField(String fname) {
+		throw new UnsupportedOperationException("XML is not supported");
 	}
 
 	protected Result<GeneratedJavaSource> generateEnumSource(String rootPackage, DbNameTransformer nameTransformer, DbEnumType enumType){
