@@ -18,6 +18,7 @@
         <module>persistent-sql-dsl</module>
         <module>persistent-sql-dsl-codegen</module>
         <module>persistent-sql-dsl-codegenpostgres</module>
+        <module>persistent-sql-dsl-codegenh2</module>
     </modules>
     <dependencies>
         <!--<dependency>

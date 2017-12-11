@@ -14,6 +14,7 @@
     <modules>
         <module>persistent-sql-dsl-generic</module>
         <module>persistent-sql-dsl-postgres-rt</module>
+        <module>persistent-sql-dsl-h2-rt</module>
     </modules>
 
 </project>
