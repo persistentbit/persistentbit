@@ -1,0 +1,47 @@
+{
+  "instances": [
+    {
+      /*
+      "connector": {
+        "driverClass": "org.h2.Driver",
+        "url": "jdbc:h2:~/test1",
+        "userName": "sa",
+        "password": "sa"
+      },
+      */
+      "javaDbName" : "DbInvoices",
+      "connector": {
+        "driverClass": "org.postgresql.Driver",
+        "url": "jdbc:postgresql://localhost:5432/persistenttest?currentSchema=persistenttest",
+        "userName": "persistenttest_usr",
+        "password": "persistenttest_pwd"
+      },
+      "schemas": [
+        {
+          "catalogName": "persistenttest",
+          "schemaName": "persistenttest",
+          "javaName": "myschema",
+          "tableNamePrefixes": [],
+          "tableNamePostfixes": [],
+          "tables": [
+            {
+              "tableName": "person",
+              "javaName": "APerson",
+              "columns": [],
+              "ignoreColumns": []
+            }
+          ],
+          "excludeTables": [
+            "schema_history"
+          ]
+        }
+      ],
+      "codeGen": {
+        "outputDir": "src/main/java",
+        "generic": true,
+        "rootPackage": "com.mycompany.db.generated"
+      },
+      "nameConversionType": "snakeToMixedCase"
+    }
+  ]
+}

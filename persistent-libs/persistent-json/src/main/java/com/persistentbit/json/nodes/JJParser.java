@@ -239,6 +239,28 @@ public final class JJParser
                 case ' ':
                     next();
                     break;
+				case '/':
+					next(); //skip /
+					if(current() != '*'){
+						throw new JJParserException(row,col,"Expected start of comment: '/*'");
+					}
+					next(); //skip *
+					while(true){
+						if(eof()){
+							throw new JJParserException(row,col,"Expected comment closing '*/");
+						}
+						if(current() != '*'){
+							next();
+							continue;
+						}
+						next(); //skip *
+						if(current() == '/'){
+							next(); //skip /
+							break;
+						}
+
+					}
+					break;
                 default:
                     return;
             }
@@ -278,6 +300,7 @@ public final class JJParser
         }
 
     }
+
     private boolean eof() {
         return c == -1;
     }

@@ -32,10 +32,10 @@ public class JField extends BaseValueClass{
 	private final String initValue;
 
 	public JField(String name, String definition, boolean isStatic, boolean isFinal,
+				  AccessLevel accessLevel,
 				  String doc,
 				  Class primitiveType,
 				  PSet<JImport> imports,
-				  AccessLevel accessLevel,
 				  PList<String> annotations,
 				  String initValue
 	) {
@@ -62,10 +62,10 @@ public class JField extends BaseValueClass{
 
 	public JField(String name, String definition, Class primitiveType) {
 		this(name, definition, false, true,
+			AccessLevel.Private,
 			null,
 			primitiveType,
 			PSet.empty(),
-			AccessLevel.Private,
 			PList.empty(),
 			null
 		);

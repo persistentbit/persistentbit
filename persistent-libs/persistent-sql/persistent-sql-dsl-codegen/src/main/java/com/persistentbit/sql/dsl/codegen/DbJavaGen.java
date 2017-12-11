@@ -6,11 +6,7 @@ import com.persistentbit.javacodegen.GeneratedJavaSource;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.meta.DbMetaDataImporter;
 import com.persistentbit.sql.meta.data.DbMetaDatabase;
-import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.utils.exceptions.ToDo;
-
-import java.sql.Connection;
-import java.util.function.Supplier;
 
 /**
  * Generate Java code for a Database Substema
@@ -19,26 +15,26 @@ import java.util.function.Supplier;
  * @since 14/09/16
  */
 public  class DbJavaGen{
-	static public Result<DbJavaGen> createGenerator(Supplier<Result<Connection>> connector, DbJavaGenOptions options){
+	static public Result<DbJavaGen> createGenerator(DbJavaGenOptions options){
 		return Result.function(options).code(log ->
-			findImporterService(connector,options)
+			findImporterService(options)
 				.flatMap(importer ->
-					findJavaGenService(connector,options)
-						.map(javaGenService -> new DbJavaGen(importer,javaGenService,connector,options))
+					findJavaGenService(options)
+						.map(javaGenService -> new DbJavaGen(importer,javaGenService,options))
 				)
 
 		);
 
 	}
 
-	static private Result<DbJavaGenService> findJavaGenService(Supplier<Result<Connection>> connector,DbJavaGenOptions options){
+	static private Result<DbJavaGenService> findJavaGenService(DbJavaGenOptions options){
 		return Result.function().code(log -> {
 			PList<DbJavaGenService> services = DbJavaGenService.getInstances();
 			services.map(i -> i.getDescription()).forEach(i -> {
 				log.info("Got DbJavaGenService: " + i);
 			});
-			Supplier<DbTransaction> transSup = ()-> DbTransaction.create(connector);
-			DbMetaDatabase db = DbMetaDataImporter.getDatabase().run(transSup.get()).orElseThrow();
+
+			DbMetaDatabase db = DbMetaDataImporter.getDatabase().run(options.getTransSupplier().get()).orElseThrow();
 
 			boolean fullSupport = options.getFullDbSupport();
 			DbJavaGenService result = services.find(i -> {
@@ -56,14 +52,14 @@ public  class DbJavaGen{
 		});
 	}
 
-	static private Result<DbImporterService> findImporterService(Supplier<Result<Connection>> connector,DbJavaGenOptions options){
+	static private Result<DbImporterService> findImporterService(DbJavaGenOptions options){
 		return Result.function().code(log -> {
 			PList<DbImporterService> importers = DbImporterService.getInstances();
 			importers.map(i -> i.getDescription()).forEach(i -> {
 				log.info("Got Import service : " + i);
 			});
-			Supplier<DbTransaction> transSup = ()-> DbTransaction.create(connector);
-			DbMetaDatabase db = DbMetaDataImporter.getDatabase().run(transSup.get()).orElseThrow();
+
+			DbMetaDatabase db = DbMetaDataImporter.getDatabase().run(options.getTransSupplier().get()).orElseThrow();
 
 			boolean fullSupport = options.getFullDbSupport();
 			DbImporterService importerService = importers.find(i -> {
@@ -84,16 +80,13 @@ public  class DbJavaGen{
 
 	private final DbImporterService importerService;
 	private final DbJavaGenService javaGenService;
-	private final Supplier<Result<Connection>> connector;
 	private final DbJavaGenOptions options;
 
 	private DbJavaGen(DbImporterService importerService, DbJavaGenService javaGenService,
-					 Supplier<Result<Connection>> connector,
 					 DbJavaGenOptions options
 	) {
 		this.importerService = importerService;
 		this.javaGenService = javaGenService;
-		this.connector = connector;
 		this.options = options;
 	}
 
@@ -103,7 +96,7 @@ public  class DbJavaGen{
 				.setNameTransformer(options.getNameTransformer())
 				.setRootPackage(options.getRootPackage())
 				.setTableSelection(options.getSelection())
-				.setTransactionSupplier(()-> DbTransaction.create(connector))
+				.setTransactionSupplier(options.getTransSupplier())
 			);
 			return importerService.importDb(importSettings)
 				.flatMap(def ->

@@ -74,7 +74,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 			Result<PList<GeneratedJavaSource>> genSourceTableExpr =
 				UPStreams.fromSequence(data.getTables().map(t -> generateTableExprSource(t))).map(PStream::plist);
 
-			Result<GeneratedJavaSource> dbSource = generateDbSource(rootPackage,data.getTables(),options.getFullDbSupport());
+			Result<GeneratedJavaSource> dbSource = generateDbSource(options.getDbJavaName(),rootPackage,data.getTables(),options.getFullDbSupport());
 
 			Result<PList<GeneratedJavaSource>> result =
 				genSourceEnums.flatMap(res -> genSourceCustomTypes.map(res::plusAll));
@@ -95,9 +95,9 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 		return GenericDbContext.class;
 	}
 
-	protected Result<GeneratedJavaSource> generateDbSource(String rootPackage, PList<DbJavaTable> tables, boolean isFullDb){
+	protected Result<GeneratedJavaSource> generateDbSource(String dbName, String rootPackage, PList<DbJavaTable> tables, boolean isFullDb){
 		return Result.function().code(l -> {
-			JClass cls = new JClass("Db").extendsDef(getDbClass(isFullDb).getSimpleName());
+			JClass cls = new JClass(dbName).extendsDef(getDbClass(isFullDb).getSimpleName());
 			cls = cls.addImport(getDbClass(isFullDb));
 			cls = cls.addImport(getContextClass(isFullDb));
 
@@ -110,7 +110,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 
 
 			}
-			JMethod constructor = new JMethod("Db")
+			JMethod constructor = new JMethod(dbName)
 				.withAccessLevel(AccessLevel.Public)
 				.addArg(new JArgument(getContextClass(isFullDb).getSimpleName(), "context"))
 				.addImport(JImport.forClass(DbContext.class));
@@ -126,7 +126,7 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 			});
 			cls = cls.addMethod(constructor);
 
-			JMethod emptyConstructor = new JMethod("Db")
+			JMethod emptyConstructor = new JMethod(dbName)
 				.withAccessLevel(AccessLevel.Public);
 			emptyConstructor = emptyConstructor.withCode(pw -> {
 				pw.println("this(new " + getContextClass(isFullDb).getSimpleName()+ "());");

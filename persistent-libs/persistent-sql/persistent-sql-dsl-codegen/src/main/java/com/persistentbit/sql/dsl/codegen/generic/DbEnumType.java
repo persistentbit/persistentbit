@@ -5,9 +5,9 @@ import java.util.Objects;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.collections.PList;
 import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.DefaultValue;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.javacodegen.annotations.DefaultEmpty;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.sql.meta.data.DbMetaSchema;
 
@@ -22,7 +22,7 @@ import com.persistentbit.sql.meta.data.DbMetaSchema;
 public class DbEnumType {
 	private  final	DbMetaSchema	schema;
 	private  final	String	name;
-	@DefaultValue("PList.empty()")
+	@DefaultEmpty
 	private  final	PList<Tuple2<String,String>>	valueAndJavaNameList;
 	private  final	String	javaPackageName;
 	private  final	String	javaClassName;

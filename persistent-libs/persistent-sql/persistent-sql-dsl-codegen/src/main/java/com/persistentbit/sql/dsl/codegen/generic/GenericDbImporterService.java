@@ -46,7 +46,6 @@ public class GenericDbImporterService implements DbImporterService{
 			String                  rootPackage     = settings.getRootPackage();
 			DbNameTransformer       nameTransformer = settings.getNameTransformer();
 
-			DbDefinition result = new DbDefinition();
 
 			log.info("Getting all Schemas");
 			PList<DbMetaSchema> allSchemas = DbMetaDataImporter

@@ -14,6 +14,7 @@ import com.persistentbit.sql.meta.data.DbMetaSchema;
 import com.persistentbit.sql.meta.data.DbMetaTable;
 import com.persistentbit.sql.transactions.DbTransaction;
 
+import java.io.File;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -43,7 +44,15 @@ public class DbCodeGenConfigLoader{
 					.flatMap(nameTrans ->
 						createTableSelection(transSup,instance)
 						.map(tableSel ->
-							new DbJavaGenOptions(tableSel,nameTrans,instance.getCodeGen().getRootPackage(),instance.getCodeGen().getGeneric() == false)
+							DbJavaGenOptions.build(b -> b
+								.setTransSupplier(transSup)
+								.setFullDbSupport(instance.getCodeGen().getGeneric() == false)
+								.setNameTransformer(nameTrans)
+								.setOutputDirectory(new File(instance.getCodeGen().getOutputDir()))
+								.setRootPackage(instance.getCodeGen().getRootPackage())
+								.setSelection(tableSel)
+								.setDbJavaName(instance.getJavaDbName())
+							)
 						)
 					)
 				)
@@ -59,7 +68,7 @@ public class DbCodeGenConfigLoader{
 				,con.getUserName().orElse(null)
 				,con.getPassword().orElse(null)
 
-			).map(c -> c.pooledConnector(1))
+			)//.map(c -> c.pooledConnector(1))
 				.map(connector ->() -> DbTransaction.create(connector))
 		);
 	}
@@ -67,13 +76,14 @@ public class DbCodeGenConfigLoader{
 	static public Result<DbNameTransformer> createNameTransformer(Instance instance){
 		return Result.function(instance).code(log -> {
 			Function<String,String> toJavaName = instance.getNameConversionType().transformer();
+			Function<String,String> toFieldJavaName = instance.getNameConversionType().fieldTransformer();
 			Function<DbMetaCatalog,String> catalogNameToJava = meta ->
-				meta.getName().map(n -> toJavaName.apply(n)).orElse("catalog");
+				meta.getName().map(n -> toJavaName.apply(n)).orElse("catalog").toLowerCase();
 
 			Function<DbMetaSchema,String> schemaNameToJava = meta ->
 				instance.getSchemas().find(sd -> sd.getSchemaName().equals(meta.getName()) && sd.getCatalogName().equals(meta.getCatalog().getName()))
 						.flatMap(sd -> sd.getJavaName())
-						.orElse(toJavaName.apply(meta.getName().orElse("schema")));
+						.orElse(toJavaName.apply(meta.getName().orElse("schema")).toLowerCase());
 
 			Function<DbMetaTable,String> tableNameToJava = meta ->
 				instance.getSchemas().lazy()
@@ -87,7 +97,7 @@ public class DbCodeGenConfigLoader{
 						.flatMap(sd -> sd.getTables().find(t -> t.getTableName().equals(tableMeta.getName())))
 						.flatMap(td -> td.getColumns().find(col -> col.getColumnName().equals(columnMeta.getName())))
 						.map(cd -> cd.getJavaName())
-						.orElse(toJavaName.apply(columnMeta.getName()));
+						.orElse(toFieldJavaName.apply(columnMeta.getName()));
 			Function<String,String> customTypeNameToJava = toJavaName;
 			return Result.success(new DbNameTransformer(
 				catalogNameToJava,schemaNameToJava,tableNameToJava,columNameToJava,customTypeNameToJava
@@ -124,12 +134,12 @@ public class DbCodeGenConfigLoader{
 		};
 
 		return Result.function(instance).code(log -> {
-			Result<JavaGenTableSelection> result = new JavaGenTableSelection(transSup)
-				.addCatalogs(cat -> catalogNames.contains(cat.getName().orElse(null)));
+			Result<JavaGenTableSelection> result = new JavaGenTableSelection()
+				.addCatalogs(cat -> catalogNames.contains(cat.getName().orElse(null))).run(transSup.get());
 
-			result = result.flatMap(jts -> jts.addSchemas(schemaOk));
+			result = result.flatMap(jts -> jts.addSchemas(schemaOk).run(transSup.get()));
 
-			result = result.flatMap(jts -> jts.addTablesAndViews(tableOk));
+			result = result.flatMap(jts -> jts.addTablesAndViews(tableOk).run(transSup.get()));
 
 			return result;
 		});

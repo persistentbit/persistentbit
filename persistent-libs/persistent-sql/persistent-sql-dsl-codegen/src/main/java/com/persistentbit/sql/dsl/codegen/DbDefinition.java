@@ -4,13 +4,13 @@ import java.lang.SuppressWarnings;
 import com.persistentbit.sql.dsl.codegen.dbjavafields.DbJavaTable;
 import com.persistentbit.javacodegen.annotations.NoGet;
 import com.persistentbit.javacodegen.annotations.NOT;
+import java.util.Objects;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.sql.dsl.codegen.generic.DbEnumType;
 import com.persistentbit.collections.PSet;
 import com.persistentbit.collections.PList;
 import java.util.function.Function;
 import com.persistentbit.functions.ThrowingFunction;
-import com.persistentbit.javacodegen.annotations.DefaultValue;
 import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.result.Result;
 import com.persistentbit.code.annotations.Nullable;
@@ -27,51 +27,43 @@ import com.persistentbit.sql.dsl.codegen.generic.DbCustomType;
  */
 @CaseClass
 public class DbDefinition {
-	@DefaultValue("PList.empty()")
 	private  final	PList<DbJavaTable>	tables;
-	@DefaultValue("PSet.empty()")
 	private  final	PSet<DbCustomType>	customTypes;
-	@DefaultValue("PSet.empty()")
 	private  final	PSet<DbEnumType>	enumTypes;
-	@DefaultValue("PSet.empty()")
 	private  final	PSet<DbMetaUDT>	domainObjects;
 	
 	
 	@Generated
-	public DbDefinition(@Nullable PList<DbJavaTable> tables, @Nullable PSet<DbCustomType> customTypes, @Nullable PSet<DbEnumType> enumTypes, @Nullable PSet<DbMetaUDT> domainObjects){
-			this.tables = tables == null ? PList.empty() : tables;
-			this.customTypes = customTypes == null ? PSet.empty() : customTypes;
-			this.enumTypes = enumTypes == null ? PSet.empty() : enumTypes;
-			this.domainObjects = domainObjects == null ? PSet.empty() : domainObjects;
-	}
-	@Generated
-	public DbDefinition(){
-			this(null, null, null, null);
+	public DbDefinition(PList<DbJavaTable> tables, PSet<DbCustomType> customTypes, PSet<DbEnumType> enumTypes, PSet<DbMetaUDT> domainObjects){
+			this.tables = Objects.requireNonNull(tables, "tables can not be null");
+			this.customTypes = Objects.requireNonNull(customTypes, "customTypes can not be null");
+			this.enumTypes = Objects.requireNonNull(enumTypes, "enumTypes can not be null");
+			this.domainObjects = Objects.requireNonNull(domainObjects, "domainObjects can not be null");
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder {
+	static public class Builder<_T1, _T2, _T3, _T4> {
 		private	PList<DbJavaTable>	tables;
 		private	PSet<DbCustomType>	customTypes;
 		private	PSet<DbEnumType>	enumTypes;
 		private	PSet<DbMetaUDT>	domainObjects;
 		
 		
-		public  Builder	setTables(@Nullable PList<DbJavaTable> tables){
+		public  Builder<SET, _T2, _T3, _T4>	setTables(PList<DbJavaTable> tables){
 			this.tables	=	tables;
-			return this;
+			return (Builder<SET, _T2, _T3, _T4>)this;
 		}
-		public  Builder	setCustomTypes(@Nullable PSet<DbCustomType> customTypes){
+		public  Builder<_T1, SET, _T3, _T4>	setCustomTypes(PSet<DbCustomType> customTypes){
 			this.customTypes	=	customTypes;
-			return this;
+			return (Builder<_T1, SET, _T3, _T4>)this;
 		}
-		public  Builder	setEnumTypes(@Nullable PSet<DbEnumType> enumTypes){
+		public  Builder<_T1, _T2, SET, _T4>	setEnumTypes(PSet<DbEnumType> enumTypes){
 			this.enumTypes	=	enumTypes;
-			return this;
+			return (Builder<_T1, _T2, SET, _T4>)this;
 		}
-		public  Builder	setDomainObjects(@Nullable PSet<DbMetaUDT> domainObjects){
+		public  Builder<_T1, _T2, _T3, SET>	setDomainObjects(PSet<DbMetaUDT> domainObjects){
 			this.domainObjects	=	domainObjects;
-			return this;
+			return (Builder<_T1, _T2, _T3, SET>)this;
 		}
 	}
 	/**
@@ -88,7 +80,7 @@ public class DbDefinition {
 	 * @return A new instance of {@link DbDefinition}
 	 */
 	@Generated
-	public  DbDefinition	withTables(@Nullable PList<DbJavaTable> tables){
+	public  DbDefinition	withTables(PList<DbJavaTable> tables){
 		return new DbDefinition(tables, customTypes, enumTypes, domainObjects);
 	}
 	/**
@@ -105,7 +97,7 @@ public class DbDefinition {
 	 * @return A new instance of {@link DbDefinition}
 	 */
 	@Generated
-	public  DbDefinition	withCustomTypes(@Nullable PSet<DbCustomType> customTypes){
+	public  DbDefinition	withCustomTypes(PSet<DbCustomType> customTypes){
 		return new DbDefinition(tables, customTypes, enumTypes, domainObjects);
 	}
 	/**
@@ -122,7 +114,7 @@ public class DbDefinition {
 	 * @return A new instance of {@link DbDefinition}
 	 */
 	@Generated
-	public  DbDefinition	withEnumTypes(@Nullable PSet<DbEnumType> enumTypes){
+	public  DbDefinition	withEnumTypes(PSet<DbEnumType> enumTypes){
 		return new DbDefinition(tables, customTypes, enumTypes, domainObjects);
 	}
 	/**
@@ -139,7 +131,7 @@ public class DbDefinition {
 	 * @return A new instance of {@link DbDefinition}
 	 */
 	@Generated
-	public  DbDefinition	withDomainObjects(@Nullable PSet<DbMetaUDT> domainObjects){
+	public  DbDefinition	withDomainObjects(PSet<DbMetaUDT> domainObjects){
 		return new DbDefinition(tables, customTypes, enumTypes, domainObjects);
 	}
 	@Generated
@@ -186,13 +178,13 @@ public class DbDefinition {
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static DbDefinition	build(ThrowingFunction<Builder, Builder, Exception> setter){
+	public  static DbDefinition	build(ThrowingFunction<Builder<NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET>, Exception> setter){
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new DbDefinition(b.tables, b.customTypes, b.enumTypes, b.domainObjects);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Result<DbDefinition>	buildExc(ThrowingFunction<Builder, Builder,Exception> setter){
-		return Result.noExceptions(() -> setter.apply(new Builder())).mapExc(b -> new DbDefinition(b.tables, b.customTypes, b.enumTypes, b.domainObjects));
+	public  static Result<DbDefinition>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT,NOT>, Builder<SET,SET,SET,SET>,Exception> setter){
+		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new DbDefinition(b.tables, b.customTypes, b.enumTypes, b.domainObjects));
 	}
 }

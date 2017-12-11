@@ -63,6 +63,7 @@
                 <artifactId>persistent-sql-javacodegen-maven-plugin</artifactId>
                 <version>${project.version}</version>
 
+<!--
                 <configuration>
                     <driver>org.postgresql.Driver</driver>
                     <username>persistenttest_usr</username>
@@ -70,7 +71,7 @@
                     <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
                     <url>jdbc:postgresql://localhost:5432/persistenttest?currentSchema=persistenttest</url>
                     <createGenericDbCode>false</createGenericDbCode>
-                </configuration>
+                </configuration>-->
                 <dependencies>
                     <dependency>
                         <groupId>org.postgresql</groupId>

@@ -94,7 +94,7 @@ public class DbTransactionImpl implements DbTransaction{
 			} else {
 				l.info("Transaction committed");
 				currentConnection.commit();
-				currentConnection = null;
+				//currentConnection = null;
 			}
 			close();
 			return codeResult;

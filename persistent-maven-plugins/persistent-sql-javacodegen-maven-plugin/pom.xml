@@ -17,6 +17,11 @@
             <artifactId>persistent-sql-dsl-codegen</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-json</artifactId>
+            <version>${project.version}</version>
+        </dependency>
         <!--   maven plugin dependencies -->
         <dependency>
             <groupId>org.apache.maven</groupId>

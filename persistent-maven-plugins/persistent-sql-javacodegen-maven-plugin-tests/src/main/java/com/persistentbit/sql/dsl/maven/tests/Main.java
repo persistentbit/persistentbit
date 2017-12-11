@@ -1,7 +1,8 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
-import com.persistentbit.db.generated.Db;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.*;
+
+import com.mycompany.db.generated.DbInvoices;
+import com.mycompany.db.generated.persistenttest.myschema.*;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
@@ -16,6 +17,8 @@ import com.persistentbit.tuples.Tuple2;
 
 import java.sql.Connection;
 import java.util.function.Supplier;
+
+
 
 /**
  * TODOC
@@ -62,8 +65,8 @@ public class Main{
 
 		Supplier<DbTransaction> newTrans = ()-> transSupplier.map(Supplier::get).orElseThrow();
 
-		Db db = new Db();
-		TPersonTable persoon = db.person.alias("menchen");
+		DbInvoices    db      = new DbInvoices();
+		TAPersonTable persoon = db.aPerson.alias("menchen");
 		Selection per = persoon.query()
 				.leftJoin(db.company).on(db.company.ownerPersonId.eq(persoon.id))
 			   .where(persoon.street.like("Snoekstraat").and(persoon.houseNumber.eq(77)))
@@ -98,18 +101,18 @@ public class Main{
 		System.out.println(allCompany.query().selection(allCompany.all()));
 		System.out.println("------------------------------");
 
-		Selection<Tuple2<Person,Company>> persAndCompSel = persoon.query()
-			   .leftJoin(company).on(persoon.id.eq(company.id))
-			   .selection(persoon,company);
+		Selection<Tuple2<APerson,Company>> persAndCompSel = persoon.query()
+																   .leftJoin(company).on(persoon.id.eq(company.id))
+																   .selection(persoon,company);
 
 		persAndCompSel.run(newTrans.get()).orElseThrow().forEach(System.out::println);
 
 		System.out.println("------------------------------");
 
-		DSelectionTable<Tuple2<Person,Company>> subSelPC = persAndCompSel.asTableExpr("pc");
-		DExprTuple2<Person,Company> subSelPCTuple = DExprTuple2.cast(subSelPC.all());
+		DSelectionTable<Tuple2<APerson,Company>> subSelPC = persAndCompSel.asTableExpr("pc");
+		DExprTuple2<APerson,Company> subSelPCTuple = DExprTuple2.cast(subSelPC.all());
 
-		TPerson subSelPerson = TPerson.cast(subSelPCTuple.v1());
+		TAPerson  subSelPerson  = TAPerson.cast(subSelPCTuple.v1());
 		TCompany subSelCompany = TCompany.cast(subSelPCTuple.v2());
 
 		invoice.query()
@@ -133,7 +136,7 @@ public class Main{
 			   .forEach(r -> System.out.println(r));
 
 
-		Person katrien = Person.build(b -> b
+		APerson katrien = APerson.build(b -> b
 			.setId(0)
 			.setUserName("KatrienMuys")
 			.setStreet("BakkerijStraat")
@@ -150,9 +153,9 @@ public class Main{
 		//));
 		//System.out.println(ip);
 
-		System.out.println(db.person.insert(katrien).run(newTrans.get()).orElseThrow());
+		System.out.println(db.aPerson.insert(katrien).run(newTrans.get()).orElseThrow());
 
-		db.person.query().selection(db.person).run(newTrans.get()).orElseThrow().forEach(System.out::println);
+		db.aPerson.query().selection(db.aPerson).run(newTrans.get()).orElseThrow().forEach(System.out::println);
 
 		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
 		//System.out.println(withSubCompany);

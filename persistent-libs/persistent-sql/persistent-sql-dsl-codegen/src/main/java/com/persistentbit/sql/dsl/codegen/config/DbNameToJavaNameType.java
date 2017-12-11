@@ -29,4 +29,19 @@ public enum DbNameToJavaNameType{
 				throw new ToDo(this.name());
 		}
 	}
+
+	public Function<String,String> fieldTransformer() {
+		switch(this){
+			case asIs:
+				return s -> s;
+			case toLowerCase:
+				return s -> s.toLowerCase();
+			case toUpperCase:
+				return s -> s.toUpperCase();
+			case snakeToMixedCase:
+				return s -> UString.firstLowerCase(UString.snake_toCamelCase(s));
+			default:
+				throw new ToDo(this.name());
+		}
+	}
 }
