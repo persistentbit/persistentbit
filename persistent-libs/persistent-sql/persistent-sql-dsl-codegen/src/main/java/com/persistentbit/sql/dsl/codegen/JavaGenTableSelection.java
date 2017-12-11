@@ -1,22 +1,27 @@
 package com.persistentbit.sql.dsl.codegen;
 
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PList;
+import java.lang.SuppressWarnings;
 import com.persistentbit.collections.UPStreams;
-import com.persistentbit.functions.ThrowingFunction;
-import com.persistentbit.javacodegen.annotations.*;
-import com.persistentbit.printable.PrintableText;
-import com.persistentbit.result.Result;
-import com.persistentbit.sql.meta.DbMetaDataImporter;
+import com.persistentbit.javacodegen.annotations.NoGet;
+import com.persistentbit.javacodegen.annotations.NOT;
 import com.persistentbit.sql.meta.data.DbMetaCatalog;
-import com.persistentbit.sql.meta.data.DbMetaSchema;
-import com.persistentbit.sql.meta.data.DbMetaTable;
-import com.persistentbit.sql.transactions.DbTransaction;
-
 import java.util.Objects;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.collections.PList;
 import java.util.function.Function;
-import java.util.function.Predicate;
+import com.persistentbit.javacodegen.annotations.*;
+import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.sql.transactions.DbTransaction;
+import com.persistentbit.sql.meta.data.DbMetaTable;
+import com.persistentbit.result.Result;
+import com.persistentbit.printable.PrintableText;
+import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.javacodegen.annotations.SET;
+import com.persistentbit.sql.meta.data.DbMetaSchema;
+import com.persistentbit.sql.meta.DbMetaDataImporter;
+import com.persistentbit.javacodegen.annotations.NoWith;
 import java.util.function.Supplier;
+import java.util.function.Predicate;
 
 /**
  * TODOC

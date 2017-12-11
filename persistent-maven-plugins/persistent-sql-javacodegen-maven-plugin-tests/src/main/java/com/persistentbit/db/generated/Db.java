@@ -1,13 +1,8 @@
 package com.persistentbit.db.generated;
 
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TPersonTable;
+import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.*;
 import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbContext;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceTable;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TSchemaHistoryTable;
 import com.persistentbit.sql.dsl.generic.DbGeneric;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TCompanyTable;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.TInvoiceLineTable;
-import com.persistentbit.sql.dsl.exprcontext.DbContext;
 
 public class Db extends DbGeneric {
 	public  final	TCompanyTable	company;

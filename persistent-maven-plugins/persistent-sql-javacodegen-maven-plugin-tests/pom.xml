@@ -24,11 +24,11 @@
             <artifactId>postgresql</artifactId>
             <version>${version.postgresql}</version>
         </dependency>
-        <!--<dependency>
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${version.h2}</version>
-        </dependency>-->
+        </dependency>
         <dependency>
             <groupId>com.persistentbit</groupId>
             <artifactId>persistent-sql-connect</artifactId>
@@ -62,13 +62,14 @@
                 <groupId>com.persistentbit</groupId>
                 <artifactId>persistent-sql-javacodegen-maven-plugin</artifactId>
                 <version>${project.version}</version>
+
                 <configuration>
                     <driver>org.postgresql.Driver</driver>
-                    <url>jdbc:postgresql://localhost:5432/persistenttest?currentSchema=persistenttest</url>
                     <username>persistenttest_usr</username>
                     <password>persistenttest_pwd</password>
                     <outputDirectory>${project.build.sourceDirectory}</outputDirectory>
-                    <createGenericDbCode>true</createGenericDbCode>
+                    <url>jdbc:postgresql://localhost:5432/persistenttest?currentSchema=persistenttest</url>
+                    <createGenericDbCode>false</createGenericDbCode>
                 </configuration>
                 <dependencies>
                     <dependency>
@@ -80,6 +81,21 @@
                         <groupId>com.persistentbit</groupId>
                         <artifactId>persistent-sql-dsl-codegen-postgres</artifactId>
                         <version>3.0-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.postgresql</groupId>
+                        <artifactId>postgresql</artifactId>
+                        <version>${version.postgresql}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.persistentbit</groupId>
+                        <artifactId>persistent-sql-dsl-codegenh2</artifactId>
+                        <version>3.0-SNAPSHOT</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.h2database</groupId>
+                        <artifactId>h2</artifactId>
+                        <version>${version.h2}</version>
                     </dependency>
                 </dependencies>
             </plugin>

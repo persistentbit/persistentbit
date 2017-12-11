@@ -16,10 +16,14 @@ module persistent.sql.dsl.codegen {
 	requires persistent.utils;
 	requires java.sql;
 	requires persistent.sql.connect;
+	requires persistent.json;
 
 	exports com.persistentbit.sql.dsl.codegen;
 	exports com.persistentbit.sql.dsl.codegen.generic;
 	exports com.persistentbit.sql.dsl.codegen.dbjavafields;
+
+	opens com.persistentbit.sql.dsl.codegen.config;
+
 	uses com.persistentbit.sql.dsl.codegen.DbImporterService;
 	uses com.persistentbit.sql.dsl.codegen.DbJavaGenService;
 	provides com.persistentbit.sql.dsl.codegen.DbImporterService with com.persistentbit.sql.dsl.codegen.generic.GenericDbImporterService;
