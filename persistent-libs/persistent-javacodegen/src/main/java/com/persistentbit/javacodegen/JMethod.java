@@ -84,7 +84,7 @@ public class JMethod extends BaseValueClass{
 		return copyWith("arguments",arguments.plus(arg));
 	}
 	public JMethod addArg(String type, String name, boolean isNullable, String...annotations){
-		return addArg(new JArgument(type,name,isNullable,PList.val(annotations),PSet.empty()));
+		return addArg(new JArgument(type,name,isNullable,PList.val(annotations),PSet.empty(),false));
 	}
 
 	public JMethod doc(String doc){

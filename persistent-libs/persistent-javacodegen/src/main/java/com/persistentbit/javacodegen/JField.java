@@ -302,6 +302,6 @@ public class JField extends BaseValueClass{
 		if(isRequired() == false && getPrimitiveType().isPresent()) {
 			def = getNullableDefinition();
 		}
-		return new JArgument(def, name, isRequired() == false, PList.empty(), getAllImports());
+		return new JArgument(def, name, isRequired() == false, PList.empty(), getAllImports(),false);
 	}
 }

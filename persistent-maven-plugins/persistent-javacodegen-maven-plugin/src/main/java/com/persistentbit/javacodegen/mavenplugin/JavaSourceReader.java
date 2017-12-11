@@ -119,7 +119,11 @@ public class JavaSourceReader{
 				javaFile = javaFile.withDoc(cu.getComment().get().toString());
 			}
 			for(ImportDeclaration imp : cu.getImports()){
-				javaFile = javaFile.addImport(new JImport(imp.getNameAsString(), imp.isStatic()));
+				String name = imp.getNameAsString();
+				if(imp.isAsterisk()){
+					name += ".*";
+				}
+				javaFile = javaFile.addImport(new JImport(name, imp.isStatic()));
 			}
 			for (TypeDeclaration<?> type : types) {
 				if(type instanceof ClassOrInterfaceDeclaration){
@@ -230,10 +234,11 @@ public class JavaSourceReader{
 			m = m.addAnnotation(ann.toString());
 		}
 		for(Parameter param : method.getParameters()){
-			param.getAnnotations();
-			param.getNameAsString();
-			param.getType();
+
 			JArgument arg = new JArgument(param.getType().asString(),param.getNameAsString());
+			if(param.isVarArgs()){
+				arg = arg.asVarArg();
+			}
 			for(AnnotationExpr ann : param.getAnnotations()){
 				arg = arg.addAnnotation(ann.toString());
 			}

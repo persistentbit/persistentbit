@@ -17,19 +17,24 @@ public class JArgument extends BaseValueClass{
 	private boolean isNullable;
 	private final PList<String> annotations;
 	private final PSet<JImport> imports;
+	private final boolean isVarArg;
 
-	public JArgument(String type, String name, boolean isNullable, PList<String> annotations, PSet<JImport> imports) {
+	public JArgument(String type, String name, boolean isNullable, PList<String> annotations, PSet<JImport> imports, boolean isVarArg) {
 		this.type = type;
 		this.name = name;
 		this.isNullable = isNullable;
 		this.annotations = annotations;
 		this.imports = imports;
+		this.isVarArg = isVarArg;
 	}
 	public JArgument(String type, String name){
-		this(type,name,false, PList.empty(),PSet.empty());
+		this(type,name,false, PList.empty(),PSet.empty(),false);
 	}
 	public JArgument asNullable(){
 		return copyWith("isNullable",true);
+	}
+	public JArgument asVarArg() {
+		return copyWith("isVarArg",true);
 	}
 	public boolean isNullable(){
 		return isNullable;
@@ -45,7 +50,7 @@ public class JArgument extends BaseValueClass{
 			annStr = "@Nullable" + " " + annStr;
 		}
 		annStr = annStr.trim().isEmpty() ? "" : annStr.trim() + " ";
-		return  annStr + type + " " + name;
+		return  annStr + type + (isVarArg ? "..." : "") + " " + name;
 	}
 
 	public JArgument	addImport(JImport imp){
