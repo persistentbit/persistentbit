@@ -13,4 +13,5 @@ module persistent.log {
 	exports com.persistentbit.logging.cleaning;
 	exports com.persistentbit.logging.entries;
 	exports com.persistentbit.logging.printing;
+	opens com.persistentbit.logging.entries;
 }
