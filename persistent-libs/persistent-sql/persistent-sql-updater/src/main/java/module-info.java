@@ -13,6 +13,7 @@ module persistent.sql.updater {
 	requires java.sql;
 	requires persistent.utils;
 	requires persistent.code.annotations;
+	requires persistent.parser;
 
 	exports com.persistentbit.sql.updater;
 }

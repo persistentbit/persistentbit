@@ -39,6 +39,11 @@
             <artifactId>persistent-utils</artifactId>
             <version>3.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-parser</artifactId>
+            <version>3.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 
