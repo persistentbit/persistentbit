@@ -1,6 +1,7 @@
 package com.persistentbit.sql.updater.parser;
 
 import com.persistentbit.result.Result;
+import com.persistentbit.string.withprops.Text;
 import com.persistentbit.utils.exceptions.ToDo;
 
 /**
@@ -29,8 +30,8 @@ public class CompareCond implements Cond{
 
 	@Override
 	public Result<Boolean> run(UpdateContext context) {
-		String left = this.left.toString(context);
-		String right = this.right.toString(context);
+		String left = this.left.toString(context::getProperty);
+		String right = this.right.toString(context::getProperty);
 		switch(op){
 			case equal:
 				return Result.success(left.equals(right));

@@ -41,17 +41,28 @@ public class DbChangeParser {
 
 	}
 
-	static private Parser<Sql>	sqlStatement() {
-		return toDo("sqlStatement");
+	static private Parser<Sql> sqlStatement(){
+		return sqlStatement(";");
+	}
 
+
+
+
+	static private Parser<Sql>	sqlStatement(String delimiter) {
+		Parser<String> withDelimiter = Scan.endsWith(delimiter);
+		withDelimiter = withDelimiter
+			.map(str -> str.substring(0,str.length()-delimiter.length()));
+
+		//return new Sql(str)
+		return Parser.toDo("sqlStatement");
 	}
 
 	static private Parser<Statement> singleStatement() {
-		return orOf(
+		return Parser.orOf(
 			ifStatement(),
 			letStatement(),
 			includeStatement(),
-			not("Expected sql",key("change")).skipAnd(sqlStatement()
+			not("Expected sql",key("change")).skipAnd(sqlStatement())
 		);
 	}
 

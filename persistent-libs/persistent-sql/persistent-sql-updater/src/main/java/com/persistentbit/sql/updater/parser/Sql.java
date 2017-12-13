@@ -2,6 +2,7 @@ package com.persistentbit.sql.updater.parser;
 
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
+import com.persistentbit.string.withprops.Text;
 
 /**
  * TODOC
@@ -20,11 +21,11 @@ public class Sql implements Statement{
 	@Override
 	public Result<OK> run(UpdateContext context) {
 		return Result.function(this).code(log -> {
-			return context.executeSql(sql.toString(context));
+			return context.executeSql(sql.toString(context::getProperty));
 		});
 	}
 
 	public Result<Integer>	getResultCount(UpdateContext context){
-		return context.getSqlResultCount(sql.toString(context));
+		return context.getSqlResultCount(sql.toString(context::getProperty));
 	}
 }

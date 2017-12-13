@@ -231,7 +231,7 @@ public interface Parser<T>{
 	}
 
 
-	static <R> Parser<R> orOf(Parser<R>... others) {
+	static <R> Parser<R> orOf(Parser<? extends R>... others) {
 		for(int t=0; t<others.length; t++){
 			if(others[t] == null){
 				throw new RuntimeException("Parser at " + t + " is null");
@@ -239,9 +239,9 @@ public interface Parser<T>{
 		}
 		return source -> {
 
-			ParseResult<R> longestResult = null;
-			for(Parser<R> other : others) {
-				ParseResult<R> otherResult = other.parse(source);
+			ParseResult<? extends R> longestResult = null;
+			for(Parser<? extends R> other : others) {
+				ParseResult<? extends R> otherResult = other.parse(source);
 				if(otherResult.isSuccess()) {
 					return ParseResult.success(otherResult.getSource(), otherResult.getValue());
 				}
@@ -261,7 +261,7 @@ public interface Parser<T>{
 			if(longestResult == null) {
 				longestResult = ParseResult.failure(source, "No parsers defined for Or parser");
 			}
-			return longestResult;
+			return (ParseResult<R>)longestResult;
 		};
 	}
 
