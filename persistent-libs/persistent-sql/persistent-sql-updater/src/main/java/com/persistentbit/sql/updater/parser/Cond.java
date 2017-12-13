@@ -1,5 +1,6 @@
 package com.persistentbit.sql.updater.parser;
 
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.Result;
 
 /**
@@ -11,4 +12,6 @@ import com.persistentbit.result.Result;
 public interface Cond{
 
 	Result<Boolean> run(UpdateContext context);
+
+	PrintableText print();
 }

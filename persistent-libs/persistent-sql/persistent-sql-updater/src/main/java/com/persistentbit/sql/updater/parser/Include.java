@@ -1,7 +1,9 @@
 package com.persistentbit.sql.updater.parser;
 
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -15,5 +17,10 @@ public class Include implements Statement{
 	public Result<OK> run(UpdateContext context
 	) {
 		return Result.TODO();
+	}
+
+	@Override
+	public PrintableText print() {
+		throw new ToDo();
 	}
 }

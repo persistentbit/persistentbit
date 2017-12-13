@@ -1,7 +1,9 @@
 package com.persistentbit.sql.updater.parser;
 
+import com.persistentbit.collections.PSet;
 import com.persistentbit.parser.Parser;
 import com.persistentbit.parser.Scan;
+import com.persistentbit.string.withprops.Text;
 import com.persistentbit.tuples.Tuple3;
 
 import static com.persistentbit.parser.Parser.*;
@@ -45,16 +47,28 @@ public class DbChangeParser {
 		return sqlStatement(";");
 	}
 
-
+	static private final String kwChange = "#change";
+	static private final String kwIf = "#if";
+	static private final String kwLet = "#let";
+	static private final String kwInclude = "#include";
+	static private final PSet<String> statementKeyWords = PSet.val(
+		kwChange,kwIf,kwLet,kwInclude
+	);
+	static private boolean containsKeyWords(String str){
+		return statementKeyWords.contains(str);
+	}
 
 
 	static private Parser<Sql>	sqlStatement(String delimiter) {
-		Parser<String> withDelimiter = Scan.endsWith(delimiter);
-		withDelimiter = withDelimiter
-			.map(str -> str.substring(0,str.length()-delimiter.length()));
+		return
+			Scan.endsWith(delimiter)
+			.map(str -> str.substring(0,str.length()-delimiter.length()))
+			.verify("Delimiter " + delimiter + " missing.",
+					str -> containsKeyWords(str))
+			.map(str -> Text.strToText(str))
+			.map(txt -> new Sql(txt))
+		;
 
-		//return new Sql(str)
-		return Parser.toDo("sqlStatement");
 	}
 
 	static private Parser<Statement> singleStatement() {
@@ -77,7 +91,7 @@ public class DbChangeParser {
 	}
 
 	static private Parser<Change> change(){
-		return key("change")
+		return key(kwChange)
 			.skipAnd(key("always").optional())
 			.and(name().withPos())
 			.and(key("by").skipAnd(name()))
@@ -86,6 +100,10 @@ public class DbChangeParser {
 			.map(t -> new Change(t._1._2.pos,t._1._1.isPresent(),t._1._2.value,t._1._3,t._2));
 	}
 
-
+	static public Parser<ChangeSet>  parseChangeSet() {
+		return zeroOrMore(change().skip(sp))
+			.andEof()
+			.map(cl -> new ChangeSet(cl));
+	}
 
 }

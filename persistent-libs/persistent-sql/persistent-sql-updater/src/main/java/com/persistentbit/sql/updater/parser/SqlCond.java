@@ -1,6 +1,8 @@
 package com.persistentbit.sql.updater.parser;
 
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.Result;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -40,5 +42,10 @@ public class SqlCond implements Cond{
 					return Result.TODO();
 			}
 		});
+	}
+
+	@Override
+	public PrintableText print() {
+		throw new ToDo();
 	}
 }

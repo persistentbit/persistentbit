@@ -1,5 +1,6 @@
 package com.persistentbit.sql.updater.parser;
 
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.Result;
 import com.persistentbit.string.withprops.Text;
 import com.persistentbit.utils.exceptions.ToDo;
@@ -40,5 +41,9 @@ public class CompareCond implements Cond{
 				default:
 					throw new ToDo(op.toString());
 		}
+	}
+	@Override
+	public PrintableText print() {
+		throw new ToDo();
 	}
 }

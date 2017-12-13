@@ -1,16 +1,11 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
-import java.lang.Override;
-import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.InvoiceLine;
-import java.lang.String;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
+import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 
 public class TInvoiceLine extends DTableExprImpl<InvoiceLine> {
 	public  final	DExprLong	id;

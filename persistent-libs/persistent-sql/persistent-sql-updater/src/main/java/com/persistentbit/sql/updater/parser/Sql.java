@@ -1,5 +1,6 @@
 package com.persistentbit.sql.updater.parser;
 
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.string.withprops.Text;
@@ -27,5 +28,10 @@ public class Sql implements Statement{
 
 	public Result<Integer>	getResultCount(UpdateContext context){
 		return context.getSqlResultCount(sql.toString(context::getProperty));
+	}
+
+	@Override
+	public PrintableText print() {
+		return pw-> pw.println(sql);
 	}
 }

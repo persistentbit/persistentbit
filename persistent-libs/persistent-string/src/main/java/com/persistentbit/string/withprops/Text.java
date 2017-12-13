@@ -47,7 +47,7 @@ public class Text{
 	static private final String regExIdentifier = "[a-zA-Z_][a-zA-Z0-9_]*";
 	static private final Pattern propPattern = Pattern.compile(
 		"(\\$" + regExIdentifier + ")|(\\$\\{" + regExIdentifier + "\\})|(\\\\\\$)");
-	static private Text strToText(String str){
+	static public Text strToText(String str){
 		Matcher m       = propPattern.matcher(str);
 		Text    res     = new Text();
 

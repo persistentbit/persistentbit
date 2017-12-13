@@ -3,6 +3,7 @@ package com.persistentbit.sql.updater.parser;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.parser.source.StrPos;
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 
@@ -35,5 +36,20 @@ public class If implements Statement{
 					: (falseStatement == null ? OK.result : falseStatement.run(context))
 				)
 		);
+	}
+
+	@Override
+	public PrintableText print() {
+		return pw -> {
+			pw.println("#if");
+			pw.indent(cond.print());
+			pw.println("then");
+			pw.indent(trueStatement.print());
+			if(falseStatement != null){
+				pw.println("else");
+				pw.indent(falseStatement.print());
+			}
+			pw.println("endif");
+		};
 	}
 }

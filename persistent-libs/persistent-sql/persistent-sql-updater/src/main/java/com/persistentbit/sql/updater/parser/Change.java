@@ -1,6 +1,7 @@
 package com.persistentbit.sql.updater.parser;
 
 import com.persistentbit.parser.source.StrPos;
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 
@@ -37,5 +38,11 @@ public class Change{
 
 
 		return new ChangeResult(this,allResult);
+	}
+	public PrintableText	print(){
+		return pw -> {
+			pw.println("Change " + (always ? "always " : "") + name + " by " + author);
+			pw.indent(statement.print());
+		};
 	}
 }

@@ -1,8 +1,10 @@
 package com.persistentbit.sql.updater.parser;
 
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.string.withprops.Text;
+import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -25,5 +27,10 @@ public class Let implements Statement{
 			context.setProperty(propertyName,value.toString(context::getProperty));
 			return OK.result;
 		});
+	}
+
+	@Override
+	public PrintableText print() {
+		throw new ToDo();
 	}
 }

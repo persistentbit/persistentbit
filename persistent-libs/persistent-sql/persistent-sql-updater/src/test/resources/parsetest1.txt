@@ -1,0 +1,2 @@
+#change always "init" by "Peter Muys"
+select * from SchemaHistory;

@@ -1,6 +1,7 @@
 package com.persistentbit.sql.updater.parser;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.printable.PrintableText;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 
@@ -29,5 +30,12 @@ public class StatementList implements Statement{
 			return OK.result;
 		});
 
+	}
+
+	@Override
+	public PrintableText print() {
+		return pw -> {
+			statements.forEach(s -> pw.print(s.print()));
+		};
 	}
 }
