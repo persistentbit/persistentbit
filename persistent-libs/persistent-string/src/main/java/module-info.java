@@ -9,4 +9,5 @@ module persistent.string {
 	requires persistent.code.annotations;
 	requires persistent.functions;
 	exports com.persistentbit.string;
+	exports com.persistentbit.string.withprops;
 }

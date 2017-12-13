@@ -1,4 +1,7 @@
-package com.persistentbit.sql.updater.parser;
+package com.persistentbit.string.withprops;
+
+import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -16,7 +19,12 @@ public class PropertyTextPart implements TextPart{
 	}
 
 	@Override
-	public String toString(UpdateContext context) {
-		return context.getProperty(name).orElse(parsedSource);
+	public String toString(Function<String, Optional<String>> propertyGetter) {
+		return propertyGetter.apply(name).orElse(parsedSource);
+	}
+
+	@Override
+	public String toString() {
+		return "${" + name + "}";
 	}
 }
