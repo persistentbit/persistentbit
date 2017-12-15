@@ -1,16 +1,17 @@
 package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
-import com.persistentbit.javacodegen.annotations.NoBuilder;
-import com.persistentbit.sql.meta.data.DbMetaColumn;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.utils.exceptions.ToDo;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.reflection.UReflect;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.reflection.UReflect;
+import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
+import com.persistentbit.string.UString;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.Objects;
 
 /**
  * TODOC
@@ -56,8 +57,10 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	            return DExprShort.class;
 	        case "long":
 	            return DExprLong.class;
-	        case "double":
-	            return DExprDouble.class;
+			case "float":
+				return DExprFloat.class;
+			case "double":
+				return DExprDouble.class;
 	        default:
 	            throw new ToDo("Unknown: " + primitiveType);
 	    }
@@ -75,8 +78,10 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	            return tableContext + ".createExprShort( \"" + column.getName() + "\")";
 	        case "long":
 	            return tableContext + ".createExprLong(\"" + column.getName() + "\")";
-	        case "double":
-	            return tableContext + ".createExprDouble( \"" + column.getName() + "\")";
+	        case "float":
+	            return tableContext + ".createExprFloat( \"" + column.getName() + "\")";
+			case "double":
+				return tableContext + ".createExprDouble( \"" + column.getName() + "\")";
 	        default:
 	            throw new ToDo("Unknown: " + primitiveType);
 	    }

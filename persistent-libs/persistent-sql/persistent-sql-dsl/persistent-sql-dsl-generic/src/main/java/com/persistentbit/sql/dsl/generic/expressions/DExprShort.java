@@ -35,6 +35,14 @@ public interface DExprShort extends DExprNumber<Short>{
 	DExprBigDecimal mul(DExprBigDecimal other);
 	DExprDouble	mul(DExprDouble other);
 
+
+	DExprFloat	sub(DExprFloat other);
+	DExprFloat	div(DExprFloat other);
+	DExprFloat	mul(DExprFloat other);
+	DExprFloat	add(DExprFloat other);
+
+
+
 	DExprInt	add(int value);
 	DExprInt	sub(int value);
 	DExprInt	div(int value);

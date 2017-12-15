@@ -13,6 +13,7 @@ public interface DExprDouble extends DExprNumber<Double>{
 	DExprDouble	add(DExprLong other);
 	DExprBigDecimal add(DExprBigDecimal other);
 	DExprDouble	add(DExprDouble other);
+	DExprDouble	add(DExprFloat other);
 
 	DExprDouble	sub(DExprByte other);
 	DExprDouble	sub(DExprInt other);
@@ -20,6 +21,7 @@ public interface DExprDouble extends DExprNumber<Double>{
 	DExprDouble	sub(DExprLong other);
 	DExprBigDecimal sub(DExprBigDecimal other);
 	DExprDouble	sub(DExprDouble other);
+	DExprDouble	sub(DExprFloat other);
 
 	DExprDouble	div(DExprByte other);
 	DExprDouble	div(DExprInt other);
@@ -27,6 +29,7 @@ public interface DExprDouble extends DExprNumber<Double>{
 	DExprDouble	div(DExprLong other);
 	DExprBigDecimal div(DExprBigDecimal other);
 	DExprDouble	div(DExprDouble other);
+	DExprDouble	div(DExprFloat other);
 
 	DExprDouble	mul(DExprByte other);
 	DExprDouble	mul(DExprInt other);
@@ -34,9 +37,11 @@ public interface DExprDouble extends DExprNumber<Double>{
 	DExprDouble	mul(DExprLong other);
 	DExprBigDecimal mul(DExprBigDecimal other);
 	DExprDouble	mul(DExprDouble other);
+	DExprDouble	mul(DExprFloat other);
 
 	DExprDouble	add(double value);
 	DExprDouble	sub(double value);
 	DExprDouble	div(double value);
 	DExprDouble	mul(double value);
+
 }

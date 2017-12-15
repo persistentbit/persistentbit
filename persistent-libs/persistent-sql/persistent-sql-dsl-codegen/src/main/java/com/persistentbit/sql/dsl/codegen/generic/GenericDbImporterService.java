@@ -243,6 +243,9 @@ public class GenericDbImporterService implements DbImporterService{
 			case Types.LONGVARBINARY:
 			case Types.BINARY:
 			case Types.BLOB:
+				if(mt.getColumnSize() == 1){
+					return new DbJavaFieldPrimitiveType(column, javaName, byte.class);
+				}
 				return new DbJavaFieldCustomObject(column,javaName,PByteList.class);
 			case Types.BOOLEAN:
 				return new DbJavaFieldPrimitiveType(column, javaName, boolean.class);
@@ -294,7 +297,6 @@ public class GenericDbImporterService implements DbImporterService{
 				} else {
 					return new DbJavaFieldCustomObject(column, javaName, ZonedDateTime.class);
 				}
-
 			case Types.TIME:
 				return new DbJavaFieldCustomObject(column, javaName, Time.class);
 

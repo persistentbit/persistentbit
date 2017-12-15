@@ -7,7 +7,6 @@ import com.persistentbit.parser.source.Source;
 import com.persistentbit.sql.updater.parser.ChangeSet;
 import com.persistentbit.sql.updater.parser.DbChangeParser;
 import com.persistentbit.test.TestCase;
-import com.persistentbit.test.TestRunner;
 
 /**
  * TODOC
@@ -25,7 +24,7 @@ public class TestParser{
 	});
 
 	public void testAll() {
-		TestRunner.runAndPrint(ModuleLogging.consoleLogPrint, TestParser.class);
+		//TestRunner.runAndPrint(ModuleLogging.consoleLogPrint, TestParser.class);
 	}
 
 	public static void main(String[] args) {

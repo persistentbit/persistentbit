@@ -5,6 +5,7 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.dsl.generic.expressions.impl.date.DDateTableFieldExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.DDateTimeTableFieldExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanTableFieldExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dnumber.*;
@@ -97,6 +98,10 @@ public class GenericDbTableContext implements DbTableContext{
 	public DExprDateTime createExprDateTime(String columnName
 	) {
 		return new DDateTimeTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
+	}
+
+	public DExprDate createExprDate(String columnName){
+		return new DDateTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(),columnName));
 	}
 
 

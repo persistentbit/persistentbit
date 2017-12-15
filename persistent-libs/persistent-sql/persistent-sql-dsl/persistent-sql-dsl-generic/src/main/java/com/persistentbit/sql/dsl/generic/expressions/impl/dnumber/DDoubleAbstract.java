@@ -14,6 +14,23 @@ import com.persistentbit.utils.exceptions.ToDo;
 public abstract class DDoubleAbstract extends DNumberAbstract<Double> implements DExprDouble{
 
 	@Override
+	public DExprDouble add(DExprFloat other) {
+		return new DDoubleBinOp(this, NumberBinOperator.add, other);
+	}
+	@Override
+	public DExprDouble sub(DExprFloat other) {
+		return new DDoubleBinOp(this, NumberBinOperator.sub, other);
+	}
+	@Override
+	public DExprDouble div(DExprFloat other) {
+		return new DDoubleBinOp(this, NumberBinOperator.div, other);
+	}
+	@Override
+	public DExprDouble mul(DExprFloat other) {
+		return new DDoubleBinOp(this, NumberBinOperator.mul, other);
+	}
+
+	@Override
 	DExprDouble _value(Double value) {
 		return new DDoubleValue(value);
 	}

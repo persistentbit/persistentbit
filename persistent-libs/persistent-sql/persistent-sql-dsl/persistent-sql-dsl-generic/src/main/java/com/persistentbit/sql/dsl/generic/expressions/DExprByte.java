@@ -28,6 +28,11 @@ public interface DExprByte extends DExprNumber<Byte>{
 	DExprBigDecimal div(DExprBigDecimal other);
 	DExprDouble	div(DExprDouble other);
 
+	DExprFloat	sub(DExprFloat other);
+	DExprFloat	div(DExprFloat other);
+	DExprFloat	mul(DExprFloat other);
+	DExprFloat	add(DExprFloat other);
+
 	DExprInt    mul(DExprByte other);
 	DExprInt	mul(DExprInt other);
 	DExprInt	mul(DExprShort other);

@@ -49,6 +49,11 @@ public abstract class DLongAbstract extends DNumberAbstract<Long> implements DEx
 		return new DDoubleBinOp(this,NumberBinOperator.add, other);
 	}
 
+	@Override
+	public DExprFloat add(DExprFloat other) {
+		return new DFloatBinOp(this,NumberBinOperator.add, other);
+	}
+
 	//--------- SUB
 
 	@Override
@@ -79,7 +84,10 @@ public abstract class DLongAbstract extends DNumberAbstract<Long> implements DEx
 	public DExprDouble sub(DExprDouble other) {
 		return new DDoubleBinOp(this,NumberBinOperator.sub, other);
 	}
-
+	@Override
+	public DExprFloat sub(DExprFloat other) {
+		return new DFloatBinOp(this,NumberBinOperator.sub, other);
+	}
 	//--------- DIV
 
 	@Override
@@ -111,7 +119,10 @@ public abstract class DLongAbstract extends DNumberAbstract<Long> implements DEx
 	public DExprDouble div(DExprDouble other) {
 		return new DDoubleBinOp(this,NumberBinOperator.div, other);
 	}
-
+	@Override
+	public DExprFloat div(DExprFloat other) {
+		return new DFloatBinOp(this,NumberBinOperator.div, other);
+	}
 	//--------- MUL
 
 	@Override
@@ -142,6 +153,9 @@ public abstract class DLongAbstract extends DNumberAbstract<Long> implements DEx
 	@Override
 	public DExprDouble mul(DExprDouble other) {
 		return new DDoubleBinOp(this,NumberBinOperator.mul, other);
+	}
+	public DExprFloat mul(DExprFloat other) {
+		return new DFloatBinOp(this,NumberBinOperator.mul, other);
 	}
 
 

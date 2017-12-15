@@ -18,7 +18,22 @@ public abstract class DShortAbstract extends DNumberAbstract<Short> implements D
 		return new DShortValue(value);
 	}
 
-
+	@Override
+	public DExprFloat add(DExprFloat other) {
+		return new DFloatBinOp(this, NumberBinOperator.add, other);
+	}
+	@Override
+	public DExprFloat sub(DExprFloat other) {
+		return new DFloatBinOp(this, NumberBinOperator.sub, other);
+	}
+	@Override
+	public DExprFloat div(DExprFloat other) {
+		return new DFloatBinOp(this, NumberBinOperator.div, other);
+	}
+	@Override
+	public DExprFloat mul(DExprFloat other) {
+		return new DFloatBinOp(this, NumberBinOperator.mul, other);
+	}
 
 
 	//------ ADD

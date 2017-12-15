@@ -38,7 +38,6 @@ public abstract class DIntAbstract extends DNumberAbstract<Integer> implements D
 		return new DLongBinOp(this, NumberBinOperator.add, other);
 	}
 
-
 	@Override
 	public DExprBigDecimal add(DExprBigDecimal other) {
 		return new DBigDecimalBinOp(this, NumberBinOperator.add, other);
@@ -47,6 +46,10 @@ public abstract class DIntAbstract extends DNumberAbstract<Integer> implements D
 	@Override
 	public DExprDouble add(DExprDouble other) {
 		return new DDoubleBinOp(this, NumberBinOperator.add, other);
+	}
+	@Override
+	public DExprFloat add(DExprFloat other) {
+		return new DFloatBinOp(this, NumberBinOperator.add, other);
 	}
 
 
@@ -82,7 +85,10 @@ public abstract class DIntAbstract extends DNumberAbstract<Integer> implements D
 		return new DDoubleBinOp(this, NumberBinOperator.sub, other);
 	}
 
-
+	@Override
+	public DExprFloat sub(DExprFloat other) {
+		return new DFloatBinOp(this, NumberBinOperator.sub, other);
+	}
 	//------ DIV
 	@Override
 	public DExprInt div(DExprByte other) {
@@ -114,7 +120,10 @@ public abstract class DIntAbstract extends DNumberAbstract<Integer> implements D
 	public DExprDouble div(DExprDouble other) {
 		return new DDoubleBinOp(this, NumberBinOperator.div, other);
 	}
-
+	@Override
+	public DExprFloat div(DExprFloat other) {
+		return new DFloatBinOp(this, NumberBinOperator.div, other);
+	}
 	//------ MUL
 	@Override
 	public DExprInt mul(DExprByte other) {
@@ -145,7 +154,10 @@ public abstract class DIntAbstract extends DNumberAbstract<Integer> implements D
 	public DExprDouble mul(DExprDouble other) {
 		return new DDoubleBinOp(this, NumberBinOperator.mul, other);
 	}
-
+	@Override
+	public DExprFloat mul(DExprFloat other) {
+		return new DFloatBinOp(this, NumberBinOperator.mul, other);
+	}
 
 	@Override
 	public DExprInt add(int value) {

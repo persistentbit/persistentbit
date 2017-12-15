@@ -35,6 +35,12 @@ public interface DExprLong extends DExprNumber<Long>{
 	DExprBigDecimal mul(DExprBigDecimal other);
 	DExprDouble	mul(DExprDouble other);
 
+	DExprFloat	sub(DExprFloat other);
+	DExprFloat	div(DExprFloat other);
+	DExprFloat	mul(DExprFloat other);
+	DExprFloat	add(DExprFloat other);
+
+
 	DExprLong	add(long value);
 	DExprLong	sub(long value);
 	DExprLong	div(long value);

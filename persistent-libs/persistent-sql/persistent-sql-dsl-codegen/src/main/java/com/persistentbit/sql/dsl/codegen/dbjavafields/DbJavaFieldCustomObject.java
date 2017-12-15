@@ -1,16 +1,17 @@
 package com.persistentbit.sql.dsl.codegen.dbjavafields;
 
-import java.util.Optional;
-import com.persistentbit.javacodegen.annotations.NoBuilder;
-import com.persistentbit.sql.meta.data.DbMetaColumn;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.utils.exceptions.ToDo;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.CaseClass;
-import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.javacodegen.annotations.CaseClass;
+import com.persistentbit.javacodegen.annotations.Generated;
+import com.persistentbit.javacodegen.annotations.NoBuilder;
+import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
+import com.persistentbit.string.UString;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * TODOC
@@ -79,7 +80,7 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 	            f = new JField(fieldName, DExprDateTime.class).addImport(DExprDateTime.class);
 	            break;
 	        default:
-	            throw new ToDo("Unknown: " + javaClass);
+	            throw new ToDo("Unknown: " + javaClass + " for " + column);
 	    }
 	    return f;
 	}
