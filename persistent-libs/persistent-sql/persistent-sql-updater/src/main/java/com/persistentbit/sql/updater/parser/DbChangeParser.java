@@ -23,7 +23,7 @@ public class DbChangeParser {
 		).map(l -> l.toString(""));
 
 	static private Parser<String> key(String keyword){
-		return sp.skipAnd(Scan.term(keyword)).and(sp).map(t -> t._1);
+		return sp.skipAnd(Scan.term(keyword)).and(sp).map(t -> t._1).info(v -> "key(" + v + ")");
 	}
 
 	static private Parser<String> name() {
@@ -67,6 +67,7 @@ public class DbChangeParser {
 					str -> containsKeyWords(str))
 			.map(str -> Text.strToText(str))
 			.map(txt -> new Sql(txt))
+
 		;
 
 	}
@@ -91,13 +92,16 @@ public class DbChangeParser {
 	}
 
 	static private Parser<Change> change(){
-		return key(kwChange)
+		return source -> key(kwChange)
+			.info(v -> "Start Parsing change ")
 			.skipAnd(key("always").optional())
 			.and(name().withPos())
 			.and(key("by").skipAnd(name()))
 			.map(t -> Tuple3.of(t._1._1,t._1._2,t._2) )
 			.and(statement())
-			.map(t -> new Change(t._1._2.pos,t._1._1.isPresent(),t._1._2.value,t._1._3,t._2));
+			.map(t -> new Change(t._1._2.pos,t._1._1.isPresent(),t._1._2.value,t._1._3,t._2))
+			.info(v -> "Got a " + v)
+			.parse(source);
 	}
 
 	static public Parser<ChangeSet>  parseChangeSet() {

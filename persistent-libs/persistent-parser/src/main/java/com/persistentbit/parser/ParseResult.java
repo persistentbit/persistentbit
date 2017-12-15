@@ -1,5 +1,6 @@
 package com.persistentbit.parser;
 
+import com.persistentbit.logging.entries.*;
 import com.persistentbit.parser.source.Source;
 import com.persistentbit.result.Result;
 
@@ -13,8 +14,12 @@ import java.util.function.Function;
  * @since 17/02/17
  */
 public abstract class ParseResult<T>{
+	protected final LogEntry logEntry;
 
-	private ParseResult(){}
+
+	private ParseResult(LogEntry logEntry){
+		this.logEntry = logEntry;
+	}
 
 	public static <R> ParseFailure<R> failure(Source source, String errorMessage) {
 		return new ParseFailure<>(source, new ParseException(errorMessage, source.position));
@@ -52,6 +57,24 @@ public abstract class ParseResult<T>{
 
 	public abstract ParseResult<T> onErrorAdd(ParseException exception);
 
+	public abstract ParseResult<T> log(LogEntry logEntry);
+
+	public ParseResult<T> info(String message){
+		return log(new LogEntryMessage(
+			LogMessageLevel.info,
+			new LogContext(Thread.currentThread().getStackTrace()[1]),
+			message
+		));
+	}
+	public ParseResult<T> warning(String message){
+		return log(new LogEntryMessage(
+			LogMessageLevel.info,
+			new LogContext(Thread.currentThread().getStackTrace()[1]),
+			message
+		));
+	}
+
+
 	public Result<T> asResult() {
 		if(isSuccess()) {
 			return Result.success(getValue());
@@ -59,15 +82,22 @@ public abstract class ParseResult<T>{
 		return Result.failure(getError());
 	}
 
+	public LogEntry getLog() {
+		return logEntry;
+	}
 
 	public static class ParseSuccess<T> extends ParseResult<T>{
 
 		private final Source source;
 		private final T value;
-
-		public ParseSuccess(Source source, T value) {
+		public ParseSuccess(Source source, T value, LogEntry log) {
+			super(log);
 			this.source = Objects.requireNonNull(source);
 			this.value = Objects.requireNonNull(value);
+		}
+
+		public ParseSuccess(Source source, T value) {
+			this(source,value,LogEntryEmpty.inst);
 		}
 
 		@Override
@@ -127,18 +157,25 @@ public abstract class ParseResult<T>{
 		public ParseResult<T> onErrorAdd(ParseException exception) {
 			return this;
 		}
+
+		@Override
+		public ParseResult<T> log(LogEntry logEntry) {
+			return new ParseResult.ParseSuccess<>(source,value,this.logEntry.append(logEntry));
+		}
 	}
 
 	public static class ParseFailure<T> extends ParseResult<T>{
 
 		private final Source source;
 		private final ParseException errorMessage;
-
-
-		public ParseFailure(Source source, ParseException errorMessage) {
+		public ParseFailure(Source source, ParseException errorMessage,LogEntry log){
+			super(log);
 			this.source = source;
 			this.errorMessage = errorMessage;
+		}
 
+		public ParseFailure(Source source, ParseException errorMessage) {
+			this(source, errorMessage,LogEntryEmpty.inst);
 		}
 
 		@Override
@@ -191,6 +228,11 @@ public abstract class ParseResult<T>{
 		@Override
 		public ParseResult<T> onErrorAdd(ParseException exception) {
 			return new ParseFailure<>(source, this.errorMessage.withCause(exception));
+		}
+
+		@Override
+		public ParseResult<T> log(LogEntry logEntry) {
+			return new ParseResult.ParseFailure<>(source,errorMessage,this.logEntry.append(logEntry));
 		}
 	}
 }

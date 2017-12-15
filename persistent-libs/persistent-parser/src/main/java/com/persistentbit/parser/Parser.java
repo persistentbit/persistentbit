@@ -1,5 +1,6 @@
 package com.persistentbit.parser;
 
+import com.persistentbit.logging.entries.*;
 import com.persistentbit.result.OK;
 import com.persistentbit.collections.PList;
 import com.persistentbit.parser.source.Source;
@@ -42,6 +43,24 @@ public interface Parser<T>{
 	}
 
 
+	default Parser<T> info(Function<T,String> message){
+		Parser<T> self = this;
+		StackTraceElement stackTraceElement =Thread.currentThread().getStackTrace()[1];
+		return source -> {
+			ParseResult<T> res = self.parse(source);
+			if(res.isFailure()){
+				return res;
+			}
+			LogEntry le = new LogEntryMessage(
+				LogMessageLevel.info,
+				new LogContext(stackTraceElement),
+				message.apply(res.getValue())
+			);
+
+			res = res.log(le);
+			return res;
+		};
+	}
 
 
 
@@ -71,7 +90,8 @@ public interface Parser<T>{
 			if(nextResult.isFailure()) {
 				return nextResult.map(v -> null);
 			}
-			return ParseResult.success(nextResult.getSource(), Tuple2.of(thisResult.getValue(), nextResult.getValue()));
+			return ParseResult.success(nextResult.getSource(), Tuple2.of(thisResult.getValue(), nextResult.getValue()))
+				.log(nextResult.getLog());
 		};
 	}
 
@@ -141,7 +161,8 @@ public interface Parser<T>{
 			if(res.isSuccess()) {
 				return res.map(Optional::ofNullable);
 			}
-			return ParseResult.success(source, Optional.empty());
+			return ParseResult.<Optional<T>>success(source, Optional.empty())
+				.log(res.getLog());
 		};
 	}
 
@@ -159,8 +180,11 @@ public interface Parser<T>{
 		return source -> {
 			PList<R> res = PList.empty();
 			//Source orgSource = source;
+
+			LogEntry entry = LogEntryEmpty.inst;
 			while(source.current != Source.EOF) {
 				ParseResult<R> itemRes = parser.parse(source);
+				entry=entry.append(itemRes.logEntry);
 				if(itemRes.isFailure()) {
 					break;
 				}
@@ -170,7 +194,8 @@ public interface Parser<T>{
 				}
 				source = itemRes.getSource();
 			}
-			return ParseResult.success(source,res);
+			ParseResult<PList<R>> result = ParseResult.success(source,res);
+			return result.log(entry);
 		};
 	}
 
@@ -182,7 +207,7 @@ public interface Parser<T>{
 			}
 			PList<R> list = res.getValue();
 			if(list.isEmpty()) {
-				return ParseResult.failure(source, errorMessage);
+				return ParseResult.<PList<R>>failure(source, errorMessage).log(res.getLog());
 			}
 			return res;
 		};
@@ -195,10 +220,12 @@ public interface Parser<T>{
 				  .map(t -> t._1.plusAll(t._2));*/
 		return source -> {
 			PList<R> res = PList.empty();
+			LogEntry entry = LogEntryEmpty.inst;
 			while(source.current != Source.EOF) {
 				ParseResult<R> itemRes = parser.parse(source);
+				entry = entry.append(itemRes.getLog());
 				if(itemRes.isFailure()) {
-					return ParseResult.success(source, res);
+					return ParseResult.success(source, res).log(entry);
 				}
 				if(source.position.equals(itemRes.getSource().position)) {
 					break;
@@ -206,8 +233,10 @@ public interface Parser<T>{
 				res = res.plus(itemRes.getValue());
 				source = itemRes.getSource();
 				ParseResult sep = separator.parse(source);
+				entry = entry.append(sep.getLog());
 				if(sep.isFailure()) {
-					return ParseResult.success(source, res);
+					return ParseResult.success(source, res)
+						.log(entry);
 				}
 				if(source.position.equals(sep.getSource().position)) {
 					break;
@@ -215,7 +244,8 @@ public interface Parser<T>{
 				source = sep.getSource();
 
 			}
-			return ParseResult.success(source, res);
+			return ParseResult.success(source, res)
+				.log(entry);
 		};
 	}
 
@@ -240,10 +270,13 @@ public interface Parser<T>{
 		return source -> {
 
 			ParseResult<? extends R> longestResult = null;
+			LogEntry entry = LogEntryEmpty.inst;
 			for(Parser<? extends R> other : others) {
 				ParseResult<? extends R> otherResult = other.parse(source);
+				entry = entry.append(otherResult.getLog());
 				if(otherResult.isSuccess()) {
-					return ParseResult.success(otherResult.getSource(), otherResult.getValue());
+					return ParseResult.<R>success(otherResult.getSource(), otherResult.getValue())
+						.log(entry);
 				}
 				if(longestResult != null) {
 					StrPos pos1 = longestResult.getSource().position;
@@ -259,9 +292,10 @@ public interface Parser<T>{
 
 
 			if(longestResult == null) {
-				longestResult = ParseResult.failure(source, "No parsers defined for Or parser");
+				longestResult = ParseResult.<R>failure(source, "No parsers defined for Or parser")
+					.log(entry);
 			}
-			return (ParseResult<R>)longestResult;
+			return ((ParseResult<R>)longestResult).log(entry);
 		};
 	}
 
@@ -273,9 +307,11 @@ public interface Parser<T>{
 		return source -> {
 			ParseResult<?> res = parserNot.parse(source);
 			if(res.isFailure()) {
-				return ParseResult.success(source, OK.inst);
+				return ParseResult.success(source, OK.inst)
+					.log(res.getLog());
 			}
-			return ParseResult.failure(source, errorMessage);
+			return ParseResult.<OK>failure(source, errorMessage)
+				.log(res.getLog());
 		};
 	}
 
@@ -289,7 +325,8 @@ public interface Parser<T>{
 			if(predicate.test(result.getValue())) {
 				return result;
 			}
-			return ParseResult.failure(source, errorMessage);
+			return ParseResult.<T>failure(source, errorMessage)
+				.log(result.getLog());
 		};
 	}
 }

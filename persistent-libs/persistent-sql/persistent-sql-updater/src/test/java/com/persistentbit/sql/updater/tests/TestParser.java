@@ -20,7 +20,7 @@ public class TestParser{
 	static TestCase parserTest1 = TestCase.name("parserTest1").code( tr -> {
 		Source src = Source.asSource(TestParser.class.getResource("/parsetest1.txt"), IO.utf8).orElseThrow();
 		ParseResult<ChangeSet> res = DbChangeParser.parseChangeSet().parse(src);
-
+		ModuleLogging.consoleLogPrint.print(res.getLog());
 		ChangeSet cs = res.getValue();
 	});
 
