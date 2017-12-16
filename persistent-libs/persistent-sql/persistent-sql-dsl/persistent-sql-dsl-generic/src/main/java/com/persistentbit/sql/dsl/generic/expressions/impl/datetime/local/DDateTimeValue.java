@@ -6,6 +6,7 @@ import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 /**
@@ -24,10 +25,10 @@ public class DDateTimeValue extends DDateTimeAbstract implements PrepStatParam{
 	@Override
 	public void _setPrepStatement(PreparedStatement stat, int index) throws SQLException {
 		if(value == null){
-			stat.setDate(index,null);
+			stat.setTimestamp(index,null);
 		} else {
-			java.sql.Date d = java.sql.Date.valueOf(value.toLocalDate());
-			stat.setDate(index, d);
+			Timestamp ts = Timestamp.valueOf(value);
+			stat.setTimestamp(index, ts);
 		}
 	}
 
@@ -39,5 +40,10 @@ public class DDateTimeValue extends DDateTimeAbstract implements PrepStatParam{
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
 		return SqlWithParams.param(this);
+	}
+
+	@Override
+	public String toString() {
+		return "(LocalDateTime)" + value;
 	}
 }

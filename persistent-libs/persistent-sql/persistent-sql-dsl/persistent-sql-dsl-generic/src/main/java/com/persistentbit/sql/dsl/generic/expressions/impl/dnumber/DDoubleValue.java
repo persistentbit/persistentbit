@@ -6,6 +6,7 @@ import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 /**
  * TODOC
@@ -22,6 +23,10 @@ public class DDoubleValue extends DDoubleAbstract implements PrepStatParam{
 
 	@Override
 	public void _setPrepStatement(PreparedStatement stat, int index) throws SQLException{
+		if(value == null){
+			stat.setNull(index, Types.DOUBLE);
+			return;
+		}
 		stat.setDouble(index,value);
 	}
 
@@ -33,5 +38,10 @@ public class DDoubleValue extends DDoubleAbstract implements PrepStatParam{
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
 		return SqlWithParams.param(this);
+	}
+
+	@Override
+	public String toString() {
+		return "(Double)" + value;
 	}
 }

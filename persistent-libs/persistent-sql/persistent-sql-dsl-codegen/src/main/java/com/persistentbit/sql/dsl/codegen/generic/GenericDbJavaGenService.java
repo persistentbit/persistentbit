@@ -350,7 +350,10 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 					pw.println("return new Insert(_tableContext.getDbContext(),this)");
 					pw.indent(pg -> {
 						pg.println(".row(val(record))");
-						PList<String> autoGenNames = table.getTable().getPrimKey().map(metaCol -> metaCol.getName());
+						PList<String> autoGenNames = table.getTable()
+														  .getPrimKey()
+														  .filter(c -> c.getType().getIsAutoIncrement())
+														  .map(metaCol -> metaCol.getName());
 						if(autoGenNames.isEmpty() == false){
 							PList<DbJavaField> jfl = table.getJavaFields().filter(jf -> autoGenNames.contains(jf.getDbMetaColumn().getName()));
 

@@ -33,4 +33,9 @@ public class DByteValue extends DByteAbstract implements PrepStatParam{
 	public SqlWithParams _toSql(DbSqlContext context) {
 		return SqlWithParams.param(this);
 	}
+
+	@Override
+	public String toString() {
+		return "(Byte)" + value;
+	}
 }

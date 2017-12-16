@@ -4,6 +4,7 @@ import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.sql.utils.rowreader.RowReader;
+import com.persistentbit.string.UString;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -36,7 +37,9 @@ public class DStringValue extends DStringAbstract implements PrepStatParam{
 	}
 	@Override
 	public String toString() {
-		return "$(\'" + value + "\')";
+		return (value == null)
+			? "(String)null"
+			: UString.presentEscaped("\"" + value + "\"",80);
 	}
 
 	@Override

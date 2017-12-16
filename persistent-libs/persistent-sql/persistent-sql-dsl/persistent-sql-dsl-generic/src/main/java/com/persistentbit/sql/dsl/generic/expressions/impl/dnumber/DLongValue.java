@@ -7,6 +7,7 @@ import com.persistentbit.sql.utils.rowreader.RowReader;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 /**
  * TODOC
@@ -22,6 +23,10 @@ public class DLongValue extends DLongAbstract implements PrepStatParam{
 
 	@Override
 	public void _setPrepStatement(PreparedStatement stat, int index) throws SQLException{
+		if(value == null){
+			stat.setNull(index, Types.BIGINT);
+			return;
+		}
 		stat.setLong(index, value);
 	}
 
@@ -42,6 +47,6 @@ public class DLongValue extends DLongAbstract implements PrepStatParam{
 
 	@Override
 	public String toString() {
-		return "$(" + value + ")";
+		return "(Long)" + value;
 	}
 }

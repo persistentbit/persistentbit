@@ -5,6 +5,7 @@ import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbContext;
 import com.mycompany.db.generated.persistenttest.myschema.TInvoiceTable;
 import com.persistentbit.sql.dsl.generic.DbGeneric;
 import com.mycompany.db.generated.persistenttest.myschema.TAPersonTable;
+import com.mycompany.db.generated.persistenttest.myschema.TAllGenericNullsTable;
 import com.mycompany.db.generated.persistenttest.myschema.TAuthAppTable;
 import com.mycompany.db.generated.persistenttest.myschema.TAuthUserTable;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
@@ -14,6 +15,7 @@ import com.mycompany.db.generated.persistenttest.myschema.TAuthUserRememberMeTab
 
 public class DbInvoices extends DbGeneric {
 	public  final	TAllGenericTable	allGeneric;
+	public  final	TAllGenericNullsTable	allGenericNulls;
 	public  final	TAuthAppTable	authApp;
 	public  final	TAuthUserTable	authUser;
 	public  final	TAuthUserRememberMeTable	authUserRememberMe;
@@ -26,6 +28,7 @@ public class DbInvoices extends DbGeneric {
 	public DbInvoices(GenericDbContext context){
 		super(context);
 		this.allGeneric = new TAllGenericTable(context.forTable("persistenttest", "all_generic"));
+		this.allGenericNulls = new TAllGenericNullsTable(context.forTable("persistenttest", "all_generic_nulls"));
 		this.authApp = new TAuthAppTable(context.forTable("persistenttest", "auth_app"));
 		this.authUser = new TAuthUserTable(context.forTable("persistenttest", "auth_user"));
 		this.authUserRememberMe = new TAuthUserRememberMeTable(context.forTable("persistenttest", "auth_user_remember_me"));

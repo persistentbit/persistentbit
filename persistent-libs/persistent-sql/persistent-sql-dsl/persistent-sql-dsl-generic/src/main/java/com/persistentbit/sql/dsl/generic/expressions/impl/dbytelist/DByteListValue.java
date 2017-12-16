@@ -4,6 +4,7 @@ import com.persistentbit.collections.PByteList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
+import com.persistentbit.string.UString;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -38,5 +39,10 @@ public class DByteListValue extends DByteListAbstract implements PrepStatParam{
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
 		return SqlWithParams.param(this);
+	}
+
+	@Override
+	public String toString() {
+		return ("(byte[])" + UString.present((value == null ? "null" : value.toHexString()),80));
 	}
 }

@@ -57,10 +57,10 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	            return DExprShort.class;
 	        case "long":
 	            return DExprLong.class;
-			case "float":
-				return DExprFloat.class;
-			case "double":
-				return DExprDouble.class;
+	        case "float":
+	            return DExprFloat.class;
+	        case "double":
+	            return DExprDouble.class;
 	        default:
 	            throw new ToDo("Unknown: " + primitiveType);
 	    }
@@ -80,8 +80,8 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	            return tableContext + ".createExprLong(\"" + column.getName() + "\")";
 	        case "float":
 	            return tableContext + ".createExprFloat( \"" + column.getName() + "\")";
-			case "double":
-				return tableContext + ".createExprDouble( \"" + column.getName() + "\")";
+	        case "double":
+	            return tableContext + ".createExprDouble( \"" + column.getName() + "\")";
 	        default:
 	            throw new ToDo("Unknown: " + primitiveType);
 	    }

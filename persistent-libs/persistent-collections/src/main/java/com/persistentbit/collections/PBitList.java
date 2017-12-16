@@ -36,6 +36,21 @@ public class PBitList  extends AbstractIPList<Boolean, PBitList> implements Seri
 		return sb.toString();
 	}
 
+	public boolean[] toBooleanArray(){
+		boolean[] res = new boolean[bitSize];
+		for(int t=0; t< bitSize; t++){
+			res[t] = get(t);
+		}
+		return res;
+	}
+	public Boolean[] toBooleanObjectArray() {
+		Boolean[] res = new Boolean[bitSize];
+		for(int t=0; t< bitSize; t++){
+			res[t] = get(t);
+		}
+		return res;
+	}
+
 	@Override
 	public int size() {
 		return bitSize;

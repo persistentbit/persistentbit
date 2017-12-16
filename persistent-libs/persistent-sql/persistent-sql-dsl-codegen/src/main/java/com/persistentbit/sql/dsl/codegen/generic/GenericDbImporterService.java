@@ -253,10 +253,8 @@ public class GenericDbImporterService implements DbImporterService{
 			case Types.BIGINT:
 				return new DbJavaFieldPrimitiveType(column, javaName, long.class);
 			case Types.BIT: {
-				if(mt.getColumnSize() == 1){
-					return new DbJavaFieldPrimitiveType(column, javaName, boolean.class);
-				}
-				return new DbJavaFieldCustomObject(column, javaName, PBitList.class);
+				return getDbJavaFieldBit(column, javaName);
+
 			}
 			case Types.CHAR:
 			case Types.NCHAR:
@@ -328,6 +326,13 @@ public class GenericDbImporterService implements DbImporterService{
 			default:
 				throw new RuntimeException("Unknown: " + column);
 		}
+	}
+
+	protected DbJavaField getDbJavaFieldBit(DbMetaColumn column, String javaName) {
+		if(column.getType().getColumnSize() == 1){
+			return new DbJavaFieldPrimitiveType(column, javaName, boolean.class);
+		}
+		return new DbJavaFieldCustomObject(column, javaName, PBitList.class);
 	}
 
 	protected DbJavaField geDoubleDbJavaField(DbMetaColumn column, DbMetaDataType mt, String javaName) {

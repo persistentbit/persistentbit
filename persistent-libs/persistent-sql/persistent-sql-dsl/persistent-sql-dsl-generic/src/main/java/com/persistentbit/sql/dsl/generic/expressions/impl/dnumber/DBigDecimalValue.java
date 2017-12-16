@@ -35,4 +35,9 @@ public class DBigDecimalValue extends DBigDecimalAbstract implements PrepStatPar
 	public SqlWithParams _toSql(DbSqlContext context) {
 		return SqlWithParams.param(this);
 	}
+
+	@Override
+	public String toString() {
+		return "(BigDecimal)" + value;
+	}
 }

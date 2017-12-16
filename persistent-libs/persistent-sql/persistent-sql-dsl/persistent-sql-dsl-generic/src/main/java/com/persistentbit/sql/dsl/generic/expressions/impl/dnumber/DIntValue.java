@@ -6,6 +6,7 @@ import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 /**
  * TODOC
@@ -22,6 +23,10 @@ public class DIntValue extends DIntAbstract implements PrepStatParam{
 
 	@Override
 	public void _setPrepStatement(PreparedStatement stat, int index) throws SQLException{
+		if(value == null){
+			stat.setNull(index, Types.INTEGER);
+			return;
+		}
 		stat.setInt(index, value);
 	}
 
@@ -37,6 +42,6 @@ public class DIntValue extends DIntAbstract implements PrepStatParam{
 
 	@Override
 	public String toString() {
-		return "$(" + value + ")";
+		return "(Integer)" + value;
 	}
 }

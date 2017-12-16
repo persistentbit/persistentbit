@@ -1,6 +1,9 @@
 package com.persistentbit.sql.dsl.postgres.rt;
 
 import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbSqlContext;
+import com.persistentbit.sql.utils.rowreader.ResultSetRowReader;
+
+import java.sql.ResultSet;
 
 /**
  * TODOC
@@ -10,6 +13,10 @@ import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbSqlContext;
  */
 public class PostgresSqlContext extends GenericDbSqlContext{
 
+	@Override
+	public ResultSetRowReader createResultSetRowReader(ResultSet rs) {
+		return new PostgresResultSetRowReader(rs);
+	}
 
 
 

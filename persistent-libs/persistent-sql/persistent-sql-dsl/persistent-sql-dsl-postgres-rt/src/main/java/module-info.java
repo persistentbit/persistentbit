@@ -10,6 +10,7 @@ module persistent.sql.dsl.postgres.rt {
 	requires persistent.sql.dsl.generic;
 	requires persistent.sql.utils;
 	requires java.sql;
+	requires persistent.collections;
 	exports com.persistentbit.sql.dsl.postgres.rt.customtypes;
 	exports com.persistentbit.sql.dsl.postgres.rt;
 }

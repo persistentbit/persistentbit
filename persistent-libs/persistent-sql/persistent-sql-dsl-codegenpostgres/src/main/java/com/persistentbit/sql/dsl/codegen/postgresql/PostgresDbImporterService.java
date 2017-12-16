@@ -259,4 +259,13 @@ public class PostgresDbImporterService extends GenericDbImporterService{
 		return new DbJavaFieldArray(column,javaName, element);
 
 	}
+
+	@Override
+	protected DbJavaField getDbJavaFieldBit(DbMetaColumn column, String javaName) {
+		if(column.getType().getColumnSize() == 1 && "bool".equals(column.getType().getDbTypeName().orElse(null))){
+			return new DbJavaFieldPrimitiveType(column, javaName, boolean.class);
+		}
+		return new DbJavaFieldCustomObject(column, javaName, PBitList.class);
+	}
+
 }

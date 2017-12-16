@@ -6,6 +6,7 @@ import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 
 /**
  * TODOC
@@ -22,6 +23,10 @@ public class DFloatValue extends DFloatAbstract implements PrepStatParam{
 
 	@Override
 	public void _setPrepStatement(PreparedStatement stat, int index) throws SQLException {
+		if(value == null){
+			stat.setNull(index, Types.REAL);
+			return;
+		}
 		stat.setFloat(index, value);
 	}
 
@@ -33,5 +38,10 @@ public class DFloatValue extends DFloatAbstract implements PrepStatParam{
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
 		return SqlWithParams.param(this);
+	}
+
+	@Override
+	public String toString() {
+		return "(Float)" + value;
 	}
 }

@@ -122,7 +122,7 @@ public class Insert implements DbWork<InsertResult>{
 					if(autoGenColumns.isEmpty() == false){
 						try(ResultSet generatedKeys = prepStat.getGeneratedKeys()){
 							if(generatedKeys.next()) {
-								ResultSetRowReader rowReader = new ResultSetRowReader(generatedKeys);
+								ResultSetRowReader rowReader = sqlContext.createResultSetRowReader(generatedKeys);
 								resultAutoGen = autoGenInternals.map(internal -> internal._read(sqlContext, rowReader));
 							}
 						}

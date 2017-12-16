@@ -6,9 +6,9 @@ import java.time.ZonedDateTime;
 import com.persistentbit.sql.dsl.generic.expressions.DExprZonedDateTime;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.collections.PByteList;
-import com.mycompany.db.generated.persistenttest.myschema.AllGeneric;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
+import com.mycompany.db.generated.persistenttest.myschema.AllGenericNulls;
 import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
 import java.time.LocalDateTime;
@@ -29,7 +29,7 @@ import java.time.LocalTime;
 import com.persistentbit.sql.dsl.generic.expressions.DExprShort;
 import com.persistentbit.sql.dsl.generic.expressions.DExprFloat;
 
-public class TAllGeneric extends DTableExprImpl<AllGeneric> {
+public class TAllGenericNulls extends DTableExprImpl<AllGenericNulls> {
 	public  final	DExprString	idPart1;
 	public  final	DExprLong	idPart2;
 	public  final	DExprShort	serSmall;
@@ -60,7 +60,7 @@ public class TAllGeneric extends DTableExprImpl<AllGeneric> {
 	public  final	DExprBoolean	aBoolean;
 	
 	
-	public TAllGeneric(DExprString idPart1, DExprLong idPart2, DExprShort serSmall, DExprInt ser, DExprLong serBig, DExprInt anInteger, DExprLong aBigint, DExprBigDecimal aDecimal72, DExprBigDecimal aNumeric6, DExprBigDecimal aNumeric, DExprFloat aReal, DExprDouble aDouble, DExprShort anInt2, DExprInt anInt4, DExprLong anInt8, DExprString aVarchar, DExprString aVarchar10, DExprString aText, DExprString aChar, DExprString aChar10, DExprByteList aBytea, DExprDateTime aTimestamp3, DExprDateTime aTimestamp, DExprZonedDateTime aTimestampWithZone, DExprDate aDate, DExprTime aTime, DExprTime aTimeWithZone, DExprBoolean aBoolean){
+	public TAllGenericNulls(DExprString idPart1, DExprLong idPart2, DExprShort serSmall, DExprInt ser, DExprLong serBig, DExprInt anInteger, DExprLong aBigint, DExprBigDecimal aDecimal72, DExprBigDecimal aNumeric6, DExprBigDecimal aNumeric, DExprFloat aReal, DExprDouble aDouble, DExprShort anInt2, DExprInt anInt4, DExprLong anInt8, DExprString aVarchar, DExprString aVarchar10, DExprString aText, DExprString aChar, DExprString aChar10, DExprByteList aBytea, DExprDateTime aTimestamp3, DExprDateTime aTimestamp, DExprZonedDateTime aTimestampWithZone, DExprDate aDate, DExprTime aTime, DExprTime aTimeWithZone, DExprBoolean aBoolean){
 		super(
 			PList.val(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean),
 			_scon -> _rr -> {
@@ -93,7 +93,7 @@ public class TAllGeneric extends DTableExprImpl<AllGeneric> {
 				LocalTime	_aTimeWithZone = DImpl._get(aTimeWithZone)._read(_scon,_rr);
 				Boolean	_aBoolean = DImpl._get(aBoolean)._read(_scon,_rr);
 				if(_idPart1== null && _idPart2== null && _serSmall== null && _ser== null && _serBig== null && _anInteger== null && _aBigint== null && _aDecimal72== null && _aNumeric6== null && _aNumeric== null && _aReal== null && _aDouble== null && _anInt2== null && _anInt4== null && _anInt8== null && _aVarchar== null && _aVarchar10== null && _aText== null && _aChar== null && _aChar10== null && _aBytea== null && _aTimestamp3== null && _aTimestamp== null && _aTimestampWithZone== null && _aDate== null && _aTime== null && _aTimeWithZone== null && _aBoolean== null) { return null; }
-				return new AllGeneric(_idPart1, _idPart2, _serSmall, _ser, _serBig, _anInteger, _aBigint, _aDecimal72, _aNumeric6, _aNumeric, _aReal, _aDouble, _anInt2, _anInt4, _anInt8, _aVarchar, _aVarchar10, _aText, _aChar, _aChar10, _aBytea, _aTimestamp3, _aTimestamp, _aTimestampWithZone, _aDate, _aTime, _aTimeWithZone, _aBoolean);
+				return new AllGenericNulls(_idPart1, _idPart2, _serSmall, _ser, _serBig, _anInteger, _aBigint, _aDecimal72, _aNumeric6, _aNumeric, _aReal, _aDouble, _anInt2, _anInt4, _anInt8, _aVarchar, _aVarchar10, _aText, _aChar, _aChar10, _aBytea, _aTimestamp3, _aTimestamp, _aTimestampWithZone, _aDate, _aTime, _aTimeWithZone, _aBoolean);
 			}
 		);
 		this.idPart1	=	idPart1;
@@ -126,8 +126,8 @@ public class TAllGeneric extends DTableExprImpl<AllGeneric> {
 		this.aBoolean	=	aBoolean;
 	}
 	@Override
-	protected  TAllGeneric	_doWithAlias(String alias){
-		return new TAllGeneric(
+	protected  TAllGenericNulls	_doWithAlias(String alias){
+		return new TAllGenericNulls(
 			(DExprString)DImpl._get(idPart1)._withAlias(alias), 
 			(DExprLong)DImpl._get(idPart2)._withAlias(alias), 
 			(DExprShort)DImpl._get(serSmall)._withAlias(alias), 
@@ -158,7 +158,7 @@ public class TAllGeneric extends DTableExprImpl<AllGeneric> {
 			(DExprBoolean)DImpl._get(aBoolean)._withAlias(alias)
 		);
 	}
-	public  static TAllGeneric	cast(DExpr<AllGeneric> expr){
-		return (TAllGeneric)expr;
+	public  static TAllGenericNulls	cast(DExpr<AllGenericNulls> expr){
+		return (TAllGenericNulls)expr;
 	}
 }

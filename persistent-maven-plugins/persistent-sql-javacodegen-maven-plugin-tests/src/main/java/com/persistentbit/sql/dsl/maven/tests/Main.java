@@ -3,7 +3,6 @@ package com.persistentbit.sql.dsl.maven.tests;
 
 import com.mycompany.db.generated.DbInvoices;
 import com.mycompany.db.generated.persistenttest.myschema.*;
-import com.persistentbit.collections.PBitList;
 import com.persistentbit.collections.PByteList;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
@@ -19,6 +18,9 @@ import com.persistentbit.tuples.Tuple2;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -165,11 +167,27 @@ public class Main{
 		db.aPerson.query().selection(db.aPerson).run(newTrans.get()).orElseThrow().forEach(System.out::println);
 
 
+		newTrans.get().run(con -> {
+			try(PreparedStatement s = con.prepareStatement("select * from all_generic")){
+				try(ResultSet rs = s.executeQuery()){
+					ResultSetMetaData meta = rs.getMetaData();
+					for(int t=1; t<=meta.getColumnCount();t++){
+						System.out.println(meta.getColumnName(t) + ": " + meta.getColumnClassName(t) + " " + meta.getColumnType(t));
+					}
+
+				}
+			}
+
+
+			return OK.result;
+		});
+
+
 		AllGeneric ag = AllGeneric.build(b -> b
 			 .setABigint(1234567890L)
-			 .setABit(true)
-			 .setABit40(PBitList.val(true,false,true))
-			 .setABitVarying(PBitList.val(true,true,true,false,false,false))
+			 //.setABit(PBitList.val(true))
+			 //.setABit40(PBitList.val(true,false,true))
+			 //.setABitVarying(PBitList.val(true,true,true,false,false,false))
 			.setABoolean(true)
 			.setABytea(PByteList.val((byte)0,(byte)1,(byte)2,(byte)3,(byte)4))
 			.setAChar("@")
@@ -203,9 +221,20 @@ public class Main{
 		AllGeneric fromInsert = db.allGeneric.insert(ag).run(newTrans.get()).orElseThrow();
 		System.out.println(fromInsert);
 
-		System.out.println(db.allGeneric.query().selection(db.allGeneric).run(newTrans.get()));
+		System.out.println(db.allGeneric.query().selection(db.allGeneric).run(newTrans.get()).orElseThrow());
 
+		AllGenericNulls agn = AllGenericNulls.build(b->b
+			.setIdPart1("part1")
+			.setIdPart2(12345L)
+			.setSerSmall((short)0)
+			.setSer(1)
+			.setSerBig(2)
+		);
 
+		AllGenericNulls fromInsertNulls = db.allGenericNulls.insert(agn).run(newTrans.get()).orElseThrow();
+		System.out.println(fromInsertNulls);
+
+		System.out.println(db.allGeneric.query().selection(db.allGeneric).run(newTrans.get()).orElseThrow());
 		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
 		//System.out.println(withSubCompany);
 		//System.out.println("------------------------------");

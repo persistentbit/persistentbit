@@ -12,6 +12,7 @@ DROP TABLE IF EXISTS auth_user;
 DROP TABLE IF EXISTS auth_app;
 
 DROP TABLE IF EXISTS all_generic;
+DROP TABLE IF EXISTS all_generic_nulls;
 
 
 -->>genericDataTypes
@@ -54,9 +55,9 @@ CREATE TABLE all_generic (
   --a_cidr cidr,
   --an_inet inet,
   --a_macaddr macaddr,
-  a_bit                 BIT,
-  a_bit_40              BIT(40),
-  a_bit_varying         BIT VARYING,
+  --a_bit                 BIT,
+  --a_bit_40              BIT(40),
+  --a_bit_varying         BIT VARYING,
   --a_tsvector tsvector,
   --a_tsquery tsquery,
   --an_uuid uuid,
@@ -65,9 +66,58 @@ CREATE TABLE all_generic (
   --a_json json
 
   PRIMARY KEY (id_part1, id_part2)
-)
+);
 
+CREATE TABLE all_generic_nulls (
+  id_part1              VARCHAR(256) NOT NULL,
+  id_part2              BIGINT       NOT NULL,
+  ser_small             SMALLSERIAL,
+  ser                   SERIAL,
+  ser_big               BIGSERIAL ,
+  an_integer            INTEGER NULL,
+  a_bigint              BIGINT NULL,
+  a_decimal_7_2         DECIMAL(7, 2) NULL,
+  a_numeric_6           NUMERIC(6) NULL,
+  a_numeric             NUMERIC NULL,
+  a_real                REAL NULL,
+  a_double              DOUBLE PRECISION NULL,
+  an_int2               INT2 NULL,
+  an_int4               INT4 NULL,
+  an_int8 int8 NULL,
+  -- a_money money,
+  -- an_enum ENUM_TEST,
+  -- an_enum_in_public PUBLIC.ENUM_TEST_IN_PUBLIC_SCHEMA,
+  -- a_struct FULL_NAME,
+  -- a_domain us_postal_code,
+  a_varchar             VARCHAR NULL,
+  a_varchar_10          VARCHAR(10) NULL,
+  a_text                TEXT NULL,
+  a_char                CHAR NULL,
+  a_char_10             CHAR(10) NULL,
+  a_bytea               BYTEA NULL,
+  a_timestamp_3         TIMESTAMP(3) NULL,
+  a_timestamp           TIMESTAMP NULL,
+  a_timestamp_with_zone TIMESTAMP WITH TIME ZONE NULL,
+  a_date                DATE NULL,
+  a_time                TIME NULL,
+  a_time_with_zone      TIME WITH TIME ZONE NULL,
+  -- an_interval           INTERVAL,
+  a_boolean             BOOLEAN NULL,
+  --a_cidr cidr,
+  --an_inet inet,
+  --a_macaddr macaddr,
+  --a_bit                 BIT,
+  --a_bit_40              BIT(40),
+  --a_bit_varying         BIT VARYING,
+  --a_tsvector tsvector,
+  --a_tsquery tsquery,
+  --an_uuid uuid,
+  --a_test_domain_interval test_domain_interval,
+  --an_xml xml,
+  --a_json json
 
+  PRIMARY KEY (id_part1, id_part2)
+);
 
 -->>Authentication
 
