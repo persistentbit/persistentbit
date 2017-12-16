@@ -9,4 +9,10 @@ import com.persistentbit.collections.PBitList;
  * @since 15/12/17
  */
 public interface DExprBitList extends DExpr<PBitList>{
+	DExprBoolean eq(DExpr<PBitList> other);
+	DExprBoolean notEq(DExpr<PBitList> other);
+
+	DExprBoolean	isNull();
+	DExprBoolean	isNotNull();
+
 }

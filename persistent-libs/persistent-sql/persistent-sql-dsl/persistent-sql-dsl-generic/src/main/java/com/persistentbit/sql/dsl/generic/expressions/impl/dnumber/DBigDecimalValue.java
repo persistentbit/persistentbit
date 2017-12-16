@@ -3,10 +3,10 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
-import com.persistentbit.utils.exceptions.ToDo;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 /**
  * TODOC
@@ -22,8 +22,8 @@ public class DBigDecimalValue extends DBigDecimalAbstract implements PrepStatPar
 	}
 
 	@Override
-	public void _setPrepStatement(PreparedStatement stat, int index) {
-		throw new ToDo();
+	public void _setPrepStatement(PreparedStatement stat, int index) throws SQLException{
+		stat.setBigDecimal(index, value);
 	}
 
 	@Override

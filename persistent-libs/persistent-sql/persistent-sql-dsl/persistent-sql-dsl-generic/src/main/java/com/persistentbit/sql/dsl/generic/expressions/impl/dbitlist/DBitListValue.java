@@ -1,23 +1,23 @@
-package com.persistentbit.sql.dsl.generic.expressions.impl.datetime;
+package com.persistentbit.sql.dsl.generic.expressions.impl.dbitlist;
 
+import com.persistentbit.collections.PBitList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.utils.exceptions.ToDo;
 
 import java.sql.PreparedStatement;
-import java.time.LocalDateTime;
 
 /**
  * TODOC
  *
  * @author petermuys
- * @since 27/11/17
+ * @since 16/12/17
  */
-public class DDateTimeValue extends DDateTimeAbstract implements PrepStatParam{
-	private final LocalDateTime value;
+public class DBitListValue extends DBitListAbstract implements PrepStatParam{
+	private final PBitList value;
 
-	public DDateTimeValue(LocalDateTime value) {
+	public DBitListValue(PBitList value) {
 		this.value = value;
 	}
 
@@ -28,9 +28,8 @@ public class DDateTimeValue extends DDateTimeAbstract implements PrepStatParam{
 
 	@Override
 	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
-		return SqlWithParams.param(this).add(alias == null ? "" : " AS " + alias);
+		return _toSql(context).add(alias == null ? "" : " AS " + alias);
 	}
-
 	@Override
 	public SqlWithParams _toSql(DbSqlContext context) {
 		return SqlWithParams.param(this);

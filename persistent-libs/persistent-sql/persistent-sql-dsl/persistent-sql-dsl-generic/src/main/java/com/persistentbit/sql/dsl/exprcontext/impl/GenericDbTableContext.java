@@ -6,10 +6,14 @@ import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
 import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.date.DDateTableFieldExpr;
-import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.DDateTimeTableFieldExpr;
+import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.local.DDateTimeTableFieldExpr;
+import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.zoned.DZonedDateTimeTableFieldExpr;
+import com.persistentbit.sql.dsl.generic.expressions.impl.dbitlist.DBitListTableFieldExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanTableFieldExpr;
+import com.persistentbit.sql.dsl.generic.expressions.impl.dbytelist.DByteListTableFieldExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dnumber.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dstring.DStringTableFieldExpr;
+import com.persistentbit.sql.dsl.generic.expressions.impl.time.DLocalTimeTableFieldExpr;
 import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.dsl.generic.query.impl.QueryImpl;
 
@@ -100,10 +104,34 @@ public class GenericDbTableContext implements DbTableContext{
 		return new DDateTimeTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
-	public DExprDate createExprDate(String columnName){
+	public DExprDate createExprLocalDate(String columnName){
 		return new DDateTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(),columnName));
 	}
 
+	@Override
+	public DExprFloat createExprFloat(String columnName) {
+		return new DFloatTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(),columnName));
+	}
+
+	@Override
+	public DExprByteList createExprByteList(String columnName) {
+		return new DByteListTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
+	}
+
+	@Override
+	public DExprBitList createExprBitList(String columnName) {
+		return new DBitListTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
+	}
+
+	@Override
+	public DExprZonedDateTime createExprZonedDateTime(String columnName) {
+		return new DZonedDateTimeTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
+	}
+
+	@Override
+	public DExprTime createExprTime(String columnName) {
+		return new DLocalTimeTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
+	}
 
 	@Override
 	public Query createQuery(DExprTable table) {

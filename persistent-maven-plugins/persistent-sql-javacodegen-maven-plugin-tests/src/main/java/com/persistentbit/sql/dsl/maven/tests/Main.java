@@ -3,6 +3,8 @@ package com.persistentbit.sql.dsl.maven.tests;
 
 import com.mycompany.db.generated.DbInvoices;
 import com.mycompany.db.generated.persistenttest.myschema.*;
+import com.persistentbit.collections.PBitList;
+import com.persistentbit.collections.PByteList;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
@@ -15,7 +17,12 @@ import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.tuples.Tuple2;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 import java.util.function.Supplier;
 
 
@@ -156,6 +163,48 @@ public class Main{
 		System.out.println(db.aPerson.insert(katrien).run(newTrans.get()).orElseThrow());
 
 		db.aPerson.query().selection(db.aPerson).run(newTrans.get()).orElseThrow().forEach(System.out::println);
+
+
+		AllGeneric ag = AllGeneric.build(b -> b
+			 .setABigint(1234567890L)
+			 .setABit(true)
+			 .setABit40(PBitList.val(true,false,true))
+			 .setABitVarying(PBitList.val(true,true,true,false,false,false))
+			.setABoolean(true)
+			.setABytea(PByteList.val((byte)0,(byte)1,(byte)2,(byte)3,(byte)4))
+			.setAChar("@")
+			.setAChar10("char10")
+			.setADate(LocalDate.now())
+			.setADecimal72(new BigDecimal("2105.72"))
+			.setADouble(1122.3344)
+			.setAnInt2((short)1234)
+			.setAnInt4(12341234)
+			.setAnInt8(1234123412341234l)
+			.setAnInteger(123456)
+			.setANumeric(new BigDecimal("1234"))
+			.setANumeric6(new BigDecimal("666666"))
+			.setAReal(12.34f)
+			.setAText("A text")
+			.setATime(LocalTime.now())
+			.setATimestamp(LocalDateTime.now())
+			.setATimestampWithZone(ZonedDateTime.now())
+			.setATimestamp3(LocalDateTime.now())
+			.setATimeWithZone(LocalTime.now())
+			.setAVarchar("A VarChar")
+			.setAVarchar10("AVarChar10")
+			.setIdPart1("idpart1")
+			.setIdPart2(123456l)
+			.setSer(2)
+			.setSerBig(3)
+			.setSerSmall((short)1)
+
+		);
+
+		AllGeneric fromInsert = db.allGeneric.insert(ag).run(newTrans.get()).orElseThrow();
+		System.out.println(fromInsert);
+
+		System.out.println(db.allGeneric.query().selection(db.allGeneric).run(newTrans.get()));
+
 
 		//DExprTable<Company> withSubCompany = allCompany.query().selection(allCompany.v1());
 		//System.out.println(withSubCompany);

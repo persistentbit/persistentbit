@@ -76,10 +76,25 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 	        case "BigDecimal":
 	            f = new JField(fieldName, DExprBigDecimal.class).addImport(DExprBigDecimal.class);
 	            break;
-	        case "LocalDateTime":
-	            f = new JField(fieldName, DExprDateTime.class).addImport(DExprDateTime.class);
-	            break;
-	        default:
+			case "LocalDateTime":
+				f = new JField(fieldName, DExprDateTime.class).addImport(DExprDateTime.class);
+				break;
+			case "ZonedDateTime":
+				f = new JField(fieldName, DExprZonedDateTime.class).addImport(DExprZonedDateTime.class);
+				break;
+			case "PByteList":
+				f = new JField(fieldName, DExprByteList.class).addImport(DExprByteList.class);
+				break;
+			case "PBitList":
+				f = new JField(fieldName, DExprBitList.class).addImport(DExprBitList.class);
+				break;
+			case "LocalDate":
+				f = new JField(fieldName, DExprDate.class).addImport(DExprDate.class);
+				break;
+			case "LocalTime":
+				f = new JField(fieldName, DExprTime.class).addImport(DExprTime.class);
+				break;
+			default:
 	            throw new ToDo("Unknown: " + javaClass + " for " + column);
 	    }
 	    return f;
@@ -107,6 +122,16 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 	            return pre + "BigDecimal" + post;
 	        case "LocalDateTime":
 	            return pre + "DateTime" + post;
+			case "PByteList":
+				return pre + "ByteList" + post;
+			case "PBitList":
+				return pre + "BitList" + post;
+			case "ZonedDateTime":
+				return pre + "ZonedDateTime" + post;
+			case "LocalTime":
+				return pre + "Time" + post;
+			case "LocalDate":
+				return pre + "LocalDate" + post;
 	        default:
 	            throw new ToDo("Unknown: " + javaClass);
 	    }

@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.generic.expressions.impl.datetime;
+package com.persistentbit.sql.dsl.generic.expressions.impl.datetime.local;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;

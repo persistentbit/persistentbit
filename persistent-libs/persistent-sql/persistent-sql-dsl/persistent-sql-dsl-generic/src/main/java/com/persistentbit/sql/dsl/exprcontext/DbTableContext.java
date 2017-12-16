@@ -33,6 +33,18 @@ public interface DbTableContext{
 
 	DExprDateTime createExprDateTime(String columnName);
 
+	DExprFloat createExprFloat(String columnName);
+
+	DExprByteList createExprByteList(String columnName);
+
+	DExprBitList createExprBitList(String columnName);
+
+	DExprDate createExprLocalDate(String columnName);
+
+	DExprZonedDateTime createExprZonedDateTime(String columnName);
+
+	DExprTime createExprTime(String columnName);
+
 
 	Query createQuery(DExprTable table);
 

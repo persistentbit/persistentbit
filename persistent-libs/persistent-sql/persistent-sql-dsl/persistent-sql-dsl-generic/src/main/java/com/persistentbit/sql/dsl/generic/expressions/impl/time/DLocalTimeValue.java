@@ -1,33 +1,34 @@
-package com.persistentbit.sql.dsl.generic.expressions.impl.dnumber;
+package com.persistentbit.sql.dsl.generic.expressions.impl.time;
 
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
+import com.persistentbit.utils.exceptions.ToDo;
 
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.time.LocalTime;
 
 /**
  * TODOC
  *
  * @author petermuys
- * @since 15/12/17
+ * @since 27/11/17
  */
-public class DFloatValue extends DFloatAbstract implements PrepStatParam{
-	private final Float value;
+public class DLocalTimeValue extends DLocalTimeAbstract implements PrepStatParam{
+	private final LocalTime value;
 
-	public DFloatValue(Float value) {
+	public DLocalTimeValue(LocalTime value) {
 		this.value = value;
 	}
 
 	@Override
-	public void _setPrepStatement(PreparedStatement stat, int index) throws SQLException {
-		stat.setFloat(index, value);
+	public void _setPrepStatement(PreparedStatement stat, int index) {
+		throw new ToDo();
 	}
 
 	@Override
 	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
-		return _toSql(context).add(alias == null ? "" : " AS " + alias);
+		return SqlWithParams.param(this).add(alias == null ? "" : " AS " + alias);
 	}
 
 	@Override

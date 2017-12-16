@@ -1,15 +1,23 @@
 package com.persistentbit.sql.dsl.exprcontext;
 
+import com.persistentbit.collections.PBitList;
+import com.persistentbit.collections.PByteList;
 import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.date.DDateValue;
-import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.DDateTimeValue;
+import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.local.DDateTimeValue;
+import com.persistentbit.sql.dsl.generic.expressions.impl.datetime.zoned.DZonedDateTimeValue;
+import com.persistentbit.sql.dsl.generic.expressions.impl.dbitlist.DBitListValue;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dboolean.DBooleanValue;
+import com.persistentbit.sql.dsl.generic.expressions.impl.dbytelist.DByteListValue;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dnumber.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.dstring.DStringValue;
+import com.persistentbit.sql.dsl.generic.expressions.impl.time.DLocalTimeValue;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZonedDateTime;
 
 /**
  * TODOC
@@ -33,5 +41,8 @@ public interface DbContext{
 	default DExprString val(String v) { return new DStringValue(v); }
 	default DExprDateTime val(LocalDateTime v) { return new DDateTimeValue(v); }
 	default DExprDate val(LocalDate v) { return new DDateValue(v); }
-
+	default DExprZonedDateTime val(ZonedDateTime v) { return new DZonedDateTimeValue(v);}
+	default DExprByteList	val(PByteList v) { return new DByteListValue(v);}
+	default DExprBitList val(PBitList v) { return new DBitListValue(v);}
+	default DExprTime val(LocalTime v) { return new DLocalTimeValue(v); }
 }

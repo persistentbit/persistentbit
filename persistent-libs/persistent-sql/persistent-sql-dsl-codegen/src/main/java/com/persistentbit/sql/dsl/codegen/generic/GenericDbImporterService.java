@@ -10,10 +10,10 @@ import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.work.DbWork;
 
 import java.math.BigDecimal;
-import java.sql.Time;
 import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -239,13 +239,13 @@ public class GenericDbImporterService implements DbImporterService{
 		DbMetaDataType mt       = column.getType();
 		String         javaName = nameTransformer.toJavaName(table,column);
 		switch(mt.getSqlType()){
-			case Types.VARBINARY:
-			case Types.LONGVARBINARY:
 			case Types.BINARY:
-			case Types.BLOB:
 				if(mt.getColumnSize() == 1){
 					return new DbJavaFieldPrimitiveType(column, javaName, byte.class);
 				}
+			case Types.VARBINARY:
+			case Types.LONGVARBINARY:
+			case Types.BLOB:
 				return new DbJavaFieldCustomObject(column,javaName,PByteList.class);
 			case Types.BOOLEAN:
 				return new DbJavaFieldPrimitiveType(column, javaName, boolean.class);
@@ -298,7 +298,7 @@ public class GenericDbImporterService implements DbImporterService{
 					return new DbJavaFieldCustomObject(column, javaName, ZonedDateTime.class);
 				}
 			case Types.TIME:
-				return new DbJavaFieldCustomObject(column, javaName, Time.class);
+				return new DbJavaFieldCustomObject(column, javaName, LocalTime.class);
 
 			case Types.TINYINT:
 				return new DbJavaFieldPrimitiveType(column, javaName, byte.class);
