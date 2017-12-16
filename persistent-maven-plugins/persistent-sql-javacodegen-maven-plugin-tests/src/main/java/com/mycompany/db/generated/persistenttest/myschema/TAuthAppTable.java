@@ -1,6 +1,7 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
 import java.lang.Override;
+import com.persistentbit.sql.dsl.generic.updates.Update;
 import com.persistentbit.sql.dsl.generic.inserts.Insert;
 import com.mycompany.db.generated.persistenttest.myschema.AuthApp;
 import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
@@ -39,6 +40,19 @@ public class TAuthAppTable extends TAuthApp implements DExprTable<AuthApp> {
 		return new TAuthApp(
 			db.val(v.getId()), db.val(v.getName()), db.val(v.getPassword()), db.val(v.getIsRoot()), db.val(v.getIsActive()), db.val(v.getMaxWrongPasswordCount().orElse(null))
 		);
+	}
+	public  Update	update(){
+		return new Update(_tableContext.getDbContext(),this);
+	}
+	public  DbWork<Integer>	update(AuthApp record){
+		DbContext db = _tableContext.getDbContext();
+		return update()
+			.set(this.name, db.val(record.getName()))
+			.set(this.password, db.val(record.getPassword()))
+			.set(this.isRoot, db.val(record.getIsRoot()))
+			.set(this.isActive, db.val(record.getIsActive()))
+			.set(this.maxWrongPasswordCount, db.val(record.getMaxWrongPasswordCount().orElse(null)))
+			.where(this.id.eq(db.val(record.getId())));
 	}
 	public  DbWork<AuthApp>	insert(AuthApp record){
 		return new Insert(_tableContext.getDbContext(),this)

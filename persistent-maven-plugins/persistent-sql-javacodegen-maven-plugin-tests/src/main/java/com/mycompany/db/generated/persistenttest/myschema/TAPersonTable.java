@@ -1,18 +1,13 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
-import java.lang.Override;
-import com.persistentbit.sql.dsl.generic.inserts.Insert;
-import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.sql.dsl.generic.query.Query;
-import com.mycompany.db.generated.persistenttest.myschema.APerson;
 import com.persistentbit.collections.PList;
-import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
-import java.lang.String;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
+import com.persistentbit.sql.dsl.generic.inserts.Insert;
+import com.persistentbit.sql.dsl.generic.query.Query;
+import com.persistentbit.sql.dsl.generic.updates.Update;
+import com.persistentbit.sql.work.DbWork;
 
 public class TAPersonTable extends TAPerson implements DExprTable<APerson> {
 	
@@ -39,6 +34,22 @@ public class TAPersonTable extends TAPerson implements DExprTable<APerson> {
 		return new TAPerson(
 			db.val(v.getId()), db.val(v.getUserName()), db.val(v.getPassword()), db.val(v.getStreet()), db.val(v.getHouseNumber()), db.val(v.getBusNumber().orElse(null)), db.val(v.getPostalcode()), db.val(v.getCity()), db.val(v.getCountry())
 		);
+	}
+	public  Update	update(){
+		return new Update(_tableContext.getDbContext(),this);
+	}
+	public  DbWork<Integer>	update(APerson record){
+		DbContext db = _tableContext.getDbContext();
+		return update()
+			.set(this.userName, db.val(record.getUserName()))
+			.set(this.password, db.val(record.getPassword()))
+			.set(this.street, db.val(record.getStreet()))
+			.set(this.houseNumber, db.val(record.getHouseNumber()))
+			.set(this.busNumber, db.val(record.getBusNumber().orElse(null)))
+			.set(this.postalcode, db.val(record.getPostalcode()))
+			.set(this.city, db.val(record.getCity()))
+			.set(this.country, db.val(record.getCountry()))
+			.where(this.id.eq(db.val(record.getId())));
 	}
 	public  DbWork<APerson>	insert(APerson record){
 		return new Insert(_tableContext.getDbContext(),this)

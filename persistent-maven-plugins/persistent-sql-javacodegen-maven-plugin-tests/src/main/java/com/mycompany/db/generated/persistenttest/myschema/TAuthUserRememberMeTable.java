@@ -1,6 +1,7 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
 import java.lang.Override;
+import com.persistentbit.sql.dsl.generic.updates.Update;
 import com.persistentbit.sql.dsl.generic.inserts.Insert;
 import com.mycompany.db.generated.persistenttest.myschema.AuthUserRememberMe;
 import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
@@ -39,6 +40,18 @@ public class TAuthUserRememberMeTable extends TAuthUserRememberMe implements DEx
 		return new TAuthUserRememberMe(
 			db.val(v.getId()), db.val(v.getAuthUserId()), db.val(v.getCode()), db.val(v.getValidUntil()), db.val(v.getPasswordCode())
 		);
+	}
+	public  Update	update(){
+		return new Update(_tableContext.getDbContext(),this);
+	}
+	public  DbWork<Integer>	update(AuthUserRememberMe record){
+		DbContext db = _tableContext.getDbContext();
+		return update()
+			.set(this.authUserId, db.val(record.getAuthUserId()))
+			.set(this.code, db.val(record.getCode()))
+			.set(this.validUntil, db.val(record.getValidUntil()))
+			.set(this.passwordCode, db.val(record.getPasswordCode()))
+			.where(this.id.eq(db.val(record.getId())));
 	}
 	public  DbWork<AuthUserRememberMe>	insert(AuthUserRememberMe record){
 		return new Insert(_tableContext.getDbContext(),this)

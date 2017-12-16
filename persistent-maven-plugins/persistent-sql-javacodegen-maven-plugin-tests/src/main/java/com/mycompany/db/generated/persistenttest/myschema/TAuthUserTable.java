@@ -1,6 +1,7 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
 import java.lang.Override;
+import com.persistentbit.sql.dsl.generic.updates.Update;
 import com.persistentbit.sql.dsl.generic.inserts.Insert;
 import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
@@ -40,6 +41,25 @@ public class TAuthUserTable extends TAuthUser implements DExprTable<AuthUser> {
 		return new TAuthUser(
 			db.val(v.getId()), db.val(v.getAuthAppId()), db.val(v.getUserName()), db.val(v.getPassword()), db.val(v.getWrongPasswordCount()), db.val(v.getCreated().orElse(null)), db.val(v.getLastLogin().orElse(null)), db.val(v.getVerified().orElse(null)), db.val(v.getResetPasswordCode().orElse(null)), db.val(v.getResetPasswordValidUntil().orElse(null)), db.val(v.getVerifyCode().orElse(null)), db.val(v.getVerifyCodeValidUntil().orElse(null))
 		);
+	}
+	public  Update	update(){
+		return new Update(_tableContext.getDbContext(),this);
+	}
+	public  DbWork<Integer>	update(AuthUser record){
+		DbContext db = _tableContext.getDbContext();
+		return update()
+			.set(this.authAppId, db.val(record.getAuthAppId()))
+			.set(this.userName, db.val(record.getUserName()))
+			.set(this.password, db.val(record.getPassword()))
+			.set(this.wrongPasswordCount, db.val(record.getWrongPasswordCount()))
+			.set(this.created, db.val(record.getCreated().orElse(null)))
+			.set(this.lastLogin, db.val(record.getLastLogin().orElse(null)))
+			.set(this.verified, db.val(record.getVerified().orElse(null)))
+			.set(this.resetPasswordCode, db.val(record.getResetPasswordCode().orElse(null)))
+			.set(this.resetPasswordValidUntil, db.val(record.getResetPasswordValidUntil().orElse(null)))
+			.set(this.verifyCode, db.val(record.getVerifyCode().orElse(null)))
+			.set(this.verifyCodeValidUntil, db.val(record.getVerifyCodeValidUntil().orElse(null)))
+			.where(this.id.eq(db.val(record.getId())));
 	}
 	public  DbWork<AuthUser>	insert(AuthUser record){
 		return new Insert(_tableContext.getDbContext(),this)

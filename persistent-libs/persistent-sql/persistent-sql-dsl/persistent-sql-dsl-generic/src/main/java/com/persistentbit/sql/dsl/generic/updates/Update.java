@@ -24,10 +24,10 @@ public class Update implements DbWork<Integer>{
 	private final DbContext dbContext;
 	private final DExprTable	table;
 	@Nullable
-	private final DExprBoolean	where;
+	private final DExpr<Boolean>	where;
 	private final PList<Tuple2<DExpr,DExpr>> set;
 
-	public Update(DbContext dbContext, DExprTable table, @Nullable DExprBoolean where,
+	public Update(DbContext dbContext, DExprTable table, @Nullable DExpr<Boolean> where,
 				  PList<Tuple2<DExpr, DExpr>> set
 	) {
 		this.dbContext = dbContext;
@@ -72,6 +72,10 @@ public class Update implements DbWork<Integer>{
 	}
 	public Update set(DExpr<LocalDateTime> prop, LocalDateTime val){
 		return set(prop,dbContext.val(val));
+	}
+
+	public Update where(DExpr<Boolean> where){
+		return new Update(dbContext,table,where,set);
 	}
 
 	@Override

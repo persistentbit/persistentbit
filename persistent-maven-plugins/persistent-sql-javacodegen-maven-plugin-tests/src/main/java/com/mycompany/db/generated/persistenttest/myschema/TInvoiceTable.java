@@ -1,6 +1,7 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
 import java.lang.Override;
+import com.persistentbit.sql.dsl.generic.updates.Update;
 import com.persistentbit.sql.dsl.generic.inserts.Insert;
 import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
@@ -38,6 +39,17 @@ public class TInvoiceTable extends TInvoice implements DExprTable<Invoice> {
 		return new TInvoice(
 			db.val(v.getId()), db.val(v.getInvoiceNummer()), db.val(v.getFromCompanyId()), db.val(v.getToCompanyId())
 		);
+	}
+	public  Update	update(){
+		return new Update(_tableContext.getDbContext(),this);
+	}
+	public  DbWork<Integer>	update(Invoice record){
+		DbContext db = _tableContext.getDbContext();
+		return update()
+			.set(this.invoiceNummer, db.val(record.getInvoiceNummer()))
+			.set(this.fromCompanyId, db.val(record.getFromCompanyId()))
+			.set(this.toCompanyId, db.val(record.getToCompanyId()))
+			.where(this.id.eq(db.val(record.getId())));
 	}
 	public  DbWork<Invoice>	insert(Invoice record){
 		return new Insert(_tableContext.getDbContext(),this)

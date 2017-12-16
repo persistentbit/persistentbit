@@ -18,6 +18,8 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 import com.persistentbit.sql.dsl.generic.inserts.Insert;
 import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
 import com.persistentbit.sql.dsl.generic.query.Query;
+import com.persistentbit.sql.dsl.generic.updates.Update;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
 import com.persistentbit.sql.meta.data.DbMetaDatabase;
 import com.persistentbit.sql.meta.data.DbMetaSchema;
 import com.persistentbit.sql.meta.data.DbMetaUDT;
@@ -339,6 +341,58 @@ public class GenericDbJavaGenService implements DbJavaGenService{
 					})
 			;
 			*/
+			Class clsUpdate = Update.class;
+			JMethod update = new JMethod("update",clsUpdate.getSimpleName())
+				  .addImport(JImport.forClass(clsUpdate))
+					.withAccessLevel(AccessLevel.Public)
+					.withCode(pw -> {
+						pw.println("return new Update(_tableContext.getDbContext(),this);");
+					});
+			cls = cls.addMethod(update);
+
+			JMethod updateForId = new JMethod("update")
+					.addArg(new JArgument(table.getJavaClassName(),"record"))
+					.withResultType("DbWork<Integer>")
+					.withAccessLevel(AccessLevel.Public)
+					.withCode(pw -> {
+						pw.println("DbContext db = _tableContext.getDbContext();");
+						pw.println("return update()");
+						pw.indent(ps -> {
+							PSet<String> autoGenNames = table.getTable()
+															  .getPrimKey()
+															  .map(DbMetaColumn::getName)
+								.pset();
+							for(DbJavaField jf : table.getJavaFields().filter(f -> autoGenNames.contains(f.getDbMetaColumn().getName()) == false)){
+								ps.println(".set(this." + jf.getJavaName()
+									+ ", db.val(record.get"
+									+ UString.firstUpperCase(jf.getJavaName())
+									+ "()" + (jf.isNullable() ? ".orElse(null)" : "") + "))"
+								);
+							}
+							PList<String> wherePart =table.getTable().getPrimKey().map(metac -> {
+								DbJavaField jf = table.getJavaFields().find(f -> f.getDbMetaColumn().getName().equals(metac.getName())).get();
+								return "this." + jf.getJavaName() + ".eq(db.val(record.get" +   UString.firstUpperCase(jf.getJavaName()) + "()))";
+							});
+							ps.print(".where(");
+							for(int t=0; t<wherePart.size(); t++){
+								if(t ==1){
+									ps.print(".and(");
+								}
+								if(t >1){
+									ps.print(").and(");
+								}
+								ps.print(wherePart.get(t));
+								if(t == wherePart.size()-1 && t>0){
+									ps.print(")");
+								}
+							}
+							ps.println(");");
+						});
+					});
+
+
+			cls = cls.addMethod(updateForId);
+
 			JMethod insert = new JMethod("insert","DbWork<"+ table.getJavaClassName() + ">")
 				.addImport(JImport.forClass(DbWork.class))
 				.addImport(JImport.forClass(Insert.class))

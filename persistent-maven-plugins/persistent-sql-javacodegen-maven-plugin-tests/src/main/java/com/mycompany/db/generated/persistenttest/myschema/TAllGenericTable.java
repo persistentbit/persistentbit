@@ -1,24 +1,13 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
-import java.lang.Override;
-import java.time.ZonedDateTime;
-import com.persistentbit.sql.dsl.generic.inserts.Insert;
-import com.persistentbit.collections.PByteList;
-import com.mycompany.db.generated.persistenttest.myschema.AllGeneric;
-import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.sql.dsl.generic.query.Query;
-import java.time.LocalDateTime;
 import com.persistentbit.collections.PList;
-import java.math.BigDecimal;
-import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
-import java.lang.String;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
+import com.persistentbit.sql.dsl.generic.inserts.Insert;
+import com.persistentbit.sql.dsl.generic.query.Query;
+import com.persistentbit.sql.dsl.generic.updates.Update;
+import com.persistentbit.sql.work.DbWork;
 
 public class TAllGenericTable extends TAllGeneric implements DExprTable<AllGeneric> {
 	
@@ -45,6 +34,40 @@ public class TAllGenericTable extends TAllGeneric implements DExprTable<AllGener
 		return new TAllGeneric(
 			db.val(v.getIdPart1()), db.val(v.getIdPart2()), db.val(v.getSerSmall()), db.val(v.getSer()), db.val(v.getSerBig()), db.val(v.getAnInteger().orElse(null)), db.val(v.getABigint().orElse(null)), db.val(v.getADecimal72().orElse(null)), db.val(v.getANumeric6().orElse(null)), db.val(v.getANumeric().orElse(null)), db.val(v.getAReal().orElse(null)), db.val(v.getADouble().orElse(null)), db.val(v.getAnInt2().orElse(null)), db.val(v.getAnInt4().orElse(null)), db.val(v.getAnInt8().orElse(null)), db.val(v.getAVarchar().orElse(null)), db.val(v.getAVarchar10().orElse(null)), db.val(v.getAText().orElse(null)), db.val(v.getAChar().orElse(null)), db.val(v.getAChar10().orElse(null)), db.val(v.getABytea().orElse(null)), db.val(v.getATimestamp3().orElse(null)), db.val(v.getATimestamp().orElse(null)), db.val(v.getATimestampWithZone().orElse(null)), db.val(v.getADate().orElse(null)), db.val(v.getATime().orElse(null)), db.val(v.getATimeWithZone().orElse(null)), db.val(v.getABoolean().orElse(null))
 		);
+	}
+	public  Update	update(){
+		return new Update(_tableContext.getDbContext(),this);
+	}
+	public  DbWork<Integer>	update(AllGeneric record){
+		DbContext db = _tableContext.getDbContext();
+		return update()
+			.set(this.serSmall, db.val(record.getSerSmall()))
+			.set(this.ser, db.val(record.getSer()))
+			.set(this.serBig, db.val(record.getSerBig()))
+			.set(this.anInteger, db.val(record.getAnInteger().orElse(null)))
+			.set(this.aBigint, db.val(record.getABigint().orElse(null)))
+			.set(this.aDecimal72, db.val(record.getADecimal72().orElse(null)))
+			.set(this.aNumeric6, db.val(record.getANumeric6().orElse(null)))
+			.set(this.aNumeric, db.val(record.getANumeric().orElse(null)))
+			.set(this.aReal, db.val(record.getAReal().orElse(null)))
+			.set(this.aDouble, db.val(record.getADouble().orElse(null)))
+			.set(this.anInt2, db.val(record.getAnInt2().orElse(null)))
+			.set(this.anInt4, db.val(record.getAnInt4().orElse(null)))
+			.set(this.anInt8, db.val(record.getAnInt8().orElse(null)))
+			.set(this.aVarchar, db.val(record.getAVarchar().orElse(null)))
+			.set(this.aVarchar10, db.val(record.getAVarchar10().orElse(null)))
+			.set(this.aText, db.val(record.getAText().orElse(null)))
+			.set(this.aChar, db.val(record.getAChar().orElse(null)))
+			.set(this.aChar10, db.val(record.getAChar10().orElse(null)))
+			.set(this.aBytea, db.val(record.getABytea().orElse(null)))
+			.set(this.aTimestamp3, db.val(record.getATimestamp3().orElse(null)))
+			.set(this.aTimestamp, db.val(record.getATimestamp().orElse(null)))
+			.set(this.aTimestampWithZone, db.val(record.getATimestampWithZone().orElse(null)))
+			.set(this.aDate, db.val(record.getADate().orElse(null)))
+			.set(this.aTime, db.val(record.getATime().orElse(null)))
+			.set(this.aTimeWithZone, db.val(record.getATimeWithZone().orElse(null)))
+			.set(this.aBoolean, db.val(record.getABoolean().orElse(null)))
+			.where(this.idPart1.eq(db.val(record.getIdPart1())).and(this.idPart2.eq(db.val(record.getIdPart2()))));
 	}
 	public  DbWork<AllGeneric>	insert(AllGeneric record){
 		return new Insert(_tableContext.getDbContext(),this)

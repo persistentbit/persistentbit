@@ -2,6 +2,7 @@ package com.mycompany.db.generated.persistenttest.myschema;
 
 import java.lang.Override;
 import com.mycompany.db.generated.persistenttest.myschema.Company;
+import com.persistentbit.sql.dsl.generic.updates.Update;
 import com.persistentbit.sql.dsl.generic.inserts.Insert;
 import com.persistentbit.sql.dsl.generic.inserts.InsertResult;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
@@ -39,6 +40,22 @@ public class TCompanyTable extends TCompany implements DExprTable<Company> {
 		return new TCompany(
 			db.val(v.getId()), db.val(v.getCompanyName()), db.val(v.getAdresStreet()), db.val(v.getAdresHouseNumber()), db.val(v.getAdresBusNumber().orElse(null)), db.val(v.getAdresPostalcode()), db.val(v.getAdresCity()), db.val(v.getAdresCountry()), db.val(v.getOwnerPersonId().orElse(null))
 		);
+	}
+	public  Update	update(){
+		return new Update(_tableContext.getDbContext(),this);
+	}
+	public  DbWork<Integer>	update(Company record){
+		DbContext db = _tableContext.getDbContext();
+		return update()
+			.set(this.companyName, db.val(record.getCompanyName()))
+			.set(this.adresStreet, db.val(record.getAdresStreet()))
+			.set(this.adresHouseNumber, db.val(record.getAdresHouseNumber()))
+			.set(this.adresBusNumber, db.val(record.getAdresBusNumber().orElse(null)))
+			.set(this.adresPostalcode, db.val(record.getAdresPostalcode()))
+			.set(this.adresCity, db.val(record.getAdresCity()))
+			.set(this.adresCountry, db.val(record.getAdresCountry()))
+			.set(this.ownerPersonId, db.val(record.getOwnerPersonId().orElse(null)))
+			.where(this.id.eq(db.val(record.getId())));
 	}
 	public  DbWork<Company>	insert(Company record){
 		return new Insert(_tableContext.getDbContext(),this)
