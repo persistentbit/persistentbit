@@ -27,14 +27,7 @@ public class BinOpTypeStrategy<J> extends AbstractTypeStrategy<J>{
 		this.right = right;
 	}
 
-	@Override
-	public SqlWithParams _toSqlSelection(String alias) {
-		SqlWithParams sqlLeft = getTypeStrategy(left)._toSqlSelection(null);
-		SqlWithParams sqlRight = getTypeStrategy(right)._toSqlSelection(null);
-		return getExprContext().getBinOpSqlBuilder(operator)
-			.apply(left,sqlLeft,right,sqlRight)
-			.add(alias == null ? "" : " AS " + alias);
-	}
+
 
 	@Override
 	public SqlWithParams _toSql() {

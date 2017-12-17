@@ -136,14 +136,14 @@ public class ExprContext{
 		return this;
 	}
 
-	private <E extends DExpr<?>> ExprTypeFactory<E,?> get(Class<E> cls){
+	private <E extends DExpr<J>,J> ExprTypeFactory<E,J> get(Class<E> cls){
 		return typeFactories.get(cls);
 	}
 
-	<E extends DExpr> E singleOp(Class<E> resultTypeClass, DExpr expr, SingleOpOperator operator){
+	<E extends DExpr<J>,J>  E singleOp(Class<E> resultTypeClass, DExpr expr, SingleOpOperator operator){
 		return get(resultTypeClass).buildSingleOp(expr,operator);
 	}
-	<E extends DExpr> E binOp(Class<E> resultTypeClass, DExpr left, BinOpOperator operator, DExpr right){
+	<E extends DExpr<J>,J>  E binOp(Class<E> resultTypeClass, DExpr left, BinOpOperator operator, DExpr right){
 		return get(resultTypeClass).buildBinOp(left,operator,right);
 	}
 	<E extends DExpr<J>,J> E val(Class<E> typeClass, J value){

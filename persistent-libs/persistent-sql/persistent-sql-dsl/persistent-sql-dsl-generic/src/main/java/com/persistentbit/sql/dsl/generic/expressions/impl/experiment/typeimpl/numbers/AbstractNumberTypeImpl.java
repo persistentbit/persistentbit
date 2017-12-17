@@ -246,4 +246,6 @@ public abstract class AbstractNumberTypeImpl<BE,SE,IE,LE,FE,DE,BDE,NE,E extends 
 
 	protected abstract E val(J value);
 
+
+
 }

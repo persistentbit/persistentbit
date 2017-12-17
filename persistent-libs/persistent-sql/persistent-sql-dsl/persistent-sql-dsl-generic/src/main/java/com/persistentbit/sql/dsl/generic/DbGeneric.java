@@ -1,10 +1,6 @@
 package com.persistentbit.sql.dsl.generic;
 
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
-import com.persistentbit.sql.dsl.generic.expressions.*;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 /**
  * TODOC
@@ -17,7 +13,7 @@ public abstract class DbGeneric{
 	public DbGeneric(DbContext context){
 		this.context = context;
 	}
-
+/*
 	public EInt val(Integer value){
 		return context.val(value);
 	}
@@ -41,5 +37,5 @@ public abstract class DbGeneric{
 	}
 	public EDateTime val(LocalDateTime value){
 		return context.val(value);
-	}
+	}*/
 }

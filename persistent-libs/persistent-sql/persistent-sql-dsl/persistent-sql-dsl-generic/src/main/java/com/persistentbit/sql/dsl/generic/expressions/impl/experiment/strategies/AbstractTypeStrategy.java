@@ -4,9 +4,8 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprTypeFactory;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprTypeImpl;
+import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.typeimpl.AbstractTypeImpl;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
-import com.persistentbit.sql.utils.rowreader.RowReader;
 
 /**
  * TODOC
@@ -36,7 +35,7 @@ public class AbstractTypeStrategy<J> implements TypeStrategy<J>{
 		return getExprContext().getTypeFactory(expr);
 	}
 	protected TypeStrategy<J> getTypeStrategy(DExpr expr){
-		ExprTypeImpl impl = (ExprTypeImpl)expr;
+		AbstractTypeImpl impl = (AbstractTypeImpl)expr;
 		return impl.getStrategy();
 	}
 
@@ -49,11 +48,7 @@ public class AbstractTypeStrategy<J> implements TypeStrategy<J>{
 		return new UnsupportedOperationException(typeClass.getSimpleName());
 	}
 
-	@Override
-	public SqlWithParams _toSqlSelection(String alias
-	) {
-		throw exception();
-	}
+
 
 	@Override
 	public SqlWithParams _toSql(
@@ -62,11 +57,12 @@ public class AbstractTypeStrategy<J> implements TypeStrategy<J>{
 	}
 
 
+
 	@Override
-	public J _read(RowReader rowReader
-	) {
-		throw exception();
+	public String _createAliasName(String aliasPrefix) {
+		return aliasPrefix;
 	}
+
 
 	/*@Override
 	public DExpr<J> _withAlias(String alias) {

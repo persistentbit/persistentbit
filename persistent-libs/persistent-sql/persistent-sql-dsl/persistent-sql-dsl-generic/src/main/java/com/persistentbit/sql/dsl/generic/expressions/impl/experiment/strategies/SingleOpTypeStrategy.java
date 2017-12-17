@@ -24,13 +24,7 @@ public class SingleOpTypeStrategy<T> extends AbstractTypeStrategy<T>{
 		this.expr = expr;
 		this.operator = operator;
 	}
-	@Override
-	public SqlWithParams _toSqlSelection(String alias) {
-		SqlWithParams sql = getTypeStrategy(expr)._toSqlSelection(null);
-		return getExprContext().getSingleOpSqlBuilder(operator)
-			.apply(expr,sql)
-			.add(alias == null ? "" : " AS " + alias);
-	}
+
 
 	@Override
 	public SqlWithParams _toSql() {

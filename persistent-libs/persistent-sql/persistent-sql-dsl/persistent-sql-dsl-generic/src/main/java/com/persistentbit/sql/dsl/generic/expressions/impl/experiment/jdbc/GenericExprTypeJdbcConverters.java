@@ -14,7 +14,7 @@ import java.time.LocalTime;
  * @since 17/12/17
  */
 public class GenericExprTypeJdbcConverters{
-	static public final ExprTypeJdbcConvert<Byte> forByte = new ExprTypeJdbcConvert<Byte>(){
+	static public final ExprTypeJdbcConvert<Byte> forByte = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, Byte value) throws SQLException {
 			if(value == null){
@@ -33,7 +33,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<Short> forShort = new ExprTypeJdbcConvert<Short>(){
+	static public final ExprTypeJdbcConvert<Short> forShort = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, Short value) throws SQLException {
 			if(value == null){
@@ -52,7 +52,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<Integer> forInt = new ExprTypeJdbcConvert<Integer>(){
+	static public final ExprTypeJdbcConvert<Integer> forInt = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, Integer value) throws SQLException {
 			if(value == null){
@@ -71,7 +71,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<Long> forLong = new ExprTypeJdbcConvert<Long>(){
+	static public final ExprTypeJdbcConvert<Long> forLong = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, Long value) throws SQLException {
 			if(value == null){
@@ -90,7 +90,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<Float> forFloat = new ExprTypeJdbcConvert<Float>(){
+	static public final ExprTypeJdbcConvert<Float> forFloat = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, Float value) throws SQLException {
 			if(value == null){
@@ -109,7 +109,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<Double> forDouble = new ExprTypeJdbcConvert<Double>(){
+	static public final ExprTypeJdbcConvert<Double> forDouble = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, Double value) throws SQLException {
 			if(value == null){
@@ -128,7 +128,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<BigDecimal> forBigDecimal = new ExprTypeJdbcConvert<BigDecimal>(){
+	static public final ExprTypeJdbcConvert<BigDecimal> forBigDecimal = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, BigDecimal value) throws SQLException {
 			if(value == null){
@@ -147,7 +147,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<Boolean> forBool = new ExprTypeJdbcConvert<Boolean>(){
+	static public final ExprTypeJdbcConvert<Boolean> forBool = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, Boolean value) throws SQLException {
 			if(value == null){
@@ -167,7 +167,7 @@ public class GenericExprTypeJdbcConverters{
 		}
 	};
 
-	static public final ExprTypeJdbcConvert<String> forString = new ExprTypeJdbcConvert<String>(){
+	static public final ExprTypeJdbcConvert<String> forString = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, String value) throws SQLException {
 			if(value == null){
@@ -186,7 +186,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<LocalDate> forLocalDate = new ExprTypeJdbcConvert<LocalDate>(){
+	static public final ExprTypeJdbcConvert<LocalDate> forLocalDate = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, LocalDate value) throws SQLException {
 			if(value == null){
@@ -207,7 +207,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<LocalTime> forLocalTime = new ExprTypeJdbcConvert<LocalTime>(){
+	static public final ExprTypeJdbcConvert<LocalTime> forLocalTime = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, LocalTime value) throws SQLException {
 			if(value == null){
@@ -228,7 +228,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<PByteList> forByteList = new ExprTypeJdbcConvert<PByteList>(){
+	static public final ExprTypeJdbcConvert<PByteList> forByteList = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, PByteList value) throws SQLException {
 			if(value == null){
@@ -251,4 +251,6 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
+
+
 }

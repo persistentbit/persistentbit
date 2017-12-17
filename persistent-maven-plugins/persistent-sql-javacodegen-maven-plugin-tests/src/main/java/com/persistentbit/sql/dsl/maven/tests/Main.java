@@ -1,30 +1,14 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
 
-import com.mycompany.db.generated.DbInvoices;
-import com.mycompany.db.generated.persistenttest.myschema.*;
-import com.persistentbit.collections.PByteList;
-import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
-import com.persistentbit.sql.dsl.generic.expressions.ETuple2;
-import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
-import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbBuilder;
 import com.persistentbit.sql.work.DbWork;
-import com.persistentbit.tuples.Tuple2;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZonedDateTime;
 import java.util.function.Supplier;
 
 
@@ -64,6 +48,7 @@ public class Main{
 
 
 	public static void main(String[] args) {
+		/*
 		ModuleLogging.consoleLogPrint.registerAsGlobalHandler();
 
 		Result<OK> result = transSupplier
@@ -246,22 +231,23 @@ public class Main{
 //		System.out.println(cp);
 
 
-		/*
-		System.out.println(invoice.query()
-			.leftJoin(line).on(line.invoiceId.eq(invoice.id))
-			.leftJoin(company).on(invoice.fromCompanyId.eq(company.id))
-	    .where(company.adresStreet.eq("Snoekstraat 77"))
-		.selection(invoice,line.id,line.invoiceId, line.product,company)
-		);
-
-		DSelection1<Long> lineSubQuery = line.query().selection(line.invoiceId).asTableExpr("subquery");
-
-		DSelection1 withSub = invoice.query()
-			   .leftJoin(lineSubQuery).on(invoice.id.eq(lineSubQuery.v1()))
-			   .selection(invoice);
-		System.out.println(withSub);*/
+//
+//		System.out.println(invoice.query()
+//			.leftJoin(line).on(line.invoiceId.eq(invoice.id))
+//			.leftJoin(company).on(invoice.fromCompanyId.eq(company.id))
+//	    .where(company.adresStreet.eq("Snoekstraat 77"))
+//		.selection(invoice,line.id,line.invoiceId, line.product,company)
+//		);
+//
+//		DSelection1<Long> lineSubQuery = line.query().selection(line.invoiceId).asTableExpr("subquery");
+//
+//		DSelection1 withSub = invoice.query()
+//			   .leftJoin(lineSubQuery).on(invoice.id.eq(lineSubQuery.v1()))
+//			   .selection(invoice);
+//		System.out.println(withSub);
 
 		//ModuleLogging.consoleLogPrint.print(result.getLog());
+		*/
 	}
 
 }

@@ -36,12 +36,6 @@ public class ValTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	}
 
 
-
-	@Override
-	public SqlWithParams _toSqlSelection(String alias) {
-		return SqlWithParams.param(prepStatParam.get()).add(alias == null ? "" : " AS " + alias);
-	}
-
 	@Override
 	public SqlWithParams _toSql() {
 		return SqlWithParams.param(prepStatParam.get());

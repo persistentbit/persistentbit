@@ -4,15 +4,12 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
-import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.tuples.Tuple2;
 import com.persistentbit.utils.exceptions.ToDo;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * TODOC
@@ -43,6 +40,7 @@ public class Update implements DbWork<Integer>{
 	public <V> Update set(DExpr<V> property, DExpr<? extends V> value){
 		return new Update(dbContext,table,where, set.plus(Tuple2.of(property,value)));
 	}
+	/*
 	public Update set(EBool property, boolean value){
 		return set(property,dbContext.val(value));
 	}
@@ -73,7 +71,7 @@ public class Update implements DbWork<Integer>{
 	public Update set(DExpr<LocalDateTime> prop, LocalDateTime val){
 		return set(prop,dbContext.val(val));
 	}
-
+*/
 	public Update where(DExpr<Boolean> where){
 		return new Update(dbContext,table,where,set);
 	}

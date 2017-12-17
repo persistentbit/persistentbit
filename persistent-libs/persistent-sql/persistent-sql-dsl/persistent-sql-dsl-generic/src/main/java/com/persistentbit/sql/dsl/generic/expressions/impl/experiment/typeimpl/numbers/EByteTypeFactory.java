@@ -27,7 +27,7 @@ public class EByteTypeFactory extends AbstractTypeFactory<EByte,Byte>{
 	) {
 		return new EByteImpl(context, EByte.class, strategy);
 	}
-	private class EByteImpl extends AbstractNumberTypeImpl<EByte,EInt,EInt,ELong,EFloat,EDouble,EBigDecimal,EByte,EByte,Byte> implements EByte{
+	private class EByteImpl extends AbstractNumberTypeImpl<EByte,EShort,EInt,ELong,EFloat,EDouble,EBigDecimal,EByte,EByte,Byte> implements EByte{
 
 
 		public EByteImpl(ExprContext context, Class typeClass,
@@ -43,8 +43,8 @@ public class EByteTypeFactory extends AbstractTypeFactory<EByte,Byte>{
 		}
 
 		@Override
-		protected EInt seBinOp(BinOpOperator op, DExpr other) {
-			return context.getTypeFactory(EInt.class).buildBinOp(this,op,other);
+		protected EShort seBinOp(BinOpOperator op, DExpr other) {
+			return context.getTypeFactory(EShort.class).buildBinOp(this,op,other);
 		}
 
 		@Override

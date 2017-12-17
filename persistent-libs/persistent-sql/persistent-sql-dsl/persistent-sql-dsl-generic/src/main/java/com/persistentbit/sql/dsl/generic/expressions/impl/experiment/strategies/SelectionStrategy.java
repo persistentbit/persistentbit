@@ -10,18 +10,23 @@ import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
  * @author petermuys
  * @since 17/12/17
  */
-public class AliasTypeStrategie<J> extends AbstractTypeStrategy<J>{
+public class SelectionStrategy<E extends DExpr<J>,J> extends AbstractTypeStrategy<J>{
+
+	private final E expr;
 	private final String alias;
-	public AliasTypeStrategie(Class<? extends DExpr<J>> typeClass,
-							  ExprTypeFactory exprTypeFactory,
-							  String alias
+
+	public SelectionStrategy(Class<? extends DExpr<J>> typeClass,
+							 ExprTypeFactory exprTypeFactory
+							 , E expr, String alias
 	) {
 		super(typeClass, exprTypeFactory);
+		this.expr = expr;
 		this.alias = alias;
 	}
 	@Override
 	public SqlWithParams _toSql() {
-		return SqlWithParams.sql(alias);
+		return exprTypeFactory.toSql(expr)
+			.add(" AS " + alias);
 	}
 
 	@Override

@@ -31,9 +31,11 @@ public class TableColumnTypeStrategy<J> extends AbstractTypeStrategy<J>{
 		return SqlWithParams.sql(fieldSelectionName);
 	}
 
+
+
 	@Override
-	public SqlWithParams _toSqlSelection(String alias) {
-		return _toSql().add(alias == null ? "" : " AS " + alias + "_" + columnName);
+	public String _createAliasName(String aliasPrefix) {
+		return aliasPrefix == null ? null : " AS " + aliasPrefix + "_" + columnName;
 	}
 
 	@Override

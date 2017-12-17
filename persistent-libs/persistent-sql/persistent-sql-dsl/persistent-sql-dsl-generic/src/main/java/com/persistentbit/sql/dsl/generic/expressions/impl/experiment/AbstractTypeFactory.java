@@ -4,6 +4,8 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.*;
+import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.typeimpl.AbstractTypeImpl;
+import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 
 /**
  * TODOC
@@ -33,21 +35,16 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>,J> implements ExprT
 		return context;
 	}
 
-	@Override
-	public PList<DExpr> expand(DExpr<J> expr) {
-		return PList.val(expr);
-	}
 
-	@Override
+
 	public TypeStrategy<J> getTypeStrategy(DExpr<J> expr) {
-		return ((ExprTypeImpl<?,J>)expr).getStrategy();
+		return ((AbstractTypeImpl<?,J>)expr).getStrategy();
 	}
 
 	@Override
-	public E buildVal(Object value) {
-		return buildWithStrategy(new ValTypeStrategy<>(typeClass,this,(J)value,jdbcConvert));
+	public <V extends J> E buildVal(V value) {
+		return buildWithStrategy(new ValTypeStrategy<>(typeClass, this, value, jdbcConvert));
 	}
-
 	@Override
 	public E buildAlias(String alias) {
 		return buildWithStrategy(new AliasTypeStrategie<>(typeClass,this,alias));
@@ -66,5 +63,25 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>,J> implements ExprT
 	@Override
 	public E buildTableField(String fieldSelectionName, String fieldName) {
 		return buildWithStrategy(new TableColumnTypeStrategy<>(typeClass,this,fieldSelectionName,fieldName));
+	}
+
+	@Override
+	public E buildSelection(E expr, String prefixAlias) {
+		if(prefixAlias == null){
+			return expr;
+		}
+		AbstractTypeImpl<E,J> impl = (AbstractTypeImpl<E,J>)expr;
+		String newAlias = impl.getStrategy()._createAliasName(prefixAlias);
+		return buildWithStrategy(new SelectionStrategy<E,J>(typeClass,this,expr,newAlias));
+	}
+
+	@Override
+	public PList<DExpr> expand(E expr) {
+		return PList.val(expr);
+	}
+
+	@Override
+	public SqlWithParams toSql(E expr) {
+		return getTypeStrategy(expr)._toSql();
 	}
 }
