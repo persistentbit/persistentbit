@@ -15,11 +15,8 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.
  */
 public class EByteTypeFactory extends AbstractTypeFactory<EByte,Byte>{
 
-	public EByteTypeFactory(ExprContext context,
-						   Class<EByte> typeClass,
-						   ExprTypeJdbcConvert<Byte> jdbcConvert
-	) {
-		super(context, typeClass, jdbcConvert);
+	public EByteTypeFactory(ExprContext context) {
+		super(context, EByte.class, context.getJavaJdbcConverter(Byte.class));
 	}
 
 	@Override

@@ -1,7 +1,5 @@
 package com.persistentbit.sql.dsl.generic.expressions;
 
-import com.persistentbit.sql.dsl.generic.expressions.impl.dtuples.DTuple2;
-
 /**
  * TODOC
  *
@@ -11,8 +9,7 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.dtuples.DTuple2;
 public interface DExpr<T>{
 
 
-
-	default <T2> ETuple2<T,T2> tuple2(DExpr<T2> v2){
+	/*default <E2 extends DExpr<J2>> ETuple2<T,T2> tuple2(DExpr<T2> v2){
 		return new DTuple2<>(this,v2);
-	}
+	}*/
 }

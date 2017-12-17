@@ -4,7 +4,6 @@ import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.BinOpOperator;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprContext;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.TypeStrategy;
 
 /**
@@ -15,11 +14,8 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.
  */
 public class EFloatTypeFactory extends AbstractTypeFactory<EFloat,Float>{
 
-	public EFloatTypeFactory(ExprContext context,
-							Class<EFloat> typeClass,
-							ExprTypeJdbcConvert<Float> jdbcConvert
-	) {
-		super(context, typeClass, jdbcConvert);
+	public EFloatTypeFactory(ExprContext context) {
+		super(context, EFloat.class, context.getJavaJdbcConverter(Float.class));
 	}
 
 	@Override

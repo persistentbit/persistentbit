@@ -2,12 +2,11 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.experiment.typeimpl.n
 
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.EBool;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.AbstractTypeFactory;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.BinOpOperator;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprContext;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.SingleOpOperator;
+import com.persistentbit.sql.dsl.generic.expressions.ETuple2;
+import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.typeimpl.AbstractTypeImpl;
+import com.persistentbit.tuples.Tuple2;
 
 /**
  * TODOC
@@ -32,6 +31,12 @@ public class EBoolTypeFactory extends AbstractTypeFactory<EBool,Boolean>{
 						 TypeStrategy<Boolean> typeStrategy
 		) {
 			super(typeClass, typeStrategy);
+		}
+
+		@Override
+		public <E2 extends DExpr<J2>, J2> ETuple2<EBool, E2, Boolean, J2> tuple2(E2 v2) {
+			ExprTypeFactory et = context.<ETuple2,Tuple2>getTypeFactory(ETuple2.class);
+			return (ETuple2<EBool, E2, Boolean, J2>)et.buildVal(Tuple2.of(this,v2));
 		}
 
 		@Override

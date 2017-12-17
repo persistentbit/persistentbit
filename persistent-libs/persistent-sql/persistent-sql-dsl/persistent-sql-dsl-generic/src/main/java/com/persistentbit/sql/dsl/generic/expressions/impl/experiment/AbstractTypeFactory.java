@@ -27,6 +27,11 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>,J> implements ExprT
 		this.jdbcConvert = jdbcConvert;
 	}
 
+	@Override
+	public Class<E> getTypeClass() {
+		return typeClass;
+	}
+
 	protected abstract E buildWithStrategy(TypeStrategy<J> strategy);
 
 

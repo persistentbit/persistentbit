@@ -1,10 +1,12 @@
 package com.persistentbit.sql.dsl.generic.expressions.impl.experiment.typeimpl.numbers;
 
-import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+import com.persistentbit.sql.dsl.generic.expressions.EBigDecimal;
+import com.persistentbit.sql.dsl.generic.expressions.EDouble;
+import com.persistentbit.sql.dsl.generic.expressions.EInt;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.BinOpOperator;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprContext;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.TypeStrategy;
 
 /**
@@ -15,11 +17,8 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.
  */
 public class EDoubleTypeFactory extends AbstractTypeFactory<EDouble,Double>{
 
-	public EDoubleTypeFactory(ExprContext context,
-							 Class<EDouble> typeClass,
-							 ExprTypeJdbcConvert<Double> jdbcConvert
-	) {
-		super(context, typeClass, jdbcConvert);
+	public EDoubleTypeFactory(ExprContext context) {
+		super(context, EDouble.class, context.getJavaJdbcConverter(Double.class));
 	}
 
 	@Override

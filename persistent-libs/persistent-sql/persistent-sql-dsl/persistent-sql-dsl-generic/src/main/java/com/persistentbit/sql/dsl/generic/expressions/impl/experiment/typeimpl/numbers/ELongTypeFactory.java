@@ -4,7 +4,6 @@ import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.BinOpOperator;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprContext;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.TypeStrategy;
 
 /**
@@ -15,11 +14,8 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.
  */
 public class ELongTypeFactory extends AbstractTypeFactory<ELong,Long>{
 
-	public ELongTypeFactory(ExprContext context,
-						   Class<ELong> typeClass,
-						   ExprTypeJdbcConvert<Long> jdbcConvert
-	) {
-		super(context, typeClass, jdbcConvert);
+	public ELongTypeFactory(ExprContext context) {
+		super(context, ELong.class, context.getJavaJdbcConverter(Long.class));
 	}
 
 	@Override

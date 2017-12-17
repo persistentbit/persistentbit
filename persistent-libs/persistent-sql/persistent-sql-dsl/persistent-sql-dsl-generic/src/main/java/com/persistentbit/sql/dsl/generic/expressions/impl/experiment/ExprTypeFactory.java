@@ -23,4 +23,5 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 	SqlWithParams	toSql(E expr);
 
 	ExprContext	getExprContext();
+	Class<? extends DExpr<J>> getTypeClass();
 }

@@ -4,7 +4,6 @@ import com.persistentbit.sql.dsl.generic.expressions.ETime;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprContext;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprTypeFactory;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.typeimpl.AbstractTypeImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.typeimpl.TypeImplComparableMixin;
@@ -18,11 +17,8 @@ import java.time.LocalTime;
  * @since 17/12/17
  */
 public class ETimeTypeFactory extends AbstractTypeFactory<ETime,LocalTime>{
-	public ETimeTypeFactory(ExprContext context,
-							Class<ETime> typeClass,
-							ExprTypeJdbcConvert<LocalTime> jdbcConvert
-	) {
-		super(context, typeClass, jdbcConvert);
+	public ETimeTypeFactory(ExprContext context) {
+		super(context, ETime.class, context.getJavaJdbcConverter(LocalTime.class));
 	}
 
 	@Override

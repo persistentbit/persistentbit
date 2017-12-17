@@ -6,7 +6,6 @@ import com.persistentbit.sql.dsl.generic.expressions.EInt;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.BinOpOperator;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprContext;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.TypeStrategy;
 
 import java.math.BigDecimal;
@@ -21,11 +20,8 @@ import java.math.BigDecimal;
 
 public class EBigDecimalTypeFactory extends AbstractTypeFactory<EBigDecimal, BigDecimal>{
 
-	public EBigDecimalTypeFactory(ExprContext context,
-								  Class<EBigDecimal> typeClass,
-								  ExprTypeJdbcConvert<BigDecimal> jdbcConvert
-	) {
-		super(context, typeClass, jdbcConvert);
+	public EBigDecimalTypeFactory(ExprContext context) {
+		super(context, EBigDecimal.class, context.getJavaJdbcConverter(BigDecimal.class));
 	}
 
 	@Override

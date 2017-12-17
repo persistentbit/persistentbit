@@ -4,7 +4,6 @@ import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.BinOpOperator;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.ExprContext;
-import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.TypeStrategy;
 
 /**
@@ -15,11 +14,8 @@ import com.persistentbit.sql.dsl.generic.expressions.impl.experiment.strategies.
  */
 public class EIntTypeFactory extends AbstractTypeFactory<EInt,Integer>{
 
-	public EIntTypeFactory(ExprContext context,
-						   Class<EInt> typeClass,
-						   ExprTypeJdbcConvert<Integer> jdbcConvert
-	) {
-		super(context, typeClass, jdbcConvert);
+	public EIntTypeFactory(ExprContext context) {
+		super(context, EInt.class, context.getJavaJdbcConverter(Integer.class));
 	}
 
 	@Override

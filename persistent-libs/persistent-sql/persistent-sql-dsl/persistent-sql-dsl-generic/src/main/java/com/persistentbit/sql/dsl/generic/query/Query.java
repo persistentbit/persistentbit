@@ -1,9 +1,8 @@
 package com.persistentbit.sql.dsl.generic.query;
 
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.EBool;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.tuples.*;
+import com.persistentbit.sql.dsl.generic.expressions.EBool;
 
 /**
  * TODOC
@@ -38,7 +37,7 @@ public interface Query{
 
 	<T> Selection<T> selection(DExpr<T> selection);
 
-	default <T1, T2> Selection<Tuple2<T1, T2>> selection(DExpr<T1> col1, DExpr<T2> col2){
+	/*default <T1, T2> Selection<Tuple2<T1, T2>> selection(DExpr<T1> col1, DExpr<T2> col2){
 		return selection(col1.tuple2(col2));
 	}
 
@@ -65,6 +64,6 @@ public interface Query{
 	default <T1, T2, T3, T4, T5, T6, T7> Selection<Tuple7<T1, T2, T3, T4, T5, T6, T7>> selection(
 		DExpr<T1> col1, DExpr<T2> col2, DExpr<T3> col3, DExpr<T4> col4, DExpr<T5> col5, DExpr<T6> col6, DExpr<T7> col7){
 		return selection(col1.tuple2(col2).tuple3(col3).tuple4(col4).tuple5(col5).tuple6(col6).tuple7(col7));
-	}
+	}*/
 
 }
