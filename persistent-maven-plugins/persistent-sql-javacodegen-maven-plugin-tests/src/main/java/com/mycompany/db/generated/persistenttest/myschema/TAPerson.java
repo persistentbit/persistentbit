@@ -3,29 +3,27 @@ package com.mycompany.db.generated.persistenttest.myschema;
 import java.lang.Override;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
-import com.mycompany.db.generated.persistenttest.myschema.APerson;
+import com.persistentbit.sql.dsl.generic.expressions.EInt;
+import com.persistentbit.sql.dsl.generic.expressions.ELong;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.sql.dsl.generic.expressions.EString;
+
 import java.lang.String;
 
 public class TAPerson extends DTableExprImpl<APerson> {
-	public  final	DExprLong	id;
-	public  final	DExprString	userName;
-	public  final	DExprString	password;
-	public  final	DExprString	street;
-	public  final	DExprInt	houseNumber;
-	public  final	DExprString	busNumber;
-	public  final	DExprString	postalcode;
-	public  final	DExprString	city;
-	public  final	DExprString	country;
+	public  final ELong   id;
+	public  final EString userName;
+	public  final EString password;
+	public  final EString street;
+	public  final EInt    houseNumber;
+	public  final EString busNumber;
+	public  final EString postalcode;
+	public  final EString city;
+	public  final EString country;
 	
 	
-	public TAPerson(DExprLong id, DExprString userName, DExprString password, DExprString street, DExprInt houseNumber, DExprString busNumber, DExprString postalcode, DExprString city, DExprString country){
+	public TAPerson(ELong id, EString userName, EString password, EString street, EInt houseNumber, EString busNumber, EString postalcode, EString city, EString country){
 		super(
 			PList.val(id, userName, password, street, houseNumber, busNumber, postalcode, city, country),
 			_scon -> _rr -> {
@@ -55,15 +53,15 @@ public class TAPerson extends DTableExprImpl<APerson> {
 	@Override
 	protected  TAPerson	_doWithAlias(String alias){
 		return new TAPerson(
-			(DExprLong)DImpl._get(id)._withAlias(alias), 
-			(DExprString)DImpl._get(userName)._withAlias(alias), 
-			(DExprString)DImpl._get(password)._withAlias(alias), 
-			(DExprString)DImpl._get(street)._withAlias(alias), 
-			(DExprInt)DImpl._get(houseNumber)._withAlias(alias), 
-			(DExprString)DImpl._get(busNumber)._withAlias(alias), 
-			(DExprString)DImpl._get(postalcode)._withAlias(alias), 
-			(DExprString)DImpl._get(city)._withAlias(alias), 
-			(DExprString)DImpl._get(country)._withAlias(alias)
+			(ELong)DImpl._get(id)._withAlias(alias),
+			(EString)DImpl._get(userName)._withAlias(alias),
+			(EString)DImpl._get(password)._withAlias(alias),
+			(EString)DImpl._get(street)._withAlias(alias),
+			(EInt)DImpl._get(houseNumber)._withAlias(alias),
+			(EString)DImpl._get(busNumber)._withAlias(alias),
+			(EString)DImpl._get(postalcode)._withAlias(alias),
+			(EString)DImpl._get(city)._withAlias(alias),
+			(EString)DImpl._get(country)._withAlias(alias)
 		);
 	}
 	public  static TAPerson	cast(DExpr<APerson> expr){

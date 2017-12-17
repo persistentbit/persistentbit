@@ -30,19 +30,19 @@ public interface DbContext{
 	DbSqlContext	createSqlContext();
 
 
-	default DExprBoolean val(Boolean v) { return new DBooleanValue(v);}
-	default DExprByte val(Byte v) { return new DByteValue(v); }
-	default DExprShort val(Short v) { return new DShortValue(v); }
-	default DExprInt val(Integer v) { return new DIntValue(v); }
-	default DExprLong val(Long v) { return new DLongValue(v); }
-	default DExprDouble val(Double v) { return new DDoubleValue(v); }
-	default DExprFloat val(Float v) { return new DFloatValue(v);}
-	default DExprBigDecimal val(BigDecimal v) { return new DBigDecimalValue(v); }
-	default DExprString val(String v) { return new DStringValue(v); }
-	default DExprDateTime val(LocalDateTime v) { return new DDateTimeValue(v); }
-	default DExprDate val(LocalDate v) { return new DDateValue(v); }
-	default DExprZonedDateTime val(ZonedDateTime v) { return new DZonedDateTimeValue(v);}
-	default DExprByteList	val(PByteList v) { return new DByteListValue(v);}
-	default DExprBitList val(PBitList v) { return new DBitListValue(v);}
-	default DExprTime val(LocalTime v) { return new DLocalTimeValue(v); }
+	default EBool val(Boolean v) { return new DBooleanValue(v);}
+	default EByte val(Byte v) { return new DByteValue(v); }
+	default EShort val(Short v) { return new DShortValue(v); }
+	default EInt val(Integer v) { return new DIntValue(v); }
+	default ELong val(Long v) { return new DLongValue(v); }
+	default EDouble val(Double v) { return new DDoubleValue(v); }
+	default EFloat val(Float v) { return new DFloatValue(v);}
+	default EBigDecimal val(BigDecimal v) { return new DBigDecimalValue(v); }
+	default EString val(String v) { return new DStringValue(v); }
+	default EDateTime val(LocalDateTime v) { return new DDateTimeValue(v); }
+	default EDate val(LocalDate v) { return new DDateValue(v); }
+	default EZonedDateTime val(ZonedDateTime v) { return new DZonedDateTimeValue(v);}
+	default EByteList val(PByteList v) { return new DByteListValue(v);}
+	default EBitList val(PBitList v) { return new DBitListValue(v);}
+	default ETime val(LocalTime v) { return new DLocalTimeValue(v); }
 }

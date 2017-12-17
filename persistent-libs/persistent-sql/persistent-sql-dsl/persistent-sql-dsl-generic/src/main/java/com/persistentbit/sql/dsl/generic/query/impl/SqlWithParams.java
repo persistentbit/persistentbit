@@ -40,8 +40,8 @@ public class SqlWithParams{
 
 		@Override
 		int setParams(PreparedStatement stat, int index) throws SQLException{
-			prepStatParam._setPrepStatement(stat, index);
-			return index+1;
+			return index + prepStatParam._setPrepStatement(stat, index);
+
 		}
 
 		@Override

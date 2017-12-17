@@ -8,7 +8,7 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTuple2;
+import com.persistentbit.sql.dsl.generic.expressions.ETuple2;
 import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
 import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.sql.transactions.DbTransaction;
@@ -118,8 +118,8 @@ public class Main{
 
 		System.out.println("------------------------------");
 
-		DSelectionTable<Tuple2<APerson,Company>> subSelPC = persAndCompSel.asTableExpr("pc");
-		DExprTuple2<APerson,Company> subSelPCTuple = DExprTuple2.cast(subSelPC.all());
+		DSelectionTable<Tuple2<APerson,Company>> subSelPC      = persAndCompSel.asTableExpr("pc");
+		ETuple2<APerson,Company>                 subSelPCTuple = ETuple2.cast(subSelPC.all());
 
 		TAPerson  subSelPerson  = TAPerson.cast(subSelPCTuple.v1());
 		TCompany subSelCompany = TCompany.cast(subSelPCTuple.v2());

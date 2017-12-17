@@ -4,14 +4,12 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
+import com.persistentbit.sql.dsl.generic.expressions.EBool;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTuple2;
 import com.persistentbit.sql.dsl.generic.query.Join;
 import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.dsl.generic.query.Selection;
 import com.persistentbit.tuples.Tuple2;
-import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -22,12 +20,12 @@ import com.persistentbit.utils.exceptions.ToDo;
 public class QueryImpl implements Query{
 
 	//final DbSqlContext	sqlContext;
-	final DbContext dbContext;
+	final DbContext         dbContext;
 	final PList<DExprTable> from;
-	final PList<JoinImpl> joins;
+	final PList<JoinImpl>   joins;
 	@Nullable
-	final DExprBoolean where;
-	final PList<OrderBy> orderBy;
+	final EBool             where;
+	final PList<OrderBy>    orderBy;
 	@Nullable
 	final Tuple2<Long,Long> limitAndOffset;
 
@@ -35,7 +33,7 @@ public class QueryImpl implements Query{
 	public QueryImpl(DbContext dbContext,
 					 PList<DExprTable> from,
 					 PList<JoinImpl> joins,
-					 @Nullable DExprBoolean where,
+					 @Nullable EBool where,
 					 PList<OrderBy> orderBy,
 					 @Nullable Tuple2<Long, Long> limitAndOffset
 	) {
@@ -94,7 +92,7 @@ public class QueryImpl implements Query{
 	}
 
 	@Override
-	public Query where(DExprBoolean whereExpr) {
+	public Query where(EBool whereExpr) {
 		return new QueryImpl(dbContext,from,joins,whereExpr,orderBy,limitAndOffset);
 	}
 

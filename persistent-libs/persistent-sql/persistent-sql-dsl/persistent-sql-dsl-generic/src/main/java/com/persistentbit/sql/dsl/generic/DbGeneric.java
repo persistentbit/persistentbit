@@ -18,28 +18,28 @@ public abstract class DbGeneric{
 		this.context = context;
 	}
 
-	public DExprInt	val(Integer value){
+	public EInt val(Integer value){
 		return context.val(value);
 	}
-	public DExprLong val(Long value){
+	public ELong val(Long value){
 		return context.val(value);
 	}
-	public DExprBoolean val(Boolean value){
+	public EBool val(Boolean value){
 		return context.val(value);
 	}
-	public DExprString val(String value){
+	public EString val(String value){
 		return context.val(value);
 	}
-	public DExprShort val(Short value){
+	public EShort val(Short value){
 		return context.val(value);
 	}
-	public DExprDouble val(Double value){
+	public EDouble val(Double value){
 		return context.val(value);
 	}
-	public DExprBigDecimal val(BigDecimal value){
+	public EBigDecimal val(BigDecimal value){
 		return context.val(value);
 	}
-	public DExprDateTime val(LocalDateTime value){
+	public EDateTime val(LocalDateTime value){
 		return context.val(value);
 	}
 }

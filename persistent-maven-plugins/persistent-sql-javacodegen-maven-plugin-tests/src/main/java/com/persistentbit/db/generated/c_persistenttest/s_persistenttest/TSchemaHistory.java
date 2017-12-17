@@ -1,24 +1,24 @@
 package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
 import java.lang.Override;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.SchemaHistory;
+
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
+import com.persistentbit.sql.dsl.generic.expressions.EDateTime;
 import java.time.LocalDateTime;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.EString;
+
 import java.lang.String;
 
 public class TSchemaHistory extends DTableExprImpl<SchemaHistory> {
-	public  final	DExprDateTime	createddate;
-	public  final	DExprString	packageName;
-	public  final	DExprString	updateName;
+	public  final EDateTime createddate;
+	public  final EString   packageName;
+	public  final EString   updateName;
 	
 	
-	public TSchemaHistory(DExprDateTime createddate, DExprString packageName, DExprString updateName){
+	public TSchemaHistory(EDateTime createddate, EString packageName, EString updateName){
 		super(
 			PList.val(createddate, packageName, updateName),
 			_scon -> _rr -> {
@@ -36,9 +36,9 @@ public class TSchemaHistory extends DTableExprImpl<SchemaHistory> {
 	@Override
 	protected  TSchemaHistory	_doWithAlias(String alias){
 		return new TSchemaHistory(
-			(DExprDateTime)DImpl._get(createddate)._withAlias(alias), 
-			(DExprString)DImpl._get(packageName)._withAlias(alias), 
-			(DExprString)DImpl._get(updateName)._withAlias(alias)
+			(EDateTime)DImpl._get(createddate)._withAlias(alias),
+			(EString)DImpl._get(packageName)._withAlias(alias),
+			(EString)DImpl._get(updateName)._withAlias(alias)
 		);
 	}
 	public  static TSchemaHistory	cast(DExpr<SchemaHistory> expr){

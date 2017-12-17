@@ -3,7 +3,7 @@ package com.persistentbit.sql.dsl.generic.expressions.impl.dtuples;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTuple7;
+import com.persistentbit.sql.dsl.generic.expressions.ETuple7;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.query.impl.SqlWithParams;
 import com.persistentbit.sql.utils.rowreader.RowReader;
@@ -16,7 +16,8 @@ import com.persistentbit.utils.Lazy;
  * @author petermuys
  * @since 1/12/17
  */
-public class DTuple7<T1,T2,T3,T4,T5,T6,T7> implements DImpl<Tuple7<T1,T2,T3,T4,T5,T6,T7>> , DExprTuple7<T1,T2,T3,T4,T5,T6,T7>{
+public class DTuple7<T1,T2,T3,T4,T5,T6,T7> implements DImpl<Tuple7<T1,T2,T3,T4,T5,T6,T7>> ,
+	ETuple7<T1,T2,T3,T4,T5,T6,T7>{
 	private final DExpr<T1> v1;
 	private final DExpr<T2>	v2;
 	private final DExpr<T3>	v3;

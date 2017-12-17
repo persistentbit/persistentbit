@@ -1,27 +1,27 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
 import java.lang.Override;
-import com.mycompany.db.generated.persistenttest.myschema.AuthUserRememberMe;
+
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
-import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
+import com.persistentbit.sql.dsl.generic.expressions.ELong;
+import com.persistentbit.sql.dsl.generic.expressions.EDateTime;
 import java.time.LocalDateTime;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.EString;
+
 import java.lang.String;
 
 public class TAuthUserRememberMe extends DTableExprImpl<AuthUserRememberMe> {
-	public  final	DExprLong	id;
-	public  final	DExprLong	authUserId;
-	public  final	DExprString	code;
-	public  final	DExprDateTime	validUntil;
-	public  final	DExprString	passwordCode;
+	public  final ELong     id;
+	public  final ELong     authUserId;
+	public  final EString   code;
+	public  final EDateTime validUntil;
+	public  final EString   passwordCode;
 	
 	
-	public TAuthUserRememberMe(DExprLong id, DExprLong authUserId, DExprString code, DExprDateTime validUntil, DExprString passwordCode){
+	public TAuthUserRememberMe(ELong id, ELong authUserId, EString code, EDateTime validUntil, EString passwordCode){
 		super(
 			PList.val(id, authUserId, code, validUntil, passwordCode),
 			_scon -> _rr -> {
@@ -43,11 +43,11 @@ public class TAuthUserRememberMe extends DTableExprImpl<AuthUserRememberMe> {
 	@Override
 	protected  TAuthUserRememberMe	_doWithAlias(String alias){
 		return new TAuthUserRememberMe(
-			(DExprLong)DImpl._get(id)._withAlias(alias), 
-			(DExprLong)DImpl._get(authUserId)._withAlias(alias), 
-			(DExprString)DImpl._get(code)._withAlias(alias), 
-			(DExprDateTime)DImpl._get(validUntil)._withAlias(alias), 
-			(DExprString)DImpl._get(passwordCode)._withAlias(alias)
+			(ELong)DImpl._get(id)._withAlias(alias),
+			(ELong)DImpl._get(authUserId)._withAlias(alias),
+			(EString)DImpl._get(code)._withAlias(alias),
+			(EDateTime)DImpl._get(validUntil)._withAlias(alias),
+			(EString)DImpl._get(passwordCode)._withAlias(alias)
 		);
 	}
 	public  static TAuthUserRememberMe	cast(DExpr<AuthUserRememberMe> expr){

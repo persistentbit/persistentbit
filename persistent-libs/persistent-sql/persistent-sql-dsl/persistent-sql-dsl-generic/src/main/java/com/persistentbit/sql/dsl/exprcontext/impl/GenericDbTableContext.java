@@ -54,82 +54,82 @@ public class GenericDbTableContext implements DbTableContext{
 	}
 
 	@Override
-	public DExprBoolean createExprBoolean(String columnName) {
+	public EBool createExprBoolean(String columnName) {
 		return new DBooleanTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprByte createExprByte(String columnName) {
+	public EByte createExprByte(String columnName) {
 		return new DByteTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprShort createExprShort(String columnName) {
+	public EShort createExprShort(String columnName) {
 		return new DShortTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprInt createExprInt(String columnName) {
+	public EInt createExprInt(String columnName) {
 		return new DIntTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprLong createExprLong(String columnName
+	public ELong createExprLong(String columnName
 	) {
 		return new DLongTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprDouble createExprDouble(String columnName
+	public EDouble createExprDouble(String columnName
 	) {
 		return new DDoubleTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprBigDecimal createExprBigDecimal(String columnName
+	public EBigDecimal createExprBigDecimal(String columnName
 	) {
 		return new DBigDecimalTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprString createExprString(String columnName
+	public EString createExprString(String columnName
 	) {
 		return new DStringTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 
 	}
 
 	@Override
-	public DExprDateTime createExprDateTime(String columnName
+	public EDateTime createExprDateTime(String columnName
 	) {
 		return new DDateTimeTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
-	public DExprDate createExprLocalDate(String columnName){
+	public EDate createExprLocalDate(String columnName){
 		return new DDateTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(),columnName));
 	}
 
 	@Override
-	public DExprFloat createExprFloat(String columnName) {
+	public EFloat createExprFloat(String columnName) {
 		return new DFloatTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(),columnName));
 	}
 
 	@Override
-	public DExprByteList createExprByteList(String columnName) {
+	public EByteList createExprByteList(String columnName) {
 		return new DByteListTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprBitList createExprBitList(String columnName) {
+	public EBitList createExprBitList(String columnName) {
 		return new DBitListTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprZonedDateTime createExprZonedDateTime(String columnName) {
+	public EZonedDateTime createExprZonedDateTime(String columnName) {
 		return new DZonedDateTimeTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 
 	@Override
-	public DExprTime createExprTime(String columnName) {
+	public ETime createExprTime(String columnName) {
 		return new DLocalTimeTableFieldExpr(new GenericDbTableFieldExprContext(getFieldTable(), columnName));
 	}
 

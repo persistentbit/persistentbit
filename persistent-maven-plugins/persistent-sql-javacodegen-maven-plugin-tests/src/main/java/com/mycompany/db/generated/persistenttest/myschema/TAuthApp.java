@@ -1,29 +1,25 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
 import java.lang.Override;
-import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.mycompany.db.generated.persistenttest.myschema.AuthApp;
+
+import com.persistentbit.sql.dsl.generic.expressions.*;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
+import com.persistentbit.sql.dsl.generic.expressions.EBool;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.code.annotations.Nullable;
+
 import java.lang.String;
 
 public class TAuthApp extends DTableExprImpl<AuthApp> {
-	public  final	DExprLong	id;
-	public  final	DExprString	name;
-	public  final	DExprString	password;
-	public  final	DExprBoolean	isRoot;
-	public  final	DExprBoolean	isActive;
-	public  final	DExprInt	maxWrongPasswordCount;
+	public  final ELong   id;
+	public  final EString name;
+	public  final EString password;
+	public  final EBool   isRoot;
+	public  final EBool   isActive;
+	public  final EInt    maxWrongPasswordCount;
 	
 	
-	public TAuthApp(DExprLong id, DExprString name, DExprString password, DExprBoolean isRoot, DExprBoolean isActive, DExprInt maxWrongPasswordCount){
+	public TAuthApp(ELong id, EString name, EString password, EBool isRoot, EBool isActive, EInt maxWrongPasswordCount){
 		super(
 			PList.val(id, name, password, isRoot, isActive, maxWrongPasswordCount),
 			_scon -> _rr -> {
@@ -47,12 +43,12 @@ public class TAuthApp extends DTableExprImpl<AuthApp> {
 	@Override
 	protected  TAuthApp	_doWithAlias(String alias){
 		return new TAuthApp(
-			(DExprLong)DImpl._get(id)._withAlias(alias), 
-			(DExprString)DImpl._get(name)._withAlias(alias), 
-			(DExprString)DImpl._get(password)._withAlias(alias), 
-			(DExprBoolean)DImpl._get(isRoot)._withAlias(alias), 
-			(DExprBoolean)DImpl._get(isActive)._withAlias(alias), 
-			(DExprInt)DImpl._get(maxWrongPasswordCount)._withAlias(alias)
+			(ELong)DImpl._get(id)._withAlias(alias),
+			(EString)DImpl._get(name)._withAlias(alias),
+			(EString)DImpl._get(password)._withAlias(alias),
+			(EBool)DImpl._get(isRoot)._withAlias(alias),
+			(EBool)DImpl._get(isActive)._withAlias(alias),
+			(EInt)DImpl._get(maxWrongPasswordCount)._withAlias(alias)
 		);
 	}
 	public  static TAuthApp	cast(DExpr<AuthApp> expr){

@@ -2,18 +2,18 @@ package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
+import com.persistentbit.sql.dsl.generic.expressions.ELong;
+import com.persistentbit.sql.dsl.generic.expressions.EString;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 
 public class TInvoiceLine extends DTableExprImpl<InvoiceLine> {
-	public  final	DExprLong	id;
-	public  final	DExprLong	invoiceId;
-	public  final	DExprString	product;
+	public  final ELong   id;
+	public  final ELong   invoiceId;
+	public  final EString product;
 	
 	
-	public TInvoiceLine(DExprLong id, DExprLong invoiceId, DExprString product){
+	public TInvoiceLine(ELong id, ELong invoiceId, EString product){
 		super(
 			PList.val(id, invoiceId, product),
 			_scon -> _rr -> {
@@ -31,9 +31,9 @@ public class TInvoiceLine extends DTableExprImpl<InvoiceLine> {
 	@Override
 	protected  TInvoiceLine	_doWithAlias(String alias){
 		return new TInvoiceLine(
-			(DExprLong)DImpl._get(id)._withAlias(alias), 
-			(DExprLong)DImpl._get(invoiceId)._withAlias(alias), 
-			(DExprString)DImpl._get(product)._withAlias(alias)
+			(ELong)DImpl._get(id)._withAlias(alias),
+			(ELong)DImpl._get(invoiceId)._withAlias(alias),
+			(EString)DImpl._get(product)._withAlias(alias)
 		);
 	}
 	public  static TInvoiceLine	cast(DExpr<InvoiceLine> expr){

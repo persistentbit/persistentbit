@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.generic.query.impl;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
-import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
+import com.persistentbit.sql.dsl.generic.expressions.EBool;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImplTable;
@@ -20,15 +20,15 @@ public class JoinImpl implements Join{
 		inner, left, right, full
 	}
 
-	private final QueryImpl	query;
-	private final Type type;
+	private final QueryImpl  query;
+	private final Type       type;
 	private final DExprTable selectable;
 	@Nullable
-	private final DExprBoolean joinExpr;
+	private final EBool      joinExpr;
 
 	public JoinImpl(QueryImpl query, Type type, DExprTable selectable,
 					@Nullable
-					DExprBoolean joinExpr
+						EBool joinExpr
 	) {
 		this.query = query;
 		this.type = type;
@@ -40,7 +40,7 @@ public class JoinImpl implements Join{
 	}
 
 	@Override
-	public Query on(DExprBoolean joinExpr
+	public Query on(EBool joinExpr
 	) {
 		return new JoinImpl(query,type,selectable,joinExpr).query();
 	}

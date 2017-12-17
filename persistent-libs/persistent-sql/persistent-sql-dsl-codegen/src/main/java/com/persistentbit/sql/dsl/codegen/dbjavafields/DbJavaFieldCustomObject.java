@@ -52,46 +52,46 @@ public class DbJavaFieldCustomObject implements DbJavaField {
 	    JField f;
 	    switch(javaClass.getSimpleName()) {
 	        case "String":
-	            f = new JField(fieldName, DExprString.class).addImport(DExprString.class);
+	            f = new JField(fieldName, EString.class).addImport(EString.class);
 	            break;
 	        case "Boolean":
-	            f = new JField(fieldName, DExprBoolean.class).addImport(DExprBoolean.class);
+	            f = new JField(fieldName, EBool.class).addImport(EBool.class);
 	            break;
 	        case "Byte":
-	            f = new JField(fieldName, DExprByte.class).addImport(DExprByte.class);
+	            f = new JField(fieldName, EByte.class).addImport(EByte.class);
 	            break;
 	        case "Short":
-	            f = new JField(fieldName, DExprShort.class).addImport(DExprShort.class);
+	            f = new JField(fieldName, EShort.class).addImport(EShort.class);
 	            break;
 	        case "Integer":
-	            f = new JField(fieldName, DExprInt.class).addImport(DExprInt.class);
+	            f = new JField(fieldName, EInt.class).addImport(EInt.class);
 	            break;
 	        case "Long":
-	            f = new JField(fieldName, DExprLong.class).addImport(DExprLong.class);
+	            f = new JField(fieldName, ELong.class).addImport(ELong.class);
 	            break;
 	        case "Double":
-	            f = new JField(fieldName, DExprDouble.class).addImport(DExprDouble.class);
+	            f = new JField(fieldName, EDouble.class).addImport(EDouble.class);
 	            break;
 	        case "BigDecimal":
-	            f = new JField(fieldName, DExprBigDecimal.class).addImport(DExprBigDecimal.class);
+	            f = new JField(fieldName, EBigDecimal.class).addImport(EBigDecimal.class);
 	            break;
 	        case "LocalDateTime":
-	            f = new JField(fieldName, DExprDateTime.class).addImport(DExprDateTime.class);
+	            f = new JField(fieldName, EDateTime.class).addImport(EDateTime.class);
 	            break;
 	        case "ZonedDateTime":
-	            f = new JField(fieldName, DExprZonedDateTime.class).addImport(DExprZonedDateTime.class);
+	            f = new JField(fieldName, EZonedDateTime.class).addImport(EZonedDateTime.class);
 	            break;
 	        case "PByteList":
-	            f = new JField(fieldName, DExprByteList.class).addImport(DExprByteList.class);
+	            f = new JField(fieldName, EByteList.class).addImport(EByteList.class);
 	            break;
 	        case "PBitList":
-	            f = new JField(fieldName, DExprBitList.class).addImport(DExprBitList.class);
+	            f = new JField(fieldName, EBitList.class).addImport(EBitList.class);
 	            break;
 	        case "LocalDate":
-	            f = new JField(fieldName, DExprDate.class).addImport(DExprDate.class);
+	            f = new JField(fieldName, EDate.class).addImport(EDate.class);
 	            break;
 	        case "LocalTime":
-	            f = new JField(fieldName, DExprTime.class).addImport(DExprTime.class);
+	            f = new JField(fieldName, ETime.class).addImport(ETime.class);
 	            break;
 	        default:
 	            throw new ToDo("Unknown: " + javaClass + " for " + column);

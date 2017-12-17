@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.generic.query;
 
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
+import com.persistentbit.sql.dsl.generic.expressions.EBool;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
 import com.persistentbit.tuples.*;
 
@@ -28,7 +28,7 @@ public interface Query{
 
 	Join fullJoin(DExprTable table);
 
-	Query where(DExprBoolean whereExpr);
+	Query where(EBool whereExpr);
 
 
 	Query	limit(long limit);

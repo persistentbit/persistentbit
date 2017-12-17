@@ -48,19 +48,19 @@ public class DbJavaFieldPrimitiveType implements DbJavaField {
 	public  Class	getTableColumnClass(){
 	    switch(primitiveType.getSimpleName()) {
 	        case "boolean":
-	            return DExprBoolean.class;
+	            return EBool.class;
 	        case "byte":
-	            return DExprByte.class;
+	            return EByte.class;
 	        case "int":
-	            return DExprInt.class;
+	            return EInt.class;
 	        case "short":
-	            return DExprShort.class;
+	            return EShort.class;
 	        case "long":
-	            return DExprLong.class;
+	            return ELong.class;
 	        case "float":
-	            return DExprFloat.class;
+	            return EFloat.class;
 	        case "double":
-	            return DExprDouble.class;
+	            return EDouble.class;
 	        default:
 	            throw new ToDo("Unknown: " + primitiveType);
 	    }

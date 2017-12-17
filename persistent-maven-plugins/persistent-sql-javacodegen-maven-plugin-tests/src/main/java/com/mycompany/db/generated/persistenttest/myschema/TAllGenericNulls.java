@@ -1,66 +1,55 @@
 package com.mycompany.db.generated.persistenttest.myschema;
 
 import java.lang.Override;
-import com.persistentbit.sql.dsl.generic.expressions.DExprByteList;
+
+import com.persistentbit.sql.dsl.generic.expressions.*;
+
 import java.time.ZonedDateTime;
-import com.persistentbit.sql.dsl.generic.expressions.DExprZonedDateTime;
-import com.persistentbit.sql.dsl.generic.expressions.DExpr;
+
 import com.persistentbit.collections.PByteList;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
-import com.mycompany.db.generated.persistenttest.myschema.AllGenericNulls;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
-import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
+
 import java.time.LocalDateTime;
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.generic.expressions.DExprBoolean;
+import com.persistentbit.sql.dsl.generic.expressions.EBool;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
 import java.math.BigDecimal;
-import com.persistentbit.sql.dsl.generic.expressions.DExprBigDecimal;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.generic.expressions.DExprDouble;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.sql.dsl.generic.expressions.DExprDate;
-import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTime;
 import java.lang.String;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import com.persistentbit.sql.dsl.generic.expressions.DExprShort;
-import com.persistentbit.sql.dsl.generic.expressions.DExprFloat;
 
 public class TAllGenericNulls extends DTableExprImpl<AllGenericNulls> {
-	public  final	DExprString	idPart1;
-	public  final	DExprLong	idPart2;
-	public  final	DExprShort	serSmall;
-	public  final	DExprInt	ser;
-	public  final	DExprLong	serBig;
-	public  final	DExprInt	anInteger;
-	public  final	DExprLong	aBigint;
-	public  final	DExprBigDecimal	aDecimal72;
-	public  final	DExprBigDecimal	aNumeric6;
-	public  final	DExprBigDecimal	aNumeric;
-	public  final	DExprFloat	aReal;
-	public  final	DExprDouble	aDouble;
-	public  final	DExprShort	anInt2;
-	public  final	DExprInt	anInt4;
-	public  final	DExprLong	anInt8;
-	public  final	DExprString	aVarchar;
-	public  final	DExprString	aVarchar10;
-	public  final	DExprString	aText;
-	public  final	DExprString	aChar;
-	public  final	DExprString	aChar10;
-	public  final	DExprByteList	aBytea;
-	public  final	DExprDateTime	aTimestamp3;
-	public  final	DExprDateTime	aTimestamp;
-	public  final	DExprZonedDateTime	aTimestampWithZone;
-	public  final	DExprDate	aDate;
-	public  final	DExprTime	aTime;
-	public  final	DExprTime	aTimeWithZone;
-	public  final	DExprBoolean	aBoolean;
+	public  final EString            idPart1;
+	public  final ELong              idPart2;
+	public  final EShort             serSmall;
+	public  final EInt               ser;
+	public  final ELong              serBig;
+	public  final EInt               anInteger;
+	public  final ELong              aBigint;
+	public  final EBigDecimal        aDecimal72;
+	public  final EBigDecimal        aNumeric6;
+	public  final EBigDecimal        aNumeric;
+	public  final EFloat             aReal;
+	public  final EDouble        aDouble;
+	public  final EShort         anInt2;
+	public  final EInt           anInt4;
+	public  final ELong          anInt8;
+	public  final EString        aVarchar;
+	public  final EString        aVarchar10;
+	public  final EString        aText;
+	public  final EString        aChar;
+	public  final EString        aChar10;
+	public  final EByteList      aBytea;
+	public  final EDateTime      aTimestamp3;
+	public  final EDateTime      aTimestamp;
+	public  final EZonedDateTime aTimestampWithZone;
+	public  final EDate          aDate;
+	public  final ETime          aTime;
+	public  final ETime          aTimeWithZone;
+	public  final EBool          aBoolean;
 	
 	
-	public TAllGenericNulls(DExprString idPart1, DExprLong idPart2, DExprShort serSmall, DExprInt ser, DExprLong serBig, DExprInt anInteger, DExprLong aBigint, DExprBigDecimal aDecimal72, DExprBigDecimal aNumeric6, DExprBigDecimal aNumeric, DExprFloat aReal, DExprDouble aDouble, DExprShort anInt2, DExprInt anInt4, DExprLong anInt8, DExprString aVarchar, DExprString aVarchar10, DExprString aText, DExprString aChar, DExprString aChar10, DExprByteList aBytea, DExprDateTime aTimestamp3, DExprDateTime aTimestamp, DExprZonedDateTime aTimestampWithZone, DExprDate aDate, DExprTime aTime, DExprTime aTimeWithZone, DExprBoolean aBoolean){
+	public TAllGenericNulls(EString idPart1, ELong idPart2, EShort serSmall, EInt ser, ELong serBig, EInt anInteger, ELong aBigint, EBigDecimal aDecimal72, EBigDecimal aNumeric6, EBigDecimal aNumeric, EFloat aReal, EDouble aDouble, EShort anInt2, EInt anInt4, ELong anInt8, EString aVarchar, EString aVarchar10, EString aText, EString aChar, EString aChar10, EByteList aBytea, EDateTime aTimestamp3, EDateTime aTimestamp, EZonedDateTime aTimestampWithZone, EDate aDate, ETime aTime, ETime aTimeWithZone, EBool aBoolean){
 		super(
 			PList.val(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean),
 			_scon -> _rr -> {
@@ -128,34 +117,34 @@ public class TAllGenericNulls extends DTableExprImpl<AllGenericNulls> {
 	@Override
 	protected  TAllGenericNulls	_doWithAlias(String alias){
 		return new TAllGenericNulls(
-			(DExprString)DImpl._get(idPart1)._withAlias(alias), 
-			(DExprLong)DImpl._get(idPart2)._withAlias(alias), 
-			(DExprShort)DImpl._get(serSmall)._withAlias(alias), 
-			(DExprInt)DImpl._get(ser)._withAlias(alias), 
-			(DExprLong)DImpl._get(serBig)._withAlias(alias), 
-			(DExprInt)DImpl._get(anInteger)._withAlias(alias), 
-			(DExprLong)DImpl._get(aBigint)._withAlias(alias), 
-			(DExprBigDecimal)DImpl._get(aDecimal72)._withAlias(alias), 
-			(DExprBigDecimal)DImpl._get(aNumeric6)._withAlias(alias), 
-			(DExprBigDecimal)DImpl._get(aNumeric)._withAlias(alias), 
-			(DExprFloat)DImpl._get(aReal)._withAlias(alias), 
-			(DExprDouble)DImpl._get(aDouble)._withAlias(alias), 
-			(DExprShort)DImpl._get(anInt2)._withAlias(alias), 
-			(DExprInt)DImpl._get(anInt4)._withAlias(alias), 
-			(DExprLong)DImpl._get(anInt8)._withAlias(alias), 
-			(DExprString)DImpl._get(aVarchar)._withAlias(alias), 
-			(DExprString)DImpl._get(aVarchar10)._withAlias(alias), 
-			(DExprString)DImpl._get(aText)._withAlias(alias), 
-			(DExprString)DImpl._get(aChar)._withAlias(alias), 
-			(DExprString)DImpl._get(aChar10)._withAlias(alias), 
-			(DExprByteList)DImpl._get(aBytea)._withAlias(alias), 
-			(DExprDateTime)DImpl._get(aTimestamp3)._withAlias(alias), 
-			(DExprDateTime)DImpl._get(aTimestamp)._withAlias(alias), 
-			(DExprZonedDateTime)DImpl._get(aTimestampWithZone)._withAlias(alias), 
-			(DExprDate)DImpl._get(aDate)._withAlias(alias), 
-			(DExprTime)DImpl._get(aTime)._withAlias(alias), 
-			(DExprTime)DImpl._get(aTimeWithZone)._withAlias(alias), 
-			(DExprBoolean)DImpl._get(aBoolean)._withAlias(alias)
+			(EString)DImpl._get(idPart1)._withAlias(alias),
+			(ELong)DImpl._get(idPart2)._withAlias(alias),
+			(EShort)DImpl._get(serSmall)._withAlias(alias),
+			(EInt)DImpl._get(ser)._withAlias(alias),
+			(ELong)DImpl._get(serBig)._withAlias(alias),
+			(EInt)DImpl._get(anInteger)._withAlias(alias),
+			(ELong)DImpl._get(aBigint)._withAlias(alias),
+			(EBigDecimal)DImpl._get(aDecimal72)._withAlias(alias),
+			(EBigDecimal)DImpl._get(aNumeric6)._withAlias(alias),
+			(EBigDecimal)DImpl._get(aNumeric)._withAlias(alias),
+			(EFloat)DImpl._get(aReal)._withAlias(alias),
+			(EDouble)DImpl._get(aDouble)._withAlias(alias),
+			(EShort)DImpl._get(anInt2)._withAlias(alias),
+			(EInt)DImpl._get(anInt4)._withAlias(alias),
+			(ELong)DImpl._get(anInt8)._withAlias(alias),
+			(EString)DImpl._get(aVarchar)._withAlias(alias),
+			(EString)DImpl._get(aVarchar10)._withAlias(alias),
+			(EString)DImpl._get(aText)._withAlias(alias),
+			(EString)DImpl._get(aChar)._withAlias(alias),
+			(EString)DImpl._get(aChar10)._withAlias(alias),
+			(EByteList)DImpl._get(aBytea)._withAlias(alias),
+			(EDateTime)DImpl._get(aTimestamp3)._withAlias(alias),
+			(EDateTime)DImpl._get(aTimestamp)._withAlias(alias),
+			(EZonedDateTime)DImpl._get(aTimestampWithZone)._withAlias(alias),
+			(EDate)DImpl._get(aDate)._withAlias(alias),
+			(ETime)DImpl._get(aTime)._withAlias(alias),
+			(ETime)DImpl._get(aTimeWithZone)._withAlias(alias),
+			(EBool)DImpl._get(aBoolean)._withAlias(alias)
 		);
 	}
 	public  static TAllGenericNulls	cast(DExpr<AllGenericNulls> expr){

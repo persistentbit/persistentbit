@@ -10,7 +10,7 @@ import java.sql.SQLException;
  * @since 28/11/17
  */
 public interface PrepStatParam{
-	void _setPrepStatement(PreparedStatement stat, int index) throws SQLException;
+	int _setPrepStatement(PreparedStatement stat, int index) throws SQLException;
 
 
 }

@@ -15,35 +15,35 @@ public interface DbTableContext{
 
 	String getTableName();
 
-	DExprBoolean createExprBoolean(String columnName);
+	EBool createExprBoolean(String columnName);
 
-	DExprByte createExprByte(String columnName);
+	EByte createExprByte(String columnName);
 
-	DExprShort createExprShort(String columnName);
+	EShort createExprShort(String columnName);
 
-	DExprInt createExprInt(String columnName);
+	EInt createExprInt(String columnName);
 
-	DExprLong createExprLong(String columnName);
+	ELong createExprLong(String columnName);
 
-	DExprDouble createExprDouble(String columnName);
+	EDouble createExprDouble(String columnName);
 
-	DExprBigDecimal createExprBigDecimal(String columnName);
+	EBigDecimal createExprBigDecimal(String columnName);
 
-	DExprString createExprString(String columnName);
+	EString createExprString(String columnName);
 
-	DExprDateTime createExprDateTime(String columnName);
+	EDateTime createExprDateTime(String columnName);
 
-	DExprFloat createExprFloat(String columnName);
+	EFloat createExprFloat(String columnName);
 
-	DExprByteList createExprByteList(String columnName);
+	EByteList createExprByteList(String columnName);
 
-	DExprBitList createExprBitList(String columnName);
+	EBitList createExprBitList(String columnName);
 
-	DExprDate createExprLocalDate(String columnName);
+	EDate createExprLocalDate(String columnName);
 
-	DExprZonedDateTime createExprZonedDateTime(String columnName);
+	EZonedDateTime createExprZonedDateTime(String columnName);
 
-	DExprTime createExprTime(String columnName);
+	ETime createExprTime(String columnName);
 
 
 	Query createQuery(DExprTable table);

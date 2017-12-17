@@ -43,7 +43,7 @@ public class Update implements DbWork<Integer>{
 	public <V> Update set(DExpr<V> property, DExpr<? extends V> value){
 		return new Update(dbContext,table,where, set.plus(Tuple2.of(property,value)));
 	}
-	public Update set(DExprBoolean property, boolean value){
+	public Update set(EBool property, boolean value){
 		return set(property,dbContext.val(value));
 	}
 	public Update set(DExpr<Byte> prop, Byte val){

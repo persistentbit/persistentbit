@@ -3,34 +3,32 @@ package com.mycompany.db.generated.persistenttest.myschema;
 import java.lang.Override;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprInt;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
-import com.mycompany.db.generated.persistenttest.myschema.AuthUser;
-import com.persistentbit.sql.dsl.generic.expressions.DExprDateTime;
+import com.persistentbit.sql.dsl.generic.expressions.EInt;
+import com.persistentbit.sql.dsl.generic.expressions.ELong;
+import com.persistentbit.sql.dsl.generic.expressions.EDateTime;
 import java.time.LocalDateTime;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.sql.dsl.generic.expressions.EString;
+
 import java.lang.String;
 
 public class TAuthUser extends DTableExprImpl<AuthUser> {
-	public  final	DExprLong	id;
-	public  final	DExprLong	authAppId;
-	public  final	DExprString	userName;
-	public  final	DExprString	password;
-	public  final	DExprInt	wrongPasswordCount;
-	public  final	DExprDateTime	created;
-	public  final	DExprDateTime	lastLogin;
-	public  final	DExprDateTime	verified;
-	public  final	DExprString	resetPasswordCode;
-	public  final	DExprDateTime	resetPasswordValidUntil;
-	public  final	DExprString	verifyCode;
-	public  final	DExprDateTime	verifyCodeValidUntil;
+	public  final ELong     id;
+	public  final ELong     authAppId;
+	public  final EString   userName;
+	public  final EString   password;
+	public  final EInt      wrongPasswordCount;
+	public  final EDateTime created;
+	public  final EDateTime lastLogin;
+	public  final EDateTime verified;
+	public  final EString   resetPasswordCode;
+	public  final EDateTime resetPasswordValidUntil;
+	public  final EString   verifyCode;
+	public  final EDateTime verifyCodeValidUntil;
 	
 	
-	public TAuthUser(DExprLong id, DExprLong authAppId, DExprString userName, DExprString password, DExprInt wrongPasswordCount, DExprDateTime created, DExprDateTime lastLogin, DExprDateTime verified, DExprString resetPasswordCode, DExprDateTime resetPasswordValidUntil, DExprString verifyCode, DExprDateTime verifyCodeValidUntil){
+	public TAuthUser(ELong id, ELong authAppId, EString userName, EString password, EInt wrongPasswordCount, EDateTime created, EDateTime lastLogin, EDateTime verified, EString resetPasswordCode, EDateTime resetPasswordValidUntil, EString verifyCode, EDateTime verifyCodeValidUntil){
 		super(
 			PList.val(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil),
 			_scon -> _rr -> {
@@ -66,18 +64,18 @@ public class TAuthUser extends DTableExprImpl<AuthUser> {
 	@Override
 	protected  TAuthUser	_doWithAlias(String alias){
 		return new TAuthUser(
-			(DExprLong)DImpl._get(id)._withAlias(alias), 
-			(DExprLong)DImpl._get(authAppId)._withAlias(alias), 
-			(DExprString)DImpl._get(userName)._withAlias(alias), 
-			(DExprString)DImpl._get(password)._withAlias(alias), 
-			(DExprInt)DImpl._get(wrongPasswordCount)._withAlias(alias), 
-			(DExprDateTime)DImpl._get(created)._withAlias(alias), 
-			(DExprDateTime)DImpl._get(lastLogin)._withAlias(alias), 
-			(DExprDateTime)DImpl._get(verified)._withAlias(alias), 
-			(DExprString)DImpl._get(resetPasswordCode)._withAlias(alias), 
-			(DExprDateTime)DImpl._get(resetPasswordValidUntil)._withAlias(alias), 
-			(DExprString)DImpl._get(verifyCode)._withAlias(alias), 
-			(DExprDateTime)DImpl._get(verifyCodeValidUntil)._withAlias(alias)
+			(ELong)DImpl._get(id)._withAlias(alias),
+			(ELong)DImpl._get(authAppId)._withAlias(alias),
+			(EString)DImpl._get(userName)._withAlias(alias),
+			(EString)DImpl._get(password)._withAlias(alias),
+			(EInt)DImpl._get(wrongPasswordCount)._withAlias(alias),
+			(EDateTime)DImpl._get(created)._withAlias(alias),
+			(EDateTime)DImpl._get(lastLogin)._withAlias(alias),
+			(EDateTime)DImpl._get(verified)._withAlias(alias),
+			(EString)DImpl._get(resetPasswordCode)._withAlias(alias),
+			(EDateTime)DImpl._get(resetPasswordValidUntil)._withAlias(alias),
+			(EString)DImpl._get(verifyCode)._withAlias(alias),
+			(EDateTime)DImpl._get(verifyCodeValidUntil)._withAlias(alias)
 		);
 	}
 	public  static TAuthUser	cast(DExpr<AuthUser> expr){

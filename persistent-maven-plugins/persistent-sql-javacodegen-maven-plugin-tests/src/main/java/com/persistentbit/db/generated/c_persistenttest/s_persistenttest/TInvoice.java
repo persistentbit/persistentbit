@@ -3,22 +3,21 @@ package com.persistentbit.db.generated.c_persistenttest.s_persistenttest;
 import java.lang.Override;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprLong;
-import com.persistentbit.db.generated.c_persistenttest.s_persistenttest.Invoice;
+import com.persistentbit.sql.dsl.generic.expressions.ELong;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.generic.expressions.impl.DTableExprImpl;
-import com.persistentbit.sql.dsl.generic.expressions.DExprString;
-import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
+import com.persistentbit.sql.dsl.generic.expressions.EString;
+
 import java.lang.String;
 
 public class TInvoice extends DTableExprImpl<Invoice> {
-	public  final	DExprLong	id;
-	public  final	DExprString	invoiceNummer;
-	public  final	DExprLong	fromCompanyId;
-	public  final	DExprLong	toCompanyId;
+	public  final ELong   id;
+	public  final EString invoiceNummer;
+	public  final ELong   fromCompanyId;
+	public  final ELong   toCompanyId;
 	
 	
-	public TInvoice(DExprLong id, DExprString invoiceNummer, DExprLong fromCompanyId, DExprLong toCompanyId){
+	public TInvoice(ELong id, EString invoiceNummer, ELong fromCompanyId, ELong toCompanyId){
 		super(
 			PList.val(id, invoiceNummer, fromCompanyId, toCompanyId),
 			_scon -> _rr -> {
@@ -38,10 +37,10 @@ public class TInvoice extends DTableExprImpl<Invoice> {
 	@Override
 	protected  TInvoice	_doWithAlias(String alias){
 		return new TInvoice(
-			(DExprLong)DImpl._get(id)._withAlias(alias), 
-			(DExprString)DImpl._get(invoiceNummer)._withAlias(alias), 
-			(DExprLong)DImpl._get(fromCompanyId)._withAlias(alias), 
-			(DExprLong)DImpl._get(toCompanyId)._withAlias(alias)
+			(ELong)DImpl._get(id)._withAlias(alias),
+			(EString)DImpl._get(invoiceNummer)._withAlias(alias),
+			(ELong)DImpl._get(fromCompanyId)._withAlias(alias),
+			(ELong)DImpl._get(toCompanyId)._withAlias(alias)
 		);
 	}
 	public  static TInvoice	cast(DExpr<Invoice> expr){
