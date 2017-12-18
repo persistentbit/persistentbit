@@ -4,8 +4,8 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.EBool;
 import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImplTable;
+import com.persistentbit.sql.dsl.generic.expressions.impl.old.DImpl;
+import com.persistentbit.sql.dsl.generic.expressions.impl.old.DImplTable;
 import com.persistentbit.sql.dsl.generic.query.Join;
 import com.persistentbit.sql.dsl.generic.query.Query;
 

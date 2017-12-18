@@ -3,8 +3,8 @@ package com.persistentbit.sql.dsl.generic.query.impl;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbSqlContext;
 import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImpl;
-import com.persistentbit.sql.dsl.generic.expressions.impl.DImplTable;
+import com.persistentbit.sql.dsl.generic.expressions.impl.old.DImpl;
+import com.persistentbit.sql.dsl.generic.expressions.impl.old.DImplTable;
 import com.persistentbit.sql.dsl.generic.query.DSelectionTable;
 import com.persistentbit.sql.dsl.generic.query.Query;
 import com.persistentbit.sql.utils.rowreader.RowReader;
@@ -25,13 +25,15 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 	public SelectionAsTableImpl(SelectionImpl<T> selection, String alias) {
 		this.selection = selection;
 		this.alias = alias;
-		this.columnWithAlias = DImpl._get(selection.columns)._withAlias(alias + ".sel_");
+		this.columnWithAlias = DImpl._get(selection.columns)
+									._withAlias(alias + ".sel_");
 	}
 
 	@Override
 	public SqlWithParams _toSqlFrom(DbSqlContext context) {
-		return SqlWithParams.sql("(").add(selection.toSql(context, "sel"))
-									 .add(") AS " + alias);
+		return SqlWithParams.sql("(")
+							.add(selection.toSql(context, "sel"))
+							.add(") AS " + alias);
 	}
 
 	@Override
@@ -45,7 +47,7 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 	}
 
 	@Override
-	public SqlWithParams _toSqlSelection(DbSqlContext context,String alias) {
+	public SqlWithParams _toSqlSelection(DbSqlContext context, String alias) {
 		return _toSql(context).add(alias == null ? "" : " AS " + alias);
 	}
 
@@ -76,7 +78,7 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 
 	@Override
 	public T _read(DbSqlContext context, RowReader rowReader) {
-		return DImpl._get(columnWithAlias)._read(context,rowReader);
+		return DImpl._get(columnWithAlias)._read(context, rowReader);
 	}
 
 	@Override
@@ -90,7 +92,7 @@ public class SelectionAsTableImpl<T> implements DSelectionTable<T>, DImplTable, 
 	}
 
 	@Override
-	public DExpr<T> all(){
+	public DExpr<T> all() {
 		return columnWithAlias;
 	}
 }

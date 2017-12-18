@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.generic.expressions;
 
-import com.persistentbit.sql.dsl.generic.expressions.impl.dtuples.DTuple7;
+import com.persistentbit.sql.dsl.generic.expressions.impl.old.dtuples.DTuple7;
 import com.persistentbit.tuples.Tuple6;
 
 /**
