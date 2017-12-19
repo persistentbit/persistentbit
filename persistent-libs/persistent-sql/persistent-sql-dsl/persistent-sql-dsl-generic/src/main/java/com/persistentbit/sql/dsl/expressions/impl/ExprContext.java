@@ -6,6 +6,7 @@ import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.ESelectionTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.Tuple2TypeFactory;
 import com.persistentbit.sql.dsl.statements.select.impl.TypedSelection1Impl;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableImpl;
@@ -280,5 +281,14 @@ public class ExprContext{
 	public SqlWithParams	getFromTableName(Table table){
 		TableImpl impl = (TableImpl)table;
 		return impl.getFromName(defaultCatalogName,defaultSchemaName);
+	}
+
+	public <
+			   E1 extends DExpr<J1>, J1,
+			   E2 extends DExpr<J2>, J2
+			   >
+	ETuple2<E1,J1,E2,J2> of(E1 e1, E2 e2){
+		Tuple2TypeFactory tf = (Tuple2TypeFactory)getTypeFactory(ETuple2.class);
+		return tf.of(e1,e2);
 	}
 }

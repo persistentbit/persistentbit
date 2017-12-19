@@ -1,13 +1,10 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ETuple2;
-import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
-import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.tuples.Tuple2;
 
 /**
@@ -16,87 +13,101 @@ import com.persistentbit.tuples.Tuple2;
  * @author petermuys
  * @since 17/12/17
  */
-public class Tuple2TypeFactory<E1 extends DExpr<J1>,E2 extends DExpr<J2>,J1,J2> implements ExprTypeFactory<ETuple2<E1,E2,J1,J2>, Tuple2<? extends J1,? extends J2>> {
+public class Tuple2TypeFactory implements ExprTypeFactory {
 
 	private final ExprContext context;
-	private final Class<E1> typeClass1;
-	private final Class<E2> typeClass2;
+
 
 	@Override
 	public Class getTypeClass() {
 		return ETuple2.class;
 	}
 
-	public Tuple2TypeFactory(ExprContext context, Class<E1> typeClass1, Class<E2> typeClass2) {
+	public Tuple2TypeFactory(ExprContext context) {
 		this.context = context;
-		this.typeClass1 = typeClass1;
-		this.typeClass2 = typeClass2;
+	}
+
+
+
+	@Override
+	public DExpr buildAlias(String alias) {
+		throw new UnsupportedOperationException("buildAlias on a ETuple2");
 	}
 
 	@Override
-	public <V extends Tuple2<? extends J1, ? extends J2>> ETuple2<E1, E2, J1, J2> buildVal(V value) {
-		E1 e1 = context.getTypeFactory(typeClass1).buildVal(value._1);
-		E2 e2 = context.getTypeFactory(typeClass2).buildVal(value._2);
-		return new ETuple2Impl<>(e1,e2);
-	}
-
-	@Override
-	public ETuple2<E1, E2, J1, J2> buildAlias(String alias) {
-		E1 e1 = context.getTypeFactory(typeClass1).buildAlias(alias + "_t1");
-		E2 e2 = context.getTypeFactory(typeClass2).buildAlias(alias + "_t2");
-		return new ETuple2Impl<>(e1,e2);
-	}
-
-	@Override
-	public ETuple2<E1, E2, J1, J2> buildBinOp(DExpr left, BinOpOperator op, DExpr right
+	public DExpr buildBinOp(DExpr left, BinOpOperator op, DExpr right
 	) {
 		throw new UnsupportedOperationException("BinOp " + op);
 	}
 
 	@Override
-	public ETuple2<E1, E2, J1, J2> buildSingleOp(DExpr expr, SingleOpOperator op
+	public DExpr buildSingleOp(DExpr expr, SingleOpOperator op
 	) {
 		throw new UnsupportedOperationException("SingleOp " + op);
 	}
 
 	@Override
-	public ETuple2<E1, E2, J1, J2> buildTableField(String fieldSelectionName, String fieldName) {
+	public DExpr buildTableField(String fieldSelectionName, String fieldName) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public ETuple2<E1, E2, J1, J2> buildSelection(ETuple2<E1, E2, J1, J2> expr, String prefixAlias) {
-		E1 e1 = context.getTypeFactory(typeClass1).buildSelection(expr.v1(),prefixAlias + "_t1");
-		E2 e2 = context.getTypeFactory(typeClass2).buildSelection(expr.v2(),prefixAlias + "_t2");
+	public DExpr buildVal(Object value) {
+		throw new UnsupportedOperationException("buildVal on ETuple2");
+	}
+
+	@Override
+	public DExpr buildSelection(DExpr genExpr, String prefixAlias) {
+		ETuple2 expr = (ETuple2)genExpr;
+		DExpr e1 = context.getTypeFactory(expr.v1()).buildSelection(expr.v1(),
+			prefixAlias == null ? null : prefixAlias + "t1_");
+		DExpr e2 = context.getTypeFactory(expr.v2()).buildSelection(expr.v2(),
+			prefixAlias == null ? null : prefixAlias + "t2_");
 		return new ETuple2Impl<>(e1,e2);
 	}
 
 	@Override
-	public PList<DExpr> expand(ETuple2<E1, E2, J1, J2> expr) {
-		return context.getTypeFactory(typeClass1).expand(expr.v1())
-			.plusAll(context.getTypeFactory(typeClass2).expand(expr.v2()));
+	public PList<DExpr> expand(DExpr genExpr) {
+		ETuple2 expr = (ETuple2)genExpr;
+		return context.getTypeFactory(expr.v1()).expand(expr.v1())
+					  .plusAll(context.getTypeFactory(expr.v2()).expand(expr.v2()));
 	}
+
 
 	@Override
-	public SqlWithParams toSql(ETuple2<E1, E2, J1, J2> expr) {
-		return context.getTypeFactory(typeClass1).toSql(expr.v1())
+	public SqlWithParams toSql(DExpr genExpr) {
+		ETuple2 expr = (ETuple2)genExpr;
+		return context.getTypeFactory(expr.v1()).toSql(expr.v1())
 			.add(", ")
-			.add(context.getTypeFactory(typeClass2).toSql(expr.v2()));
+			.add(context.getTypeFactory(expr.v2()).toSql(expr.v2()));
 	}
 
+	public <
+			   E1 extends DExpr<J1>, J1,
+			   E2 extends DExpr<J2>, J2
+			   >
+	ETuple2<E1,J1,E2,J2> of(E1 e1, E2 e2){
+		return new ETuple2Impl<>(e1,e2);
+	}
 	@Override
 	public ExprContext getExprContext() {
 		return context;
 	}
 
-	private class ETuple2Impl<E1 extends DExpr<J1>,E2 extends DExpr<J2>,J1,J2> implements ETuple2<E1,E2,J1,J2>{
+	private final class ETuple2Impl<E1 extends DExpr<J1>,E2 extends DExpr<J2>,J1,J2> implements ETuple2<E1,J1,E2,J2>,
+																								ExprTypeImpl<ETuple2<E1,J1,E2,J2>,Tuple2<J1,J2>>{
 
 		private final E1 v1;
 		private final E2 v2;
 
-		public ETuple2Impl(E1 v1, E2 v2) {
+		private ETuple2Impl(E1 v1, E2 v2) {
 			this.v1 = v1;
 			this.v2 = v2;
+		}
+
+		@Override
+		public ExprTypeFactory getTypeFactory() {
+			return Tuple2TypeFactory.this;
 		}
 
 		@Override

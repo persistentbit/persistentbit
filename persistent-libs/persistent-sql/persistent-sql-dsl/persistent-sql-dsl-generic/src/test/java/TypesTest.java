@@ -1,8 +1,5 @@
 import com.persistentbit.logging.ModuleLogging;
-import com.persistentbit.sql.dsl.expressions.EBool;
-import com.persistentbit.sql.dsl.expressions.EInt;
-import com.persistentbit.sql.dsl.expressions.ELong;
-import com.persistentbit.sql.dsl.expressions.EString;
+import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.select.TypedSelection1;
 import com.persistentbit.sql.dsl.statements.select.impl.SubQuery1;
@@ -47,6 +44,10 @@ public class TypesTest{
 
 		public EString val(String v) {
 			return context.val(v);
+		}
+
+		public <E1 extends DExpr<J1>,J1, E2 extends DExpr<J2>,J2> ETuple2<E1,J1,E2,J2> tupleOf(E1 e1, E2 e2){
+			return context.of(e1,e2);
 		}
 	}
 
@@ -93,6 +94,11 @@ public class TypesTest{
 						.query()
 						.where(subQueryTable.v1.lastName.like("Muys"))
 						.selection(subQueryTable.v1)
+		);
+		System.out.println(
+			menchen
+				.query()
+			.selection(db.tupleOf(db.tupleOf(menchen.id,menchen.firstName),menchen.home))
 		);
 	});
 

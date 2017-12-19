@@ -2,7 +2,6 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
-import com.persistentbit.sql.dsl.expressions.ETuple2;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
@@ -11,7 +10,6 @@ import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
-import com.persistentbit.tuples.Tuple2;
 
 /**
  * TODOC
@@ -52,11 +50,6 @@ public class EBoolTypeFactory extends AbstractTypeFactory<EBool, Boolean>{
 			return EBoolTypeFactory.this;
 		}
 
-		@Override
-		public <E2 extends DExpr<J2>, J2> ETuple2<EBool, E2, Boolean, J2> tuple2(E2 v2) {
-			ExprTypeFactory et = context.<ETuple2, Tuple2>getTypeFactory(ETuple2.class);
-			return (ETuple2<EBool, E2, Boolean, J2>) et.buildVal(Tuple2.of(this, v2));
-		}
 
 		@Override
 		public EBool not() {

@@ -10,6 +10,7 @@ import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.ESelectionType
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTimeTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.ETimeTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.Tuple2TypeFactory;
 
 /**
  * TODOC
@@ -48,10 +49,17 @@ public class GenericTypeFactories{
 			new ESelectionTypeFactory(context)
 		);
 	}
+	static public PList<ExprTypeFactory> tupleFactories(ExprContext context){
+		return PList.val(
+			new Tuple2TypeFactory(context)
+		);
+	}
+
 
 	static public PList<ExprTypeFactory> all(ExprContext context) {
 		return numberFactories(context)
 				   .plusAll(timeFactories(context))
+				   .plusAll(tupleFactories(context))
 				   .plusAll(otherFactories(context));
 	}
 }

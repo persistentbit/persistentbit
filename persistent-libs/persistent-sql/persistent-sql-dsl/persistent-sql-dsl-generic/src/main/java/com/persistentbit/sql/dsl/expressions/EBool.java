@@ -18,5 +18,4 @@ public interface EBool extends DExpr<Boolean>{
 	EBool isNull();
 	EBool isNotNull();
 
-	<E2 extends DExpr<J2>,J2> ETuple2<EBool,E2,Boolean, J2> tuple2(E2 v2);
 }
