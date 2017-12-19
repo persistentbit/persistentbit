@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.postgres.rt;
 
-import com.persistentbit.sql.dsl.generic.DbGeneric;
+import com.persistentbit.sql.dsl.generic_old.DbGeneric;
 
 /**
  * TODOC

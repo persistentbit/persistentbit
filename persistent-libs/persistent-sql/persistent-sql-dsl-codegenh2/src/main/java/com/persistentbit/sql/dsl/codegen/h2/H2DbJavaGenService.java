@@ -3,7 +3,7 @@ package com.persistentbit.sql.dsl.codegen.h2;
 import com.persistentbit.sql.dsl.codegen.DbHandlingLevel;
 import com.persistentbit.sql.dsl.codegen.generic.GenericDbJavaGenService;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
-import com.persistentbit.sql.dsl.generic.DbGeneric;
+import com.persistentbit.sql.dsl.generic_old.DbGeneric;
 import com.persistentbit.sql.dsl.h2.rt.DbH2;
 import com.persistentbit.sql.dsl.h2.rt.H2DbContext;
 import com.persistentbit.sql.meta.data.DbMetaDatabase;

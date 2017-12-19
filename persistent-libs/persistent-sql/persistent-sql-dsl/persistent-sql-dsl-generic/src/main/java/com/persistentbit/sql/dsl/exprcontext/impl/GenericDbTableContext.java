@@ -4,9 +4,9 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
 import com.persistentbit.sql.dsl.exprcontext.DbTableContext;
-import com.persistentbit.sql.dsl.generic.expressions.DExprTable;
-import com.persistentbit.sql.dsl.generic.query.Query;
-import com.persistentbit.sql.dsl.generic.query.impl.QueryImpl;
+import com.persistentbit.sql.dsl.expressions.DExprTable;
+import com.persistentbit.sql.dsl.generic_old.query.Query;
+import com.persistentbit.sql.dsl.generic_old.query.impl.QueryImpl;
 
 import java.util.Objects;
 import java.util.Optional;

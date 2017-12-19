@@ -6,7 +6,7 @@ import com.persistentbit.javacodegen.annotations.CaseClass;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NoBuilder;
 import com.persistentbit.reflection.UReflect;
-import com.persistentbit.sql.dsl.generic.expressions.*;
+import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.meta.data.DbMetaColumn;
 import com.persistentbit.string.UString;
 import com.persistentbit.utils.exceptions.ToDo;

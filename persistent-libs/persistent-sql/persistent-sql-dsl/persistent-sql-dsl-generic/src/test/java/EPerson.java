@@ -1,6 +1,6 @@
-import com.persistentbit.sql.dsl.generic.expressions.DExpr;
-import com.persistentbit.sql.dsl.generic.expressions.ELong;
-import com.persistentbit.sql.dsl.generic.expressions.EString;
+import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.ELong;
+import com.persistentbit.sql.dsl.expressions.EString;
 
 /**
  * TODOC
@@ -13,12 +13,14 @@ public abstract class EPerson implements DExpr<Person>{
 	public final ELong   id;
 	public final EString firstName;
 	public final EString lastName;
+	public final EAddress home;
 
-	public EPerson(ELong id, EString firstName, EString lastName) {
+	public EPerson(ELong id, EString firstName, EString lastName,EAddress home) {
 
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.home = home;
 	}
 
 }

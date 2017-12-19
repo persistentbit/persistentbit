@@ -4,7 +4,7 @@ import com.persistentbit.javacodegen.JField;
 import com.persistentbit.sql.dsl.codegen.DbHandlingLevel;
 import com.persistentbit.sql.dsl.codegen.generic.GenericDbJavaGenService;
 import com.persistentbit.sql.dsl.exprcontext.DbContext;
-import com.persistentbit.sql.dsl.generic.DbGeneric;
+import com.persistentbit.sql.dsl.generic_old.DbGeneric;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
 import com.persistentbit.sql.dsl.postgres.rt.PostgresDbContext;
 import com.persistentbit.sql.dsl.postgres.rt.customtypes.Xml;

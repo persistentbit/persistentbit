@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.exprcontext;
 
-import com.persistentbit.sql.dsl.generic.expressions.*;
-import com.persistentbit.sql.dsl.generic.query.Query;
+import com.persistentbit.sql.dsl.expressions.*;
+import com.persistentbit.sql.dsl.generic_old.query.Query;
 
 import java.util.Optional;
 
