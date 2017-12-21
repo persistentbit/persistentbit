@@ -15,17 +15,19 @@
 
 
     <modules>
+        <module>persistent-code-annotations</module>
+        <module>persistent-javacodegen-annotations</module>
+        <module>persistent-javacodegen</module>
+        <module>persistent-printable</module>
+        <module>persistentbit-runenv</module>
+        <module>persistent-log</module>
         <module>persistent-core</module>
         <module>persistent-json</module>
         <module>persistent-doc-annotations</module>
         <module>persistent-parser</module>
         <module>persistent-test</module>
-        <module>persistent-code-annotations</module>
-        <module>persistent-javacodegen</module>
-        <module>persistent-javacodegen-annotations</module>
-        <module>persistent-log</module>
-        <module>persistent-printable</module>
-        <module>persistentbit-runenv</module>
+
+
         <module>persistent-tuples</module>
         <module>persistent-result</module>
         <module>persistent-string</module>
