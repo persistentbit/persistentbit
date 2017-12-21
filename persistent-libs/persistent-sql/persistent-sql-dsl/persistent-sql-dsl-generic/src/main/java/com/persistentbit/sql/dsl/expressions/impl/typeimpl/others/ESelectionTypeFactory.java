@@ -1,11 +1,15 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ESelection;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.sql.dsl.statements.select.impl.TypedSelection1Impl;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -24,6 +28,16 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 	@Override
 	public ESelection<J> buildVal(Object value) {
 		throw new UnsupportedOperationException("buildVal for a ESubQuery");
+	}
+
+	@Override
+	public ESelection<J> buildParam(Function<PMap<String, Object>, Object> paramGetter) {
+		throw new ToDo();
+	}
+
+	@Override
+	public ESelection<J> buildCall(String callName, DExpr[] params) {
+		throw new ToDo();
 	}
 
 	@Override

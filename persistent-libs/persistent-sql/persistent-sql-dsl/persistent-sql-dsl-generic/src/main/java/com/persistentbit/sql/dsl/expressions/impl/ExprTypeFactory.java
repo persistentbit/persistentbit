@@ -1,8 +1,11 @@
 package com.persistentbit.sql.dsl.expressions.impl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.expressions.DExpr;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -12,6 +15,8 @@ import com.persistentbit.sql.dsl.SqlWithParams;
  */
 public interface ExprTypeFactory<E extends DExpr<J>,J> {
 	<V extends J> E buildVal(V value);
+	E buildParam(Function<PMap<String, Object>, Object> paramGetter);
+	E buildCall(String callName, DExpr[] params);
 	E buildAlias(String alias);
 	E buildBinOp(DExpr left, BinOpOperator op, DExpr right);
 	E buildSingleOp(DExpr expr, SingleOpOperator op);

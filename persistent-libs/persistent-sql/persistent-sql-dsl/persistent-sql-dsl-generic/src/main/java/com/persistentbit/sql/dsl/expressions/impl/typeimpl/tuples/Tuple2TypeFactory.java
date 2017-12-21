@@ -6,6 +6,9 @@ import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ETuple2;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -54,6 +57,18 @@ public class Tuple2TypeFactory implements ExprTypeFactory {
 	@Override
 	public DExpr buildVal(Object value) {
 		throw new UnsupportedOperationException("buildVal on ETuple2");
+	}
+
+
+
+	@Override
+	public DExpr buildParam(Function paramGetter) {
+		throw new ToDo();
+	}
+
+	@Override
+	public DExpr buildCall(String callName, DExpr[] params) {
+		throw new ToDo();
 	}
 
 	@Override

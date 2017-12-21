@@ -1,9 +1,12 @@
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.utils.Lazy;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -32,6 +35,29 @@ public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
 			, tfPostalCode.get().buildVal(value.getPostalCode())
 			, tfCity.get().buildVal(value.getCity())
 		);
+	}
+
+	@Override
+	public EAddress buildParam(Function<PMap<String, Object>, Object> paramGetter) {
+		return new EAddressImpl(
+			tfStreet.get().buildParam(createGetter(paramGetter, Address::getStreet))
+			, tfPostalCode.get().buildParam(createGetter(paramGetter, Address::getPostalCode))
+			, tfCity.get().buildParam(createGetter(paramGetter, Address::getCity))
+		);
+	}
+	private final Function<PMap<String,Object>,Object> createGetter(Function<PMap<String, Object>, Object> pg, Function<Address,Object> fieldGetter){
+		return map -> {
+			Address v = (Address) pg.apply(map);
+			if(v == null){
+				return null;
+			}
+			return fieldGetter.apply(v);
+		};
+	}
+
+	@Override
+	public EAddress buildCall(String callName, DExpr[] params) {
+		throw new UnsupportedOperationException("Can't call function " + callName + " of type " + getTypeClass());
 	}
 
 	@Override
@@ -94,11 +120,14 @@ public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
 		return EAddress.class;
 	}
 
+
 	private class EAddressImpl extends EAddress implements ExprTypeImpl<EAddress, Address>{
 
 		private EAddressImpl(EString Street, EString PostalCode, EString city) {
 			super(Street, PostalCode, city);
 		}
+
+
 
 		@Override
 		public ExprTypeFactory<EAddress, Address> getTypeFactory() {

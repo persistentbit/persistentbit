@@ -10,15 +10,8 @@ import com.persistentbit.sql.dsl.SqlWithParams;
  * @since 17/12/17
  */
 public interface TypeStrategy<J>{
-	//SqlWithParams _toSqlSelection(String alias);
 
 	SqlWithParams _toSql();
-
-
-	//J _read(RowReader rowReader);
-
-	//DExpr<J> _withAlias(String alias);
-	//PList<DExpr> _expand(DExpr<J> expr);
 
 	PList<String> _getColumnNames();
 

@@ -10,11 +10,11 @@ import com.persistentbit.sql.dsl.SqlWithParams;
  * @author petermuys
  * @since 17/12/17
  */
-public class AliasTypeStrategie<J> extends AbstractTypeStrategy<J>{
+public class AliasTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	private final String alias;
-	public AliasTypeStrategie(Class<? extends DExpr<J>> typeClass,
-							  ExprTypeFactory exprTypeFactory,
-							  String alias
+	public AliasTypeStrategy(Class<? extends DExpr<J>> typeClass,
+							 ExprTypeFactory exprTypeFactory,
+							 String alias
 	) {
 		super(typeClass, exprTypeFactory);
 		this.alias = alias;

@@ -1,10 +1,13 @@
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.*;
-import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.utils.Lazy;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -37,7 +40,30 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 			, tfAddress.get().buildVal(value.getHome())
 		);
 	}
+	@Override
+	public EPerson buildParam(Function<PMap<String, Object>, Object> paramGetter) {
+		return new EPersonImpl(
+			tfId.get().buildParam(createGetter(paramGetter, Person::getId))
+			, tfFirstName.get().buildParam(createGetter(paramGetter, Person::getFirstName))
+			, tfLastName.get().buildParam(createGetter(paramGetter, Person::getLastName))
+			, tfAddress.get().buildParam(createGetter(paramGetter, Person::getHome))
+		);
+	}
 
+	@Override
+	public EPerson buildCall(String callName, DExpr[] params) {
+		throw new UnsupportedOperationException("call " + callName + " on " + getTypeClass().getSimpleName());
+	}
+
+	private final Function<PMap<String,Object>,Object> createGetter(Function<PMap<String, Object>, Object> pg, Function<Person,Object> fieldGetter){
+		return map -> {
+			Person v = (Person) pg.apply(map);
+			if(v == null){
+				return null;
+			}
+			return fieldGetter.apply(v);
+		};
+	}
 	@Override
 	public EPerson buildAlias(String alias) {
 

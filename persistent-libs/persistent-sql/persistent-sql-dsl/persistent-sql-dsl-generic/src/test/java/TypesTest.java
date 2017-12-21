@@ -46,8 +46,8 @@ public class TypesTest{
 			return context.val(v);
 		}
 
-		public <E1 extends DExpr<J1>,J1, E2 extends DExpr<J2>,J2> ETuple2<E1,J1,E2,J2> tupleOf(E1 e1, E2 e2){
-			return context.of(e1,e2);
+		public <E1 extends DExpr<J1>, J1, E2 extends DExpr<J2>, J2> ETuple2<E1, J1, E2, J2> tupleOf(E1 e1, E2 e2) {
+			return context.of(e1, e2);
 		}
 	}
 
@@ -68,15 +68,15 @@ public class TypesTest{
 		EPerson personAlias = context.getTypeFactory(EPerson.class).buildAlias("menchen.");
 		System.out.println(context.toSql(personAlias));
 
-		Db db = new Db(context);
+		Db      db      = new Db(context);
 		TPerson menchen = db.person.as("menchen");
 		TypedSelection1<EPerson, Person> sel1 =
 			menchen.query()
-					 .where(
-						 menchen.id.gt(1234l)
-						 .or(menchen.home.city.like("9000"))
-					 )
-					 .selection(menchen._all);
+				   .where(
+					   menchen.id.gt(1234l)
+								 .or(menchen.home.city.like("9000"))
+				   )
+				   .selection(menchen._all);
 		System.out.println(sel1);
 		System.out.println(sel1.asSubQuery("sq").v1);
 		System.out.println(sel1.asSubQuery("sq").toSql());
@@ -86,19 +86,19 @@ public class TypesTest{
 				.selection(menchen.query().where(menchen.id.eq(100L)).selection(menchen.id).asExpr())
 		);
 		System.out.println("----");
-		SubQuery1<EPerson,Person> subQueryTable = db.person.query()
-														   .selection(db.person._all)
-														   .asSubQuery("subPersonen");
+		SubQuery1<EPerson, Person> subQueryTable = db.person.query()
+															.selection(db.person._all)
+															.asSubQuery("subPersonen");
 		System.out.println(
-					subQueryTable
-						.query()
-						.where(subQueryTable.v1.lastName.like("Muys"))
-						.selection(subQueryTable.v1)
+			subQueryTable
+				.query()
+				.where(subQueryTable.v1.lastName.like("Muys"))
+				.selection(subQueryTable.v1)
 		);
 		System.out.println(
 			menchen
 				.query()
-			.selection(db.tupleOf(db.tupleOf(menchen.id,menchen.firstName),menchen.home))
+				.selection(db.tupleOf(db.tupleOf(menchen.id, menchen.firstName), menchen.home))
 		);
 	});
 

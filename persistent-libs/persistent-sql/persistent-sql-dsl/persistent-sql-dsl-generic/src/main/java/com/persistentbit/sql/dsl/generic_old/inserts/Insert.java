@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.generic_old.inserts;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.collections.POrderedSet;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.result.Result;
@@ -116,7 +117,7 @@ public class Insert implements DbWork<InsertResult>{
 				int statType = autoGenColumns.isEmpty() ? Statement.NO_GENERATED_KEYS : Statement.RETURN_GENERATED_KEYS;
 				log.info("Insert: " + sql);
 				try(PreparedStatement prepStat = con.prepareStatement(sql.getSql(),statType)){
-					sql.setParams(prepStat);
+					sql.setParams(PMap.empty(),prepStat);
 					int            count         = prepStat.executeUpdate();
 					PList<Object> resultAutoGen = PList.empty();
 					if(autoGenColumns.isEmpty() == false){

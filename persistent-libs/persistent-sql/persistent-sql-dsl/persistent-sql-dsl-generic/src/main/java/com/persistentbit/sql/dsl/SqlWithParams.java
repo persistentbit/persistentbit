@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.expressions.impl.PrepStatParam;
 
@@ -16,7 +17,7 @@ import java.sql.SQLException;
 public class SqlWithParams{
 
 	static private abstract class Item {
-		abstract int setParams(PreparedStatement stat, int index) throws SQLException;
+		abstract int setParams(PMap<String,Object> extParams, PreparedStatement stat, int index) throws SQLException;
 		abstract String toSqlString();
 	}
 
@@ -29,7 +30,7 @@ public class SqlWithParams{
 
 	private static class ParamItem extends Item{
 		private final PrepStatParam prepStatParam;
-		public ParamItem(PrepStatParam prepStatParam){
+		private ParamItem(PrepStatParam prepStatParam){
 			this.prepStatParam = prepStatParam;
 		}
 
@@ -39,8 +40,8 @@ public class SqlWithParams{
 		}
 
 		@Override
-		int setParams(PreparedStatement stat, int index) throws SQLException{
-			return index + prepStatParam._setPrepStatement(stat, index);
+		int setParams(PMap<String,Object> extParams,PreparedStatement stat, int index) throws SQLException{
+			return index + prepStatParam._setPrepStatement(extParams,stat, index);
 
 		}
 
@@ -51,7 +52,7 @@ public class SqlWithParams{
 	}
 	private static class StringItem extends Item{
 		private final String sql;
-		public StringItem(String sql){
+		private StringItem(String sql){
 			this.sql = sql;
 		}
 
@@ -61,7 +62,7 @@ public class SqlWithParams{
 		}
 
 		@Override
-		int setParams(PreparedStatement stat, int index)  {
+		int setParams(PMap<String,Object> extParams,PreparedStatement stat, int index)  {
 			return index;
 		}
 
@@ -113,17 +114,17 @@ public class SqlWithParams{
 
 	@Override
 	public String toString() {
-		return items.map(i ->i.toString()).fold("",(a,b)-> a + b);
+		return items.map(Object::toString).fold("",(a, b)-> a + b);
 	}
 
-	public void setParams(PreparedStatement stat) throws SQLException {
+	public void setParams(PMap<String, Object> extParams, PreparedStatement stat) throws SQLException {
 		int t = 1;
 		for(Item i : items){
-			t = i.setParams(stat,t);
+			t = i.setParams(extParams, stat,t);
 		}
 	}
 	public String getSql() {
-		return items.map(i -> i.toSqlString()).fold("",(a,b)-> a + b);
+		return items.map(Item::toSqlString).fold("",(a, b)-> a + b);
 	}
 
 

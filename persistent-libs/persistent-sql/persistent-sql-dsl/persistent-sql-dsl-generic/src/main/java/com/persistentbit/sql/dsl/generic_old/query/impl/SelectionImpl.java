@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.generic_old.query.impl;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.SqlWithParams;
@@ -80,7 +81,7 @@ public class SelectionImpl<T> implements Selection<T>,DbWork<PStream<T>>{
 				String sql = sqlWithParams.getSql();
 				l.info("Executing " + sqlWithParams);
 				try(PreparedStatement stat = con.prepareStatement(sql)){
-					sqlWithParams.setParams(stat);
+					sqlWithParams.setParams(PMap.empty(),stat);
 					try(ResultSet rs = stat.executeQuery()){
 						PList<T>           res    = PList.empty();
 						ResultSetRowReader rr     = sqlContext.createResultSetRowReader(rs);

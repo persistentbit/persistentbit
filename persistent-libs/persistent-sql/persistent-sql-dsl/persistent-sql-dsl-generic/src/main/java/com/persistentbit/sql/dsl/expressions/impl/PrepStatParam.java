@@ -1,5 +1,7 @@
 package com.persistentbit.sql.dsl.expressions.impl;
 
+import com.persistentbit.collections.PMap;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
@@ -10,7 +12,7 @@ import java.sql.SQLException;
  * @since 28/11/17
  */
 public interface PrepStatParam{
-	int _setPrepStatement(PreparedStatement stat, int index) throws SQLException;
+	int _setPrepStatement(PMap<String, Object> extParams,  PreparedStatement stat, int index) throws SQLException;
 
 
 }

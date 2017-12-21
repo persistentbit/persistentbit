@@ -1,12 +1,15 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EList;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.utils.exceptions.ToDo;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -29,6 +32,16 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 
 	@Override
 	public <V extends PList<DExpr>> EList buildVal(V value) {
+		throw new ToDo();
+	}
+
+	@Override
+	public EList buildParam(Function<PMap<String, Object>, Object> paramGetter) {
+		throw new ToDo();
+	}
+
+	@Override
+	public EList buildCall(String callName, DExpr[] params) {
 		throw new ToDo();
 	}
 
