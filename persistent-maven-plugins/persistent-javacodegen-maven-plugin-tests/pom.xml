@@ -42,14 +42,19 @@
         </plugins>
     </build>
     <dependencies>
-        <dependency>
+        <!--<dependency>
             <groupId>com.persistentbit</groupId>
             <artifactId>persistent-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-javacodegen-annotations</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.persistentbit</groupId>
-            <artifactId>persistent-javacodegen-annotations</artifactId>
+            <artifactId>persistent-collections</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

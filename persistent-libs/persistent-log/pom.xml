@@ -30,7 +30,7 @@
         </dependency>
         <dependency>
             <groupId>com.persistentbit</groupId>
-            <artifactId>persistentbit-runenv</artifactId>
+            <artifactId>persistent-runenv</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
