@@ -4,6 +4,7 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 
 import java.util.function.Function;
 
@@ -26,6 +27,8 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 	PList<DExpr> expand(E expr);
 
 	SqlWithParams	toSql(E expr);
+
+	ExprTypeJdbcConvert<J>	getJdbcConverter(E expr);
 
 	ExprContext	getExprContext();
 	Class<? extends DExpr<J>> getTypeClass();

@@ -43,6 +43,41 @@ public final class PMap<K, V> extends AbstractPStreamDirect<Tuple2<K, V>, PMap<K
 	this.root = root;
   }
 
+	static public <K,V> PMap<K,V> val(K k1, V v1){
+		return PMap.<K,V>empty()
+			.put(k1,v1);
+	}
+	static public <K,V> PMap<K,V> val(K k1, V v1,K k2, V v2){
+		return PMap.<K,V>empty()
+			.put(k1,v1)
+			.put(k2,v2)
+			;
+	}
+	static public <K,V> PMap<K,V> val(K k1, V v1,K k2, V v2,K k3, V v3){
+		return PMap.<K,V>empty()
+			.put(k1,v1)
+			.put(k2,v2)
+			.put(k3,v3)
+			;
+	}
+	static public <K,V> PMap<K,V> val(K k1, V v1,K k2, V v2,K k3, V v3,K k4, V v4){
+		return PMap.<K,V>empty()
+			.put(k1,v1)
+			.put(k2,v2)
+			.put(k3,v3)
+			.put(k4,v4)
+			;
+	}
+	static public <K,V> PMap<K,V> val(K k1, V v1,K k2, V v2,K k3, V v3,K k4, V v4,K k5, V v5){
+		return PMap.<K,V>empty()
+			.put(k1,v1)
+			.put(k2,v2)
+			.put(k3,v3)
+			.put(k4,v4)
+			.put(k5,v5)
+			;
+	}
+
   @SuppressWarnings("MethodOnlyUsedFromInnerClass")
   private static MapNode[] cloneAndSet(MapNode[] array, int i, MapNode a) {
 	MapNode[] clone = array.clone();

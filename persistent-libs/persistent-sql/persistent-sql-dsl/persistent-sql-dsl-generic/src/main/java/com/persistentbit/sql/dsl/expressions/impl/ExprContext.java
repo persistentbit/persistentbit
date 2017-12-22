@@ -16,6 +16,7 @@ import com.persistentbit.tuples.Tuple2;
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -290,5 +291,22 @@ public class ExprContext{
 	ETuple2<E1,J1,E2,J2> of(E1 e1, E2 e2){
 		Tuple2TypeFactory tf = (Tuple2TypeFactory)getTypeFactory(ETuple2.class);
 		return tf.of(e1,e2);
+	}
+
+	public ExprTypeJdbcConvert	getJdbcConverter(DExpr expr){
+		return getTypeFactory(expr).getJdbcConverter(expr);
+	}
+	static private Object notFound = new Object();
+	public <E1 extends DExpr<J1>,J1> Param<E1> param(Class<E1> typeClass, String name){
+
+		ExprTypeFactory<E1,J1> tf =  getTypeFactory(typeClass);
+		Function<PMap<String,Object>,Object> getter = map-> {
+			Object value = map.getOrDefault(name,notFound);
+			if(notFound == value){
+				throw new RuntimeException("Param " + name + " Not found in " + map.keys().toString(", "));
+			}
+			return value;
+		};
+		return new Param<>(name,tf.buildParam(getter));
 	}
 }

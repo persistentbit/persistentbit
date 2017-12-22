@@ -1,10 +1,15 @@
+import com.persistentbit.collections.PMap;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.statements.select.TypedSelection1;
 import com.persistentbit.sql.dsl.statements.select.impl.SubQuery1;
+import com.persistentbit.sql.dsl.statements.work.DbWorkP1;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -49,8 +54,31 @@ public class TypesTest{
 		public <E1 extends DExpr<J1>, J1, E2 extends DExpr<J2>, J2> ETuple2<E1, J1, E2, J2> tupleOf(E1 e1, E2 e2) {
 			return context.of(e1, e2);
 		}
-	}
 
+		public	<E1 extends DExpr<J>,J> Param<E1> param(String name, Class<E1> cls){
+			ExprTypeFactory<E1,J> tf =context.getTypeFactory(cls);
+			Function<PMap<String,Object>,Object> getter = m -> m.get(name);
+			return new Param<>(name,tf.buildParam(getter));
+		}
+	}
+	static public class DbInst {
+		private final Db db;
+
+		public final DbWorkP1<Long,Person> selectPersonById;
+
+		public DbInst(Db db) {
+			this.db = db;
+			selectPersonById = db.person.query(q -> {
+
+				Param<ELong> idParam = db.param("id",ELong.class);
+
+				return q
+					.where(idParam.getExpr().eq(db.person.id))
+					.selection(db.person._all)
+					.one(idParam);
+			});
+		}
+	}
 
 	static final TestCase sqlGenTest = TestCase.name("sqlGenTest").code(tc -> {
 		context.addType(new PersonTypeFactory(context));
@@ -100,6 +128,8 @@ public class TypesTest{
 				.query()
 				.selection(db.tupleOf(db.tupleOf(menchen.id, menchen.firstName), menchen.home))
 		);
+		DbInst myDb = new DbInst(db);
+		System.out.println(myDb.selectPersonById.with(2L).run(null));
 	});
 
 	public void testAll() {

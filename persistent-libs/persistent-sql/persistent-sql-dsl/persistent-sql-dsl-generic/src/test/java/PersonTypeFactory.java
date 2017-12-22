@@ -5,6 +5,7 @@ import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.*;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.utils.Lazy;
 
 import java.util.function.Function;
@@ -49,6 +50,21 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 			, tfAddress.get().buildParam(createGetter(paramGetter, Person::getHome))
 		);
 	}
+
+	@Override
+	public ExprTypeJdbcConvert<Person> getJdbcConverter(EPerson expr) {
+		return ExprTypeJdbcConvert.<Person>createMultiColumn(
+			PList.val(
+				tfId.get().getJdbcConverter(expr.id),
+				tfFirstName.get().getJdbcConverter(expr.firstName),
+				tfAddress.get().getJdbcConverter(expr.home)
+			),
+			ol -> ol == null || (ol[0] == null && ol[1] == null && ol[2] == null && ol[3] == null)
+				? null
+				: new Person((Long) ol[0], (String) ol[1], (String) ol[2],(Address)ol[3])
+		);
+	}
+
 
 	@Override
 	public EPerson buildCall(String callName, DExpr[] params) {

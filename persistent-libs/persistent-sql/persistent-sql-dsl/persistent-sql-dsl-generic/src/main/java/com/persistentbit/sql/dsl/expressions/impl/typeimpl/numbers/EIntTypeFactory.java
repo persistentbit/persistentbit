@@ -1,12 +1,12 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers;
 
 import com.persistentbit.sql.dsl.expressions.*;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.GenericExprTypeJdbcConverters;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 
 /**
  * TODOC
@@ -17,13 +17,9 @@ import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 public class EIntTypeFactory extends AbstractTypeFactory<EInt, Integer>{
 
 	public EIntTypeFactory(ExprContext context) {
-		super(context);
+		super(context, GenericExprTypeJdbcConverters.forInt);
 	}
 
-	@Override
-	protected ExprTypeJdbcConvert doGetJdbcConverter() {
-		return context.getJavaJdbcConverter(Integer.class);
-	}
 
 	@Override
 	public Class<? extends DExpr<Integer>> getTypeClass() {

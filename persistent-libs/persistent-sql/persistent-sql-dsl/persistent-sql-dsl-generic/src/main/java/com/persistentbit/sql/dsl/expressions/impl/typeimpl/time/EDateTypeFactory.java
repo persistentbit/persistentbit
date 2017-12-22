@@ -2,11 +2,11 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.time;
 
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EDate;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.GenericExprTypeJdbcConverters;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.TypeImplComparableMixin;
 
@@ -21,13 +21,9 @@ import java.time.LocalDate;
 public class EDateTypeFactory extends AbstractTypeFactory<EDate, LocalDate>{
 
 	public EDateTypeFactory(ExprContext context) {
-		super(context);
+		super(context, GenericExprTypeJdbcConverters.forLocalDate);
 	}
 
-	@Override
-	protected ExprTypeJdbcConvert doGetJdbcConverter() {
-		return context.getJavaJdbcConverter(LocalDate.class);
-	}
 
 	@Override
 	public Class<? extends DExpr<LocalDate>> getTypeClass() {

@@ -8,6 +8,8 @@ import com.persistentbit.sql.dsl.tables.AbstractTable;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableName;
 
+import java.util.function.Function;
+
 /**
  * TODOC
  *
@@ -57,5 +59,8 @@ public class TPerson extends AbstractTable<EPerson,Person>{
 	}
 	public Query query(){
 		return new QueryImpl(context, PList.val(this));
+	}
+	public <R> R query(Function<Query,R> builder){
+		return builder.apply(query());
 	}
 }

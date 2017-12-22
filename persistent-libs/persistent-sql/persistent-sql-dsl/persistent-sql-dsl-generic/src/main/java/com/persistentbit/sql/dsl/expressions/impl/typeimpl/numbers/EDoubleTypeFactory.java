@@ -3,12 +3,12 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBigDecimal;
 import com.persistentbit.sql.dsl.expressions.EDouble;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.GenericExprTypeJdbcConverters;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 
 /**
  * TODOC
@@ -19,13 +19,9 @@ import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 public class EDoubleTypeFactory extends AbstractTypeFactory<EDouble, Double>{
 
 	public EDoubleTypeFactory(ExprContext context) {
-		super(context);
+		super(context, GenericExprTypeJdbcConverters.forDouble);
 	}
 
-	@Override
-	protected ExprTypeJdbcConvert doGetJdbcConverter() {
-		return context.getJavaJdbcConverter(Double.class);
-	}
 
 	@Override
 	public Class<? extends DExpr<Double>> getTypeClass() {

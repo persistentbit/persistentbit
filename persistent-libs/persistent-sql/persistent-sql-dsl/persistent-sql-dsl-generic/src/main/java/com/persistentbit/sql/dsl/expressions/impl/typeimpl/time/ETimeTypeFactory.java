@@ -1,7 +1,9 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.time;
 
+import com.persistentbit.sql.dsl.exprcontext.impl.GenericDbContext;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ETime;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.GenericExprTypeJdbcConverters;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
@@ -20,18 +22,15 @@ import java.time.LocalTime;
  */
 public class ETimeTypeFactory extends AbstractTypeFactory<ETime,LocalTime>{
 	public ETimeTypeFactory(ExprContext context) {
-		super(context);
+		super(context, GenericExprTypeJdbcConverters.forLocalTime);
 	}
 
-	@Override
-	protected ExprTypeJdbcConvert doGetJdbcConverter() {
-		return context.getJavaJdbcConverter(LocalTime.class);
-	}
 
 	@Override
 	public Class<? extends DExpr<LocalTime>> getTypeClass() {
 		return ETime.class;
 	}
+
 
 	@Override
 	protected ETime buildWithStrategy(TypeStrategy<LocalTime> strategy) {

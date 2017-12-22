@@ -4,6 +4,7 @@ import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.utils.Lazy;
 
 import java.util.function.Function;
@@ -16,7 +17,7 @@ import java.util.function.Function;
  */
 public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
 
-	private final ExprContext context;
+	private final ExprContext                            context;
 	private final Lazy<ExprTypeFactory<EString, String>> tfStreet;
 	private final Lazy<ExprTypeFactory<EString, String>> tfPostalCode;
 	private final Lazy<ExprTypeFactory<EString, String>> tfCity;
@@ -38,6 +39,20 @@ public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
 	}
 
 	@Override
+	public ExprTypeJdbcConvert<Address> getJdbcConverter(EAddress expr) {
+		return ExprTypeJdbcConvert.createMultiColumn(
+			PList.val(
+				context.getJdbcConverter(expr.street),
+				context.getJdbcConverter(expr.postalCode),
+				context.getJdbcConverter(expr.city)
+			),
+			ol -> ol == null || (ol[0] == null && ol[1] == null && ol[2] == null)
+				? null
+				: new Address((String) ol[0], (String) ol[1], (String) ol[2])
+		);
+	}
+
+	@Override
 	public EAddress buildParam(Function<PMap<String, Object>, Object> paramGetter) {
 		return new EAddressImpl(
 			tfStreet.get().buildParam(createGetter(paramGetter, Address::getStreet))
@@ -45,10 +60,13 @@ public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
 			, tfCity.get().buildParam(createGetter(paramGetter, Address::getCity))
 		);
 	}
-	private final Function<PMap<String,Object>,Object> createGetter(Function<PMap<String, Object>, Object> pg, Function<Address,Object> fieldGetter){
+
+	private final Function<PMap<String, Object>, Object> createGetter(Function<PMap<String, Object>, Object> pg,
+																	  Function<Address, Object> fieldGetter
+	) {
 		return map -> {
 			Address v = (Address) pg.apply(map);
-			if(v == null){
+			if(v == null) {
 				return null;
 			}
 			return fieldGetter.apply(v);
@@ -83,31 +101,31 @@ public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
 	@Override
 	public EAddress buildTableField(String fieldSelectionName, String fieldName) {
 		return new AddressTypeFactory.EAddressImpl(
-			tfStreet.get().buildTableField(fieldSelectionName+"street",fieldName+"street"),
-			tfPostalCode.get().buildTableField(fieldSelectionName+"postalCode",fieldName+"postalCode"),
-			tfCity.get().buildTableField(fieldSelectionName+"city",fieldName+"city")
+			tfStreet.get().buildTableField(fieldSelectionName + "street", fieldName + "street"),
+			tfPostalCode.get().buildTableField(fieldSelectionName + "postalCode", fieldName + "postalCode"),
+			tfCity.get().buildTableField(fieldSelectionName + "city", fieldName + "city")
 		);
 	}
 
 	@Override
 	public EAddress buildSelection(EAddress expr, String prefixAlias) {
 		return new AddressTypeFactory.EAddressImpl(
-			tfStreet.get().buildSelection(expr.street,prefixAlias)
-			, tfPostalCode.get().buildSelection(expr.postalCode,prefixAlias)
-			, tfCity.get().buildSelection(expr.city,prefixAlias)
+			tfStreet.get().buildSelection(expr.street, prefixAlias)
+			, tfPostalCode.get().buildSelection(expr.postalCode, prefixAlias)
+			, tfCity.get().buildSelection(expr.city, prefixAlias)
 		);
 	}
 
 	@Override
 	public PList<DExpr> expand(EAddress expr) {
-		return PList.val(expr.street,expr.postalCode,expr.city);
+		return PList.val(expr.street, expr.postalCode, expr.city);
 	}
 
 	@Override
 	public SqlWithParams toSql(EAddress expr) {
 		return tfStreet.get().toSql(expr.street)
-				   .add(", ").add(tfPostalCode.get().toSql(expr.postalCode))
-				   .add(", ").add(tfCity.get().toSql(expr.city));
+			.add(", ").add(tfPostalCode.get().toSql(expr.postalCode))
+			.add(", ").add(tfCity.get().toSql(expr.city));
 	}
 
 	@Override
@@ -126,7 +144,6 @@ public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
 		private EAddressImpl(EString Street, EString PostalCode, EString city) {
 			super(Street, PostalCode, city);
 		}
-
 
 
 		@Override

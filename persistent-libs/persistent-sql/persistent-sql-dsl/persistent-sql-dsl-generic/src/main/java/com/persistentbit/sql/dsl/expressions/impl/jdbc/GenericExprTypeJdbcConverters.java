@@ -5,6 +5,7 @@ import com.persistentbit.collections.PByteList;
 import java.math.BigDecimal;
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 /**
@@ -207,7 +208,7 @@ public class GenericExprTypeJdbcConverters{
 			return 1;
 		}
 	};
-	static public final ExprTypeJdbcConvert<LocalTime> forLocalTime = new ExprTypeJdbcConvert<>(){
+	static public final ExprTypeJdbcConvert<LocalTime>     forLocalTime     = new ExprTypeJdbcConvert<>(){
 		@Override
 		public void setParam(int index, PreparedStatement stat, LocalTime value) throws SQLException {
 			if(value == null){
@@ -221,6 +222,27 @@ public class GenericExprTypeJdbcConverters{
 		public LocalTime read(int index, ResultSet resultSet) throws SQLException {
 			Time t = resultSet.getTime(index++);
 			return t == null ? null : t.toLocalTime();
+		}
+
+		@Override
+		public int columnCount() {
+			return 1;
+		}
+	};
+	static public final ExprTypeJdbcConvert<LocalDateTime> forLocalDateTime = new ExprTypeJdbcConvert<>(){
+		@Override
+		public void setParam(int index, PreparedStatement stat, LocalDateTime value) throws SQLException {
+			if(value == null){
+				stat.setDate(index,null);
+			} else {
+				stat.setTimestamp(index, Timestamp.valueOf(value));
+			}
+		}
+
+		@Override
+		public LocalDateTime read(int index, ResultSet resultSet) throws SQLException {
+			Timestamp d = resultSet.getTimestamp(index);
+			return d == null ? null : d.toLocalDateTime();
 		}
 
 		@Override

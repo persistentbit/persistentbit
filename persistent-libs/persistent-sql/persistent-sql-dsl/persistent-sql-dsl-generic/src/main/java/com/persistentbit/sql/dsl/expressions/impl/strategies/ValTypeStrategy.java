@@ -20,25 +20,25 @@ import java.sql.SQLException;
 public class ValTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 	private final J value;
-	private final Lazy<ExprTypeJdbcConvert<J>> jdbcConvert;
+	private final ExprTypeJdbcConvert<J> jdbcConvert;
 	private final Lazy<PrepStatParam> prepStatParam;
 
 	public ValTypeStrategy(Class<? extends DExpr<J>> typeClass,
 						   ExprTypeFactory<?, J> exprTypeFactory,
 						   J value,
-						   Lazy<ExprTypeJdbcConvert<J>> jdbcConvert
+						   ExprTypeJdbcConvert<J> jdbcConvert
 	) {
 		super(typeClass, exprTypeFactory);
 		this.value = value;
 		this.jdbcConvert = jdbcConvert;
 
 		this.prepStatParam = Lazy.code(() -> {
-			ExprTypeJdbcConvert<J> jdbc = jdbcConvert.get();
+
 			return new PrepStatParam(){
 				@Override
 				public int _setPrepStatement(PMap<String,Object> extParams, PreparedStatement stat, int index) throws SQLException {
-					jdbc.setParam(index, stat, value);
-					return jdbc.columnCount();
+					jdbcConvert.setParam(index, stat, value);
+					return jdbcConvert.columnCount();
 				}
 
 				@Override

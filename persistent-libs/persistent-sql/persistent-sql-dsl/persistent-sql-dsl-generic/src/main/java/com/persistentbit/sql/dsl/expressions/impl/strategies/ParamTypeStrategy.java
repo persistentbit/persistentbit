@@ -21,24 +21,24 @@ import java.util.function.Function;
 public class ParamTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 	private final Function<PMap<String,Object>,Object> paramGetter;
-	private final Lazy<ExprTypeJdbcConvert<J>> jdbcConvert;
+	private final ExprTypeJdbcConvert<J> jdbcConvert;
 	private final Lazy<PrepStatParam> prepStatParam;
 
 	public ParamTypeStrategy(Class<? extends DExpr<J>> typeClass,
 							 ExprTypeFactory<?, J> exprTypeFactory,
 							 Function<PMap<String, Object>, Object> paramGetter,
-							 Lazy<ExprTypeJdbcConvert<J>> jdbcConvert
+							 ExprTypeJdbcConvert<J> jdbcConvert
 	) {
 		super(typeClass, exprTypeFactory);
 		this.paramGetter = paramGetter;
 		this.jdbcConvert = jdbcConvert;
 		this.prepStatParam = Lazy.code(() -> {
-			ExprTypeJdbcConvert<J> jdbc = jdbcConvert.get();
+
 			return new PrepStatParam(){
 				@Override
 				public int _setPrepStatement(PMap<String,Object> extParams, PreparedStatement stat, int index) throws SQLException {
-					jdbc.setParam(index, stat, (J)paramGetter.apply(extParams));
-					return jdbc.columnCount();
+					jdbcConvert.setParam(index, stat, (J)paramGetter.apply(extParams));
+					return jdbcConvert.columnCount();
 				}
 
 				@Override

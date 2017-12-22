@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -9,8 +10,6 @@ import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.*;
-import com.persistentbit.sql.dsl.SqlWithParams;
-import com.persistentbit.utils.Lazy;
 
 import java.util.function.Function;
 
@@ -23,18 +22,21 @@ import java.util.function.Function;
 public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements ExprTypeFactory<E, J>{
 
 	protected final ExprContext context;
-	private final Lazy<ExprTypeJdbcConvert<J>> jdbcConvert;
+	private final ExprTypeJdbcConvert<J> jdbcConvert;
 
-	public AbstractTypeFactory(ExprContext context) {
+	public AbstractTypeFactory(ExprContext context,ExprTypeJdbcConvert<J> jdbcConvert) {
 		this.context = context;
-		this.jdbcConvert = Lazy.code(() -> doGetJdbcConverter());
+		this.jdbcConvert = jdbcConvert;
 	}
 
 
 	protected abstract E buildWithStrategy(TypeStrategy<J> strategy);
 
-	protected abstract ExprTypeJdbcConvert doGetJdbcConverter();
 
+	@Override
+	public ExprTypeJdbcConvert<J> getJdbcConverter(E expr) {
+		return jdbcConvert;
+	}
 
 	@Override
 	public ExprContext getExprContext() {
@@ -105,6 +107,7 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 			new SelectionStrategy<>(
 				getTypeClass(), this, expr, newAlias));
 	}
+
 
 
 	@Override

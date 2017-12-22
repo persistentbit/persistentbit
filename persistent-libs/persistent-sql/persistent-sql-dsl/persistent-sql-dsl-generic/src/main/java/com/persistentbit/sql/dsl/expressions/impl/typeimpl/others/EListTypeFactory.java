@@ -5,6 +5,7 @@ import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EList;
 import com.persistentbit.sql.dsl.expressions.impl.*;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.utils.exceptions.ToDo;
@@ -73,6 +74,12 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 
 	@Override
 	public EList buildSingleOp(DExpr expr, SingleOpOperator op
+	) {
+		throw new ToDo();
+	}
+
+	@Override
+	public ExprTypeJdbcConvert<PList<DExpr>> getJdbcConverter(EList expr
 	) {
 		throw new ToDo();
 	}

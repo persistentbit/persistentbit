@@ -5,6 +5,7 @@ import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ETuple2;
 import com.persistentbit.sql.dsl.expressions.impl.*;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.tuples.Tuple2;
 import com.persistentbit.utils.exceptions.ToDo;
 
@@ -88,6 +89,12 @@ public class Tuple2TypeFactory implements ExprTypeFactory {
 					  .plusAll(context.getTypeFactory(expr.v2()).expand(expr.v2()));
 	}
 
+	@Override
+	public ExprTypeJdbcConvert getJdbcConverter(DExpr expr
+	) {
+		ETuple2Impl impl = (ETuple2Impl)expr;
+		return impl.getJdbcConverter();
+	}
 
 	@Override
 	public SqlWithParams toSql(DExpr genExpr) {
@@ -133,6 +140,20 @@ public class Tuple2TypeFactory implements ExprTypeFactory {
 		@Override
 		public E2 v2() {
 			return v2;
+		}
+
+		public ExprTypeJdbcConvert	getJdbcConverter() {
+			return ExprTypeJdbcConvert.createMultiColumn(
+				PList.val(
+					context.getJdbcConverter(v1)
+					,context.getJdbcConverter(v2)
+				)
+				,ol ->
+				{ return ol == null || (ol[0] == null && ol[1] == null)
+					? null
+					: Tuple2.of(ol[0],ol[1]);
+				}
+			);
 		}
 	}
 }

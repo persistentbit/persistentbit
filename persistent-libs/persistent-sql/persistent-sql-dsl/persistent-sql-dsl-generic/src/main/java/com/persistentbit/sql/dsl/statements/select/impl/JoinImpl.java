@@ -72,9 +72,9 @@ public class JoinImpl implements Join{
 		SqlWithParams result = SqlWithParams
 								   .nl
 								   .add(res)
-								   .add(query.context.getFromTableName(selectable));
+								   .add(query.qc.context.getFromTableName(selectable));
 		if(joinExpr != null) {
-			result = result.add(" ON ").add(query.context.toSql(joinExpr));
+			result = result.add(" ON ").add(query.qc.context.toSql(joinExpr));
 		}
 		return result;
 	}
