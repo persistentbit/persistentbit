@@ -19,40 +19,49 @@ import java.util.function.Function;
 public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 
 	private final ExprContext                              context;
-	private final Lazy<ExprTypeFactory<ELong, Long>>       tfId;
-	private final Lazy<ExprTypeFactory<EString, String>>   tfFirstName;
-	private final Lazy<ExprTypeFactory<EString, String>>   tfMiddleName;
-	private final Lazy<ExprTypeFactory<EString, String>>   tfLastName;
-	private final Lazy<ExprTypeFactory<EAddress, Address>> tfAddress;
+
+	private final Lazy<ExprTypeFactory[]> tfs;
 
 	public PersonTypeFactory(ExprContext context) {
 		this.context = context;
-		this.tfId = Lazy.code(() -> context.getTypeFactory(ELong.class));
-		this.tfFirstName = Lazy.code(() -> context.getTypeFactory(EString.class));
-		this.tfMiddleName = Lazy.code(() -> context.getTypeFactory(EString.class));
-		this.tfLastName = Lazy.code(() -> context.getTypeFactory(EString.class));
-		this.tfAddress = Lazy.code(() -> context.getTypeFactory(EAddress.class));
+		this.tfs = Lazy.code(() -> buildTypeFactories());
 	}
+
+	private ExprTypeFactory[] buildTypeFactories() {
+		return new ExprTypeFactory[]{
+			context.getTypeFactory(ELong.class),
+			context.getTypeFactory(EString.class),
+			context.getTypeFactory(EString.class),
+			context.getTypeFactory(EAddress.class)
+		};
+	}
+
+	private final Function[] valueGetters = new Function[]{
+		v -> v == null ? null : ((Person) v).getId(),
+		v -> v == null ? null : ((Person) v).getFirstName(),
+		v -> v == null ? null : ((Person) v).getMiddleName().orElse(null),
+		v -> v == null ? null : ((Person) v).getLastName(),
+		v -> v == null ? null : ((Person) v).getHome()
+	};
+
 
 	@Override
 	public <V extends Person> EPerson buildVal(V value) {
-		return new EPersonImpl(
-			tfId.get().buildVal(value.getId())
-			, tfFirstName.get().buildVal(value.getFirstName())
-			, tfMiddleName.get().buildVal(value.getMiddleName().orElse(null))
-			, tfLastName.get().buildVal(value.getLastName())
-			, tfAddress.get().buildVal(value.getHome())
-		);
+		DExpr[] values = new DExpr[tfs.get().length];
+		for(int t = 0; t < tfs.get().length; t++) {
+			values[t] = tfs.get()[t].buildVal(valueGetters[t].apply(value));
+		}
+		return new EPersonImpl(values);
 	}
 	@Override
 	public EPerson buildParam(Function<PMap<String, Object>, Object> paramGetter) {
-		return new EPersonImpl(
-			tfId.get().buildParam(createGetter(paramGetter, Person::getId))
-			, tfFirstName.get().buildParam(createGetter(paramGetter, Person::getFirstName))
-			, tfMiddleName.get().buildParam(createGetter(paramGetter, p -> p.getMiddleName().orElse(null)))
-			, tfLastName.get().buildParam(createGetter(paramGetter, Person::getLastName))
-			, tfAddress.get().buildParam(createGetter(paramGetter, Person::getHome))
-		);
+		DExpr[] values = new DExpr[tfs.get().length];
+		for(int t = 0; t < tfs.get().length; t++) {
+			Function vg = valueGetters[t];
+			values[t] = tfs.get()[t].buildParam(map -> vg.apply(paramGetter.apply(map)));
+		}
+		return new EPersonImpl(values);
+
 	}
 
 	@Override
@@ -162,8 +171,8 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 
 	private class EPersonImpl extends EPerson implements ExprTypeImpl<EPerson, Person>{
 
-		private EPersonImpl(ELong id, EString firstName, EString middleName, EString lastName, EAddress home) {
-			super(id, firstName, middleName, lastName, home);
+		private EPersonImpl(DExpr[] exprs) {
+			super((ELong) exprs[0], (EString) exprs[1], (EString) exprs[2], (EString) exprs[3], (EAddress) exprs[4]);
 		}
 
 		@Override
