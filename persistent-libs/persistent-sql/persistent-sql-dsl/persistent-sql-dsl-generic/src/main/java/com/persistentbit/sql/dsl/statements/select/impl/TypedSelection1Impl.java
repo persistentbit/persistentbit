@@ -108,7 +108,7 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 				if(l.size()>1){
 					return Result.failure("Expected one record, got " + l.size());
 				}
-				return Result.success(l.head());
+				return Result.result(l.headOpt().orElse(null));
 			});
 	}
 

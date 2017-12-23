@@ -79,8 +79,7 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 	}
 
 	@Override
-	public ExprTypeJdbcConvert<PList<DExpr>> getJdbcConverter(EList expr
-	) {
+	public ExprTypeJdbcConvert<PList<DExpr>> getJdbcConverter(EList expr) {
 		throw new ToDo();
 	}
 

@@ -90,8 +90,7 @@ public class Tuple2TypeFactory implements ExprTypeFactory {
 	}
 
 	@Override
-	public ExprTypeJdbcConvert getJdbcConverter(DExpr expr
-	) {
+	public ExprTypeJdbcConvert getJdbcConverter(DExpr expr) {
 		ETuple2Impl impl = (ETuple2Impl)expr;
 		return impl.getJdbcConverter();
 	}

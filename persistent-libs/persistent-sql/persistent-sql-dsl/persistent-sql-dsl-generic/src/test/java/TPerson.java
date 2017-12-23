@@ -17,6 +17,7 @@ import java.util.function.Function;
  * @since 19/12/17
  */
 public class TPerson extends AbstractTable<EPerson,Person>{
+	private final TableName	_tableName = new TableName(null,"MYSCHEMA","PERSONS");
 	public final EPerson _all;
 
 	public final ELong    id;
@@ -29,7 +30,7 @@ public class TPerson extends AbstractTable<EPerson,Person>{
 		super(context,alias);
 		this._all = context
 						.getTypeFactory(EPerson.class)
-						.buildTableField(createFullTableNameOrAlias().toString(),"");
+						.buildTableField(createFullTableNameOrAlias().toString()+".","");
 		this.id = _all.id;
 		this.firstName = _all.firstName;
 		this.middleName = _all.middleName;
@@ -47,7 +48,7 @@ public class TPerson extends AbstractTable<EPerson,Person>{
 
 	@Override
 	protected TableName getTableName() {
-		return new TableName(null,"MYSCHEMA","PERSONS");
+		return _tableName;
 	}
 
 	@Override
@@ -62,7 +63,7 @@ public class TPerson extends AbstractTable<EPerson,Person>{
 	public Query query(){
 		return new QueryImpl(context, PList.val(this));
 	}
-	public <R> R query(Function<Query,R> builder){
-		return builder.apply(query());
+	public <R> R query(Function<EPerson,Function<Query,R>> builder){
+		return builder.apply(_all).apply(query());
 	}
 }

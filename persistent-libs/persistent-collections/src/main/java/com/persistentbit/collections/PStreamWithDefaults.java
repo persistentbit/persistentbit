@@ -453,6 +453,9 @@ interface PStreamWithDefaults<T> extends PStream<T>{
 
 					@Override
 					public R next() {
+						if(master == null) {
+							master = PStreamWithDefaults.this.iterator();
+						}
 						return mapper.apply(master.next());
 					}
 				};

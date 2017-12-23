@@ -1,13 +1,14 @@
 import com.persistentbit.collections.PList;
-import com.persistentbit.collections.PMap;
+import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EString;
-import com.persistentbit.sql.dsl.expressions.impl.*;
-import com.persistentbit.sql.dsl.SqlWithParams;
-import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
-import com.persistentbit.utils.Lazy;
+import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructureField;
 
-import java.util.function.Function;
+import java.util.Iterator;
 
 /**
  * TODOC
@@ -15,8 +16,57 @@ import java.util.function.Function;
  * @author petermuys
  * @since 19/12/17
  */
-public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
+public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, Address>{
 
+
+	public AddressTypeFactory(ExprContext context) {
+		super(context);
+	}
+
+	@Override
+	protected PList<StructureField<EAddress, Address>> buildFields() {
+		return PList.val(
+			createField(EString.class,"street","street",v -> v.getStreet(),v -> v.street)
+			,createField(EString.class,"postalCode","postalCode",v -> v.getPostalCode(),v -> v.postalCode)
+			,createField(EString.class,"city","city",v -> v.getCity(),v -> v.city)
+		);
+	}
+
+	@Override
+	protected EAddress createExpression(PStream<DExpr> fieldValues
+	) {
+		return new EAddressImpl(fieldValues.iterator());
+	}
+
+	@Override
+	protected Address buildValue(Object[] fieldValues) {
+		return new Address((String)fieldValues[0],(String)fieldValues[1],(String)fieldValues[2]);
+	}
+
+	@Override
+	public Class<? extends DExpr<Address>> getTypeClass() {
+		return null;
+	}
+
+	private class EAddressImpl extends EAddress implements ExprTypeImpl<EAddress, Address>{
+
+		private EAddressImpl(Iterator<DExpr> iter) {
+			super((EString)iter.next(), (EString)iter.next(), (EString)iter.next());
+		}
+
+
+		@Override
+		public ExprTypeFactory<EAddress, Address> getTypeFactory() {
+			return AddressTypeFactory.this;
+		}
+
+		@Override
+		public String toString() {
+			return "EAddress[" + street + ", " + postalCode + ", " + city + "]";
+		}
+	}
+
+/*
 	private final ExprContext                            context;
 	private final Lazy<ExprTypeFactory<EString, String>> tfStreet;
 	private final Lazy<ExprTypeFactory<EString, String>> tfPostalCode;
@@ -137,23 +187,8 @@ public class AddressTypeFactory implements ExprTypeFactory<EAddress, Address>{
 	public Class<? extends DExpr<Address>> getTypeClass() {
 		return EAddress.class;
 	}
+	*/
 
 
-	private class EAddressImpl extends EAddress implements ExprTypeImpl<EAddress, Address>{
 
-		private EAddressImpl(EString Street, EString PostalCode, EString city) {
-			super(Street, PostalCode, city);
-		}
-
-
-		@Override
-		public ExprTypeFactory<EAddress, Address> getTypeFactory() {
-			return AddressTypeFactory.this;
-		}
-
-		@Override
-		public String toString() {
-			return "EAddress[" + street + ", " + postalCode + ", " + city + "]";
-		}
-	}
 }

@@ -33,14 +33,14 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 	public SqlWithParams getFromName(String defaultCatalog, String defaultSchema) {
 		SqlWithParams res = createFullTableName(defaultCatalog,defaultSchema);
 		if(alias != null){
-			res = res.add(" AS " + alias);
+			res = res.add(" " + alias);
 		}
 		return res;
 	}
 
 	protected SqlWithParams createFullTableNameOrAlias() {
 		if(alias != null){
-			return SqlWithParams.sql(alias + ".");
+			return SqlWithParams.sql(alias);
 		}
 		return createFullTableName(context.getDefaultCatalogName().orElse(null),context.getDefaultSchemaName().orElse(null));
 	}

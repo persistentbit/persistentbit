@@ -87,31 +87,32 @@ public class TypesTest{
 
 		public DbInst(Db db) {
 			this.db = db;
-			selectPersonById = db.person.query(q -> {
+			selectPersonById = db.person.query(p-> q -> {
 
 				Param<ELong> idParam = db.param("id", ELong.class);
 
 				return q
-					.where(idParam.getExpr().eq(db.person.id))
-					.selection(db.person._all)
+					.where(idParam.getExpr().eq(p.id))
+					.selection(p)
 					.one(idParam);
 			});
-			selectByName = db.person.query(q -> {
+			selectByName = db.person.query(person-> q -> {
 				Param<EString> firstName = db.param("firstName", EString.class);
 				Param<EString> lastName  = db.param("lastName", EString.class);
 				return q
 					.where(
-						db.person.firstName.like(firstName.getExpr())
-							.and(db.person.lastName.like(lastName.getExpr()))
+						person.firstName.like(firstName.getExpr())
+							.and(person.lastName.like(lastName.getExpr()))
 					)
-					.selection(db.person._all)
+					.selection(person)
 					.list(firstName, lastName);
 			});
-			selectByAddress = db.person.query(q -> {
+			selectByAddress = db.person.as("menschen").query(menchen -> q -> {
 				Param<EAddress> adr = db.param("adress", EAddress.class);
+
 				return q
-					.where(db.person.home.eq(adr.getExpr()))
-					.selection(db.person.all())
+					.where(menchen.home.eq(adr.getExpr()))
+					.selection(menchen)
 					.list(adr);
 			});
 		}
@@ -130,8 +131,8 @@ public class TypesTest{
 	}
 
 	static final TestCase sqlGenTest = TestCase.name("sqlGenTest").code(tc -> {
-		context.addType(new PersonTypeFactory(context));
-		context.addType(new AddressTypeFactory(context));
+		context.registerType(EPerson.class, PersonTypeFactory.class);
+		context.registerType(EAddress.class, AddressTypeFactory.class);
 		context.addTable(new TPerson(context, null));
 		EPerson personTable = context.getTypeFactory(EPerson.class).buildTableField("PERSON_TABLE.", "");
 		System.out.println(context.toSql(personTable));
@@ -185,7 +186,7 @@ public class TypesTest{
 		Person peter = myDb.selectPersonById.with(1L).run(newTrans.get()).orElseThrow();
 		System.out.println(peter);
 		System.out.println(myDb.selectByName.with("Peter", "Muys").run(newTrans.get()).orElseThrow());
-		System.out.println(myDb.selectByAddress.with(peter.getHome()).run(newTrans.get()));
+		System.out.println(myDb.selectByAddress.with(peter.getHome()).run(newTrans.get()).orElseThrow());
 	});
 
 	public void testAll() {

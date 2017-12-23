@@ -11,7 +11,7 @@ import com.persistentbit.sql.dsl.statements.select.impl.TypedSelection1Impl;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableImpl;
 import com.persistentbit.sql.utils.rowreader.RowReader;
-import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.utils.Lazy;
 
 import java.math.BigDecimal;
 import java.sql.PreparedStatement;
@@ -50,9 +50,9 @@ public class ExprContext{
 	}
 
 
-	private PMap<Class<? extends DExpr>, ExprTypeFactory> typeFactories = PMap.empty();
-	private PMap<BinOpOperator,BinOpSqlBuilder> binOpMap = PMap.empty();
-	private PMap<SingleOpOperator,SingleOpSqlBuilder> singleOpMap = PMap.empty();
+	private PMap<Class<? extends DExpr>, Lazy<ExprTypeFactory>> typeFactories = PMap.empty();
+	private PMap<BinOpOperator,BinOpSqlBuilder>                binOpMap      = PMap.empty();
+	private PMap<SingleOpOperator,SingleOpSqlBuilder>          singleOpMap   = PMap.empty();
 
 	private PMap<Class, ExprTypeJdbcConvert> javaJdbcConverter = PMap.empty();
 
@@ -64,9 +64,7 @@ public class ExprContext{
 	private PMap<Class,TableImpl>	tables = PMap.empty();
 
 	public ExprContext() {
-		typeFactories = typeFactories.plusAll(
-			GenericTypeFactories.all(this).map(tf -> Tuple2.of(tf.getTypeClass(),tf))
-		);
+		GenericTypeFactories.registerAll(this);
 		setDefaultBinOpBuilders();
 	}
 
@@ -170,13 +168,24 @@ public class ExprContext{
 	}
 
 
-	public <E extends DExpr<J>,J,TF extends ExprTypeFactory<E,J>> ExprContext addType(TF typeFactory){
-		typeFactories = typeFactories.put(typeFactory.getTypeClass(),typeFactory);
+	public <E extends DExpr<J>,J,TF extends ExprTypeFactory<E,J>> ExprContext registerType(Class<E> exprClass,Class<TF> typeFactory){
+
+		typeFactories = typeFactories.put(exprClass,Lazy.code(() -> {
+			try {
+				return typeFactory.getDeclaredConstructor(this.getClass()).newInstance(this);
+			} catch(Exception e) {
+				throw new RuntimeException("Exception while creating type factory " + typeFactory, e);
+			}
+		}));
 		return this;
 	}
 
 	private <E extends DExpr<J>,J> ExprTypeFactory<E,J> get(Class<E> cls){
-		return typeFactories.get(cls);
+		Lazy<ExprTypeFactory> lazy = typeFactories.get(cls);
+		if(lazy == null){
+			throw new RuntimeException("No ExprTypeFactory registered for " + cls);
+		}
+		return lazy.get();
 	}
 
 	<E extends DExpr<J>,J>  E singleOp(Class<E> resultTypeClass, DExpr expr, SingleOpOperator operator){

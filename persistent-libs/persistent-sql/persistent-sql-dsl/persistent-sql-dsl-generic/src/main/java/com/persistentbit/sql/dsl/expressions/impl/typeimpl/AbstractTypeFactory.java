@@ -34,7 +34,7 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 
 
 	@Override
-	public ExprTypeJdbcConvert<J> getJdbcConverter(E expr) {
+	public ExprTypeJdbcConvert<J> getJdbcConverter(DExpr expr) {
 		return jdbcConvert;
 	}
 

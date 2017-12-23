@@ -7,4 +7,5 @@ package com.persistentbit.sql.dsl.statements.insert;
  * @since 19/12/17
  */
 public class Insert{
+
 }

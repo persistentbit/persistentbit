@@ -92,7 +92,7 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 	}
 
 	@Override
-	public ExprTypeJdbcConvert<J> getJdbcConverter(ESelection<J> expr) {
+	public ExprTypeJdbcConvert<J> getJdbcConverter(ESelection expr) {
 		ESelectionImpl<J> impl = (ESelectionImpl<J>)expr;
 		return impl.getJdbcConverter();
 	}

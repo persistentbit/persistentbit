@@ -3,7 +3,7 @@ import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
 
 /**
- * TODOC
+ * Generated {@link DExpr} for Table ...
  *
  * @author petermuys
  * @since 19/12/17
@@ -16,7 +16,7 @@ public abstract class EPerson implements DExpr<Person>{
 	public final EString  lastName;
 	public final EAddress home;
 
-	public EPerson(ELong id, EString firstName, EString middleName, EString lastName, EAddress home) {
+	protected EPerson(ELong id, EString firstName, EString middleName, EString lastName, EAddress home) {
 
 		this.id = id;
 		this.firstName = firstName;

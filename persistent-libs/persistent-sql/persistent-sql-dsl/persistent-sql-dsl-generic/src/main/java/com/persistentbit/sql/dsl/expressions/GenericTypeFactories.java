@@ -1,12 +1,10 @@
 package com.persistentbit.sql.dsl.expressions;
 
-import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers.*;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EBoolTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EStringTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.ESelectionTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EStringTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTimeTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.ETimeTypeFactory;
@@ -21,45 +19,41 @@ import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.Tuple2TypeFact
 public class GenericTypeFactories{
 
 
-	static public PList<ExprTypeFactory> numberFactories(ExprContext context) {
-		return PList.val(
-			new EByteTypeFactory(context),
-			new EShortTypeFactory(context),
-			new EIntTypeFactory(context),
-			new ELongTypeFactory(context),
-			new EFloatTypeFactory(context),
-			new EDoubleTypeFactory(context),
-			new EBigDecimalTypeFactory(context)
-		);
+	static public void numberFactories(ExprContext context) {
+		context.registerType(EByte.class,EByteTypeFactory.class);
+		context.registerType(EShort.class,EShortTypeFactory.class);
+		context.registerType(EInt.class,EIntTypeFactory.class);
+		context.registerType(ELong.class,ELongTypeFactory.class);
+		context.registerType(EFloat.class,EFloatTypeFactory.class);
+		context.registerType(EDouble.class,EDoubleTypeFactory.class);
+		context.registerType(EBigDecimal.class,EBigDecimalTypeFactory.class);
+
 
 	}
 
-	static public PList<ExprTypeFactory> timeFactories(ExprContext context) {
-		return PList.val(
-			new EDateTypeFactory(context),
-			new EDateTimeTypeFactory(context),
-			new ETimeTypeFactory(context)
-		);
+	static public void timeFactories(ExprContext context) {
+		context.registerType(EDate.class,EDateTypeFactory.class);
+		context.registerType(EDateTime.class,EDateTimeTypeFactory.class);
+		context.registerType(ETime.class,ETimeTypeFactory.class);
 	}
 
-	static public PList<ExprTypeFactory> otherFactories(ExprContext context) {
-		return PList.val(
-			new EBoolTypeFactory(context),
-			new EStringTypeFactory(context),
-			new ESelectionTypeFactory(context)
-		);
+	@SuppressWarnings("unchecked")
+	static public void otherFactories(ExprContext context) {
+		context.registerType(EBool.class,EBoolTypeFactory.class);
+		context.registerType(EString.class,EStringTypeFactory.class);
+		context.registerType(ESelection.class,ESelectionTypeFactory.class);
 	}
-	static public PList<ExprTypeFactory> tupleFactories(ExprContext context){
-		return PList.val(
-			new Tuple2TypeFactory(context)
-		);
+	@SuppressWarnings("unchecked")
+	static public void tupleFactories(ExprContext context){
+		context.registerType(ETuple2.class,Tuple2TypeFactory.class);
+
 	}
 
 
-	static public PList<ExprTypeFactory> all(ExprContext context) {
-		return numberFactories(context)
-				   .plusAll(timeFactories(context))
-				   .plusAll(tupleFactories(context))
-				   .plusAll(otherFactories(context));
+	static public void registerAll(ExprContext context) {
+		numberFactories(context);
+		timeFactories(context);
+		otherFactories(context);
+		tupleFactories(context);
 	}
 }
