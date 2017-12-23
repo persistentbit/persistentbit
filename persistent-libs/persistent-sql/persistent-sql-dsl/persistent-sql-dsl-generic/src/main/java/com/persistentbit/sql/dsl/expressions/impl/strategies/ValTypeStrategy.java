@@ -43,7 +43,7 @@ public class ValTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 				@Override
 				public String toString() {
-					return value.toString();
+					return value == null ? "null" : value.toString();
 				}
 			};
 		});

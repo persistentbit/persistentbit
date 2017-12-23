@@ -1,4 +1,5 @@
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.EString;
 
 /**
@@ -17,5 +18,15 @@ public abstract class EAddress implements DExpr<Address>{
 		this.street = street;
 		this.postalCode = postalCode;
 		this.city = city;
+	}
+
+	public EBool eq(EAddress other) {
+		return street.eq(other.street)
+			.and(postalCode.eq(other.postalCode))
+			.and(city.eq(other.city));
+	}
+
+	public EBool notEq(EAddress other) {
+		return eq(other).not();
 	}
 }

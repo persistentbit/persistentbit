@@ -26,4 +26,13 @@ public class Address{
 	public String getCity() {
 		return city;
 	}
+
+	@Override
+	public String toString() {
+		return "Address{" +
+			"street='" + street + '\'' +
+			", postalCode='" + postalCode + '\'' +
+			", city='" + city + '\'' +
+			'}';
+	}
 }

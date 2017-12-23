@@ -10,15 +10,17 @@ import com.persistentbit.sql.dsl.expressions.EString;
  */
 public abstract class EPerson implements DExpr<Person>{
 
-	public final ELong   id;
-	public final EString firstName;
-	public final EString lastName;
+	public final ELong    id;
+	public final EString  firstName;
+	public final EString  middleName;
+	public final EString  lastName;
 	public final EAddress home;
 
-	public EPerson(ELong id, EString firstName, EString lastName,EAddress home) {
+	public EPerson(ELong id, EString firstName, EString middleName, EString lastName, EAddress home) {
 
 		this.id = id;
 		this.firstName = firstName;
+		this.middleName = middleName;
 		this.lastName = lastName;
 		this.home = home;
 	}

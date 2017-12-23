@@ -18,16 +18,18 @@ import java.util.function.Function;
  */
 public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 
-	private final ExprContext context;
-	private final Lazy<ExprTypeFactory<ELong, Long>> tfId;
-	private final Lazy<ExprTypeFactory<EString, String>> tfFirstName;
-	private final Lazy<ExprTypeFactory<EString, String>> tfLastName;
+	private final ExprContext                              context;
+	private final Lazy<ExprTypeFactory<ELong, Long>>       tfId;
+	private final Lazy<ExprTypeFactory<EString, String>>   tfFirstName;
+	private final Lazy<ExprTypeFactory<EString, String>>   tfMiddleName;
+	private final Lazy<ExprTypeFactory<EString, String>>   tfLastName;
 	private final Lazy<ExprTypeFactory<EAddress, Address>> tfAddress;
 
 	public PersonTypeFactory(ExprContext context) {
 		this.context = context;
 		this.tfId = Lazy.code(() -> context.getTypeFactory(ELong.class));
 		this.tfFirstName = Lazy.code(() -> context.getTypeFactory(EString.class));
+		this.tfMiddleName = Lazy.code(() -> context.getTypeFactory(EString.class));
 		this.tfLastName = Lazy.code(() -> context.getTypeFactory(EString.class));
 		this.tfAddress = Lazy.code(() -> context.getTypeFactory(EAddress.class));
 	}
@@ -37,6 +39,7 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 		return new EPersonImpl(
 			tfId.get().buildVal(value.getId())
 			, tfFirstName.get().buildVal(value.getFirstName())
+			, tfMiddleName.get().buildVal(value.getMiddleName().orElse(null))
 			, tfLastName.get().buildVal(value.getLastName())
 			, tfAddress.get().buildVal(value.getHome())
 		);
@@ -46,6 +49,7 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 		return new EPersonImpl(
 			tfId.get().buildParam(createGetter(paramGetter, Person::getId))
 			, tfFirstName.get().buildParam(createGetter(paramGetter, Person::getFirstName))
+			, tfMiddleName.get().buildParam(createGetter(paramGetter, p -> p.getMiddleName().orElse(null)))
 			, tfLastName.get().buildParam(createGetter(paramGetter, Person::getLastName))
 			, tfAddress.get().buildParam(createGetter(paramGetter, Person::getHome))
 		);
@@ -57,11 +61,13 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 			PList.val(
 				tfId.get().getJdbcConverter(expr.id),
 				tfFirstName.get().getJdbcConverter(expr.firstName),
+				tfMiddleName.get().getJdbcConverter(expr.middleName),
+				tfLastName.get().getJdbcConverter(expr.lastName),
 				tfAddress.get().getJdbcConverter(expr.home)
 			),
-			ol -> ol == null || (ol[0] == null && ol[1] == null && ol[2] == null && ol[3] == null)
+			ol -> ol == null || (ol[0] == null && ol[1] == null && ol[2] == null && ol[3] == null && ol[4] != null)
 				? null
-				: new Person((Long) ol[0], (String) ol[1], (String) ol[2],(Address)ol[3])
+				: new Person((Long) ol[0], (String) ol[1], (String) ol[2], (String) ol[3], (Address) ol[4])
 		);
 	}
 
@@ -86,6 +92,7 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 		return new EPersonImpl(
 			tfId.get().buildAlias(alias + "id")
 			, tfFirstName.get().buildAlias(alias + "firstName")
+			, tfMiddleName.get().buildAlias(alias + "middleName")
 			, tfLastName.get().buildAlias(alias + "lastName")
 			, tfAddress.get().buildAlias(alias + "home")
 		);
@@ -104,10 +111,11 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 	@Override
 	public EPerson buildTableField(String fieldSelectionName, String fieldName) {
 		return new EPersonImpl(
-			tfId.get().buildTableField(fieldSelectionName+"id",fieldName+"id"),
-			tfFirstName.get().buildTableField(fieldSelectionName+"firstName",fieldName+"firstName"),
-			tfLastName.get().buildTableField(fieldSelectionName+"lastName",fieldName+"lastName"),
-			tfAddress.get().buildTableField(fieldSelectionName+"home_",fieldName+"home")
+			tfId.get().buildTableField(fieldSelectionName + ".id", fieldName + "id"),
+			tfFirstName.get().buildTableField(fieldSelectionName + ".first_Name", fieldName + "firstName"),
+			tfMiddleName.get().buildTableField(fieldSelectionName + ".middle_name", fieldName + "middleName"),
+			tfLastName.get().buildTableField(fieldSelectionName + ".last_Name", fieldName + "lastName"),
+			tfAddress.get().buildTableField(fieldSelectionName + ".home_", fieldName + "home")
 		);
 	}
 
@@ -116,6 +124,7 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 		return new EPersonImpl(
 			tfId.get().buildSelection(expr.id,prefixAlias)
 			, tfFirstName.get().buildSelection(expr.firstName,prefixAlias)
+			, tfMiddleName.get().buildSelection(expr.middleName, prefixAlias)
 			, tfLastName.get().buildSelection(expr.lastName,prefixAlias)
 			, tfAddress.get().buildSelection(expr.home,prefixAlias)
 		);
@@ -126,6 +135,7 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 		return PList.<DExpr>empty()
 			.plusAll(tfId.get().expand(expr.id))
 			.plusAll(tfFirstName.get().expand(expr.firstName))
+			.plusAll(tfMiddleName.get().expand(expr.middleName))
 			.plusAll(tfLastName.get().expand(expr.lastName))
 			.plusAll(tfAddress.get().expand(expr.home)
 		);
@@ -135,6 +145,7 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 	public SqlWithParams toSql(EPerson expr) {
 		return tfId.get().toSql(expr.id)
 			.add(", ").add(tfFirstName.get().toSql(expr.firstName))
+			.add(", ").add(tfMiddleName.get().toSql(expr.middleName))
 			.add(", ").add(tfLastName.get().toSql(expr.lastName))
 			.add(", ").add(tfAddress.get().toSql(expr.home));
 	}
@@ -151,8 +162,8 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 
 	private class EPersonImpl extends EPerson implements ExprTypeImpl<EPerson, Person>{
 
-		private EPersonImpl(ELong id, EString firstName, EString lastName,EAddress home) {
-			super(id, firstName, lastName, home);
+		private EPersonImpl(ELong id, EString firstName, EString middleName, EString lastName, EAddress home) {
+			super(id, firstName, middleName, lastName, home);
 		}
 
 		@Override
@@ -162,7 +173,7 @@ public class PersonTypeFactory implements ExprTypeFactory<EPerson, Person>{
 
 		@Override
 		public String toString() {
-			return "EPerson[" + id + ", " + firstName + ", " + lastName + ", " + home + "]";
+			return "EPerson[" + id + ", " + firstName + ", " + middleName + ", " + lastName + ", " + home + "]";
 		}
 	}
 }

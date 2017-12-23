@@ -19,9 +19,10 @@ import java.util.function.Function;
 public class TPerson extends AbstractTable<EPerson,Person>{
 	public final EPerson _all;
 
-	public final ELong id;
-	public final EString firstName;
-	public final EString lastName;
+	public final ELong    id;
+	public final EString  firstName;
+	public final EString  middleName;
+	public final EString  lastName;
 	public final EAddress home;
 
 	public TPerson(ExprContext context, String alias) {
@@ -31,6 +32,7 @@ public class TPerson extends AbstractTable<EPerson,Person>{
 						.buildTableField(createFullTableNameOrAlias().toString(),"");
 		this.id = _all.id;
 		this.firstName = _all.firstName;
+		this.middleName = _all.middleName;
 		this.lastName = _all.lastName;
 		this.home = _all.home;
 	}

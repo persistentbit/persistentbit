@@ -64,7 +64,7 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 		if(schemaName.isEmpty() == false){
 			schemaName += ".";
 		}
-		return SqlWithParams.sql(catName + schemaName + getTableName().getTableName()+".");
+		return SqlWithParams.sql(catName + schemaName + getTableName().getTableName());
 	}
 
 

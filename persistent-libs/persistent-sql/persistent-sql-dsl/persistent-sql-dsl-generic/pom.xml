@@ -8,6 +8,10 @@
         <version>3.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
+    <properties>
+        <version.postgresql>42.1.4</version.postgresql>
+        <version.h2>1.4.193</version.h2>
+    </properties>
 
     <artifactId>persistent-sql-dsl-generic</artifactId>
     <dependencies>
@@ -34,6 +38,18 @@
         <dependency>
             <groupId>com.persistentbit</groupId>
             <artifactId>persistent-test</artifactId>
+            <version>3.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${version.h2}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-sql-updater</artifactId>
             <version>3.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
