@@ -54,6 +54,10 @@ public class Person{
 		return created;
 	}
 
+	public Person withHome(Address home) {
+		return new Person(id, firstName, middleName, lastName, home, created);
+	}
+
 	@Override
 	public String toString() {
 		return "Person{" +

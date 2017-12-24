@@ -116,7 +116,17 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 
 	@Override
 	public E buildBinOp(DExpr left, BinOpOperator op, DExpr right) {
+		switch(op) {
+			case opAssign:
+				return assign((E) left, (E) right);
+		}
 		throw new UnsupportedOperationException(op.name());
+	}
+
+	private E assign(E left, E right) {
+		for(StructureField sf : fields) {
+
+		}
 	}
 
 	@Override

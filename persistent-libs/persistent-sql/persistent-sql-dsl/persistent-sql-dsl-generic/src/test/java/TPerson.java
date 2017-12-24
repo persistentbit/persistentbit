@@ -6,6 +6,7 @@ import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
+import com.persistentbit.sql.dsl.statements.update.Update;
 import com.persistentbit.sql.dsl.tables.AbstractTable;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableName;
@@ -105,5 +106,20 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 				)
 
 			);
+	}
+
+	public EPerson val(Person p) {
+		return context.getTypeFactory(EPerson.class).buildVal(p);
+	}
+
+	public Update update() {
+		return new Update(context, this);
+	}
+
+	public DbWork<Integer> update(Person p) {
+		EPerson e = val(p);
+		return update()
+			.set(all(), e)
+			.where(id.eq(e.id));
 	}
 }

@@ -212,7 +212,7 @@ public class TypesTest{
 
 
 		TimeMeasurement.runAndLog(() -> {
-			int          loopCount  = 3000;
+			int          loopCount  = 10;
 			PersonInsert insertLoop = myDb.person.insert();
 			for(int t = 0; t < loopCount; t++) {
 				Person p = new Person(t + 100L,
@@ -231,6 +231,8 @@ public class TypesTest{
 		PList<Person> plist =
 			TimeMeasurement.runAndLog("selectAll", () -> myDb.person.selectAll().run(newTrans.get()).orElseThrow());
 		plist.forEach(System.out::println);
+		myDb.person.update(peter.withHome(new Address("Schoolkaai 27", "9000", "Gent"))).run(newTrans.get())
+			.orElseThrow();
 	});
 
 	public void testAll() {

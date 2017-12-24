@@ -8,5 +8,5 @@ package com.persistentbit.sql.dsl.expressions.impl;
  */
 public enum BinOpOperator{
 	opLt, opLtEq, opGt, opGtEq, opEq, opNotEq, opAnd, opOr,opLike,opConcat,
-	opAdd, opSub, opMul, opDiv
+	opAdd, opSub, opMul, opDiv, opAssign
 }

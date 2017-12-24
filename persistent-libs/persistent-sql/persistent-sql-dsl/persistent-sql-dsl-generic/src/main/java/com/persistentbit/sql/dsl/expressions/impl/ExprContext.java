@@ -188,14 +188,16 @@ public class ExprContext{
 		return lazy.get();
 	}
 
-	<E extends DExpr<J>,J>  E singleOp(Class<E> resultTypeClass, DExpr expr, SingleOpOperator operator){
+	public <E extends DExpr<J>, J> E singleOp(Class<E> resultTypeClass, DExpr expr, SingleOpOperator operator) {
 		return get(resultTypeClass).buildSingleOp(expr,operator);
 	}
-	<E extends DExpr<J>,J>  E binOp(Class<E> resultTypeClass, DExpr left, BinOpOperator operator, DExpr right){
+
+	public <E extends DExpr<J>, J> E binOp(Class<E> resultTypeClass, DExpr left, BinOpOperator operator, DExpr right) {
 		return get(resultTypeClass).buildBinOp(left,operator,right);
 	}
-	<E extends DExpr<J>,J> E val(Class<E> typeClass, J value){
-		return ((ExprTypeFactory<E,J>)get(typeClass)).buildVal(value);
+
+	public <E extends DExpr<J>, J> E val(Class<E> typeClass, J value) {
+		return get(typeClass).buildVal(value);
 	}
 
 
