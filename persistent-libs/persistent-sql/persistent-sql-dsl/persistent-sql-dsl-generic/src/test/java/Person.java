@@ -1,5 +1,6 @@
 import com.persistentbit.code.annotations.Nullable;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 /**
@@ -10,19 +11,23 @@ import java.util.Optional;
  */
 public class Person{
 
-	private final Long    id;
-	private final String  firstName;
+	private final Long          id;
+	private final String        firstName;
 	@Nullable
-	private final String  middleName;
-	private final String  lastName;
-	private final Address home;
+	private final String        middleName;
+	private final String        lastName;
+	private final Address       home;
+	private final LocalDateTime created;
 
-	public Person(Long id, String firstName, @Nullable String middleName, String lastName, Address home) {
+	public Person(Long id, String firstName, @Nullable String middleName, String lastName, Address home,
+				  LocalDateTime created
+	) {
 		this.id = id;
 		this.firstName = firstName;
 		this.middleName = middleName;
 		this.lastName = lastName;
 		this.home = home;
+		this.created = created;
 	}
 
 	public Optional<String> getMiddleName() {
@@ -45,6 +50,9 @@ public class Person{
 		return home;
 	}
 
+	public LocalDateTime getCreated() {
+		return created;
+	}
 
 	@Override
 	public String toString() {
@@ -54,6 +62,7 @@ public class Person{
 			", middleName='" + middleName + '\'' +
 			", lastName='" + lastName + '\'' +
 			", home=" + home +
+			", created=" + created +
 			'}';
 	}
 }

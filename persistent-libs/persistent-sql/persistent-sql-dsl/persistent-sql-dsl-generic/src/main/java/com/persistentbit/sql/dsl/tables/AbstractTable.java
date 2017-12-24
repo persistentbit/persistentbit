@@ -1,9 +1,11 @@
 package com.persistentbit.sql.dsl.tables;
 
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.work.DbWork;
 
 /**
  * TODOC
@@ -29,6 +31,7 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 
 	protected abstract TableName	getTableName();
 
+
 	@Override
 	public SqlWithParams getFromName(String defaultCatalog, String defaultSchema) {
 		SqlWithParams res = createFullTableName(defaultCatalog,defaultSchema);
@@ -43,6 +46,10 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 			return SqlWithParams.sql(alias);
 		}
 		return createFullTableName(context.getDefaultCatalogName().orElse(null),context.getDefaultSchemaName().orElse(null));
+	}
+
+	public DbWork<PList<J>> selectAll() {
+		return query().selection(all()).list();
 	}
 
 	protected SqlWithParams createFullTableName(String defaultCatalog, String defaultSchema) {

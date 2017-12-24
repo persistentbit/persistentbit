@@ -1,8 +1,8 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.SqlWithParams;
 
 /**
  * TODOC
@@ -33,4 +33,6 @@ public class AliasTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	public String toString() {
 		return _toSql().toString();
 	}
+
+
 }

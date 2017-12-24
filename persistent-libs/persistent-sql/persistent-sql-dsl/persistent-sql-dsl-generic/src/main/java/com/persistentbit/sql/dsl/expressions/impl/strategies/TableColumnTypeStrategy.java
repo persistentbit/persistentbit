@@ -1,9 +1,8 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.collections.PList;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.SqlWithParams;
 
 /**
  * TODOC
@@ -38,8 +37,5 @@ public class TableColumnTypeStrategy<J> extends AbstractTypeStrategy<J>{
 		return aliasPrefix == null ? null : " AS " + aliasPrefix +  columnName;
 	}
 
-	@Override
-	public PList<String> _getColumnNames() {
-		return PList.val(columnName);
-	}
+
 }

@@ -1,5 +1,6 @@
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.expressions.EDateTime;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -18,37 +19,33 @@ import java.util.function.Function;
  * TODOC
  *
  * @author petermuys
- * @since 19/12/17
+ * @since 24/12/17
  */
-public class TPerson extends AbstractTable<EPerson, Person>{
+public class TTag extends AbstractTable<ETag, Tag>{
 
-	private final TableName _tableName = new TableName(null, "MYSCHEMA", "PERSONS");
-	public final EPerson _all;
+	private final TableName _tableName = new TableName(null, "MYSCHEMA", "tags");
+	public final ETag _all;
 
-	public final ELong    id;
-	public final EString  firstName;
-	public final EString  middleName;
-	public final EString  lastName;
-	public final EAddress home;
+	public final ELong     id;
+	public final EString   name;
+	public final EDateTime created;
 
-	public TPerson(ExprContext context, String alias) {
+	public TTag(ExprContext context, String alias) {
 		super(context, alias);
 		this._all = context
-			.getTypeFactory(EPerson.class)
+			.getTypeFactory(ETag.class)
 			.buildTableField(createFullTableNameOrAlias().toString() + ".", "");
 		this.id = _all.id;
-		this.firstName = _all.firstName;
-		this.middleName = _all.middleName;
-		this.lastName = _all.lastName;
-		this.home = _all.home;
+		this.name = _all.name;
+		this.created = _all.created;
 	}
 
-	public TPerson(ExprContext context) {
+	public TTag(ExprContext context) {
 		this(context, null);
 	}
 
 	@Override
-	public Class<? extends Table<EPerson, Person>> getTypeClass() {
+	public Class<? extends Table<ETag, Tag>> getTypeClass() {
 		return this.getClass();
 	}
 
@@ -58,12 +55,12 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 	}
 
 	@Override
-	public TPerson as(String aliasName) {
-		return new TPerson(context, aliasName);
+	public TTag as(String aliasName) {
+		return new TTag(context, aliasName);
 	}
 
 	@Override
-	public EPerson all() {
+	public ETag all() {
 		return _all;
 	}
 
@@ -71,38 +68,32 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 		return new QueryImpl(context, PList.val(this));
 	}
 
-	public <R> R query(Function<EPerson, Function<Query, R>> builder) {
+	public <R> R query(Function<ETag, Function<Query, R>> builder) {
 		return builder.apply(_all).apply(query());
 	}
 
-	public PersonInsert insert() {
-		return new PersonInsert(context, this);
+	public TagInsert insert() {
+		return new TagInsert(context, this);
 	}
 
-	public DbWork<Integer> insert(
+	public DbWork<InsertResult<Long>> insert(
 		Long id,
-		String firstName,
-		String middleName,
-		String lastName,
-		String homeStreet,
-		String homePostalCode,
-		String homeCity,
+		String name,
 		LocalDateTime created
 	) {
 		return insert()
-			.add(id, firstName, middleName, lastName, homeStreet, homePostalCode, homeCity, created)
-			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getUpdateCount)));
+			.add(id, name, created)
+			.flatMap(irList -> Result.fromOpt(irList.headOpt()));
 	}
 
-	public DbWork<Person> insert(Person p) {
+	public DbWork<Tag> insert(Tag p) {
 		return insert().add(p)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt())
 				.flatMap(ir ->
 							 ir.getUpdateCount() == 0
 								 ? Result.empty("No record inserted for " + p)
-								 : Result.success(p)
+								 : Result.success(p.withId(ir.getAutoGenKey()))
 				)
-
 			);
 	}
 }

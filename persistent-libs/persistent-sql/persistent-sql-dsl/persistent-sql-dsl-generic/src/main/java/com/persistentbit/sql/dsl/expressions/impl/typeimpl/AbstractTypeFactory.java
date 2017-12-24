@@ -21,10 +21,10 @@ import java.util.function.Function;
  */
 public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements ExprTypeFactory<E, J>{
 
-	protected final ExprContext context;
-	private final ExprTypeJdbcConvert<J> jdbcConvert;
+	protected final ExprContext            context;
+	private final   ExprTypeJdbcConvert<J> jdbcConvert;
 
-	public AbstractTypeFactory(ExprContext context,ExprTypeJdbcConvert<J> jdbcConvert) {
+	public AbstractTypeFactory(ExprContext context, ExprTypeJdbcConvert<J> jdbcConvert) {
 		this.context = context;
 		this.jdbcConvert = jdbcConvert;
 	}
@@ -58,14 +58,14 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	@Override
 	public E buildParam(Function<PMap<String, Object>, Object> paramGetter) {
 		return buildWithStrategy(
-			new ParamTypeStrategy<>(getTypeClass(),this, paramGetter, jdbcConvert)
+			new ParamTypeStrategy<>(getTypeClass(), this, paramGetter, jdbcConvert)
 		);
 	}
 
 	@Override
 	public E buildCall(String callName, DExpr[] params) {
 		return buildWithStrategy(
-			new FunctionCallTypeStrategy<>(getTypeClass(),this,callName,params)
+			new FunctionCallTypeStrategy<>(getTypeClass(), this, callName, params)
 		);
 	}
 
@@ -109,7 +109,6 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	}
 
 
-
 	@Override
 	public PList<DExpr> expand(E expr) {
 		return PList.val(expr);
@@ -119,4 +118,6 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	public SqlWithParams toSql(E expr) {
 		return getTypeStrategy(expr)._toSql();
 	}
+
+
 }

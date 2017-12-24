@@ -20,7 +20,7 @@ public interface ExprTypeJdbcConvert<J>{
 
 	int columnCount();
 
-
+	PList<ExprTypeJdbcConvert> expand();
 
 	static <J> ExprTypeJdbcConvert<J> createSingleColumn(int count,
 		Function<Integer,Function<PreparedStatement,ThrowingFunction<J,Object,SQLException>>> setParam,
@@ -40,6 +40,11 @@ public interface ExprTypeJdbcConvert<J>{
 			@Override
 			public int columnCount() {
 				return count;
+			}
+
+			@Override
+			public PList<ExprTypeJdbcConvert> expand() {
+				return PList.val(this);
 			}
 		};
 	}
@@ -66,6 +71,11 @@ public interface ExprTypeJdbcConvert<J>{
 			@Override
 			public int columnCount() {
 				return count;
+			}
+
+			@Override
+			public PList<ExprTypeJdbcConvert> expand() {
+				return group;
 			}
 		};
 	}

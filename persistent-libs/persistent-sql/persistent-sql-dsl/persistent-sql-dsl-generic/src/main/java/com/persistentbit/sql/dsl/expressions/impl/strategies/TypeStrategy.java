@@ -1,6 +1,5 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.SqlWithParams;
 
 /**
@@ -13,7 +12,6 @@ public interface TypeStrategy<J>{
 
 	SqlWithParams _toSql();
 
-	PList<String> _getColumnNames();
 
 	String _createAliasName(String aliasPrefix);
 }

@@ -1,7 +1,9 @@
 package com.persistentbit.sql.dsl.tables;
 
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.statements.select.Query;
+import com.persistentbit.sql.work.DbWork;
 
 /**
  * TODOC
@@ -15,4 +17,7 @@ public interface Table<EALL extends DExpr<J>,J>{
 	EALL all();
 
 	Query query();
+
+	DbWork<PList<J>> selectAll();
+
 }

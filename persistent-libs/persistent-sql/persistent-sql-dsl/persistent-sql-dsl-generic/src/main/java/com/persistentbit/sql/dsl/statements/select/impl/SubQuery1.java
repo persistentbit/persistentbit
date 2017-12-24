@@ -7,6 +7,7 @@ import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableImpl;
+import com.persistentbit.sql.work.DbWork;
 
 /**
  * TODOC
@@ -58,5 +59,10 @@ public class SubQuery1<E1 extends DExpr<J1>,J1> implements TableImpl<E1,J1>{
 	@Override
 	public Query query() {
 		return new QueryImpl(orgSelection.context, PList.val(this));
+	}
+
+	@Override
+	public DbWork<PList<J1>> selectAll() {
+		return query().selection(all()).list();
 	}
 }

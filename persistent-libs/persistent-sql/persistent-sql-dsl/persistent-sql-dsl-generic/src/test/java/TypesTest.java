@@ -17,6 +17,7 @@ import com.persistentbit.sql.updater.SqlSnippets;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
 
+import java.time.LocalDateTime;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -44,10 +45,20 @@ public class TypesTest{
 
 		public final TPerson person;
 
+		public final TTag tags;
+
 		public Db(ExprContext context) {
 			this.context = context;
+			this.context.registerType(EPerson.class, PersonTypeFactory.class);
+			this.context.registerType(ETag.class, TagTypeFactory.class);
+			this.context.registerType(EAddress.class, AddressTypeFactory.class);
 			this.person = new TPerson(context);
+			this.tags = new TTag(context);
 			context.addTable(this.person);
+		}
+
+		public Db() {
+			this(new ExprContext());
 		}
 
 		public EBool val(Boolean v) {
@@ -77,28 +88,27 @@ public class TypesTest{
 		}
 	}
 
-	static public class DbInst {
+	static public class DbInst extends Db{
 
-		private final Db db;
+
 
 		public final DbWorkP1<Long, Person>                  selectPersonById;
 		public final DbWorkP2<String, String, PList<Person>> selectByName;
 		public final DbWorkP1<Address, PList<Person>>        selectByAddress;
 
-		public DbInst(Db db) {
-			this.db = db;
-			selectPersonById = db.person.query(p-> q -> {
+		public DbInst() {
+			selectPersonById = person.query(p -> q -> {
 
-				Param<ELong> idParam = db.param("id", ELong.class);
+				Param<ELong> idParam = param("id", ELong.class);
 
 				return q
 					.where(idParam.getExpr().eq(p.id))
 					.selection(p)
 					.one(idParam);
 			});
-			selectByName = db.person.query(person-> q -> {
-				Param<EString> firstName = db.param("firstName", EString.class);
-				Param<EString> lastName  = db.param("lastName", EString.class);
+			selectByName = person.query(person -> q -> {
+				Param<EString> firstName = param("firstName", EString.class);
+				Param<EString> lastName  = param("lastName", EString.class);
 				return q
 					.where(
 						person.firstName.like(firstName.getExpr())
@@ -107,8 +117,8 @@ public class TypesTest{
 					.selection(person)
 					.list(firstName, lastName);
 			});
-			selectByAddress = db.person.as("menschen").query(menchen -> q -> {
-				Param<EAddress> adr = db.param("adress", EAddress.class);
+			selectByAddress = person.as("menschen").query(menchen -> q -> {
+				Param<EAddress> adr = param("adress", EAddress.class);
 
 				return q
 					.where(menchen.home.eq(adr.getExpr()))
@@ -140,7 +150,8 @@ public class TypesTest{
 		Address adr = new Address("SnoekStraat 10", "9000", "Gent");
 
 		EPerson personValue =
-			context.getTypeFactory(EPerson.class).buildVal(new Person(1234l, "Peter", null, "Muys", adr));
+			context.getTypeFactory(EPerson.class)
+				.buildVal(new Person(1234l, "Peter", null, "Muys", adr, LocalDateTime.now()));
 
 		System.out.println(context.toSql(personValue));
 
@@ -182,11 +193,14 @@ public class TypesTest{
 
 		buildTestDb().orElseThrow();
 
-		DbInst myDb  = new DbInst(db);
+		DbInst myDb  = new DbInst();
 		Person peter = myDb.selectPersonById.with(1L).run(newTrans.get()).orElseThrow();
 		System.out.println(peter);
 		System.out.println(myDb.selectByName.with("Peter", "Muys").run(newTrans.get()).orElseThrow());
 		System.out.println(myDb.selectByAddress.with(peter.getHome()).run(newTrans.get()).orElseThrow());
+		myDb.tags.insert(null, "a tag", null).run(newTrans.get()).orElseThrow();
+		System.out.println(myDb.tags.selectAll().run(newTrans.get()).orElseThrow());
+
 	});
 
 	public void testAll() {
