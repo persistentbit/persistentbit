@@ -16,6 +16,7 @@ import com.persistentbit.sql.updater.DbScriptRunner;
 import com.persistentbit.sql.updater.SqlSnippets;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
+import com.persistentbit.utils.TimeMeasurement;
 
 import java.time.LocalDateTime;
 import java.util.function.Function;
@@ -199,8 +200,37 @@ public class TypesTest{
 		System.out.println(myDb.selectByName.with("Peter", "Muys").run(newTrans.get()).orElseThrow());
 		System.out.println(myDb.selectByAddress.with(peter.getHome()).run(newTrans.get()).orElseThrow());
 		myDb.tags.insert(null, "a tag", null).run(newTrans.get()).orElseThrow();
+		myDb.tags.insert()
+			.add(null, "Tag2", LocalDateTime.now())
+			.add(null, "Tag3", null)
+			.run(newTrans.get()).orElseThrow();
+		myDb.person.insert()
+			.add(new Person(10L, "Kelly", null, "De Meulemeester", new Address("Korhoenstraat", "9000", "Gent"), LocalDateTime
+				.now()))
+			.run(newTrans.get()).orElseThrow();
 		System.out.println(myDb.tags.selectAll().run(newTrans.get()).orElseThrow());
 
+
+		TimeMeasurement.runAndLog(() -> {
+			int          loopCount  = 3000;
+			PersonInsert insertLoop = myDb.person.insert();
+			for(int t = 0; t < loopCount; t++) {
+				Person p = new Person(t + 100L,
+									  "First" + t,
+									  "Middle" + t,
+									  "Last" + t,
+									  new Address("Street" + t, "Post" + t, "city" + t),
+									  LocalDateTime.now()
+				);
+				insertLoop = insertLoop.add(p);
+			}
+			insertLoop.run(newTrans.get()).orElseThrow();
+		});
+
+
+		PList<Person> plist =
+			TimeMeasurement.runAndLog("selectAll", () -> myDb.person.selectAll().run(newTrans.get()).orElseThrow());
+		plist.forEach(System.out::println);
 	});
 
 	public void testAll() {

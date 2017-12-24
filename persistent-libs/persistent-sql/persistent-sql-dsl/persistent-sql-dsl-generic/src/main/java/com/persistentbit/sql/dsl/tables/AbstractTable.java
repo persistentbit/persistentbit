@@ -48,6 +48,7 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 		return createFullTableName(context.getDefaultCatalogName().orElse(null),context.getDefaultSchemaName().orElse(null));
 	}
 
+	@Override
 	public DbWork<PList<J>> selectAll() {
 		return query().selection(all()).list();
 	}

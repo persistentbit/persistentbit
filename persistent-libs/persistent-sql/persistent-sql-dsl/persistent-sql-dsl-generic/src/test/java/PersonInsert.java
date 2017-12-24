@@ -16,6 +16,7 @@ public class PersonInsert extends Insert<TPerson, Void>{
 	static private final PList<String> columnNames  = PList.val(
 		"id",
 		"first_name",
+		"middle_name",
 		"last_name",
 		"home_street",
 		"home_PostalCode",
@@ -56,7 +57,7 @@ public class PersonInsert extends Insert<TPerson, Void>{
 		String homeCity,
 		LocalDateTime created
 	) {
-		Object[] row = new Object[8];
+		Object[] row = new Object[columnNames.size()];
 		row[0] = id;
 		row[1] = firstName;
 		row[2] = middleName;

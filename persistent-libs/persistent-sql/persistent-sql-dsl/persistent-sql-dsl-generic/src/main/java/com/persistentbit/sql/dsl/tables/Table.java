@@ -20,4 +20,5 @@ public interface Table<EALL extends DExpr<J>,J>{
 
 	DbWork<PList<J>> selectAll();
 
+
 }

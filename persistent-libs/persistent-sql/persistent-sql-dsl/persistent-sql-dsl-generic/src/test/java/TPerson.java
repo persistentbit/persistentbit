@@ -79,6 +79,7 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 		return new PersonInsert(context, this);
 	}
 
+
 	public DbWork<Integer> insert(
 		Long id,
 		String firstName,

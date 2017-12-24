@@ -30,7 +30,7 @@ public abstract class Insert<T extends Table, AUTOGENKEY> implements DbWork<PLis
 	@Nullable
 	protected final String                           autoGenKeyName;
 	protected final PList<Object[]>                  rows;
-	private final   Lazy<String>                     sql;
+	//private final   Lazy<String>                     sql;
 	private final   Lazy<PList<ExprTypeJdbcConvert>> jdbcConverters;
 	private final   Lazy<ExprTypeJdbcConvert>        autoGenKeyJdbcConverter;
 
@@ -45,13 +45,6 @@ public abstract class Insert<T extends Table, AUTOGENKEY> implements DbWork<PLis
 		this.withDefaults = withDefaults;
 		this.autoGenKeyName = autoGenKeyName;
 		this.rows = rows;
-		this.sql = new Lazy<>(() -> {
-			String sql = "INSERT INTO " + context.getFromTableName(into) + "(";
-			sql += columnNames.toString(", ");
-			sql += ") VALUES (";
-			sql += columnNames.map(n -> "?").toString(", ") + ")";
-			return sql;
-		});
 
 		this.jdbcConverters = Lazy.code(() ->
 											context.getTypeFactory(into.all()).getJdbcConverter(into.all()).expand()
@@ -76,22 +69,53 @@ public abstract class Insert<T extends Table, AUTOGENKEY> implements DbWork<PLis
 			if(rows.isEmpty()) {
 				return Result.empty("No Records added to insert ");
 			}
-			String sql = this.sql.get();
-			log.info("Insert: " + sql);
+			//String sql = this.sql.get();
+			//log.info("Insert: " + sql);
 			int statType = autoGenKeyName == null
 				? Statement.NO_GENERATED_KEYS
 				: Statement.RETURN_GENERATED_KEYS;
 
 			return transaction.run(con -> {
 				PList<InsertResult<AUTOGENKEY>> result = PList.empty();
+
 				for(int r = 0; r < rows.size(); r++) {
-					Object[] row   = rows.get(r);
+					Object[] row             = rows.get(r);
+					String   sql             = "INSERT INTO " + context.getFromTableName(into) + "(";
+					String   names           = "";
+					String   values          = "";
+					boolean  isFirst         = true;
+					int      autoGenKeyIndex = -1;
+					for(int t = 0; t < row.length; t++) {
+						if(row[t] != null) {
+							String  name      = columnNames.get(t);
+							boolean isAutoGen = autoGenKeyName != null && autoGenKeyName.equals(true);
+							if(isAutoGen == false) {
+								if(isFirst == false) {
+									names += ", ";
+									values += ", ";
+								}
+								isFirst = false;
+
+								names += name;
+								values += "?";
+							}
+							else {
+								autoGenKeyIndex = t;
+							}
+						}
+					}
+
 					int      index = 1;
+					sql = sql + names + ") VALUES (" + values + ")";
+					log.info("Insert: " + sql + " values " + row);
 					try(PreparedStatement stat = con.prepareStatement(sql)) {
 						for(int c = 0; c < row.length; c++) {
-							ExprTypeJdbcConvert jdbcConvert = jdbcConverters.get().get(c);
-							jdbcConvert.setParam(index, stat, row[c]);
-							index += jdbcConvert.columnCount();
+							if(row[c] != null && c != autoGenKeyIndex) {
+								ExprTypeJdbcConvert jdbcConvert = jdbcConverters.get().get(c);
+								//log.info("Setting Param " + index + " with value + " + row[c]);
+								jdbcConvert.setParam(index, stat, row[c]);
+								index += jdbcConvert.columnCount();
+							}
 						}
 						int    updateCount = stat.executeUpdate();
 						Object keyValue    = null;

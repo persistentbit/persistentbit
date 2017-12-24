@@ -75,7 +75,7 @@ public interface ExprTypeJdbcConvert<J>{
 
 			@Override
 			public PList<ExprTypeJdbcConvert> expand() {
-				return group;
+				return group.map(j -> j.expand()).<ExprTypeJdbcConvert>flatten().plist();
 			}
 		};
 	}
