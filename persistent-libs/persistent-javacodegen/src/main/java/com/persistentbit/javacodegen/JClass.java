@@ -31,14 +31,15 @@ public class JClass extends BaseValueClass{
 	private final PList<String> implementsDef;
 	private final boolean isFinal;
 
-	private final PList<JField> fields;
+	private final PList<JField>  fields;
 	private final PList<JMethod> methods;
 	@Nullable
-	private final String doc;
-	private final PList<String> annotations;
-	private final PList<JClass> internalClasses;
-	private final boolean isStatic;
-	private final PSet<JImport> imports;
+	private final String         doc;
+	private final PList<String>  annotations;
+	private final PList<JClass>  internalClasses;
+	private final boolean        isStatic;
+	private final PSet<JImport>  imports;
+	private final boolean        isAbstract;
 
 	public JClass(String className, AccessLevel accessLevel, String extendsDef,
 				  PList<String> implementsDef,
@@ -49,7 +50,8 @@ public class JClass extends BaseValueClass{
 				  PList<String> annotations,
 				  PSet<JImport> imports,
 				  PList<JClass> internalClasses,
-				  boolean isStatic
+				  boolean isStatic,
+				  boolean isAbstract
 	) {
 		//this.packageName = packageName;
 		this.className = className;
@@ -64,6 +66,7 @@ public class JClass extends BaseValueClass{
 		this.imports = imports;
 		this.internalClasses = internalClasses;
 		this.isStatic = isStatic;
+		this.isAbstract = isAbstract;
 	}
 
 	@Override
@@ -88,8 +91,13 @@ public class JClass extends BaseValueClass{
 			PList.empty(),
 			PSet.empty(),
 			PList.empty(),
+			false,
 			false
 		);
+	}
+
+	public JClass asAbstract() {
+		return copyWith("isAbstract", true);
 	}
 
 	public String getClassName() {
@@ -154,6 +162,10 @@ public class JClass extends BaseValueClass{
 
 	public JClass addImport(JImport imp) {
 		return copyWith("imports", imports.plus(imp));
+	}
+
+	public JClass addImports(Iterable<JImport> imp) {
+		return copyWith("imports", imports.plusAll(imp));
 	}
 
 	public JClass addInternalClass(JClass cls) {
@@ -442,6 +454,9 @@ public class JClass extends BaseValueClass{
 			res += accessLevel.label();
 			if(res.isEmpty() == false) {
 				res += " ";
+			}
+			if(isAbstract) {
+				res += "abstract ";
 			}
 			res += "class " + className;
 			res += extendsDef == null ? "" : " extends " + extendsDef;

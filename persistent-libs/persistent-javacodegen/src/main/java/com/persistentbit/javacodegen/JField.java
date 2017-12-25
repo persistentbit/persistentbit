@@ -288,6 +288,10 @@ public class JField extends BaseValueClass{
 		return copyWith("imports", imports.plus(imp));
 	}
 
+	public JField addImports(Iterable<JImport> impList) {
+		return copyWith("imports", imports.plusAll(impList));
+	}
+
 	public JField addImport(Class cls) {
 		return addImport(JImport.forClass(cls));
 	}

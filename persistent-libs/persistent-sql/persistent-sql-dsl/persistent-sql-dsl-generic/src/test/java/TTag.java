@@ -30,11 +30,11 @@ public class TTag extends AbstractTable<ETag, Tag>{
 	public final EString   name;
 	public final EDateTime created;
 
-	public TTag(ExprContext context, String alias) {
+	private TTag(ExprContext context, String alias) {
 		super(context, alias);
 		this._all = context
 			.getTypeFactory(ETag.class)
-			.buildTableField(createFullTableNameOrAlias().toString() + ".", "", "");
+			.buildTableField(createFullTableNameOrAlias() + ".", "", "");
 		this.id = _all.id;
 		this.name = _all.name;
 		this.created = _all.created;
