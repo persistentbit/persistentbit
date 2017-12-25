@@ -21,8 +21,11 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 	E buildAlias(String alias);
 	E buildBinOp(DExpr left, BinOpOperator op, DExpr right);
 	E buildSingleOp(DExpr expr, SingleOpOperator op);
-	E buildTableField(String fieldSelectionName, String fieldName);
+
+	E buildTableField(String fieldSelectionName, String fieldName, String columnName);
 	E buildSelection(E expr, String prefixAlias);
+
+	E onlyTableColumn(E expr);
 
 	PList<DExpr> expand(E expr);
 

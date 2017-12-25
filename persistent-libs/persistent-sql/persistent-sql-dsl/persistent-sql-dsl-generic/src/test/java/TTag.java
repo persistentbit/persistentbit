@@ -34,7 +34,7 @@ public class TTag extends AbstractTable<ETag, Tag>{
 		super(context, alias);
 		this._all = context
 			.getTypeFactory(ETag.class)
-			.buildTableField(createFullTableNameOrAlias().toString() + ".", "");
+			.buildTableField(createFullTableNameOrAlias().toString() + ".", "", "");
 		this.id = _all.id;
 		this.name = _all.name;
 		this.created = _all.created;

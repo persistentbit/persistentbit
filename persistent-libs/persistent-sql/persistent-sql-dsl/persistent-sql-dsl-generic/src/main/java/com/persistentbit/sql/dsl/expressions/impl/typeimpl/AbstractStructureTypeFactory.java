@@ -124,9 +124,15 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 	}
 
 	private E assign(E left, E right) {
-		for(StructureField sf : fields) {
-
-		}
+		return createExpression(
+			fields.map(sf -> sf.getTypeFactory()
+				.buildBinOp(
+					sf.expressionGetter.apply(left),
+					BinOpOperator.opAssign,
+					sf.expressionGetter.apply(right)
+				)
+			)
+		);
 	}
 
 	@Override
@@ -135,12 +141,23 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 	}
 
 	@Override
-	public E buildTableField(String fieldSelectionName, String fieldName) {
+	public E buildTableField(String fieldSelectionName, String fieldName, String columnName) {
 		return createExpression(fields.map(sf ->
 											   sf.getTypeFactory()
-												   .buildTableField(fieldSelectionName  + sf.columnName, fieldName + sf.fieldName)
+												   .buildTableField(fieldSelectionName + sf.columnName, fieldName + sf.fieldName, columnName + sf.columnName)
 		));
 	}
+
+	@Override
+	public E onlyTableColumn(E expr) {
+		return createExpression(
+			fields.map(sf ->
+						   sf.getTypeFactory().onlyTableColumn(sf.expressionGetter.apply(expr))
+			)
+		);
+	}
+
+
 
 	@Override
 	@SuppressWarnings("unchecked")
@@ -164,9 +181,11 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 	@Override
 	@SuppressWarnings("unchecked")
 	public SqlWithParams toSql(E expr) {
-		PStream<SqlWithParams> sql = fields.map(sf ->
-													sf.getTypeFactory().toSql(sf.expressionGetter.apply(expr)));
-		if(sql.isEmpty()){
+		PStream<SqlWithParams> sql =
+			fields.map(sf ->
+						   sf.getTypeFactory()
+							   .toSql(sf.expressionGetter.apply(expr)));
+		if(sql.isEmpty()) {
 			return SqlWithParams.empty;
 		}
 		return sql.tail().fold(sql.head(), (a, b) -> a.add(", ").add(b));

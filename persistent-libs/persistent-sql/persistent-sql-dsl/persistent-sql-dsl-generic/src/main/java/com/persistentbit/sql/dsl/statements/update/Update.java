@@ -47,6 +47,7 @@ public class Update implements DbWork<Integer>{
 
 	public <E extends DExpr<J>, J> Update set(E left, E value) {
 		ExprTypeFactory<E, J> tf = context.getTypeFactory(left);
+		left = tf.onlyTableColumn(left);
 		return new Update(context, table, where,
 						  setExpr.plus(tf.buildBinOp(left, BinOpOperator.opAssign, value))
 		);
@@ -69,7 +70,7 @@ public class Update implements DbWork<Integer>{
 				first = false;
 				sql = sql.add(context.toSql(expr));
 			}
-			SqlWithParams finalSql = sql.add(context.toSql(where));
+			SqlWithParams finalSql = sql.add(" WHERE ").add(context.toSql(where));
 			return transaction.run(con -> {
 
 				try(PreparedStatement stat = con.prepareStatement(finalSql.getSql())) {

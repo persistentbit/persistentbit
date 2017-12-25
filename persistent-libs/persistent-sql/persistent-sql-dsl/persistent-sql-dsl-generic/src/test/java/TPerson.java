@@ -2,11 +2,14 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
+import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.statements.delete.Delete;
 import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
+import com.persistentbit.sql.dsl.statements.work.DbWorkP1;
 import com.persistentbit.sql.dsl.tables.AbstractTable;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableName;
@@ -36,12 +39,19 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 		super(context, alias);
 		this._all = context
 			.getTypeFactory(EPerson.class)
-			.buildTableField(createFullTableNameOrAlias().toString() + ".", "");
+			.buildTableField(createFullTableNameOrAlias().toString() + ".", "", "");
 		this.id = _all.id;
 		this.firstName = _all.firstName;
 		this.middleName = _all.middleName;
 		this.lastName = _all.lastName;
 		this.home = _all.home;
+
+		this._selectById = query(p -> q -> {
+			Param<ELong> paramId = context.param(ELong.class, "id");
+			return q.where(p.id.eq(paramId.getExpr()))
+				.selection(all())
+				.one(paramId);
+		});
 	}
 
 	public TPerson(ExprContext context) {
@@ -73,7 +83,7 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 	}
 
 	public <R> R query(Function<EPerson, Function<Query, R>> builder) {
-		return builder.apply(_all).apply(query());
+		return builder.apply(all()).apply(query());
 	}
 
 	public PersonInsert insert() {
@@ -121,5 +131,21 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 		return update()
 			.set(all(), e)
 			.where(id.eq(e.id));
+	}
+
+	private final DbWorkP1<Long, Person> _selectById;
+
+
+	public DbWork<Person> selectById(long id) {
+		return _selectById.with(id);
+	}
+
+	public Delete delete() {
+		return new Delete(context, this);
+	}
+
+	public DbWork<Integer> deleteById(long id) {
+		return delete()
+			.where(this.id.eq(id));
 	}
 }

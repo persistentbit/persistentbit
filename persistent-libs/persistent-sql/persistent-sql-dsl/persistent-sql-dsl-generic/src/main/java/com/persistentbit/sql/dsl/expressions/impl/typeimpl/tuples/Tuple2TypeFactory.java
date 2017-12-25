@@ -51,8 +51,16 @@ public class Tuple2TypeFactory implements ExprTypeFactory {
 	}
 
 	@Override
-	public DExpr buildTableField(String fieldSelectionName, String fieldName) {
+	public DExpr buildTableField(String fieldSelectionName, String fieldName, String columnName) {
 		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public DExpr onlyTableColumn(DExpr genExpr) {
+		ETuple2 expr = (ETuple2) genExpr;
+		DExpr   e1   = context.getTypeFactory(expr.v1()).onlyTableColumn(expr);
+		DExpr   e2   = context.getTypeFactory(expr.v2()).onlyTableColumn(expr);
+		return new ETuple2Impl(e1, e2);
 	}
 
 	@Override

@@ -56,8 +56,13 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 	}
 
 	@Override
-	public ESelection<J> buildTableField(String fieldSelectionName, String fieldName) {
+	public ESelection<J> buildTableField(String fieldSelectionName, String fieldName, String columnName) {
 		throw new UnsupportedOperationException("buildVal for a ESubQuery");
+	}
+
+	@Override
+	public ESelection<J> onlyTableColumn(ESelection<J> expr) {
+		throw new UnsupportedOperationException("onlyTableColumn for a ESubQuery");
 	}
 
 	@Override

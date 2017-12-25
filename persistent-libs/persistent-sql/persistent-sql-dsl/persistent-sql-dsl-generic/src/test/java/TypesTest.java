@@ -82,15 +82,14 @@ public class TypesTest{
 			return context.of(e1, e2);
 		}
 
-		public	<E1 extends DExpr<J>,J> Param<E1> param(String name, Class<E1> cls){
-			ExprTypeFactory<E1,J>                tf     =context.getTypeFactory(cls);
-			Function<PMap<String,Object>,Object> getter = m -> m.get(name);
+		public <E1 extends DExpr<J>, J> Param<E1> param(String name, Class<E1> cls) {
+			ExprTypeFactory<E1, J>                 tf     = context.getTypeFactory(cls);
+			Function<PMap<String, Object>, Object> getter = m -> m.get(name);
 			return new Param<>(name, tf.buildParam(getter));
 		}
 	}
 
 	static public class DbInst extends Db{
-
 
 
 		public final DbWorkP1<Long, Person>                  selectPersonById;
@@ -145,7 +144,7 @@ public class TypesTest{
 		context.registerType(EPerson.class, PersonTypeFactory.class);
 		context.registerType(EAddress.class, AddressTypeFactory.class);
 		context.addTable(new TPerson(context, null));
-		EPerson personTable = context.getTypeFactory(EPerson.class).buildTableField("PERSON_TABLE.", "");
+		EPerson personTable = context.getTypeFactory(EPerson.class).buildTableField("PERSON_TABLE.", "", "");
 		System.out.println(context.toSql(personTable));
 
 		Address adr = new Address("SnoekStraat 10", "9000", "Gent");
@@ -212,7 +211,7 @@ public class TypesTest{
 
 
 		TimeMeasurement.runAndLog(() -> {
-			int          loopCount  = 10;
+			int          loopCount  = 100;
 			PersonInsert insertLoop = myDb.person.insert();
 			for(int t = 0; t < loopCount; t++) {
 				Person p = new Person(t + 100L,
@@ -226,13 +225,23 @@ public class TypesTest{
 			}
 			insertLoop.run(newTrans.get()).orElseThrow();
 		});
-
+		System.out.println("Delete count: " + myDb.person
+			.delete()
+			.where(myDb.person.id.gtEq(100L))
+			.run(newTrans.get())
+			.orElseThrow()
+		);
 
 		PList<Person> plist =
 			TimeMeasurement.runAndLog("selectAll", () -> myDb.person.selectAll().run(newTrans.get()).orElseThrow());
 		plist.forEach(System.out::println);
 		myDb.person.update(peter.withHome(new Address("Schoolkaai 27", "9000", "Gent"))).run(newTrans.get())
 			.orElseThrow();
+		System.out.println(
+			myDb.person.selectById(peter.getId())
+				.run(newTrans.get())
+				.orElseThrow());
+
 	});
 
 	public void testAll() {

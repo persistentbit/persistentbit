@@ -109,6 +109,9 @@ public class ExprContext{
 		addBinOpBuilder(BinOpOperator.opConcat,(left,sqlLeft,right,sqlRight)->
 			sqlLeft.add(" || ").add(sqlRight)
 		);
+		addBinOpBuilder(BinOpOperator.opAssign, (left, sqlLeft, right, sqlRight) ->
+			sqlLeft.add(" = ").add(sqlRight)
+		);
 
 	}
 
@@ -160,7 +163,13 @@ public class ExprContext{
 
 
 	public BinOpSqlBuilder getBinOpSqlBuilder(BinOpOperator operator){
-		return binOpMap.get(operator);
+		BinOpSqlBuilder sqlBuilder = binOpMap.get(operator);
+		if(sqlBuilder == null) {
+			throw new RuntimeException(
+				"No BinOpSqlBuilder registered for " + operator
+			);
+		}
+		return sqlBuilder;
 	}
 
 	public SingleOpSqlBuilder getSingleOpSqlBuilder(SingleOpOperator operator){

@@ -14,4 +14,8 @@ public interface TypeStrategy<J>{
 
 
 	String _createAliasName(String aliasPrefix);
+
+	default TypeStrategy<J> onlyColumnName() {
+		return this;
+	}
 }

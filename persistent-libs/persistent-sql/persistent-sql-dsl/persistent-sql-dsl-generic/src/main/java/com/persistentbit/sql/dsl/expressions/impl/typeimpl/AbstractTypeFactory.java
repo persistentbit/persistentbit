@@ -91,10 +91,15 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	}
 
 	@Override
-	public E buildTableField(String fieldSelectionName, String fieldName) {
+	public E buildTableField(String fieldSelectionName, String fieldName, String columnName) {
 		return buildWithStrategy(
 			new TableColumnTypeStrategy<>(
-				getTypeClass(), this, fieldSelectionName, fieldName));
+				getTypeClass(), this, fieldSelectionName, fieldName, columnName));
+	}
+
+	@Override
+	public E onlyTableColumn(E expr) {
+		return buildWithStrategy(getTypeStrategy(expr).onlyColumnName());
 	}
 
 	@Override

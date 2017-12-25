@@ -12,17 +12,28 @@ import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
  */
 public class TableColumnTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	private final String fieldSelectionName;
+	private final String fieldName;
 	private final String columnName;
 
 	public TableColumnTypeStrategy(
 		Class<? extends DExpr<J>> typeClass,
 		ExprTypeFactory exprTypeFactory,
 		String fieldSelectionName,
-		String fieldName
+		String fieldName,
+		String columnName
+
 	) {
 		super(typeClass, exprTypeFactory);
 		this.fieldSelectionName = fieldSelectionName;
-		this.columnName = fieldName;
+		this.fieldName = fieldName;
+		this.columnName = columnName;
+	}
+
+	@Override
+	public TypeStrategy<J> onlyColumnName() {
+		return new TableColumnTypeStrategy<>(
+			typeClass, exprTypeFactory, columnName, fieldName, columnName
+		);
 	}
 
 	@Override
