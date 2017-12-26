@@ -73,7 +73,7 @@ public class JField extends BaseValueClass{
 	}
 
 	public JField(String name, String definition) {
-		this(name, definition, null);
+		this(name, definition, asPrimitiveType(name).orElse(null));
 	}
 
 	public JField(String name, Class type) {
@@ -230,12 +230,46 @@ public class JField extends BaseValueClass{
 		return isNullable() == false && hasDefaultValue() == false;
 	}
 
+	static public Optional<Class> asPrimitiveType(String className) {
+		switch(className) {
+			case "char":
+			case "Character":
+				return Optional.of(char.class);
+			case "Integer":
+			case "int":
+				return Optional.of(int.class);
+			case "Byte":
+			case "byte":
+				return Optional.of(byte.class);
+			case "Short":
+			case "short":
+				return Optional.of(short.class);
+			case "Long":
+			case "long":
+				return Optional.of(long.class);
+			case "Float":
+			case "float":
+				return Optional.of(float.class);
+			case "Double":
+			case "double":
+				return Optional.of(double.class);
+			case "Boolean":
+			case "boolean":
+				return Optional.of(boolean.class);
+			default:
+				return Optional.empty();
+		}
+
+	}
 
 	public String getNullableDefinition() {
 		if(primitiveType == null) {
 			return definition;
 		}
+
 		switch(primitiveType.getSimpleName()) {
+			case "char":
+				return "Character";
 			case "int":
 				return "Integer";
 			case "byte":

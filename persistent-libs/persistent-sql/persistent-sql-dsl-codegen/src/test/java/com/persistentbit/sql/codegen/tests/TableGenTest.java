@@ -35,38 +35,38 @@ public class TableGenTest{
 		return tab;
 	});*/
 
-	static private final Lazy<TableTypeDef> personTable = Lazy.code(() -> {
+	static public final Lazy<TableTypeDef> personTable = Lazy.code(() -> {
 		CgTableName tn = new CgTableName(dbName, schemaName, "persons");
 		return new TableTypeDef(
 			tn,
 			PList.val(
 				new SimpleTableField(
 					TypeRef.create(ELong.class), tn, "person_id", false, true, true,
-					null
+					true, null
 				),
 				new SimpleTableField(
 					TypeRef.create(EString.class), tn, "first_name", false, false, false,
-					null
+					false, null
 				),
 				new SimpleTableField(
 					TypeRef.create(EString.class), tn, "middle_name", true, false, false,
-					null
+					false, null
 				),
 				new SimpleTableField(
 					TypeRef.create(EString.class), tn, "last_Name", false, false, false,
-					null
+					false, null
 				),
 				new StructTableField(new CgTableName("address"), "home_"),
 				new SimpleTableField(
 					TypeRef.create(EDateTime.class), tn, "created", false, true, false,
-					null
+					false, null
 				)
 			)
 		);
 	});
 
 
-	static private final Lazy<CgContext> cgContext = Lazy.code(() -> {
+	static public final Lazy<CgContext> cgContext = Lazy.code(() -> {
 		CgContext c = new CgContext("com.generated");
 		c.register(personTable.get());
 		c.register(StructGenTest.addressStruct.get());
@@ -87,6 +87,7 @@ public class TableGenTest{
 	}
 
 	public static void main(String[] args) {
+
 		ModuleLogging.consoleLogPrint.registerAsGlobalHandler();
 		new TableGenTest().testAll();
 	}

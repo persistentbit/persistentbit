@@ -4,6 +4,7 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.AccessLevel;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.string.UString;
 
 /**
  * TODOC
@@ -42,6 +43,21 @@ public class StructTableField implements TableField{
 	public boolean isNullable(CgContext context) {
 		StructureTypeDef structType = (StructureTypeDef) context.getTypeDef(getTypeRef(context));
 		return structType.isNullable(context);
+	}
+
+	@Override
+	public String getJavaGetter(CgContext context) {
+		String thisGetter = "get" + UString.firstUpperCase(getJavaName(context)) + "()";
+
+		if(parent != null) {
+			if(parent.isNullable(context)) {
+				thisGetter = parent.getJavaGetter(context) + ".map(pv -> pv." + thisGetter + ")";
+			}
+			else {
+				thisGetter = parent.getJavaGetter(context) + "." + thisGetter;
+			}
+		}
+		return thisGetter;
 	}
 
 	@Override

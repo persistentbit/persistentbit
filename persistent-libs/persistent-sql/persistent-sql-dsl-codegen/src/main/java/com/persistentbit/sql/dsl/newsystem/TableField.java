@@ -4,7 +4,6 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JArgument;
 import com.persistentbit.javacodegen.JField;
-import com.persistentbit.string.UString;
 
 /**
  * TODOC
@@ -33,16 +32,16 @@ public interface TableField{
 		return createExprField(context).asArgument();
 	}
 
-	default String createCreateFieldCode(CgContext context) {
+	String getJavaGetter(CgContext context);
+
+
+	default String createCreateFieldCode(CgContext context, String javaValueTypeClass) {
+
 		String res = "createField(" + getTypeRef(context).getClassName() + ".class, ";
 		res += "\"" + getColumnName(context) + "\", \"" + getJavaName(context) + "\", ";
-		String javaGetter = "get" + UString.firstUpperCase(getJavaName(context));
-		if(isNullable(context)) {
-			res += "v -> v." + javaGetter + "().orElse(null)";
-		}
-		else {
-			res += context.getTypeDef(getTypeRef(context)).getJavaRef(context).getClassName() + "::" + javaGetter;
-		}
+		String javaGetter = getJavaGetter(context);
+
+		res += "v -> v." + getJavaGetter(context);
 		res += ", v -> v." + getJavaName(context) + ")";
 		return res;
 	}

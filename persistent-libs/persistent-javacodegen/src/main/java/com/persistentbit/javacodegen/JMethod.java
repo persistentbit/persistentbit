@@ -84,6 +84,14 @@ public class JMethod extends BaseValueClass{
 		return copyWith("arguments",arguments.plus(arg));
 	}
 
+	public JMethod addArg(String type, String name) {
+		return addArg(new JArgument(type, name));
+	}
+
+	public JMethod addArg(Class type, String name) {
+		return addArg(type.getSimpleName(), name).addImport(type);
+	}
+
 	public JMethod addArgs(Iterable<JArgument> args) {
 		return copyWith("arguments", arguments.plusAll(args));
 	}

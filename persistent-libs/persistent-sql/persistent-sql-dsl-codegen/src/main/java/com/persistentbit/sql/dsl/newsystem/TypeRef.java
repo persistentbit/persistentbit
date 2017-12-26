@@ -46,8 +46,8 @@ public final class TypeRef{
 	public String getClassName() {
 		String gen = generics.isEmpty()
 			? ""
-			: generics.map(TypeRef::getClassName).toString(", ");
-		return className;
+			: "<" + generics.map(TypeRef::getClassName).toString(", ") + ">";
+		return className + gen;
 	}
 
 	public String getPackageName() {

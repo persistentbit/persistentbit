@@ -4,6 +4,7 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.AccessLevel;
 import com.persistentbit.javacodegen.JField;
+import com.persistentbit.string.UString;
 
 /**
  * TODOC
@@ -19,13 +20,14 @@ public class SimpleTableField implements TableField{
 	private final boolean          isNullable;
 	private final boolean          hasDefault;
 	private final boolean          isPrimKey;
+	private final boolean          isAutoGenKey;
 	private final StructTableField parent;
 
 	public SimpleTableField(TypeRef typeRef, CgTableName tableName, String columnName,
 							boolean isNullable,
 							boolean hasDefault,
 							boolean isPrimKey,
-							StructTableField parent
+							boolean isAutoGenKey, StructTableField parent
 	) {
 		this.typeRef = typeRef;
 		this.tableName = tableName;
@@ -33,20 +35,51 @@ public class SimpleTableField implements TableField{
 		this.isNullable = isNullable;
 		this.hasDefault = hasDefault;
 		this.isPrimKey = isPrimKey;
+		this.isAutoGenKey = isAutoGenKey;
 		this.parent = parent;
 	}
 
 	public SimpleTableField(TypeRef typeRef, CgTableName tableName, String columnName,
 							boolean isNullable,
 							boolean hasDefault,
-							boolean isPrimKey
+							boolean isPrimKey,
+							boolean isAutoGenKey
 	) {
-		this(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, null);
+		this(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, isAutoGenKey, null);
 	}
 
 	@Override
 	public String getColumnName(CgContext context) {
+		if(parent != null) {
+			return parent.getColumnName(context) + columnName;
+		}
 		return columnName;
+	}
+
+	@Override
+	public String getJavaGetter(CgContext context) {
+		/*if(isNullable(context)) {
+			res += "v -> v." + javaGetter + "().orElse(null)";
+		}
+		else {
+			res += javaValueTypeClass + "::" + javaGetter;
+		}*/
+
+		String thisGetter = "get" + UString.firstUpperCase(getJavaName(context)) + "()";
+
+		if(parent != null) {
+			if(parent.isNullable(context)) {
+				thisGetter = parent.getJavaGetter(context) + ".map(pv -> pv." + thisGetter + ")";
+
+			}
+			else {
+				thisGetter = parent.getJavaGetter(context) + "." + thisGetter;
+			}
+		}
+		if(isNullable) {
+			thisGetter += ".orElse(null)";
+		}
+		return thisGetter;
 	}
 
 	@Override
@@ -62,12 +95,16 @@ public class SimpleTableField implements TableField{
 		return res;
 	}
 
+	public boolean isAutoGenKey() {
+		return isAutoGenKey;
+	}
+
 	public boolean isPrimKey() {
 		return isPrimKey;
 	}
 
 	public SimpleTableField withParent(StructTableField parent) {
-		return new SimpleTableField(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, parent);
+		return new SimpleTableField(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, isAutoGenKey, parent);
 	}
 	@Override
 	public String getJavaName(CgContext context) {
@@ -92,38 +129,42 @@ public class SimpleTableField implements TableField{
 
 	@Override
 	public JField createJavaField(CgContext context, boolean forceNullable) {
-		TypeRef tr          = getTypeRef(context);
-		TypeRef javaRef     = getJavaTypeRef(context);
-		String  javaClsName = javaRef.getClassName();
+		TypeRef tr            = getTypeRef(context);
+		TypeRef javaRef       = getJavaTypeRef(context);
+		String  javaClsName   = javaRef.getClassName();
+		Class   primitiveType = null;
 		if(isNullable == false && forceNullable == false) {
 			switch(javaClsName) {
 				case "Byte":
-					javaClsName = byte.class.getSimpleName();
+					primitiveType = byte.class;
 					break;
 				case "Short":
-					javaClsName = short.class.getSimpleName();
+					primitiveType = short.class;
 					break;
 				case "Integer":
-					javaClsName = int.class.getSimpleName();
+					primitiveType = int.class;
 					break;
 				case "Long":
-					javaClsName = long.class.getSimpleName();
+					primitiveType = long.class;
 					break;
 				case "Float":
-					javaClsName = float.class.getSimpleName();
+					primitiveType = float.class;
 					break;
 				case "Double":
-					javaClsName = double.class.getSimpleName();
+					primitiveType = double.class;
 					break;
 				case "Boolean":
-					javaClsName = boolean.class.getSimpleName();
+					primitiveType = boolean.class;
 					break;
 				default:
 					break;
 			}
 		}
 
-		JField f = new JField(getJavaName(context), javaClsName)
+		JField f = primitiveType == null
+			? new JField(getJavaName(context), javaClsName)
+			: new JField(getJavaName(context), primitiveType).primitive(primitiveType);
+		f = f
 			.withAccessLevel(AccessLevel.Private).asFinal()
 			.addImports(javaRef.getImports(context));
 		if(isNullable || forceNullable) {

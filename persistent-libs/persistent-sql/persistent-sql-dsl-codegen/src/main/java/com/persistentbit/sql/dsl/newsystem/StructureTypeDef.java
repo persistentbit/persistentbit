@@ -80,7 +80,7 @@ public class StructureTypeDef implements TypeDef{
 		TypeRef javaRef = getJavaRef(context);
 		JClass cls = new JClass(ref.getClassName())
 			.asAbstract()
-			.extendsDef("implements DExpr<" + getJavaRef(context).getClassName() + ">")
+			.addImplements("DExpr<" + getJavaRef(context).getClassName() + ">")
 			.addImports(ref.getImports(context))
 			.addImports(javaRef.getImports(context))
 			.addImport(DExpr.class);
@@ -99,7 +99,7 @@ public class StructureTypeDef implements TypeDef{
 		constr = constr.withCode(pw -> {
 			for(TableField sf : fields) {
 				String jn = sf.getJavaName(context);
-				pw.println("this." + jn + " = " + jn);
+				pw.println("this." + jn + " = " + jn + ";");
 			}
 		});
 
@@ -147,7 +147,7 @@ public class StructureTypeDef implements TypeDef{
 						else {
 							pw.print(",");
 						}
-						pw.println(tf.createCreateFieldCode(context));
+						pw.println(tf.createCreateFieldCode(context, javaRef.getClassName()));
 					}
 					pw.println(");");
 				})
@@ -229,8 +229,10 @@ public class StructureTypeDef implements TypeDef{
 		);
 
 		implCls = implCls.addMethod(
-			new JMethod("getTypeFactory", ExprTypeFactory.class.getSimpleName() + "<" + cls.getClassName() + ">")
+			new JMethod("getTypeFactory", ExprTypeFactory.class.getSimpleName() + "<" + ref
+				.getClassName() + ", " + javaRef.getClassName() + ">")
 				.overrides()
+				.addImport(ExprTypeFactory.class)
 				.withAccessLevel(AccessLevel.Public)
 				.withCode(pw -> {
 					pw.println("return " + refTypeFactory.getClassName() + ".this;");

@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.newsystem;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PSet;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.javacodegen.*;
 import com.persistentbit.result.Result;
@@ -8,6 +9,7 @@ import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.generic_old.inserts.InsertResult;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
+import com.persistentbit.sql.dsl.statements.insert.Insert;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
@@ -18,6 +20,7 @@ import com.persistentbit.sql.dsl.tables.TableName;
 import com.persistentbit.sql.work.DbWork;
 import com.persistentbit.string.UString;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -65,11 +68,12 @@ public class TableTypeDef implements TypeDef{
 	}
 
 	public PList<JJavaFile> generate(CgContext context) {
-
-		JJavaFile jfTableClass = new JJavaFile(getTableRef(context).getFullPackage(context))
+		String packageName = getTableRef(context).getFullPackage(context);
+		JJavaFile jfTableClass = new JJavaFile(packageName)
 			.addClass(buildTableClass(context));
-
-		return PList.val(jfTableClass)
+		JJavaFile jfInsert = new JJavaFile(packageName)
+			.addClass(buildInsertClass(context));
+		return PList.val(jfTableClass, jfInsert)
 			.plusAll(new StructureTypeDef(tableName, fields).generate(context));
 	}
 
@@ -81,11 +85,12 @@ public class TableTypeDef implements TypeDef{
 		return getExpandedFields(context).filter(sf -> sf.isPrimKey());
 	}
 
-	private String createPrimKeyEq(CgContext context, String rightInstanceName) {
+	private String createPrimKeyEq(CgContext context, Function<String, String> rightInstance) {
 		String where = null;
 		for(SimpleTableField stf : getPrimKeys(context)) {
 			String exprCode  = stf.getExprCode(context);
-			String thisWhere = "this." + exprCode + ".eq(" + rightInstanceName + exprCode + ")";
+			String thisWhere = "this." + exprCode + ".eq(" + rightInstance.apply(
+				exprCode) + ")";
 			if(where == null) {
 				where = thisWhere;
 			}
@@ -103,13 +108,13 @@ public class TableTypeDef implements TypeDef{
 
 
 		JClass  cls        = new JClass(getTableRef(context).getClassName());
-		TypeRef extendsRef = TypeRef.create(AbstractTable.class).withGenerics(tableRef, javaRef);
+		TypeRef extendsRef = TypeRef.create(AbstractTable.class).withGenerics(exprRef, javaRef);
 
 		cls = cls.addImports(extendsRef.getImports(context));
 		cls = cls.addImports(javaRef.getImports(context));
 
 
-		cls = cls.asFinal().extendsDef("extends " + extendsRef.getClassName());
+		cls = cls.asFinal().extendsDef(extendsRef.getClassName());
 		//ADD TABLENAME
 		cls = cls.addField(
 			new JField("_tableName", TableName.class)
@@ -127,7 +132,8 @@ public class TableTypeDef implements TypeDef{
 			selectByIdWorkClassName = "DbWorkP" + primKeyFields.size();
 			cls = cls.addImport(DbWorkP1.class.getPackageName() + "." + selectByIdWorkClassName);
 			selectByIdWorkClassName +=
-				"<" + primKeyFields.map(tf -> tf.getJavaTypeRef(context).getClassName()).toString(", ") + ">";
+				"<" + primKeyFields.map(tf -> tf.getJavaTypeRef(context).getClassName()).toString(", ") + "," + javaRef
+					.getClassName() + ">";
 		}
 		else {
 			selectByIdWorkClassName = DbWork.class.getSimpleName();
@@ -160,7 +166,7 @@ public class TableTypeDef implements TypeDef{
 					pw.println("\t.buildTableField(createFullTableNameOrAlias() + \".\",\"\",\"\");");
 					for(TableField tf : fields) {
 						String jn = tf.getJavaName(context);
-						pw.println("this." + jn + " = _all." + jn);
+						pw.println("this." + jn + " = _all." + jn + ";");
 					}
 					pw.println("this._selectById = query(p -> q -> {");
 					pw.indent(pi -> {
@@ -169,7 +175,7 @@ public class TableTypeDef implements TypeDef{
 						for(SimpleTableField stf : primKeyFields) {
 							String expName   = stf.getTypeRef(context).getClassName();
 							String fieldName = stf.getJavaName(context);
-							pi.println("Param<" + expName + "> param" + fieldName + " = context.param(" + expName + ".class, " + esc(fieldName));
+							pi.println("Param<" + expName + "> param" + fieldName + " = context.param(" + expName + ".class, " + esc(fieldName) + ");");
 
 							if(allParams.isEmpty() == false) {
 								allParams += ", ";
@@ -177,7 +183,7 @@ public class TableTypeDef implements TypeDef{
 							allParams += "param" + fieldName;
 						}
 						pi.println("return q");
-						pi.println("\t.where(" + createPrimKeyEq(context, "param") + ")");
+						pi.println("\t.where(" + createPrimKeyEq(context, s -> "param" + s + ".getExpr()") + ")");
 						pi.println("\t.selection(all())");
 						pi.println("\t.one(" + allParams + ");");
 					});
@@ -191,14 +197,14 @@ public class TableTypeDef implements TypeDef{
 				.withAccessLevel(AccessLevel.Public)
 				.addArg(new JArgument(ExprContext.class.getSimpleName(), "context"))
 				.withCode(pw -> {
-					pw.println("this.context,null);");
+					pw.println("this(context,null);");
 				})
 		);
 		//CREATE TYPECLASS GETTER
 		cls = cls.addMethod(
 			new JMethod("getTypeClass", "Class<? extends " + Table.class.getSimpleName() + "<" + exprRef
-				.getClassName() + ", " + javaRef.getClassName() + ">")
-				.withAccessLevel(AccessLevel.Protected)
+				.getClassName() + ", " + javaRef.getClassName() + ">>")
+				.withAccessLevel(AccessLevel.Public)
 				.overrides()
 				.withCode(pw -> {
 					pw.println("return this.getClass();");
@@ -243,6 +249,7 @@ public class TableTypeDef implements TypeDef{
 				})
 				.addImport(Query.class)
 				.addImport(QueryImpl.class)
+				.addImport(PList.class)
 		);
 		cls = cls.addMethod(
 			new JMethod("query", "<R> R")
@@ -287,8 +294,7 @@ public class TableTypeDef implements TypeDef{
 						".add(" + insertFields.map(JField::getName).toString(", ") + ")"
 					);
 					pw.println(".flatMap(irList-> " + Result.class
-						.getSimpleName() + ".fromOpt(irList.headOpt().map(" + InsertResult.class
-						.getSimpleName() + "::getUpdateCount)));");
+						.getSimpleName() + ".fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));");
 				})
 		);
 		cls = cls.addMethod(
@@ -320,6 +326,7 @@ public class TableTypeDef implements TypeDef{
 		cls = cls.addMethod(
 			new JMethod("update", Update.class.getSimpleName())
 				.withAccessLevel(AccessLevel.Public)
+				.addImport(Update.class)
 				.withCode(pw -> {
 					pw.println("return new Update(context, this);");
 				})
@@ -333,7 +340,7 @@ public class TableTypeDef implements TypeDef{
 					pw.println(exprRef.getClassName() + " e = val(value);");
 					pw.println("return update()");
 					pw.println("\t.set(all(), e)");
-					pw.println(".where(" + createPrimKeyEq(context, "e.") + ");");
+					pw.println(".where(" + createPrimKeyEq(context, s -> "e." + s) + ");");
 				})
 		);
 		//CREATE select
@@ -363,11 +370,96 @@ public class TableTypeDef implements TypeDef{
 				.addArgs(primKeyFields.map(sf -> sf.createJavaField(context, false).asArgument()))
 				.withCode(pw -> {
 					pw.println("return delete()");
-					pw.println("\t.where(" + createPrimKeyEq(context, "") + ");");
+					pw.println("\t.where(" + createPrimKeyEq(context, s -> s) + ");");
 				})
 		);
 		return cls;
 	}
+
+	private JClass buildInsertClass(CgContext context) {
+		TypeRef                    insertRef    = context.createInsertTypeRef(tableName);
+		TypeRef                    tableRef     = context.createTableTypeRef(tableName);
+		Optional<SimpleTableField> autoGenField = getPrimKeys(context).find(pk -> pk.isAutoGenKey());
+		JClass cls = new JClass(insertRef.getClassName())
+			.extendsDef("Insert<" + tableRef.getClassName() + ", " + autoGenField
+				.map(tf -> tf.getJavaTypeRef(context).getClassName()).orElse("Void") + ">")
+			.addImport(Insert.class);
+
+		PStream<SimpleTableField> expanded = getExpandedFields(context);
+		//ADD COLUMN NAMES
+		cls = cls.addField(
+			new JField("columnNames", "PList<String>")
+				.addImport(PList.class)
+				.withAccessLevel(AccessLevel.Private)
+				.asStatic()
+				.initValue(
+					"PList.val(" + expanded.map(sf -> esc(sf.getColumnName(context))).toString(", ") + ")"
+				)
+		);
+		//ADD CONSTRUCTOR
+		cls = cls.addMethod(
+			new JMethod(insertRef.getClassName())
+				.addArg(ExprContext.class, "context")
+				.addArg(tableRef.getClassName(), "into")
+				.addArg("PList<String>", "columnNames")
+				.addArg("PSet<String>", "withDefaults")
+				.addImport(PSet.class)
+				.addArg("String", "autoGenKeyName")
+				.addArg("PList<Object[]>", "rows")
+				.withCode(pw -> {
+					pw.println("super(context,into,columnNames,withDefaults, autoGenKeyName,rows);");
+				})
+		);
+		cls = cls.addMethod(
+			new JMethod(insertRef.getClassName())
+				.addArg(ExprContext.class, "context")
+				.addArg(tableRef.getClassName(), "into")
+				.withCode(pw -> {
+					pw.println("this(context,into,columnNames,PSet.empty(), "
+								   + autoGenField.map(sf -> esc(sf.getColumnName(context))).orElse("null")
+								   + ",PList.empty());");
+				})
+		);
+
+		//ADD ADD-METHOD
+		cls = cls.addMethod(
+			new JMethod("add", insertRef.getClassName())
+				.addArgs(expanded.map(sf -> sf.createJavaField(context, true).asArgument()))
+				.withCode(pw -> {
+					pw.println("Object[] row = new Object[]{");
+					boolean first = true;
+					for(SimpleTableField f : expanded) {
+						if(first == false) {
+							pw.print(", ");
+						}
+						first = false;
+						pw.println("\t" + f.getJavaName(context));
+					}
+					pw.println("};");
+					pw.println("return new " + insertRef.getClassName() + "(");
+					pw.println("\tthis.context,this.into,this.columnNames,this.withDefaults, this.autoGenKeyName,this.rows.plus(row));");
+				})
+		);
+
+		cls = cls.addMethod(
+			new JMethod("add", insertRef.getClassName())
+				.addArg(getJavaRef(context).getClassName(), "value")
+				.addImports(getJavaRef(context).getImports(context))
+				.withCode(pw -> {
+					pw.println("return add(");
+					pw.indent(pi -> {
+						pi.println(expanded.map(sf -> sf.getJavaGetter(context))
+									   .map(s -> "value." + s)
+									   .toString(", "));
+					});
+					pw.println(");");
+				})
+
+		);
+
+		return cls;
+	}
+
 
 	private final String esc(String str) {
 

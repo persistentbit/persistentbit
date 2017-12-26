@@ -30,17 +30,20 @@ public class StructGenTest{
 					new SimpleTableField(
 						TypeRef.create(EString.class),
 						tn, "street",
-						false, false, false
+						false, false, false,
+						false
 					),
 					new SimpleTableField(
 						TypeRef.create(EString.class),
 						tn, "postal_code",
-						false, false, false
+						false, false, false,
+						false
 					),
 					new SimpleTableField(
 						TypeRef.create(EString.class),
 						tn, "city",
-						false, false, false
+						false, false, false,
+						false
 					)
 				)
 			);
