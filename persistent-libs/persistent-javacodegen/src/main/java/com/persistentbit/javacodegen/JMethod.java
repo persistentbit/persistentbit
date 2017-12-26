@@ -3,8 +3,8 @@ package com.persistentbit.javacodegen;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PSet;
-import com.persistentbit.reflection.BaseValueClass;
 import com.persistentbit.printable.PrintableText;
+import com.persistentbit.reflection.BaseValueClass;
 
 import java.util.Objects;
 
@@ -83,6 +83,10 @@ public class JMethod extends BaseValueClass{
 	public JMethod addArg(JArgument arg){
 		return copyWith("arguments",arguments.plus(arg));
 	}
+
+	public JMethod addArgs(Iterable<JArgument> args) {
+		return copyWith("arguments", arguments.plusAll(args));
+	}
 	public JMethod addArg(String type, String name, boolean isNullable, String...annotations){
 		return addArg(new JArgument(type,name,isNullable,PList.val(annotations),PSet.empty(),false));
 	}
@@ -156,6 +160,14 @@ public class JMethod extends BaseValueClass{
 
 	public JMethod addImport(JImport imp){
 		return copyWith("imports",imports.plus(imp));
+	}
+
+	public JMethod addImport(Class cls) {
+		return addImport(new JImport(cls));
+	}
+
+	public JMethod addImports(Iterable<JImport> impList) {
+		return copyWith("imports", imports.plusAll(impList));
 	}
 	public PSet<JImport> getAllImports(){
 		return imports

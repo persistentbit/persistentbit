@@ -7,6 +7,7 @@ import com.persistentbit.javacodegen.annotations.*;
 import com.persistentbit.reflection.BaseValueClass;
 import com.persistentbit.string.UString;
 
+import java.lang.annotation.Annotation;
 import java.util.Optional;
 
 /**
@@ -218,6 +219,10 @@ public class JField extends BaseValueClass{
 
 	public JField addAnnotation(String annotation) {
 		return copyWith("annotations", annotations.plus(annotation));
+	}
+
+	public JField addAnnotation(Class<? extends Annotation> annotationCls) {
+		return addAnnotation("@" + annotationCls.getSimpleName()).addImport(annotationCls);
 	}
 
 

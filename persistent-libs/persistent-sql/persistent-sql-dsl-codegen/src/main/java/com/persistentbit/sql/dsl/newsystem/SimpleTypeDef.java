@@ -39,4 +39,9 @@ public class SimpleTypeDef implements TypeDef{
 	public PList<JJavaFile> generate(CgContext context) {
 		return PList.empty();
 	}
+
+	@Override
+	public void init(CgContext context) {
+
+	}
 }

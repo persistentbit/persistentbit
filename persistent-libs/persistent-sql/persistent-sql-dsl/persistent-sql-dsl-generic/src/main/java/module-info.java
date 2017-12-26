@@ -20,7 +20,10 @@ module persistent.sql.dsl.generic {
 	exports com.persistentbit.sql.dsl.statements.insert;
 	exports com.persistentbit.sql.dsl.statements.delete;
 	exports com.persistentbit.sql.dsl.statements.select;
+	exports com.persistentbit.sql.dsl.statements.select.impl;
 	exports com.persistentbit.sql.dsl.statements.update;
+	exports com.persistentbit.sql.dsl.statements.work;
+	exports com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 	exports com.persistentbit.sql.dsl.tables;
 	exports com.persistentbit.sql.dsl;
 	exports com.persistentbit.sql.dsl.generic_old;

@@ -105,7 +105,11 @@ public class JClass extends BaseValueClass{
 	}
 
 	public JClass packagePrivate() {
-		return copyWith("accessLevel", AccessLevel.Private);
+		return withAccessLevel(AccessLevel.Private);
+	}
+
+	public JClass withAccessLevel(AccessLevel level) {
+		return copyWith("accessLevel", level);
 	}
 
 	public JClass asFinal() {

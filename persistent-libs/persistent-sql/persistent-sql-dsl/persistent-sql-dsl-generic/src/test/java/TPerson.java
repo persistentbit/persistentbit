@@ -48,7 +48,8 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 
 		this._selectById = query(p -> q -> {
 			Param<ELong> paramId = context.param(ELong.class, "id");
-			return q.where(p.id.eq(paramId.getExpr()))
+			return q
+				.where(p.id.eq(paramId.getExpr()))
 				.selection(all())
 				.one(paramId);
 		});
@@ -126,8 +127,8 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 		return new Update(context, this);
 	}
 
-	public DbWork<Integer> update(Person p) {
-		EPerson e = val(p);
+	public DbWork<Integer> update(Person value) {
+		EPerson e = val(value);
 		return update()
 			.set(all(), e)
 			.where(id.eq(e.id));

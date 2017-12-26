@@ -30,6 +30,10 @@ public class JArgument extends BaseValueClass{
 	public JArgument(String type, String name){
 		this(type,name,false, PList.empty(),PSet.empty(),false);
 	}
+
+	public JArgument(Class cls, String name) {
+		this(cls.getSimpleName(), name);
+	}
 	public JArgument asNullable(){
 		return copyWith("isNullable",true);
 	}

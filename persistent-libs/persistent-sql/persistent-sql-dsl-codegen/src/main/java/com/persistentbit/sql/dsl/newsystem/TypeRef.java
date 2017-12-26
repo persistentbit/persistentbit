@@ -34,6 +34,7 @@ public final class TypeRef{
 		return new TypeRef(packageName, className, PList.empty(), false);
 	}
 
+
 	public TypeRef withGenerics(PList<TypeRef> generics) {
 		return new TypeRef(packageName, className, generics, isAbsolute);
 	}
@@ -61,6 +62,12 @@ public final class TypeRef{
 		return isAbsolute
 			? getFullName()
 			: context.getBasePackage() + "." + getFullName();
+	}
+
+	public String getFullPackage(CgContext context) {
+		return isAbsolute
+			? getPackageName()
+			: context.getBasePackage() + "." + getPackageName();
 	}
 
 	public PList<JImport> getImports(CgContext context) {

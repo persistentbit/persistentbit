@@ -15,5 +15,7 @@ public interface TypeDef{
 
 	TypeRef getJavaRef(CgContext context);
 
+	void init(CgContext context);
+
 	PList<JJavaFile> generate(CgContext context);
 }

@@ -6,10 +6,7 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.sql.dsl.expressions.EDateTime;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
-import com.persistentbit.sql.dsl.newsystem.CgContext;
-import com.persistentbit.sql.dsl.newsystem.SimpleTableField;
-import com.persistentbit.sql.dsl.newsystem.TableTypeDef;
-import com.persistentbit.sql.dsl.newsystem.TypeRef;
+import com.persistentbit.sql.dsl.newsystem.*;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
 import com.persistentbit.utils.Lazy;
@@ -26,22 +23,53 @@ public class TableGenTest{
 	static private final String schemaName  = "myschema";
 	static private final String packageName = dbName + "." + schemaName;
 
-	static private final Lazy<TableTypeDef> tagTable = Lazy.code(() -> {
+	/*static private final Lazy<TableTypeDef> tagTable = Lazy.code(() -> {
 		TableTypeDef tab = new TableTypeDef(
 			dbName, schemaName, "tags",
 			PList.val(
-				new SimpleTableField(TypeRef.create(ELong.class), "tag_id", false, true, true),
-				new SimpleTableField(TypeRef.create(EString.class), "tag_name", false, false, false),
-				new SimpleTableField(TypeRef.create(EDateTime.class), "tag_created", false, true, false)
+				new SimpleTableField(TypeRef.create(ELong.class), tableName, "tag_id", false, true, true),
+				new SimpleTableField(TypeRef.create(EString.class), tableName, "tag_name", false, false, false),
+				new SimpleTableField(TypeRef.create(EDateTime.class), tableName, "tag_created", false, true, false)
 			)
 		);
 		return tab;
+	});*/
+
+	static private final Lazy<TableTypeDef> personTable = Lazy.code(() -> {
+		CgTableName tn = new CgTableName(dbName, schemaName, "persons");
+		return new TableTypeDef(
+			tn,
+			PList.val(
+				new SimpleTableField(
+					TypeRef.create(ELong.class), tn, "person_id", false, true, true,
+					null
+				),
+				new SimpleTableField(
+					TypeRef.create(EString.class), tn, "first_name", false, false, false,
+					null
+				),
+				new SimpleTableField(
+					TypeRef.create(EString.class), tn, "middle_name", true, false, false,
+					null
+				),
+				new SimpleTableField(
+					TypeRef.create(EString.class), tn, "last_Name", false, false, false,
+					null
+				),
+				new StructTableField(new CgTableName("address"), "home_"),
+				new SimpleTableField(
+					TypeRef.create(EDateTime.class), tn, "created", false, true, false,
+					null
+				)
+			)
+		);
 	});
 
 
 	static private final Lazy<CgContext> cgContext = Lazy.code(() -> {
 		CgContext c = new CgContext("com.generated");
-		c.register(tagTable.get());
+		c.register(personTable.get());
+		c.register(StructGenTest.addressStruct.get());
 		return c;
 	});
 
