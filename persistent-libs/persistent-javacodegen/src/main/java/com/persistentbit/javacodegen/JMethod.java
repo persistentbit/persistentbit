@@ -69,6 +69,10 @@ public class JMethod extends BaseValueClass{
 		);
 	}
 
+	public boolean isStaticInitializer() {
+		return name.isEmpty() && isStatic;
+	}
+
 	public boolean isConstructor() {
 		return resultType == null;
 	}
@@ -192,14 +196,22 @@ public class JMethod extends BaseValueClass{
 				out.println("@Override");
 			}
 			String res = accessLevel.label();
+			if(name.isEmpty()) {
+				//A static initializer
+				res = "";
+			}
 			res = res.isEmpty()? res : res + " ";
 			res = isStatic ? res + " static" : res;
 			res = isFinal ? res + " final" : res;
 			if(definition == null){
 				res += " abstract ";
 			}
-			res += (resultType == null ? "" : " " + resultType + "\t") + name;
-			res += "(" + arguments.toString(", ") + ")";
+
+			if(name.isEmpty() == false) {
+				res += (resultType == null ? "" : " " + resultType + "\t");
+				res += name + "(" + arguments.toString(", ") + ")";
+			}
+
 			if(definition == null){
 				out.println(res + ";");
 				return;

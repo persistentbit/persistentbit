@@ -18,4 +18,6 @@ public interface TypeDef{
 	void init(CgContext context);
 
 	PList<JJavaFile> generate(CgContext context);
+
+	DbGenContext generateDb(CgContext context, DbGenContext db);
 }

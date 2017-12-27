@@ -22,16 +22,49 @@ public class StructureTypeDef implements TypeDef{
 
 	private final CgTableName       tableName;
 	private final PList<TableField> fields;
+	private final boolean           isAlsoTable;
 
-	public StructureTypeDef(CgTableName tableName, PList<TableField> fields
-	) {
+	public StructureTypeDef(CgTableName tableName, PList<TableField> fields, boolean isAlsoTable) {
 		this.tableName = tableName;
 		this.fields = fields;
+		this.isAlsoTable = isAlsoTable;
 	}
 
 	@Override
 	public void init(CgContext context) {
 
+	}
+
+	@Override
+	public DbGenContext generateDb(CgContext context, DbGenContext db) {
+		String  exprContext    = db.getExprContext();
+		TypeRef refTypeFactory = context.createTypeFactoryTypeRef(tableName);
+		db = db.withCls(db.getCls()
+							.addMethod(
+								new JMethod("val", getRef(context).getClassName())
+									.addArg(getJavaRef(context).getClassName(), "value")
+									.asStatic()
+									.withAccessLevel(AccessLevel.Public)
+									.withCode(pw -> {
+										pw.println("return " + exprContext + ".getTypeFactory(" + getRef(context)
+											.getClassName() + ".class).buildVal(value);");
+									})
+							)
+		);
+		if(isAlsoTable == false) {
+			db = db.addInitCode(pw -> {
+				pw.println(exprContext + ".registerType(" + getRef(context).getClassName() + ".class, " + refTypeFactory
+					.getClassName() + ".class);");
+			});
+			db = db.withCls(db.getCls()
+								.addImports(refTypeFactory.getImports(context))
+								.addImports(getRef(context).getImports(context))
+			);
+		}
+
+		db = db.withCls(db.getCls().addImports(getJavaRef(context).getImports(context)));
+		db = db.withCls(db.getCls().addImports(getRef(context).getImports(context)));
+		return db;
 	}
 
 	public boolean isNullable(CgContext context) {

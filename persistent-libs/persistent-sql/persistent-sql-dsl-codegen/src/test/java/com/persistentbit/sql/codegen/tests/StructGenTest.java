@@ -45,7 +45,8 @@ public class StructGenTest{
 						false, false, false,
 						false
 					)
-				)
+				),
+				false
 			);
 		return res;
 	});

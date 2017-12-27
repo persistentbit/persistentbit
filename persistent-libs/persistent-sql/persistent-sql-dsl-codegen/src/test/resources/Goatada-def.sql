@@ -7211,59 +7211,60 @@ CREATE VIEW goatada_test.V_EXC_COLL_FEED_INFO AS
   `goatada_test`.`COLL_PROVIDER_FEED_STATUS`.`RECEIVED_DATE_TIME` AS `RECEIVED_DATE_TIME`
 FROM `goatada_test`.`COLL_PROVIDER_FEED_STATUS `;
 
-CREATE VIEW goatada_test.V_REFD_CODE_LIST_VALUE_TRANS AS
-  SELECT `a `.`CODE_LIST_CD` AS `code_list_cd`,
-  `a`.`CODE_GROUP_CD` AS `code_group_cd`,
-  `a`.`CODE_LIST_NAME` AS `code_list_name`,
-  `a`.`MAIN_CODE_LIST` AS `main_code_list`,
-  `a`.`USER_MODIFIABLE` AS `user_modifiable`,
-  `b`.`CODE_VALUE_PK` AS `code_value_pk`,
-  `b`.`CODE_VALUE` AS `code_value`,
-  `b`.`ACTIVE` AS `active`,
-  `b`.`MAIN_CODE_VALUE_PK` AS `main_code_value_pk`,
-  `b2`.`CODE_VALUE` AS `main_code_value`,
-  `a2`.`CODE_LIST_CD` AS `main_code_list_cd`,
-  `a2`.`CODE_LIST_NAME` AS `main_code_list_name`,
-  ` C `.`CODE_TRANSLATION_REF_PK` AS `code_translation_ref_pk`,
-  ` C `.`LANGUAGE_CD` AS `language_cd`,
-  ` C `.`CODE_TRANSLATION` AS `code_translation`,
-  `c2`.`CODE_TRANSLATION` AS `main_code_translation`,
-  `a`.`USER_ID` AS `code_list_user_id`,
-  `b`.`USER_ID` AS `code_value_user_id`
-FROM (((((`goatada_test`.`REFD_CODE_LIST` `a` LEFT JOIN `goatada_test`.`REFD_CODE_VALUE` `b`
-ON ((`b`.`CODE_LIST_CD` = `a`.`CODE_LIST_CD`))) LEFT JOIN `goatada_test`.`REFD_CODE_VALUE` `b2`
-ON ((`b2`.`CODE_VALUE_PK` = `b`.`MAIN_CODE_VALUE_PK`))) LEFT JOIN `goatada_test`.`REFD_CODE_LIST` `a2`
-ON ((`b2`.`CODE_LIST_CD` = `a2`.`CODE_LIST_CD`))) LEFT JOIN `goatada_test`.`REFD_CODE_TRANSLATION_REF` ` C `
-ON ((` C `.`CODE_VALUE_PK` = `b`.`CODE_VALUE_PK`))) LEFT JOIN `goatada_test`.`REFD_CODE_TRANSLATION_REF` `c2`
-ON ((`c2`.`CODE_VALUE_PK` = `b`.`MAIN_CODE_VALUE_PK`)));
+-- CREATE VIEW goatada_test.V_REFD_CODE_LIST_VALUE_TRANS AS
+--   SELECT `a`.`CODE_LIST_CD` AS `code_list_cd`,
+--   `a`.`CODE_GROUP_CD` AS `code_group_cd`,
+--   `a`.`CODE_LIST_NAME` AS `code_list_name`,
+--   `a`.`MAIN_CODE_LIST` AS `main_code_list`,
+--   `a`.`USER_MODIFIABLE` AS `user_modifiable`,
+--   `b`.`CODE_VALUE_PK` AS `code_value_pk`,
+--   `b`.`CODE_VALUE` AS `code_value`,
+--   `b`.`ACTIVE` AS `active`,
+--   `b`.`MAIN_CODE_VALUE_PK` AS `main_code_value_pk`,
+--   `b2`.`CODE_VALUE` AS `main_code_value`,
+--   `a2`.`CODE_LIST_CD` AS `main_code_list_cd`,
+--   `a2`.`CODE_LIST_CD` AS `main_code_list_cd`,
+--   `a2`.`CODE_LIST_NAME` AS `main_code_list_name`,
+--   ` C `.`CODE_TRANSLATION_REF_PK` AS `code_translation_ref_pk`,
+--   ` C `.`LANGUAGE_CD` AS `language_cd`,
+--   ` C `.`CODE_TRANSLATION` AS `code_translation`,
+--   `c2`.`CODE_TRANSLATION` AS `main_code_translation`,
+--   `a`.`USER_ID` AS `code_list_user_id`,
+--   `b`.`USER_ID` AS `code_value_user_id`
+-- FROM (((((`goatada_test`.`REFD_CODE_LIST` `a` LEFT JOIN `goatada_test`.`REFD_CODE_VALUE` `b`
+-- ON ((`b`.`CODE_LIST_CD` = `a`.`CODE_LIST_CD`))) LEFT JOIN `goatada_test`.`REFD_CODE_VALUE` `b2`
+-- ON ((`b2`.`CODE_VALUE_PK` = `b`.`MAIN_CODE_VALUE_PK`))) LEFT JOIN `goatada_test`.`REFD_CODE_LIST` `a2`
+-- ON ((`b2`.`CODE_LIST_CD` = `a2`.`CODE_LIST_CD`))) LEFT JOIN `goatada_test`.`REFD_CODE_TRANSLATION_REF` ` C `
+-- ON ((` C `.`CODE_VALUE_PK` = `b`.`CODE_VALUE_PK`))) LEFT JOIN `goatada_test`.`REFD_CODE_TRANSLATION_REF` `c2`
+-- ON ((`c2`.`CODE_VALUE_PK` = `b`.`MAIN_CODE_VALUE_PK`)));
 
-CREATE VIEW goatada_test.V_REFD_CODE_MAPPING_SRC_TRGT AS
-  SELECT `a `.`CODE_MAPPING_PK` AS `code_mapping_pk`,
-  `a`.`MAPPING_GROUP_CD` AS `mapping_group_cd`,
-  `a`.`MAPPING_GROUP_NAME` AS `mapping_group_name`,
-  `b`.`MAPPING_IDENTIFIER_CD` AS `src_mapping_identifier_cd`,
-  `b`.`CODE_VALUE_PK` AS `src_code_value_pk`,
-  ` C `.`CODE_VALUE` AS `src_code_value`,
-  ` D `.`CODE_TRANSLATION` AS `src_code_translation`,
-  `e`.`CODE_LIST_CD` AS `src_code_list_cd`,
-  `e`.`CODE_LIST_NAME` AS `src_code_list_name`,
-  `b2`.`MAPPING_IDENTIFIER_CD` AS `trgt_mapping_identifier_cd`,
-  `b2`.`CODE_VALUE_PK` AS `trgt_code_value_pk`,
-  `c2`.`CODE_VALUE` AS `trgt_code_value`,
-  `d2`.`CODE_TRANSLATION` AS `trgt_code_translation`,
-  `e2`.`CODE_LIST_CD` AS `trgt_code_list_cd`,
-  `e2`.`CODE_LIST_NAME` AS `trgt_code_list_name`
-FROM ((((((((`goatada_test`.`REFD_CODE_MAPPING` `a`
-JOIN `goatada_test`.`REFD_SOURCE_CODE_MAPPING` `b` ON ((`a`.`CODE_MAPPING_PK` = `b`.`CODE_MAPPING_PK`))) JOIN
-  `goatada_test`.`REFD_CODE_VALUE` ` C ` ON ((`b`.`CODE_VALUE_PK` = ` C `.`CODE_VALUE_PK`))) LEFT JOIN
-  `goatada_test`.`REFD_CODE_TRANSLATION_REF` ` D ` ON ((`b`.`CODE_VALUE_PK` = ` D `.`CODE_VALUE_PK`))) JOIN
-  `goatada_test`.`REFD_CODE_LIST` `e` ON ((` C `.`CODE_LIST_CD` = `e`.`CODE_LIST_CD`))) JOIN
-  `goatada_test`.`REFD_TARGET_CODE_MAPPING` `b2` ON (((`a`.`CODE_MAPPING_PK` = `b2`.`CODE_MAPPING_PK`) AND
-(`b2`.`MAPPING_IDENTIFIER_CD` =
-  `b`.`MAPPING_IDENTIFIER_CD`)))) JOIN
-  `goatada_test`.`REFD_CODE_VALUE` `c2` ON ((`b2`.`CODE_VALUE_PK` = `c2`.`CODE_VALUE_PK`))) LEFT JOIN
-  `goatada_test`.`REFD_CODE_TRANSLATION_REF` `d2` ON ((`b2`.`CODE_VALUE_PK` = `d2`.`CODE_VALUE_PK`))) JOIN
-  `goatada_test`.`REFD_CODE_LIST` `e2` ON ((`c2`.`CODE_LIST_CD` = `e2`.`CODE_LIST_CD`)));
+-- CREATE VIEW goatada_test.V_REFD_CODE_MAPPING_SRC_TRGT AS
+--   SELECT `a `.`CODE_MAPPING_PK` AS `code_mapping_pk`,
+--   `a`.`MAPPING_GROUP_CD` AS `mapping_group_cd`,
+--   `a`.`MAPPING_GROUP_NAME` AS `mapping_group_name`,
+--   `b`.`MAPPING_IDENTIFIER_CD` AS `src_mapping_identifier_cd`,
+--   `b`.`CODE_VALUE_PK` AS `src_code_value_pk`,
+--   ` C `.`CODE_VALUE` AS `src_code_value`,
+--   ` D `.`CODE_TRANSLATION` AS `src_code_translation`,
+--   `e`.`CODE_LIST_CD` AS `src_code_list_cd`,
+--   `e`.`CODE_LIST_NAME` AS `src_code_list_name`,
+--   `b2`.`MAPPING_IDENTIFIER_CD` AS `trgt_mapping_identifier_cd`,
+--   `b2`.`CODE_VALUE_PK` AS `trgt_code_value_pk`,
+--   `c2`.`CODE_VALUE` AS `trgt_code_value`,
+--   `d2`.`CODE_TRANSLATION` AS `trgt_code_translation`,
+--   `e2`.`CODE_LIST_CD` AS `trgt_code_list_cd`,
+--   `e2`.`CODE_LIST_NAME` AS `trgt_code_list_name`
+-- FROM ((((((((`goatada_test`.`REFD_CODE_MAPPING` `a`
+-- JOIN `goatada_test`.`REFD_SOURCE_CODE_MAPPING` `b` ON ((`a`.`CODE_MAPPING_PK` = `b`.`CODE_MAPPING_PK`))) JOIN
+--   `goatada_test`.`REFD_CODE_VALUE` ` C ` ON ((`b`.`CODE_VALUE_PK` = ` C `.`CODE_VALUE_PK`))) LEFT JOIN
+--   `goatada_test`.`REFD_CODE_TRANSLATION_REF` ` D ` ON ((`b`.`CODE_VALUE_PK` = ` D `.`CODE_VALUE_PK`))) JOIN
+--   `goatada_test`.`REFD_CODE_LIST` `e` ON ((` C `.`CODE_LIST_CD` = `e`.`CODE_LIST_CD`))) JOIN
+--   `goatada_test`.`REFD_TARGET_CODE_MAPPING` `b2` ON (((`a`.`CODE_MAPPING_PK` = `b2`.`CODE_MAPPING_PK`) AND
+-- (`b2`.`MAPPING_IDENTIFIER_CD` =
+--   `b`.`MAPPING_IDENTIFIER_CD`)))) JOIN
+--   `goatada_test`.`REFD_CODE_VALUE` `c2` ON ((`b2`.`CODE_VALUE_PK` = `c2`.`CODE_VALUE_PK`))) LEFT JOIN
+--   `goatada_test`.`REFD_CODE_TRANSLATION_REF` `d2` ON ((`b2`.`CODE_VALUE_PK` = `d2`.`CODE_VALUE_PK`))) JOIN
+--   `goatada_test`.`REFD_CODE_LIST` `e2` ON ((`c2`.`CODE_LIST_CD` = `e2`.`CODE_LIST_CD`)));
 
 CREATE VIEW goatada_test.V_SUBJECT_STATUS AS
   SELECT concat('I:', `i `.`INSTRUMENT_IDENTIFICATION_CODE`) AS `SUBJECT_ID`,

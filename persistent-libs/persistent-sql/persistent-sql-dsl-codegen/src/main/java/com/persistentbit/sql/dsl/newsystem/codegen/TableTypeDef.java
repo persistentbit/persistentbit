@@ -41,7 +41,7 @@ public class TableTypeDef implements TypeDef{
 	) {
 		this.tableName = tableName;
 		this.fields = fields;
-		this.structureTypeDef = new StructureTypeDef(tableName, fields);
+		this.structureTypeDef = new StructureTypeDef(tableName, fields, true);
 	}
 
 
@@ -67,6 +67,28 @@ public class TableTypeDef implements TypeDef{
 		return context.createTypeFactoryTypeRef(tableName);
 	}
 
+
+	@Override
+	public DbGenContext generateDb(CgContext context, DbGenContext db) {
+		TypeRef tableRef     = getTableRef(context);
+		String  instanceName = context.tableNameToJavaInstanceName(tableName);
+		String  exprContext  = db.getExprContext();
+		db = db.withCls(db.getCls().addField(
+			new JField(instanceName, tableRef.getClassName())
+				.addImports(tableRef.getImports(context))
+				.asStatic()
+				.asFinal()
+				.initValue("new " + tableRef.getClassName() + "(" + exprContext + ")")
+				.withAccessLevel(AccessLevel.Public)
+		));
+		db = db.addInitCode(pw -> {
+			//pw.println(instanceName + " = new " + tableRef.getClassName() + "(" + exprContext + ");");
+			//pw.println(exprContext + ".addTable(" + instanceName + ");");
+		});
+		db = structureTypeDef.generateDb(context, db);
+		return db;
+	}
+
 	public PList<JJavaFile> generate(CgContext context) {
 		String packageName = getTableRef(context).getFullPackage(context);
 		JJavaFile jfTableClass = new JJavaFile(packageName)
@@ -75,7 +97,7 @@ public class TableTypeDef implements TypeDef{
 		JJavaFile jfInsert = new JJavaFile(packageNameInsert)
 			.addClass(buildInsertClass(context));
 		return PList.val(jfTableClass, jfInsert)
-			.plusAll(new StructureTypeDef(tableName, fields).generate(context));
+			.plusAll(structureTypeDef.generate(context));
 	}
 
 	private PStream<SimpleTableField> getExpandedFields(CgContext context) {
@@ -85,6 +107,7 @@ public class TableTypeDef implements TypeDef{
 	private PStream<SimpleTableField> getPrimKeys(CgContext context) {
 		return getExpandedFields(context).filter(sf -> sf.isPrimKey());
 	}
+
 
 	private String createPrimKeyEq(CgContext context, Function<String, String> rightInstance) {
 		String where = null;
@@ -113,6 +136,7 @@ public class TableTypeDef implements TypeDef{
 
 		cls = cls.addImports(extendsRef.getImports(context));
 		cls = cls.addImports(javaRef.getImports(context));
+
 
 
 		cls = cls.asFinal().extendsDef(extendsRef.getClassName());
@@ -159,7 +183,7 @@ public class TableTypeDef implements TypeDef{
 		for(TableField field : fields) {
 			cls = cls.addField(field.createExprField(context));
 		}
-
+		TypeRef refTypeFactory = context.createTypeFactoryTypeRef(tableName);
 		//CREATE CONSTRUCTORS
 		cls = cls.addMethod(
 			new JMethod(tableRef.getClassName())
@@ -167,8 +191,11 @@ public class TableTypeDef implements TypeDef{
 				.addArg(new JArgument(ExprContext.class.getSimpleName(), "context"))
 				.addArg(new JArgument("String", "alias"))
 				.addImport(Param.class)
+				.addImports(refTypeFactory.getImports(context))
 				.withCode(pw -> {
 					pw.println("super(context, alias);");
+					pw.println("context.registerType(" + exprRef.getClassName() + ".class," + refTypeFactory
+						.getClassName() + ".class);");
 					pw.println("this._all = context");
 					pw.println("\t.getTypeFactory(" + exprRef.getClassName() + ".class)");
 					pw.println("\t.buildTableField(createFullTableNameOrAlias() + \".\",\"\",\"\");");
@@ -399,7 +426,8 @@ public class TableTypeDef implements TypeDef{
 		JClass cls = new JClass(insertRef.getClassName())
 			.extendsDef("Insert<" + tableRef.getClassName() + ", " + autoGenField
 				.map(tf -> tf.getJavaTypeRef(context).getClassName()).orElse("Void") + ">")
-			.addImport(Insert.class);
+			.addImport(Insert.class)
+			.addImports(tableRef.getImports(context));
 
 		PStream<SimpleTableField> expanded = getExpandedFields(context);
 		//ADD COLUMN NAMES

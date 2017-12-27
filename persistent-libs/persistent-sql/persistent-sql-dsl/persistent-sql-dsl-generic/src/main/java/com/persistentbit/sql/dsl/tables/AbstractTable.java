@@ -22,7 +22,7 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 	public AbstractTable(ExprContext context,@Nullable String alias) {
 		this.context = context;
 		this.alias = alias;
-
+		context.addTable(this);
 	}
 	public AbstractTable(ExprContext context){
 		this(context,null);

@@ -358,13 +358,19 @@ public class JClass extends BaseValueClass{
 
 	public PrintableText printMethods() {
 		return out -> methods
-			.filter(m -> m.isConstructor() == false)
+			.filter(m -> m.isConstructor() == false && m.isStaticInitializer() == false)
+			.forEach(m -> out.print(m.print()));
+	}
+
+	public PrintableText printStaticInit() {
+		return out -> methods
+			.filter(m -> m.isStaticInitializer())
 			.forEach(m -> out.print(m.print()));
 	}
 
 	public PrintableText printConstructors() {
 		return out -> methods
-			.filter(JMethod::isConstructor)
+			.filter(m -> m.isConstructor() && m.isStaticInitializer() == false)
 			.forEach(m -> out.print(m.print()));
 	}
 
@@ -436,6 +442,7 @@ public class JClass extends BaseValueClass{
 			out.print(printStaticFields());
 			//out.print(printGettersSetters());
 			out.print(printMethods());
+			out.print(printStaticInit());
 		};
 	}
 

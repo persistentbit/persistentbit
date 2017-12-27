@@ -1,12 +1,17 @@
 package com.persistentbit.sql.dsl.newsystem.codegen;
 
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PBitList;
-import com.persistentbit.collections.PByteList;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
-import com.persistentbit.javacodegen.JJavaFile;
+import com.persistentbit.javacodegen.*;
 import com.persistentbit.sql.dsl.expressions.*;
+import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers.*;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EBoolTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EStringTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTimeTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.ETimeTypeFactory;
 import com.persistentbit.string.UString;
 
 import java.math.BigDecimal;
@@ -25,26 +30,32 @@ import java.util.Map;
 public class CgContext{
 
 	private final String basePackage;
+	private final String dbClassName;
 	private PMap<TypeRef, TypeDef> defs = PMap.empty();
 
 
-	public CgContext(String basePackage) {
+	public CgContext(String basePackage, String dbClassName) {
 		this.basePackage = basePackage;
-		register(new SimpleTypeDef(EBool.class, Boolean.class));
-		register(new SimpleTypeDef(EByte.class, Byte.class));
-		register(new SimpleTypeDef(EInt.class, Integer.class));
-		register(new SimpleTypeDef(EShort.class, Short.class));
-		register(new SimpleTypeDef(ELong.class, Long.class));
-		register(new SimpleTypeDef(EFloat.class, Float.class));
-		register(new SimpleTypeDef(EDouble.class, Double.class));
-		register(new SimpleTypeDef(EBigDecimal.class, BigDecimal.class));
-		register(new SimpleTypeDef(EString.class, String.class));
-		register(new SimpleTypeDef(EDateTime.class, LocalDateTime.class));
-		register(new SimpleTypeDef(EDate.class, LocalDate.class));
-		register(new SimpleTypeDef(ETime.class, LocalTime.class));
-		register(new SimpleTypeDef(EBitList.class, PBitList.class));
-		register(new SimpleTypeDef(EByteList.class, PByteList.class));
+		this.dbClassName = dbClassName;
+		register(new SimpleTypeDef(EBool.class, Boolean.class, EBoolTypeFactory.class));
+		register(new SimpleTypeDef(EByte.class, Byte.class, EByteTypeFactory.class));
+		register(new SimpleTypeDef(EInt.class, Integer.class, EIntTypeFactory.class));
+		register(new SimpleTypeDef(EShort.class, Short.class, EShortTypeFactory.class));
+		register(new SimpleTypeDef(ELong.class, Long.class, ELongTypeFactory.class));
+		register(new SimpleTypeDef(EFloat.class, Float.class, EFloatTypeFactory.class));
+		register(new SimpleTypeDef(EDouble.class, Double.class, EDoubleTypeFactory.class));
+		register(new SimpleTypeDef(EBigDecimal.class, BigDecimal.class, EBigDecimalTypeFactory.class));
+		register(new SimpleTypeDef(EString.class, String.class, EStringTypeFactory.class));
+		register(new SimpleTypeDef(EDateTime.class, LocalDateTime.class, EDateTimeTypeFactory.class));
+		register(new SimpleTypeDef(EDate.class, LocalDate.class, EDateTypeFactory.class));
+		register(new SimpleTypeDef(ETime.class, LocalTime.class, ETimeTypeFactory.class));
+		//register(new SimpleTypeDef(EBitList.class, PBitList.class, EBitList));
+		//register(new SimpleTypeDef(EByteList.class, PByteList.class, EByte));
 
+	}
+
+	public CgContext(String basePackage) {
+		this(basePackage, "Db");
 	}
 
 	public String getBasePackage() {
@@ -65,6 +76,43 @@ public class CgContext{
 		return def;
 	}
 
+	private JJavaFile generateDb() {
+		Map<String, JJavaFile> generated = new HashMap<>();
+
+		for(TypeDef td : defs.values()) {
+			td.init(this);
+		}
+
+
+		JClass dbClass = new JClass(dbClassName);
+		dbClass = dbClass.addField(
+			new JField("_context", ExprContext.class)
+				.initValue("new ExprContext()")
+				.withAccessLevel(AccessLevel.Private)
+				.asFinal()
+				.asStatic()
+		).addImport(ExprContext.class);
+
+
+		TypeRef      dbTypeRef = TypeRef.create(basePackage, dbClassName);
+		DbGenContext dbContext = new DbGenContext(dbTypeRef, dbClass, "_context", pw -> {});
+
+		for(TypeDef td : defs.values()) {
+
+			dbContext = td.generateDb(this, dbContext);
+		}
+
+		JJavaFile dbFile = new JJavaFile(dbTypeRef.getPackageName())
+			.addClass(dbContext.getCls()
+						  .addMethod(
+							  new JMethod("").withCode(dbContext.getInitCode())
+								  .asStatic()
+
+						  )
+			);
+		return dbFile;
+	}
+
 	public PList<JJavaFile> generateAll() {
 		Map<String, JJavaFile> generated = new HashMap<>();
 
@@ -82,80 +130,69 @@ public class CgContext{
 					);
 
 			});
+
 		}
-		return PList.from(generated.values());
+
+
+		return PList.from(generated.values())
+			.plus(generateDb());
 	}
 
 	public String catalogNameToJava(@Nullable String catName) {
-		return catName == null ? "catalog" : catName.toLowerCase();
+		return catName == null ? "catalog" : catName.trim().toLowerCase();
 	}
 
 	public String schemaNameToJava(@Nullable String catName, @Nullable String schemaName) {
-		return schemaName == null ? "schema" : schemaName.toLowerCase();
+		return schemaName == null ? "schema" : schemaName.trim().toLowerCase();
 	}
 
-	public String tableNameToJava(@Nullable String catlogName, @Nullable String schemaName, String tableName) {
-		return UString.firstUpperCase(UString.snake_toCamelCase(tableName));
+	public String tableNameToJava(CgTableName tableName) {
+		return UString.firstUpperCase(UString.snake_toCamelCase(tableName.getTableName().get().trim()));
 	}
 
 	public String columnNameToJava(CgTableName tableName, String columnName
 	) {
-		return UString.snake_toCamelCase(columnName);
+
+		return UString.snake_toCamelCase(columnName.trim());
 	}
 
 
 	public TypeRef createTableTypeRef(CgTableName tableName) {
-		String catalog = tableName.getCatalogName().orElse(null);
-		String schema  = tableName.getSchemaName().orElse(null);
-		String table   = tableName.getTableName().orElse(null);
-		return TypeRef.create(
-			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema) + ".tables",
-			"T" + tableNameToJava(catalog, schema, table)
+
+		return TypeRef.create("tables",
+							  "T" + tableNameToJava(tableName)
 		);
 	}
 
 	public TypeRef createExprTypeRef(CgTableName tableName) {
-		String catalog = tableName.getCatalogName().orElse(null);
-		String schema  = tableName.getSchemaName().orElse(null);
-		String table   = tableName.getTableName().orElse(null);
-		return TypeRef.create(
-			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema) + ".expressions",
-			"E" + tableNameToJava(catalog, schema, table)
+
+		return TypeRef.create("expressions",
+							  "E" + tableNameToJava(tableName)
 		);
 	}
 
 	public TypeRef createValueTypeRef(CgTableName tableName) {
-		String catalog = tableName.getCatalogName().orElse(null);
-		String schema  = tableName.getSchemaName().orElse(null);
-		String table   = tableName.getTableName().orElse(null);
-		return TypeRef.create(
-			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema) + ".values",
-			tableNameToJava(catalog, schema, table)
+
+		return TypeRef.create("values",
+							  tableNameToJava(tableName)
 		);
 	}
 
 	public TypeRef createTypeFactoryTypeRef(CgTableName tableName) {
-		String catalog = tableName.getCatalogName().orElse(null);
-		String schema  = tableName.getSchemaName().orElse(null);
-		String table   = tableName.getTableName().orElse(null);
-		return TypeRef.create(
-			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema) + ".impl.typefactories",
-			tableNameToJava(catalog, schema, table) + "TypeFactory"
+
+		return TypeRef.create("impl.typefactories",
+							  tableNameToJava(tableName) + "TypeFactory"
 		);
 	}
 
 	public TypeRef createInsertTypeRef(CgTableName tableName) {
-		String catalog = tableName.getCatalogName().orElse(null);
-		String schema  = tableName.getSchemaName().orElse(null);
-		String table   = tableName.getTableName().orElse(null);
-		return TypeRef.create(
-			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema) + ".inserts",
-			"Insert" + tableNameToJava(catalog, schema, table)
+
+		return TypeRef.create("inserts",
+							  "Insert" + tableNameToJava(tableName)
 		);
+	}
+
+	public String tableNameToJavaInstanceName(CgTableName tableName) {
+		return UString.firstLowerCase(tableNameToJava(tableName));
 	}
 }

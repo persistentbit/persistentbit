@@ -28,7 +28,6 @@ public class GenericTypeFactories{
 		context.registerType(EDouble.class,EDoubleTypeFactory.class);
 		context.registerType(EBigDecimal.class,EBigDecimalTypeFactory.class);
 
-
 	}
 
 	static public void timeFactories(ExprContext context) {
