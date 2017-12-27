@@ -8,10 +8,5 @@ import com.persistentbit.collections.PByteList;
  * @author petermuys
  * @since 15/12/17
  */
-public interface EByteList extends DExpr<PByteList>{
-	EBool eq(DExpr<PByteList> other);
-	EBool notEq(DExpr<PByteList> other);
-
-	EBool isNull();
-	EBool isNotNull();
+public interface EByteList extends DExpr<PByteList>, EComparableMixIn<EByteList, PByteList>{
 }
