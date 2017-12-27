@@ -1,16 +1,18 @@
-package com.persistentbit.sql.dsl.newsystem;
+package com.persistentbit.sql.dsl.newsystem.codegen;
 
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PBitList;
+import com.persistentbit.collections.PByteList;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.javacodegen.JJavaFile;
-import com.persistentbit.sql.dsl.expressions.EBool;
-import com.persistentbit.sql.dsl.expressions.EDateTime;
-import com.persistentbit.sql.dsl.expressions.ELong;
-import com.persistentbit.sql.dsl.expressions.EString;
+import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.string.UString;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -29,9 +31,19 @@ public class CgContext{
 	public CgContext(String basePackage) {
 		this.basePackage = basePackage;
 		register(new SimpleTypeDef(EBool.class, Boolean.class));
+		register(new SimpleTypeDef(EByte.class, Byte.class));
+		register(new SimpleTypeDef(EInt.class, Integer.class));
+		register(new SimpleTypeDef(EShort.class, Short.class));
+		register(new SimpleTypeDef(ELong.class, Long.class));
+		register(new SimpleTypeDef(EFloat.class, Float.class));
+		register(new SimpleTypeDef(EDouble.class, Double.class));
+		register(new SimpleTypeDef(EBigDecimal.class, BigDecimal.class));
 		register(new SimpleTypeDef(EString.class, String.class));
 		register(new SimpleTypeDef(EDateTime.class, LocalDateTime.class));
-		register(new SimpleTypeDef(ELong.class, Long.class));
+		register(new SimpleTypeDef(EDate.class, LocalDate.class));
+		register(new SimpleTypeDef(ETime.class, LocalTime.class));
+		register(new SimpleTypeDef(EBitList.class, PBitList.class));
+		register(new SimpleTypeDef(EByteList.class, PByteList.class));
 
 	}
 
@@ -98,7 +110,7 @@ public class CgContext{
 		String table   = tableName.getTableName().orElse(null);
 		return TypeRef.create(
 			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema),
+				+ "." + schemaNameToJava(catalog, schema) + ".tables",
 			"T" + tableNameToJava(catalog, schema, table)
 		);
 	}
@@ -109,7 +121,7 @@ public class CgContext{
 		String table   = tableName.getTableName().orElse(null);
 		return TypeRef.create(
 			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema),
+				+ "." + schemaNameToJava(catalog, schema) + ".expressions",
 			"E" + tableNameToJava(catalog, schema, table)
 		);
 	}
@@ -120,7 +132,7 @@ public class CgContext{
 		String table   = tableName.getTableName().orElse(null);
 		return TypeRef.create(
 			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema),
+				+ "." + schemaNameToJava(catalog, schema) + ".values",
 			tableNameToJava(catalog, schema, table)
 		);
 	}
@@ -131,7 +143,7 @@ public class CgContext{
 		String table   = tableName.getTableName().orElse(null);
 		return TypeRef.create(
 			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema),
+				+ "." + schemaNameToJava(catalog, schema) + ".impl.typefactories",
 			tableNameToJava(catalog, schema, table) + "TypeFactory"
 		);
 	}
@@ -142,7 +154,7 @@ public class CgContext{
 		String table   = tableName.getTableName().orElse(null);
 		return TypeRef.create(
 			catalogNameToJava(catalog)
-				+ "." + schemaNameToJava(catalog, schema),
+				+ "." + schemaNameToJava(catalog, schema) + ".inserts",
 			"Insert" + tableNameToJava(catalog, schema, table)
 		);
 	}

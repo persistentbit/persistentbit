@@ -12,8 +12,8 @@
     <artifactId>persistent-sql-dsl-codegen</artifactId>
     <packaging>jar</packaging>
     <properties>
-        <!--<version.postgresql>42.1.4</version.postgresql>
-        <version.h2>1.4.193</version.h2>-->
+        <!--<version.postgresql>42.1.4</version.postgresql> -->
+        <version.h2>1.4.193</version.h2>
     </properties>
 
 
@@ -48,6 +48,18 @@
             <groupId>com.persistentbit</groupId>
             <artifactId>persistent-test</artifactId>
             <version>3.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.persistentbit</groupId>
+            <artifactId>persistent-sql-updater</artifactId>
+            <version>3.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${version.h2}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

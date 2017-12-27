@@ -13,6 +13,8 @@ import com.persistentbit.sql.dsl.statements.SqlStatement;
 import com.persistentbit.sql.dsl.statements.select.TypedSelection1;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP1;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP2;
+import com.persistentbit.sql.dsl.statements.work.DbWorkP3;
+import com.persistentbit.sql.dsl.statements.work.DbWorkP4;
 import com.persistentbit.sql.work.DbWork;
 
 import java.sql.PreparedStatement;
@@ -136,6 +138,24 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 	}
 
 	@Override
+	public <P1 extends DExpr<PJ1>, PJ1,
+		P2 extends DExpr<PJ2>, PJ2,
+		P3 extends DExpr<PJ3>, PJ3
+		> DbWorkP3<PJ1, PJ2, PJ3, PList<J1>> list(Param<P1> p1, Param<P2> p2, Param<P3> p3) {
+		return (arg1, arg2, arg3) -> buildList(PMap.val(p1.getName(), arg1, p2.getName(), arg2, p3.getName(), arg3));
+	}
+
+	@Override
+	public <P1 extends DExpr<PJ1>, PJ1,
+		P2 extends DExpr<PJ2>, PJ2,
+		P3 extends DExpr<PJ3>, PJ3,
+		P4 extends DExpr<PJ4>, PJ4
+		> DbWorkP4<PJ1, PJ2, PJ3, PJ4, PList<J1>> list(Param<P1> p1, Param<P2> p2, Param<P3> p3, Param<P4> p4) {
+		return (arg1, arg2, arg3, arg4) -> buildList(PMap.val(p1.getName(), arg1, p2.getName(), arg2, p3
+			.getName(), arg3, p4.getName(), arg4));
+	}
+
+	@Override
 	public <P1 extends DExpr<PJ1>, PJ1> DbWorkP1<PJ1, J1> one(Param<P1> p1) {
 		return arg1 -> buildOne(PMap.val(p1.getName(),arg1));
 	}
@@ -146,5 +166,18 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 		return (arg1,arg2) -> buildOne(PMap.val(p1.getName(),arg1,p2.getName(),arg2));
 	}
 
+	@Override
+	public <P1 extends DExpr<PJ1>, PJ1, P2 extends DExpr<PJ2>, PJ2, P3 extends DExpr<PJ3>, PJ3> DbWorkP3<PJ1, PJ2, PJ3, J1> one(
+		Param<P1> p1, Param<P2> p2, Param<P3> p3
+	) {
+		return (arg1, arg2, arg3) -> buildOne(PMap.val(p1.getName(), arg1, p2.getName(), arg2, p3.getName(), arg3));
+	}
 
+	@Override
+	public <P1 extends DExpr<PJ1>, PJ1, P2 extends DExpr<PJ2>, PJ2, P3 extends DExpr<PJ3>, PJ3, P4 extends DExpr<PJ4>, PJ4> DbWorkP4<PJ1, PJ2, PJ3, PJ4, J1> one(
+		Param<P1> p1, Param<P2> p2, Param<P3> p3, Param<P4> p4
+	) {
+		return (arg1, arg2, arg3, arg4) -> buildOne(PMap.val(p1.getName(), arg1, p2.getName(), arg2, p3
+			.getName(), arg3, p4.getName(), arg4));
+	}
 }

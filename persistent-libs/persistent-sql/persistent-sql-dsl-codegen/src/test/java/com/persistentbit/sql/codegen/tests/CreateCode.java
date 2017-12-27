@@ -3,7 +3,7 @@ package com.persistentbit.sql.codegen.tests;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.GeneratedJavaSource;
 import com.persistentbit.javacodegen.JJavaFile;
-import com.persistentbit.sql.dsl.newsystem.CgContext;
+import com.persistentbit.sql.dsl.newsystem.codegen.CgContext;
 
 import java.io.File;
 

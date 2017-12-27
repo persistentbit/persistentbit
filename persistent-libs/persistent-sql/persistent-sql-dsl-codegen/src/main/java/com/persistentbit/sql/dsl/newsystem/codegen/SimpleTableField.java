@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.newsystem;
+package com.persistentbit.sql.dsl.newsystem.codegen;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
@@ -106,6 +106,7 @@ public class SimpleTableField implements TableField{
 	public SimpleTableField withParent(StructTableField parent) {
 		return new SimpleTableField(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, isAutoGenKey, parent);
 	}
+
 	@Override
 	public String getJavaName(CgContext context) {
 		return context

@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.newsystem;
+package com.persistentbit.sql.dsl.newsystem.codegen;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PSet;
@@ -71,7 +71,8 @@ public class TableTypeDef implements TypeDef{
 		String packageName = getTableRef(context).getFullPackage(context);
 		JJavaFile jfTableClass = new JJavaFile(packageName)
 			.addClass(buildTableClass(context));
-		JJavaFile jfInsert = new JJavaFile(packageName)
+		String packageNameInsert = context.createInsertTypeRef(tableName).getFullPackage(context);
+		JJavaFile jfInsert = new JJavaFile(packageNameInsert)
 			.addClass(buildInsertClass(context));
 		return PList.val(jfTableClass, jfInsert)
 			.plusAll(new StructureTypeDef(tableName, fields).generate(context));
@@ -88,7 +89,7 @@ public class TableTypeDef implements TypeDef{
 	private String createPrimKeyEq(CgContext context, Function<String, String> rightInstance) {
 		String where = null;
 		for(SimpleTableField stf : getPrimKeys(context)) {
-			String exprCode  = stf.getExprCode(context);
+			String exprCode = stf.getExprCode(context);
 			String thisWhere = "this." + exprCode + ".eq(" + rightInstance.apply(
 				exprCode) + ")";
 			if(where == null) {
@@ -127,22 +128,29 @@ public class TableTypeDef implements TypeDef{
 		);
 		PStream<SimpleTableField> expandedFields = getExpandedFields(context);
 		PStream<SimpleTableField> primKeyFields  = getPrimKeys(context);
-		String                    selectByIdWorkClassName;
-		if(primKeyFields.isEmpty() == false) {
-			selectByIdWorkClassName = "DbWorkP" + primKeyFields.size();
-			cls = cls.addImport(DbWorkP1.class.getPackageName() + "." + selectByIdWorkClassName);
-			selectByIdWorkClassName +=
-				"<" + primKeyFields.map(tf -> tf.getJavaTypeRef(context).getClassName()).toString(", ") + "," + javaRef
-					.getClassName() + ">";
-		}
-		else {
-			selectByIdWorkClassName = DbWork.class.getSimpleName();
-		}
-		//ADD SELECTBYID
+		boolean                   hasPrimKey     = primKeyFields.isEmpty() == false;
 
-		cls = cls.addField(
-			new JField("_selectById", selectByIdWorkClassName)
-		);
+		String selectByIdWorkClassName = null;
+
+
+		if(hasPrimKey) {
+			if(primKeyFields.isEmpty() == false) {
+				selectByIdWorkClassName = "DbWorkP" + primKeyFields.size();
+				cls = cls.addImport(DbWorkP1.class.getPackageName() + "." + selectByIdWorkClassName);
+				selectByIdWorkClassName +=
+					"<" + primKeyFields.map(tf -> tf.getJavaTypeRef(context).getClassName())
+						.toString(", ") + "," + javaRef
+						.getClassName() + ">";
+			}
+			else {
+				selectByIdWorkClassName = DbWork.class.getSimpleName();
+			}
+			//ADD SELECTBYID
+
+			cls = cls.addField(
+				new JField("_selectById", selectByIdWorkClassName)
+			);
+		}
 
 		//ADD _ALL
 		cls = cls.addField(new JField("_all", exprRef.getClassName()));
@@ -168,27 +176,30 @@ public class TableTypeDef implements TypeDef{
 						String jn = tf.getJavaName(context);
 						pw.println("this." + jn + " = _all." + jn + ";");
 					}
-					pw.println("this._selectById = query(p -> q -> {");
-					pw.indent(pi -> {
+					if(hasPrimKey) {
+						pw.println("this._selectById = query(p -> q -> {");
+						pw.indent(pi -> {
 
-						String allParams = "";
-						for(SimpleTableField stf : primKeyFields) {
-							String expName   = stf.getTypeRef(context).getClassName();
-							String fieldName = stf.getJavaName(context);
-							pi.println("Param<" + expName + "> param" + fieldName + " = context.param(" + expName + ".class, " + esc(fieldName) + ");");
+							String allParams = "";
+							for(SimpleTableField stf : primKeyFields) {
+								String expName   = stf.getTypeRef(context).getClassName();
+								String fieldName = stf.getJavaName(context);
+								pi.println("Param<" + expName + "> param" + fieldName + " = context.param(" + expName + ".class, " + esc(fieldName) + ");");
 
-							if(allParams.isEmpty() == false) {
-								allParams += ", ";
+								if(allParams.isEmpty() == false) {
+									allParams += ", ";
+								}
+								allParams += "param" + fieldName;
 							}
-							allParams += "param" + fieldName;
-						}
-						pi.println("return q");
-						pi.println("\t.where(" + createPrimKeyEq(context, s -> "param" + s + ".getExpr()") + ")");
-						pi.println("\t.selection(all())");
-						pi.println("\t.one(" + allParams + ");");
-					});
+							pi.println("return q");
+							pi.println("\t.where(" + createPrimKeyEq(context, s -> "param" + s + ".getExpr()") + ")");
+							pi.println("\t.selection(all())");
+							pi.println("\t.one(" + allParams + ");");
+						});
 
-					pw.println("});");
+						pw.println("});");
+
+					}
 				})
 		).addImport(ExprContext.class);
 
@@ -331,29 +342,32 @@ public class TableTypeDef implements TypeDef{
 					pw.println("return new Update(context, this);");
 				})
 		);
+		if(hasPrimKey) {
+			cls = cls.addMethod(
+				new JMethod("update", DbWork.class.getSimpleName() + "<Integer>")
+					.addArg(new JArgument(javaRef.getClassName(), "value"))
+					.withAccessLevel(AccessLevel.Public)
+					.withCode(pw -> {
+						pw.println(exprRef.getClassName() + " e = val(value);");
+						pw.println("return update()");
+						pw.println("\t.set(all(), e)");
+						pw.println(".where(" + createPrimKeyEq(context, s -> "e." + s) + ");");
+					})
+			);
+			//CREATE select
+			cls = cls.addMethod(
+				new JMethod("selectById", DbWork.class.getSimpleName() + "<" + javaRef.getClassName() + ">")
+					.withAccessLevel(AccessLevel.Public)
+					.addArgs(primKeyFields.map(sf -> sf.createJavaField(context, false).asArgument()))
+					.withCode(pw -> {
+						pw.println("return _selectById.with(" +
+									   primKeyFields.map(sf -> sf.createJavaField(context, false).getName())
+										   .toString(", ")
+									   + ");");
+					})
+			);
 
-		cls = cls.addMethod(
-			new JMethod("update", DbWork.class.getSimpleName() + "<Integer>")
-				.addArg(new JArgument(javaRef.getClassName(), "value"))
-				.withAccessLevel(AccessLevel.Public)
-				.withCode(pw -> {
-					pw.println(exprRef.getClassName() + " e = val(value);");
-					pw.println("return update()");
-					pw.println("\t.set(all(), e)");
-					pw.println(".where(" + createPrimKeyEq(context, s -> "e." + s) + ");");
-				})
-		);
-		//CREATE select
-		cls = cls.addMethod(
-			new JMethod("selectById", DbWork.class.getSimpleName() + "<" + javaRef.getClassName() + ">")
-				.withAccessLevel(AccessLevel.Public)
-				.addArgs(primKeyFields.map(sf -> sf.createJavaField(context, false).asArgument()))
-				.withCode(pw -> {
-					pw.println("return _selectById.with(" +
-								   primKeyFields.map(sf -> sf.createJavaField(context, false).getName()).toString(", ")
-								   + ");");
-				})
-		);
+		}
 		//CREATE DELETE
 		cls = cls.addMethod(
 			new JMethod("delete", Delete.class.getSimpleName())
@@ -363,17 +377,19 @@ public class TableTypeDef implements TypeDef{
 				})
 				.addImport(Delete.class)
 		);
-
-		cls = cls.addMethod(
-			new JMethod("deleteById", DbWork.class.getSimpleName() + "<Integer>")
-				.withAccessLevel(AccessLevel.Public)
-				.addArgs(primKeyFields.map(sf -> sf.createJavaField(context, false).asArgument()))
-				.withCode(pw -> {
-					pw.println("return delete()");
-					pw.println("\t.where(" + createPrimKeyEq(context, s -> s) + ");");
-				})
-		);
+		if(hasPrimKey) {
+			cls = cls.addMethod(
+				new JMethod("deleteById", DbWork.class.getSimpleName() + "<Integer>")
+					.withAccessLevel(AccessLevel.Public)
+					.addArgs(primKeyFields.map(sf -> sf.createJavaField(context, false).asArgument()))
+					.withCode(pw -> {
+						pw.println("return delete()");
+						pw.println("\t.where(" + createPrimKeyEq(context, s -> s) + ");");
+					})
+			);
+		}
 		return cls;
+
 	}
 
 	private JClass buildInsertClass(CgContext context) {

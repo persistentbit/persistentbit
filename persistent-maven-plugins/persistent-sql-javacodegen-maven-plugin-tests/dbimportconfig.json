@@ -9,7 +9,7 @@
         "password": "sa"
       },
       */
-      "javaDbName" : "DbInvoices",
+      "javaDbName": "GoatData",
       "connector": {
         "driverClass": "org.postgresql.Driver",
         "url": "jdbc:postgresql://localhost:5432/persistenttest?currentSchema=persistenttest",

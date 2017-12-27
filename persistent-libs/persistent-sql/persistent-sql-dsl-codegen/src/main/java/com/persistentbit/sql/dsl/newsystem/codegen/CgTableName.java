@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.newsystem;
+package com.persistentbit.sql.dsl.newsystem.codegen;
 
 import com.persistentbit.code.annotations.Nullable;
 

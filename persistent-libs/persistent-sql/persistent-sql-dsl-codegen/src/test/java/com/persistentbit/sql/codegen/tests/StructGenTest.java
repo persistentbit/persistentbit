@@ -4,7 +4,7 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JJavaFile;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.sql.dsl.expressions.EString;
-import com.persistentbit.sql.dsl.newsystem.*;
+import com.persistentbit.sql.dsl.newsystem.codegen.*;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
 import com.persistentbit.utils.Lazy;

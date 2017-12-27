@@ -6,7 +6,7 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.sql.dsl.expressions.EDateTime;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
-import com.persistentbit.sql.dsl.newsystem.*;
+import com.persistentbit.sql.dsl.newsystem.codegen.*;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
 import com.persistentbit.utils.Lazy;
