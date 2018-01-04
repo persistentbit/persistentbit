@@ -63,22 +63,18 @@ public class TPersons extends AbstractTable<EPersons, Persons>{
 	public TPersons(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<? extends Table<EPersons, Persons>> getTypeClass() {
 		return this.getClass();
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TPersons as(String aliasName) {
 		return new TPersons(context, aliasName);
 	}
-
 	@Override
 	public EPersons all() {
 		return _all;

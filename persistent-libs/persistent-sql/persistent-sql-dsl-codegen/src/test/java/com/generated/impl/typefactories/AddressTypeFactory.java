@@ -26,12 +26,10 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 				, (EString) iter.next()
 			);
 		}
-
 		@Override
 		public ExprTypeFactory<EAddress, Address> getTypeFactory() {
 			return AddressTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EAddress[" + street + postalCode + city + "]";
@@ -41,7 +39,6 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 	public AddressTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EAddress, Address>> buildFields() {
 		return PList.val(
@@ -50,7 +47,6 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 			, createField(EString.class, "city", "city", v -> v.getCity(), v -> v.city)
 		);
 	}
-
 	@Override
 	protected Address buildValue(Object[] fieldValues) {
 		return new Address(
@@ -59,12 +55,10 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 			, (String) fieldValues[2]
 		);
 	}
-
 	@Override
 	protected EAddressImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EAddressImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<? extends DExpr<Address>> getTypeClass() {
 		return EAddress.class;

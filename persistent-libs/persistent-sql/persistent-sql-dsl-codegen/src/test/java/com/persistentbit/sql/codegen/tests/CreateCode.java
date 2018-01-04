@@ -3,7 +3,7 @@ package com.persistentbit.sql.codegen.tests;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.GeneratedJavaSource;
 import com.persistentbit.javacodegen.JJavaFile;
-import com.persistentbit.sql.dsl.newsystem.codegen.CgContext;
+import com.persistentbit.sql.dsl.codegen.importer.CgContext;
 
 import java.io.File;
 
@@ -23,7 +23,7 @@ public class CreateCode{
 		}
 		System.out.println(root.getAbsolutePath());
 
-		PList<JJavaFile> files = context.generateAll();
+		PList<JJavaFile> files = context.generateAll().orElseThrow();
 		for(GeneratedJavaSource jsource : files.map(f -> f.toJavaSource())) {
 			System.out.println(jsource.getFullClassName());
 			jsource.writeSource(root.toPath());

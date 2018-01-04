@@ -1,20 +1,16 @@
 package com.persistentbit.sql.dsl.codegen.config;
 
-import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PSet;
-import com.persistentbit.collections.UPStreams;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
-import com.persistentbit.sql.dsl.codegen.DbJavaGenOptions;
-import com.persistentbit.sql.dsl.codegen.DbNameTransformer;
-import com.persistentbit.sql.dsl.codegen.JavaGenTableSelection;
+import com.persistentbit.sql.dsl.codegen.importer.DbNameTransformer;
+import com.persistentbit.sql.dsl.codegen.importer.JavaGenTableSelection;
 import com.persistentbit.sql.meta.data.DbMetaCatalog;
 import com.persistentbit.sql.meta.data.DbMetaColumn;
 import com.persistentbit.sql.meta.data.DbMetaSchema;
 import com.persistentbit.sql.meta.data.DbMetaTable;
 import com.persistentbit.sql.transactions.DbTransaction;
 
-import java.io.File;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -28,37 +24,6 @@ import java.util.function.Supplier;
  * @since 11/12/17
  */
 public class DbCodeGenConfigLoader{
-
-	static public Result<PList<DbJavaGenOptions>> load(DbCodeGenConfig config){
-		return Result.function(config).code(log -> {
-			return UPStreams.fromSequence(
-				config.getInstances().map(instance -> createJavaGenOptions(instance))
-			).map(s -> s.plist());
-		});
-	}
-	static public Result<DbJavaGenOptions> createJavaGenOptions(Instance instance){
-		return Result.function(instance).code(log ->
-			createTransSup(instance.getConnector())
-				.flatMap(transSup ->
-					createNameTransformer(instance)
-					.flatMap(nameTrans ->
-						createTableSelection(transSup,instance)
-						.map(tableSel ->
-							DbJavaGenOptions.build(b -> b
-								.setTransSupplier(transSup)
-								.setFullDbSupport(instance.getCodeGen().getGeneric() == false)
-								.setNameTransformer(nameTrans)
-								.setOutputDirectory(new File(instance.getCodeGen().getOutputDir()))
-								.setRootPackage(instance.getCodeGen().getRootPackage())
-								.setSelection(tableSel)
-								.setDbJavaName(instance.getJavaDbName())
-							)
-						)
-					)
-				)
-
-		);
-	}
 
 	static public Result<Supplier<DbTransaction>> createTransSup(Connector con){
 		return Result.function(con).code(log ->

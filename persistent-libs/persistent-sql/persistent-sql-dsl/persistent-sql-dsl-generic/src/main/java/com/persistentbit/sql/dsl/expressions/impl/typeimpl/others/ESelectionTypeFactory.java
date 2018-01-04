@@ -36,7 +36,7 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 	}
 
 	@Override
-	public ESelection<J> buildCall(String callName, DExpr[] params) {
+	public ESelection<J> buildCall(String callName, Object... params) {
 		throw new ToDo();
 	}
 

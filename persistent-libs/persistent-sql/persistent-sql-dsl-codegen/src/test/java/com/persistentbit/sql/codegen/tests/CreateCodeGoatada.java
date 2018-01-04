@@ -7,12 +7,8 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
-import com.persistentbit.sql.dsl.codegen.DbImportSettings;
-import com.persistentbit.sql.dsl.codegen.DbNameTransformer;
-import com.persistentbit.sql.dsl.codegen.JavaGenTableSelection;
 import com.persistentbit.sql.dsl.codegen.config.*;
-import com.persistentbit.sql.dsl.newsystem.codegen.CgContext;
-import com.persistentbit.sql.dsl.newsystem.dbimport.GenericDbImporterService;
+import com.persistentbit.sql.dsl.codegen.importer.*;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbScriptRunner;
 import com.persistentbit.sql.updater.SqlSnippets;
@@ -75,12 +71,12 @@ public class CreateCodeGoatada{
 			.createTableSelection(newTrans, instance).orElseThrow();
 		DbNameTransformer nameTransformer = DbCodeGenConfigLoader.createNameTransformer(instance).orElseThrow();
 		DbImportSettings importSettings =
-			new DbImportSettings(tableSelection, nameTransformer, newTrans, instance.getCodeGen().getRootPackage());
-		GenericDbImporterService importer = new GenericDbImporterService(importSettings);
-		Result<CgContext>        context  = importer.importDb();
+			new DbImportSettings(instance, tableSelection, newTrans);
+		GenericDbImporter importer = new GenericDbImporter(importSettings);
+		Result<CgContext> context  = importer.importDb();
 		ModuleLogging.consoleLogPrint.print(context.getLog());
 		System.out.println("Got context: " + context);
-		PList<JJavaFile> files = context.orElseThrow().generateAll();
+		PList<JJavaFile> files = context.orElseThrow().generateAll().orElseThrow();
 		System.out.println("Got files: " + files);
 		//files.forEach(f -> System.out.println(f.print().printToString()));
 		for(GeneratedJavaSource jsource : files.map(f -> f.toJavaSource())) {

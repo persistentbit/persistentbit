@@ -6,10 +6,12 @@ import com.generated.impl.typefactories.AddressTypeFactory;
 import com.generated.tables.TPersons;
 import com.generated.values.Address;
 import com.generated.values.Persons;
+import com.persistentbit.collections.PByteList;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers.*;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EBoolTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EByteListTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EStringTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTimeTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTypeFactory;
@@ -32,6 +34,10 @@ public class Db{
 
 	public static EShort val(Short value) {
 		return _context.getTypeFactory(EShort.class).buildVal(value);
+	}
+
+	public static EByteList val(PByteList value) {
+		return _context.getTypeFactory(EByteList.class).buildVal(value);
 	}
 
 	public static EAddress val(Address value) {
@@ -85,6 +91,7 @@ public class Db{
 	static {
 		_context.registerType(EFloat.class, EFloatTypeFactory.class);
 		_context.registerType(EShort.class, EShortTypeFactory.class);
+		_context.registerType(EByteList.class, EByteListTypeFactory.class);
 		_context.registerType(EAddress.class, AddressTypeFactory.class);
 		_context.registerType(EByte.class, EByteTypeFactory.class);
 		_context.registerType(EBool.class, EBoolTypeFactory.class);

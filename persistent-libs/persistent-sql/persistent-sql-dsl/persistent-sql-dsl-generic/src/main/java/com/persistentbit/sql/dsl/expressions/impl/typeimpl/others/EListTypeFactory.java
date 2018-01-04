@@ -42,7 +42,7 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 	}
 
 	@Override
-	public EList buildCall(String callName, DExpr[] params) {
+	public EList buildCall(String callName, Object... params) {
 		throw new ToDo();
 	}
 

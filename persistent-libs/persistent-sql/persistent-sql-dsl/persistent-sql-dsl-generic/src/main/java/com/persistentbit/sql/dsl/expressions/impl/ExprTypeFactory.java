@@ -17,7 +17,8 @@ import java.util.function.Function;
 public interface ExprTypeFactory<E extends DExpr<J>,J> {
 	<V extends J> E buildVal(V value);
 	E buildParam(Function<PMap<String, Object>, Object> paramGetter);
-	E buildCall(String callName, DExpr[] params);
+
+	E buildCall(String callName, Object... exprOrStringParams);
 	E buildAlias(String alias);
 	E buildBinOp(DExpr left, BinOpOperator op, DExpr right);
 	E buildSingleOp(DExpr expr, SingleOpOperator op);

@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
 
+import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
@@ -11,6 +12,9 @@ import com.persistentbit.sql.work.DbWork;
 import java.sql.Connection;
 import java.util.function.Supplier;
 
+import static com.mycompany.db.generated.GoatData.authApp;
+import static com.mycompany.db.generated.GoatData.authUser;
+import static com.persistentbit.sql.dsl.postgres.rt.DbPostgres.upper;
 
 
 /**
@@ -48,6 +52,40 @@ public class Main{
 
 
 	public static void main(String[] args) {
+		ModuleLogging.consoleLogPrint.registerAsGlobalHandler();
+
+		Result<OK> result = transSupplier
+			.flatMap(transSup ->
+						 rebuildDb().run(transSup.get())
+			);
+		result.orElseThrow();
+		Supplier<DbTransaction> newTrans = () -> transSupplier.map(Supplier::get).orElseThrow();
+
+		Long idPersistentBit = authApp
+			.insert()
+			.add(null, "persistentbit", "pw", true, true, 3)
+			.run(newTrans.get()).orElseThrow().head().getAutoGenKey();
+		Long idcvcity = authApp.insert()
+			.add(null, "cvcity", "cvcitypw", false, true, 5)
+			.run(newTrans.get())
+			.orElseThrow()
+			.head().getAutoGenKey();
+
+		Long idPeter = authUser.insert()
+			.add(null, idPersistentBit, "petermuys", "pwpetermuys", null, null, null, null, null, null, null, null
+			)
+			.run(newTrans.get()).orElseThrow().head().getAutoGenKey();
+
+
+		authApp.query()
+			.leftJoin(authUser).on(authUser.authAppId.eq(idPersistentBit))
+			.selection(upper(authApp.name), authApp.all(), authUser.all())
+			.list()
+			.run(newTrans.get())
+			.orElseThrow()
+			.forEach(System.out::println);
+
+
 		/*
 		ModuleLogging.consoleLogPrint.registerAsGlobalHandler();
 
@@ -106,7 +144,7 @@ public class Main{
 		DSelectionTable<Tuple2<APerson,Company>> subSelPC      = persAndCompSel.asTableExpr("pc");
 		ETuple2<APerson,Company>                 subSelPCTuple = ETuple2.cast(subSelPC.all());
 
-		TAPerson  subSelPerson  = TAPerson.cast(subSelPCTuple.v1());
+		TAPerson subSelPerson  = TAPerson.cast(subSelPCTuple.v1());
 		TCompany subSelCompany = TCompany.cast(subSelPCTuple.v2());
 
 		invoice.query()
@@ -174,7 +212,7 @@ public class Main{
 			 //.setABit40(PBitList.val(true,false,true))
 			 //.setABitVarying(PBitList.val(true,true,true,false,false,false))
 			.setABoolean(true)
-			.setABytea(PByteList.val((byte)0,(byte)1,(byte)2,(byte)3,(byte)4))
+			.setABytea(PByteList.val((byte)0, (byte)1, (byte)2, (byte)3, (byte)4))
 			.setAChar("@")
 			.setAChar10("char10")
 			.setADate(LocalDate.now())

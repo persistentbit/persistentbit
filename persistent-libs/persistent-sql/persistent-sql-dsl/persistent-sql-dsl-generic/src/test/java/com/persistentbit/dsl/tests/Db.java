@@ -15,20 +15,17 @@ import java.util.function.Function;
  */
 public class Db{
 
-	static private final ExprContext context = new ExprContext();
+	static private final ExprContext context = createExprContext();
 	static public final  TPerson     person  = new TPerson(context);
 	static public final  TTag        tags    = new TTag(context);
 
-	static {
+	static private ExprContext createExprContext() {
+		ExprContext _context = new ExprContext();
+		_context.registerType(EPerson.class, PersonTypeFactory.class);
+		_context.registerType(ETag.class, TagTypeFactory.class);
+		_context.registerType(EAddress.class, AddressTypeFactory.class);
 
-		context.registerType(EPerson.class, PersonTypeFactory.class);
-		context.registerType(ETag.class, TagTypeFactory.class);
-		context.registerType(EAddress.class, AddressTypeFactory.class);
-
-		context.addTable(person);
-
-		context.addTable(tags);
-
+		return _context;
 	}
 
 
@@ -50,7 +47,7 @@ public class Db{
 	}
 
 	static public <E1 extends DExpr<J1>, J1, E2 extends DExpr<J2>, J2> ETuple2<E1, J1, E2, J2> tupleOf(E1 e1, E2 e2) {
-		return context.of(e1, e2);
+		return context.tuple(e1, e2);
 	}
 
 	static public <E1 extends DExpr<J>, J> Param<E1> param(String name, Class<E1> cls) {

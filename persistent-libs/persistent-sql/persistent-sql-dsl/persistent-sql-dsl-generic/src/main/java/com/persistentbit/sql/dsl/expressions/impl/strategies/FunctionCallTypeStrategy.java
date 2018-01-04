@@ -11,13 +11,14 @@ import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
  * @since 21/12/17
  */
 public class FunctionCallTypeStrategy<J> extends AbstractTypeStrategy<J>{
-	private final String callName;
-	private final DExpr[] arguments;
+	private final String   callName;
+	private final Object[] arguments;
 
 	public FunctionCallTypeStrategy(Class<? extends DExpr<J>> typeClass,
 									ExprTypeFactory exprTypeFactory,
 									String callName,
-									DExpr[] arguments) {
+									Object... arguments
+	) {
 		super(typeClass, exprTypeFactory);
 		this.callName = callName;
 		this.arguments = arguments;
@@ -25,14 +26,25 @@ public class FunctionCallTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 	@Override
 	public SqlWithParams _toSql() {
-		SqlWithParams sql = SqlWithParams.sql(callName + "(");
-		boolean first = true;
-		for(DExpr expr : arguments){
-			if(first == false){
-				sql = sql.add(", ");
+		SqlWithParams sql        = SqlWithParams.sql(callName + "(");
+		boolean       first      = true;
+		boolean       prevString = false;
+		for(Object obj : arguments) {
+			DExpr expr = obj instanceof DExpr ? (DExpr) obj : null;
+			if(expr == null) {
+				//use it as a string
+				sql = sql.add(obj.toString());
+				prevString = true;
 			}
-			first = false;
-			sql = sql.add(getExprContext().toSql(expr));
+			else {
+				if(first == false && prevString == false) {
+					sql = sql.add(", ");
+				}
+				first = false;
+				prevString = false;
+				sql = sql.add(getExprContext().toSql(expr));
+			}
+
 		}
 		return sql.add(")");
 	}

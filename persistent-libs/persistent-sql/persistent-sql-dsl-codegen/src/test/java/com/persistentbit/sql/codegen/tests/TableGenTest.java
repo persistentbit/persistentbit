@@ -3,10 +3,13 @@ package com.persistentbit.sql.codegen.tests;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JJavaFile;
 import com.persistentbit.logging.ModuleLogging;
+import com.persistentbit.sql.dsl.codegen.config.CodeGen;
+import com.persistentbit.sql.dsl.codegen.config.Connector;
+import com.persistentbit.sql.dsl.codegen.config.Instance;
+import com.persistentbit.sql.dsl.codegen.importer.*;
 import com.persistentbit.sql.dsl.expressions.EDateTime;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
-import com.persistentbit.sql.dsl.newsystem.codegen.*;
 import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
 import com.persistentbit.utils.Lazy;
@@ -67,7 +70,8 @@ public class TableGenTest{
 
 
 	static public final Lazy<CgContext> cgContext = Lazy.code(() -> {
-		CgContext c = new CgContext("com.generated");
+		CgContext c =
+			new CgContext(new Instance(new Connector("", ""), PList.empty(), new CodeGen("", true, "com.generated")));
 		c.register(personTable.get());
 		c.register(StructGenTest.addressStruct.get());
 		return c;
@@ -76,7 +80,7 @@ public class TableGenTest{
 
 	static final TestCase testStructGen = TestCase.name("StructGen").code(tr -> {
 		CgContext        context = cgContext.get();
-		PList<JJavaFile> files   = context.generateAll();
+		PList<JJavaFile> files   = context.generateAll().orElseThrow();
 		for(JJavaFile jf : files) {
 			System.out.println(jf.print().printToString());
 		}

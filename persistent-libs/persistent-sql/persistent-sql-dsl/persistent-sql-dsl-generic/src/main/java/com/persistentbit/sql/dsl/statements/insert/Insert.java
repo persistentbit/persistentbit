@@ -86,10 +86,11 @@ public abstract class Insert<T extends Table, AUTOGENKEY> implements DbWork<PLis
 					boolean  isFirst         = true;
 					int      autoGenKeyIndex = -1;
 					for(int t = 0; t < row.length; t++) {
-						if(row[t] != null) {
-							String  name      = columnNames.get(t);
-							boolean isAutoGen = autoGenKeyName != null && autoGenKeyName.equals(true);
-							if(isAutoGen == false) {
+
+						String  name      = columnNames.get(t);
+						boolean isAutoGen = autoGenKeyName != null && autoGenKeyName.equals(name);
+						if(isAutoGen == false) {
+							if(row[t] != null) {
 								if(isFirst == false) {
 									names += ", ";
 									values += ", ";
@@ -99,16 +100,17 @@ public abstract class Insert<T extends Table, AUTOGENKEY> implements DbWork<PLis
 								names += name;
 								values += "?";
 							}
-							else {
-								autoGenKeyIndex = t;
-							}
 						}
+						else {
+							autoGenKeyIndex = t;
+						}
+
 					}
 
-					int      index = 1;
+					int index = 1;
 					sql = sql + names + ") VALUES (" + values + ")";
 					log.info("Insert: " + sql + " values " + row);
-					try(PreparedStatement stat = con.prepareStatement(sql)) {
+					try(PreparedStatement stat = con.prepareStatement(sql, statType)) {
 						for(int c = 0; c < row.length; c++) {
 							if(row[c] != null && c != autoGenKeyIndex) {
 								ExprTypeJdbcConvert jdbcConvert = jdbcConverters.get().get(c);

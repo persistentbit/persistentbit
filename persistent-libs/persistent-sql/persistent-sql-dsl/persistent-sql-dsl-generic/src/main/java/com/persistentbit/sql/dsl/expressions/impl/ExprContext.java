@@ -6,7 +6,9 @@ import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.ESelectionTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.Tuple2TypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.*;
+import com.persistentbit.sql.dsl.genericdb.GenericBinOps;
+import com.persistentbit.sql.dsl.genericdb.GenericTypeFactories;
 import com.persistentbit.sql.dsl.statements.select.impl.TypedSelection1Impl;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableImpl;
@@ -65,7 +67,7 @@ public class ExprContext{
 
 	public ExprContext() {
 		GenericTypeFactories.registerAll(this);
-		setDefaultBinOpBuilders();
+		GenericBinOps.setDefaultBinOpBuilders(this);
 	}
 
 	public ExprContext setDefaultCatalogName(String defaultCatalogName) {
@@ -78,42 +80,7 @@ public class ExprContext{
 		return this;
 	}
 
-	public void setDefaultBinOpBuilders() {
-		addBinOpBuilder(BinOpOperator.opEq,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add("=").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opNotEq,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add("<>").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opGt,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add(">").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opGtEq,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add(">=").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opLt,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add("<").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opLtEq,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add("<=").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opAnd,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add(" AND ").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opOr,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add(" OR ").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opLike,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add(" LIKE ").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opConcat,(left,sqlLeft,right,sqlRight)->
-			sqlLeft.add(" || ").add(sqlRight)
-		);
-		addBinOpBuilder(BinOpOperator.opAssign, (left, sqlLeft, right, sqlRight) ->
-			sqlLeft.add(" = ").add(sqlRight)
-		);
 
-	}
 
 	public  <EALL extends DExpr<J>,J> ExprContext addTable(TableImpl<EALL,J> tableImpl){
 		tables.put(tableImpl.getTypeClass(),tableImpl);
@@ -305,12 +272,75 @@ public class ExprContext{
 	}
 
 	public <
-			   E1 extends DExpr<J1>, J1,
-			   E2 extends DExpr<J2>, J2
-			   >
-	ETuple2<E1,J1,E2,J2> of(E1 e1, E2 e2){
+		E1 extends DExpr<J1>, J1,
+		E2 extends DExpr<J2>, J2
+		>
+	ETuple2<E1, J1, E2, J2> tuple(E1 e1, E2 e2) {
 		Tuple2TypeFactory tf = (Tuple2TypeFactory)getTypeFactory(ETuple2.class);
 		return tf.of(e1,e2);
+	}
+
+	public <
+		E1 extends DExpr<J1>, J1
+		, E2 extends DExpr<J2>, J2
+		, E3 extends DExpr<J3>, J3
+		>
+	ETuple3<E1, J1, E2, J2, E3, J3> tuple(E1 e1, E2 e2, E3 e3) {
+		Tuple3TypeFactory tf = (Tuple3TypeFactory) getTypeFactory(ETuple3.class);
+		return tf.of(e1, e2, e3);
+	}
+
+	public <
+		E1 extends DExpr<J1>, J1
+		, E2 extends DExpr<J2>, J2
+		, E3 extends DExpr<J3>, J3
+		, E4 extends DExpr<J4>, J4
+		>
+	ETuple4<E1, J1, E2, J2, E3, J3, E4, J4> tuple(E1 e1, E2 e2, E3 e3, E4 e4) {
+		Tuple4TypeFactory tf = (Tuple4TypeFactory) getTypeFactory(ETuple4.class);
+		return tf.of(e1, e2, e3, e4);
+	}
+
+	public <
+		E1 extends DExpr<J1>, J1
+		, E2 extends DExpr<J2>, J2
+		, E3 extends DExpr<J3>, J3
+		, E4 extends DExpr<J4>, J4
+		, E5 extends DExpr<J5>, J5
+		>
+	ETuple5<E1, J1, E2, J2, E3, J3, E4, J4, E5, J5> tuple(E1 e1, E2 e2, E3 e3, E4 e4, E5 e5) {
+		Tuple5TypeFactory tf = (Tuple5TypeFactory) getTypeFactory(ETuple5.class);
+		return tf.of(e1, e2, e3, e4, e5);
+	}
+
+	public <
+		E1 extends DExpr<J1>, J1
+		, E2 extends DExpr<J2>, J2
+		, E3 extends DExpr<J3>, J3
+		, E4 extends DExpr<J4>, J4
+		, E5 extends DExpr<J5>, J5
+		, E6 extends DExpr<J6>, J6
+		>
+	ETuple6<E1, J1, E2, J2, E3, J3, E4, J4, E5, J5, E6, J6> tuple(E1 e1, E2 e2, E3 e3, E4 e4, E5 e5, E6 e6) {
+		Tuple6TypeFactory tf = (Tuple6TypeFactory) getTypeFactory(ETuple6.class);
+		return tf.of(e1, e2, e3, e4, e5, e6);
+	}
+
+	public <
+		E1 extends DExpr<J1>, J1
+		, E2 extends DExpr<J2>, J2
+		, E3 extends DExpr<J3>, J3
+		, E4 extends DExpr<J4>, J4
+		, E5 extends DExpr<J5>, J5
+		, E6 extends DExpr<J6>, J6
+		, E7 extends DExpr<J7>, J7
+
+		>
+	ETuple7<E1, J1, E2, J2, E3, J3, E4, J4, E5, J5, E6, J6, E7, J7> tuple(E1 e1, E2 e2, E3 e3, E4 e4, E5 e5, E6 e6,
+																		  E7 e7
+	) {
+		Tuple7TypeFactory tf = (Tuple7TypeFactory) getTypeFactory(ETuple7.class);
+		return tf.of(e1, e2, e3, e4, e5, e6, e7);
 	}
 
 	public ExprTypeJdbcConvert	getJdbcConverter(DExpr expr){

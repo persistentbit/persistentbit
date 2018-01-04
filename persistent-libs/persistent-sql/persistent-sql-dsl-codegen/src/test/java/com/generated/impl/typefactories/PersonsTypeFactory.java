@@ -34,12 +34,10 @@ public class PersonsTypeFactory extends AbstractStructureTypeFactory<EPersons, P
 				, (EDateTime) iter.next()
 			);
 		}
-
 		@Override
 		public ExprTypeFactory<EPersons, Persons> getTypeFactory() {
 			return PersonsTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EPersons[" + personId + firstName + middleName + lastName + home + created + "]";
@@ -49,7 +47,6 @@ public class PersonsTypeFactory extends AbstractStructureTypeFactory<EPersons, P
 	public PersonsTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EPersons, Persons>> buildFields() {
 		return PList.val(
@@ -62,7 +59,6 @@ public class PersonsTypeFactory extends AbstractStructureTypeFactory<EPersons, P
 			, createField(EDateTime.class, "created", "created", v -> v.getCreated(), v -> v.created)
 		);
 	}
-
 	@Override
 	protected Persons buildValue(Object[] fieldValues) {
 		return new Persons(
@@ -74,12 +70,10 @@ public class PersonsTypeFactory extends AbstractStructureTypeFactory<EPersons, P
 			, (LocalDateTime) fieldValues[5]
 		);
 	}
-
 	@Override
 	protected EPersonsImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EPersonsImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<? extends DExpr<Persons>> getTypeClass() {
 		return EPersons.class;

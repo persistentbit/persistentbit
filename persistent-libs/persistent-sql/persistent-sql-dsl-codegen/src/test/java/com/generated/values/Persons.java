@@ -22,8 +22,8 @@ public class Persons{
 	private final String        lastName;
 	private final Address       home;
 	private final LocalDateTime created;
-
-
+	
+	
 	@Generated
 	public Persons(long personId, String firstName, @Nullable String middleName, String lastName, Address home,
 				   LocalDateTime created
@@ -35,12 +35,10 @@ public class Persons{
 		this.home = Objects.requireNonNull(home, "home can not be null");
 		this.created = Objects.requireNonNull(created, "created can not be null");
 	}
-
 	@Generated
 	public Persons(long personId, String firstName, String lastName, Address home, LocalDateTime created) {
 		this(personId, firstName, null, lastName, home, created);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5>{
@@ -83,139 +81,108 @@ public class Persons{
 			return (Builder<_T1, _T2, _T3, _T4, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #personId}.<br>
-	 *
 	 * @return {@link #personId}
 	 */
 	@Generated
 	public long getPersonId() {
 		return this.personId;
 	}
-
 	/**
 	 * Create a copy of this Persons object with a new value for field {@link #personId}.<br>
-	 *
 	 * @param personId The new value for field {@link #personId}
-	 *
 	 * @return A new instance of {@link Persons}
 	 */
 	@Generated
 	public Persons withPersonId(long personId) {
 		return new Persons(personId, firstName, middleName, lastName, home, created);
 	}
-
 	/**
 	 * Get the value of field {@link #firstName}.<br>
-	 *
 	 * @return {@link #firstName}
 	 */
 	@Generated
 	public String getFirstName() {
 		return this.firstName;
 	}
-
 	/**
 	 * Create a copy of this Persons object with a new value for field {@link #firstName}.<br>
-	 *
 	 * @param firstName The new value for field {@link #firstName}
-	 *
 	 * @return A new instance of {@link Persons}
 	 */
 	@Generated
 	public Persons withFirstName(String firstName) {
 		return new Persons(personId, firstName, middleName, lastName, home, created);
 	}
-
 	/**
 	 * Get the value of field {@link #middleName}.<br>
-	 *
 	 * @return {@link #middleName}
 	 */
 	@Generated
 	public Optional<String> getMiddleName() {
 		return Optional.ofNullable(this.middleName);
 	}
-
 	/**
 	 * Create a copy of this Persons object with a new value for field {@link #middleName}.<br>
-	 *
 	 * @param middleName The new value for field {@link #middleName}
-	 *
 	 * @return A new instance of {@link Persons}
 	 */
 	@Generated
 	public Persons withMiddleName(@Nullable String middleName) {
 		return new Persons(personId, firstName, middleName, lastName, home, created);
 	}
-
 	/**
 	 * Get the value of field {@link #lastName}.<br>
-	 *
 	 * @return {@link #lastName}
 	 */
 	@Generated
 	public String getLastName() {
 		return this.lastName;
 	}
-
 	/**
 	 * Create a copy of this Persons object with a new value for field {@link #lastName}.<br>
-	 *
 	 * @param lastName The new value for field {@link #lastName}
-	 *
 	 * @return A new instance of {@link Persons}
 	 */
 	@Generated
 	public Persons withLastName(String lastName) {
 		return new Persons(personId, firstName, middleName, lastName, home, created);
 	}
-
 	/**
 	 * Get the value of field {@link #home}.<br>
-	 *
 	 * @return {@link #home}
 	 */
 	@Generated
 	public Address getHome() {
 		return this.home;
 	}
-
 	/**
 	 * Create a copy of this Persons object with a new value for field {@link #home}.<br>
-	 *
 	 * @param home The new value for field {@link #home}
-	 *
 	 * @return A new instance of {@link Persons}
 	 */
 	@Generated
 	public Persons withHome(Address home) {
 		return new Persons(personId, firstName, middleName, lastName, home, created);
 	}
-
 	/**
 	 * Get the value of field {@link #created}.<br>
-	 *
 	 * @return {@link #created}
 	 */
 	@Generated
 	public LocalDateTime getCreated() {
 		return this.created;
 	}
-
 	/**
 	 * Create a copy of this Persons object with a new value for field {@link #created}.<br>
-	 *
 	 * @param created The new value for field {@link #created}
-	 *
 	 * @return A new instance of {@link Persons}
 	 */
 	@Generated
 	public Persons withCreated(LocalDateTime created) {
 		return new Persons(personId, firstName, middleName, lastName, home, created);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -230,7 +197,6 @@ public class Persons{
 		if(!created.equals(obj.created)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -243,7 +209,6 @@ public class Persons{
 		result = 31 * result + (this.created != null ? this.created.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -256,10 +221,9 @@ public class Persons{
 			", lastName=" + (lastName == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(lastName), 32, "...") + '\"') +
 			", home=" + home +
-			", created=" + created +
+			", created=" + created + 
 			']';
 	}
-
 	@Generated
 	public Persons updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -272,7 +236,6 @@ public class Persons{
 		b = updater.apply(b);
 		return new Persons(b.personId, b.firstName, b.middleName, b.lastName, b.home, b.created);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Persons build(
@@ -281,7 +244,6 @@ public class Persons{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Persons(b.personId, b.firstName, b.middleName, b.lastName, b.home, b.created);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<Persons> buildExc(

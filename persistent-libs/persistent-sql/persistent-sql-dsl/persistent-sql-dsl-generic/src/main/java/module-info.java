@@ -11,8 +11,6 @@ module persistent.sql.dsl.generic {
 	requires persistent.sql.work;
 	requires persistent.sql.utils;
 	requires java.sql;
-	exports com.persistentbit.sql.dsl.exprcontext;
-	exports com.persistentbit.sql.dsl.exprcontext.impl;
 	exports com.persistentbit.sql.dsl.expressions;
 	exports com.persistentbit.sql.dsl.annotations;
 	exports com.persistentbit.sql.dsl.expressions.impl;
@@ -26,15 +24,11 @@ module persistent.sql.dsl.generic {
 	exports com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 	exports com.persistentbit.sql.dsl.tables;
 	exports com.persistentbit.sql.dsl;
-	exports com.persistentbit.sql.dsl.generic_old;
 	exports com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers;
 	exports com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 	exports com.persistentbit.sql.dsl.expressions.impl.typeimpl.time;
 	exports com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples;
+	exports com.persistentbit.sql.dsl.genericdb;
 
-	exports com.persistentbit.sql.dsl.generic_old.query;
-	exports com.persistentbit.sql.dsl.generic_old.inserts;
-	exports com.persistentbit.sql.dsl.generic_old.updates;
-	exports com.persistentbit.sql.dsl.expressions.impl.old;
 
 }

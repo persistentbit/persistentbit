@@ -1,27 +1,16 @@
 package com.persistentbit.dsl.tests;
 
-import com.persistentbit.collections.PList;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.statements.select.TypedSelection1;
-import com.persistentbit.sql.dsl.statements.select.impl.SubQuery1;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbScriptRunner;
 import com.persistentbit.sql.updater.SqlSnippets;
-import com.persistentbit.test.TestCase;
 import com.persistentbit.test.TestRunner;
-import com.persistentbit.utils.TimeMeasurement;
 
-import java.time.LocalDateTime;
 import java.util.function.Supplier;
-
-import static com.persistentbit.dsl.tests.Db.person;
-import static com.persistentbit.dsl.tests.Db.tags;
-import static com.persistentbit.dsl.tests.Db.tupleOf;
-import static com.persistentbit.dsl.tests.MyDb.*;
 
 /**
  * TODOC
@@ -140,10 +129,12 @@ public class TypesTest{
 			})
 			;
 	}
-
+/*
 	static final TestCase sqlGenTest = TestCase.name("sqlGenTest").code(tc -> {
+		GenericBinOps.setDefaultBinOpBuilders(context);
 		context.registerType(EPerson.class, PersonTypeFactory.class);
 		context.registerType(EAddress.class, AddressTypeFactory.class);
+
 		context.addTable(new TPerson(context, null));
 		EPerson personTable = context.getTypeFactory(EPerson.class).buildTableField("PERSON_TABLE.", "", "");
 		System.out.println(context.toSql(personTable));
@@ -243,7 +234,7 @@ public class TypesTest{
 				.run(newTrans.get())
 				.orElseThrow());
 
-	});
+	});*/
 
 	public void testAll() {
 

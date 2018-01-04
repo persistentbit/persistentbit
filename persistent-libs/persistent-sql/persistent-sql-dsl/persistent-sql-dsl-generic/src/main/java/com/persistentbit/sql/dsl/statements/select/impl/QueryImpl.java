@@ -3,11 +3,15 @@ package com.persistentbit.sql.dsl.statements.select.impl;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
+import com.persistentbit.sql.dsl.expressions.ETuple2;
+import com.persistentbit.sql.dsl.expressions.ETuple3;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.select.Join;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.TypedSelection1;
 import com.persistentbit.sql.dsl.tables.Table;
+import com.persistentbit.tuples.Tuple2;
+import com.persistentbit.tuples.Tuple3;
 import com.persistentbit.utils.exceptions.ToDo;
 
 /**
@@ -93,5 +97,17 @@ public class QueryImpl implements Query{
 		return new TypedSelection1Impl<>(this, col1);
 	}
 
+	@Override
+	public <E1 extends DExpr<J1>, J1, E2 extends DExpr<J2>, J2> TypedSelection1<ETuple2<E1, J1, E2, J2>, Tuple2<J1, J2>> selection(
+		E1 sel1, E2 sel2
+	) {
+		return selection(qc.context.tuple(sel1, sel2));
+	}
 
+	@Override
+	public <E1 extends DExpr<J1>, J1, E2 extends DExpr<J2>, J2, E3 extends DExpr<J3>, J3> TypedSelection1<ETuple3<E1, J1, E2, J2, E3, J3>, Tuple3<J1, J2, J3>> selection(
+		E1 sel1, E2 sel2, E3 sel3
+	) {
+		return selection(qc.context.tuple(sel1, sel2, sel3));
+	}
 }

@@ -63,7 +63,7 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	}
 
 	@Override
-	public E buildCall(String callName, DExpr[] params) {
+	public E buildCall(String callName, Object... params) {
 		return buildWithStrategy(
 			new FunctionCallTypeStrategy<>(getTypeClass(), this, callName, params)
 		);

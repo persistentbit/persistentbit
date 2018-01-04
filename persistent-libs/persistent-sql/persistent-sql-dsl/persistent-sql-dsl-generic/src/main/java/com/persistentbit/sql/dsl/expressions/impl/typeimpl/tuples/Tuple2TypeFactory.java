@@ -76,7 +76,7 @@ public class Tuple2TypeFactory implements ExprTypeFactory {
 	}
 
 	@Override
-	public DExpr buildCall(String callName, DExpr[] params) {
+	public DExpr buildCall(String callName, Object... params) {
 		throw new ToDo();
 	}
 
@@ -156,10 +156,9 @@ public class Tuple2TypeFactory implements ExprTypeFactory {
 					,context.getJdbcConverter(v2)
 				)
 				,ol ->
-				{ return ol == null || (ol[0] == null && ol[1] == null)
-					? null
-					: Tuple2.of(ol[0],ol[1]);
-				}
+					ol == null || (ol[0] == null && ol[1] == null)
+						? null
+						: Tuple2.of(ol[0], ol[1])
 			);
 		}
 	}

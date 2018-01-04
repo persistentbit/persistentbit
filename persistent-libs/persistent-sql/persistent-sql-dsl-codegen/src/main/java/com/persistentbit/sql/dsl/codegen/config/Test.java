@@ -2,7 +2,6 @@ package com.persistentbit.sql.dsl.codegen.config;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.logging.ModuleLogging;
-import com.persistentbit.sql.dsl.codegen.DbJavaGenOptions;
 
 import java.sql.Driver;
 
@@ -43,10 +42,10 @@ public class Test{
 		DbCodeGenConfig config = new DbCodeGenConfig(PList.val(instance));
 
 		//System.out.println(JJPrinter.toJson(config));
-
+/*
 		PList<DbJavaGenOptions> options = DbCodeGenConfigLoader.load(config).orElseThrow();
 		for(DbJavaGenOptions opt : options){
 			System.out.println(opt);
-		}
+		}*/
 	}
 }

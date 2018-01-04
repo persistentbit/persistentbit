@@ -1,3 +1,6 @@
+import com.persistentbit.sql.dsl.codegen.postgresql.provider.DbCodeGenServiceProviderPostgres;
+import com.persistentbit.sql.dsl.codegen.service.DbCodeGenService;
+
 /**
  * TODOC
  *
@@ -15,6 +18,7 @@ module persistent.sql.dsl.codegenpostgres {
 	requires persistent.sql.dsl.generic;
 	requires persistent.sql.dsl.codegen;
 	exports com.persistentbit.sql.dsl.codegen.postgresql;
-	provides com.persistentbit.sql.dsl.codegen.DbImporterService with com.persistentbit.sql.dsl.codegen.postgresql.PostgresDbImporterService;
-	provides com.persistentbit.sql.dsl.codegen.DbJavaGenService with com.persistentbit.sql.dsl.codegen.postgresql.PostgresDbJavaGenService;
+	exports com.persistentbit.sql.dsl.codegen.postgresql.provider;
+
+	provides DbCodeGenService with DbCodeGenServiceProviderPostgres;
 }

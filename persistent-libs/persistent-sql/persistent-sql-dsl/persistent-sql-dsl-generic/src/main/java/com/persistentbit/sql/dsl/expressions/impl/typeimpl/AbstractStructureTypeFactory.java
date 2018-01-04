@@ -89,7 +89,7 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 
 
 	@Override
-	public E buildCall(String callName, DExpr[] params) {
+	public E buildCall(String callName, Object... params) {
 		throw new UnsupportedOperationException("call " + callName + " on " + getTypeClass().getSimpleName());
 	}
 

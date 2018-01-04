@@ -3,6 +3,7 @@ package com.persistentbit.sql.javacodegen.mavenplugin;
 import com.persistentbit.collections.PList;
 import com.persistentbit.io.IO;
 import com.persistentbit.javacodegen.GeneratedJavaSource;
+import com.persistentbit.javacodegen.JJavaFile;
 import com.persistentbit.json.mapping.JJMapper;
 import com.persistentbit.json.nodes.JJParser;
 import com.persistentbit.json.nodes.JJPrinter;
@@ -10,11 +11,11 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.logging.printing.LogPrintToString;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.codegen.DbJavaGen;
-import com.persistentbit.sql.dsl.codegen.DbJavaGenOptions;
 import com.persistentbit.sql.dsl.codegen.config.DbCodeGenConfig;
-import com.persistentbit.sql.dsl.codegen.config.DbCodeGenConfigLoader;
 import com.persistentbit.sql.dsl.codegen.config.DbCodeGentConfigInitalEmpty;
+import com.persistentbit.sql.dsl.codegen.config.Instance;
+import com.persistentbit.sql.dsl.codegen.service.DbCodeGenService;
+import com.persistentbit.sql.dsl.codegen.service.DbHandlingLevel;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
@@ -24,8 +25,6 @@ import org.apache.maven.plugins.annotations.ResolutionScope;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.sql.Driver;
-import java.sql.DriverManager;
 
 /**
  * Generate Sql db java classes from database.
@@ -65,6 +64,10 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 		return Result.function().code(log -> {
 			log.info("Generating Database Java Code...");
 
+			DbCodeGenService.getInstances().forEach(cgs -> {
+				getLog().info("FOUND CodeGen Service: " + cgs.getDescription());
+			});
+
 			JJMapper mapper = new JJMapper();
 
 			File f = new File(configfile).getAbsoluteFile();
@@ -75,6 +78,7 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 				return Result.failure("Create a file like: " + jsonStr);
 
 			}
+			File baseDir = f.getParentFile();
 			getLog().info("Loading & parsing config file ");
 			log.info("Loading & parsing config file ");
 
@@ -89,7 +93,7 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 			}
 			DbCodeGenConfig config = configRes.orElseThrow();
 
-			for(String driver : config.getInstances().map(i -> i.getConnector().getDriverClass()).pset())
+			/*for(String driver : config.getInstances().map(i -> i.getConnector().getDriverClass()).pset())
 			{
 				log.info("Registering driver " + driver);
 				getLog().info("Registering driver " + driver);
@@ -105,24 +109,40 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 					return Result.failure(e);
 				}
 
-			};
+			};*/
 
-			log.info("Loading db meta data");
-			getLog().info("Loading db meta data");
-			PList<DbJavaGenOptions> options = DbCodeGenConfigLoader.load(config).orElseThrow();
-			for(DbJavaGenOptions option : options){
-				getLog().info("Create code for instance ");
-				log.info("Creating code for option " + option);
-				DbJavaGen  javaGen = DbJavaGen.createGenerator(option).orElseThrow();
-				PList<GeneratedJavaSource> sourceFiles = javaGen.generate().orElseThrow();
-				if(option.getOutputDirectory().exists() == false){
-					option.getOutputDirectory().mkdirs();
+			for(Instance instance : config.getInstances()) {
+				getLog().info("Create code for instance " + instance);
+				log.info("Create code for instance " + instance);
+				DbCodeGenService service = DbCodeGenService
+					.getInstances()
+					.find(s -> s.getHandlingLevel(instance) == DbHandlingLevel.full)
+					.orElseGet(() ->
+								   DbCodeGenService
+									   .getInstances()
+									   .find(s -> s.getHandlingLevel(instance) == DbHandlingLevel.onlyGeneric)
+									   .orElse(null)
+					);
+				if(service == null) {
+					return Result.failure("Could not find service for " + instance);
 				}
-				for(GeneratedJavaSource source : sourceFiles){
-					Path outFile =source.writeSource(option.getOutputDirectory().toPath()).orElseThrow();
+				log.info("Creating code using service " + service.getDescription());
+				getLog().info("Creating code using service " + service.getDescription());
+				PList<JJavaFile> files     = service.generateCode(instance).orElseThrow();
+				File             outputDir = new File(baseDir, instance.getCodeGen().getOutputDir());
+				if(outputDir.exists() == false) {
+					outputDir.mkdirs();
+				}
+				for(JJavaFile file : files) {
+					GeneratedJavaSource source  = file.toJavaSource();
+					Path                outFile = source.writeSource(outputDir.toPath()).orElseThrow();
 					getLog().info("Source generated: " + outFile);
+
 				}
 			}
+
+
+
 			/*
 			DbJavaGen                  javaGen     = DbJavaGen.createGenerator(options).orElseThrow();
 			PList<GeneratedJavaSource> sourceFiles = javaGen.generate().orElseThrow();

@@ -1,3 +1,6 @@
+import com.persistentbit.sql.dsl.codegen.service.DbCodeGenService;
+import com.persistentbit.sql.dsl.codegen.service.impl.DbCodeGenServiceProviderGeneric;
+
 /**
  * TODOC
  *
@@ -17,14 +20,15 @@ module persistent.sql.dsl.codegen {
 	requires java.sql;
 	requires persistent.sql.connect;
 
-	exports com.persistentbit.sql.dsl.codegen;
-	exports com.persistentbit.sql.dsl.codegen.generic;
-	exports com.persistentbit.sql.dsl.codegen.dbjavafields;
+	exports com.persistentbit.sql.dsl.codegen.config;
+	exports com.persistentbit.sql.dsl.codegen.service;
+	exports com.persistentbit.sql.dsl.codegen.service.impl;
+	exports com.persistentbit.sql.dsl.codegen.importer;
 
 	opens com.persistentbit.sql.dsl.codegen.config;
 
-	uses com.persistentbit.sql.dsl.codegen.DbImporterService;
-	uses com.persistentbit.sql.dsl.codegen.DbJavaGenService;
-	provides com.persistentbit.sql.dsl.codegen.DbImporterService with com.persistentbit.sql.dsl.codegen.generic.GenericDbImporterService;
-	provides com.persistentbit.sql.dsl.codegen.DbJavaGenService with com.persistentbit.sql.dsl.codegen.generic.GenericDbJavaGenService;
+	uses DbCodeGenService;
+
+	provides DbCodeGenService with DbCodeGenServiceProviderGeneric;
+
 }

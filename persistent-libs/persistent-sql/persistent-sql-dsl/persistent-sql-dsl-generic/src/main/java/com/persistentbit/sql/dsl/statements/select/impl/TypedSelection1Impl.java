@@ -89,6 +89,7 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 		PList<DExpr>        expanded = query.qc.context.getTypeFactory(col1).expand(col1);
 		ExprTypeJdbcConvert<J1> jdbcConvert = query.qc.context.getTypeFactory(col1).getJdbcConverter(col1);
 		return DbWork.function(args).code(trans -> con -> log -> {
+			log.info("Sql:" + sql);
 			try(PreparedStatement stat = con.prepareStatement(sql.getSql())){
 				sql.setParams(args,stat);
 				try(ResultSet rs = stat.executeQuery()){
