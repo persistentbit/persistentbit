@@ -19,20 +19,23 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 	E buildParam(Function<PMap<String, Object>, Object> paramGetter);
 
 	E buildCall(String callName, Object... exprOrStringParams);
-	E buildAlias(String alias);
-	E buildBinOp(DExpr left, BinOpOperator op, DExpr right);
-	E buildSingleOp(DExpr expr, SingleOpOperator op);
 
 	E buildTableField(String fieldSelectionName, String fieldName, String columnName);
+
+	E buildAlias(DExpr expr, String alias);
 	E buildSelection(E expr, String prefixAlias);
-
 	E onlyTableColumn(E expr);
-
 	PList<DExpr> expand(E expr);
 
-	SqlWithParams	toSql(E expr);
+	SqlWithParams toSql(E expr);
 
-	ExprTypeJdbcConvert<J>	getJdbcConverter(E expr);
+	ExprTypeJdbcConvert<J> getJdbcConverter(E expr);
+
+	E buildBinOp(DExpr left, BinOpOperator op, DExpr right);
+
+	E buildSingleOp(DExpr expr, SingleOpOperator op);
+
+
 
 	ExprContext	getExprContext();
 	Class<? extends DExpr<J>> getTypeClass();

@@ -24,7 +24,7 @@ public class SubQuery1<E1 extends DExpr<J1>,J1> implements TableImpl<E1,J1>{
 		this.orgSelection = orgSelection;
 		this.name = name;
 		ExprContext	context = orgSelection.context;
-		this.v1 = context.getTypeFactory(orgSelection.col1).buildAlias(name+"." + "v1_" );
+		this.v1 = context.buildAlias(orgSelection.col1, name + "." + "v1_");
 	}
 
 	public SqlWithParams	toSql() {

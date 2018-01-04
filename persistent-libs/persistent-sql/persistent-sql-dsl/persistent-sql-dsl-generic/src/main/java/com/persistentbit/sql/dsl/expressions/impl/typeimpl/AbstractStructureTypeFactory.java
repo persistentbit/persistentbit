@@ -107,10 +107,10 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 	}
 
 	@Override
-	public E buildAlias(String alias) {
+	public E buildAlias(DExpr expr, String alias) {
 		return createExpression(fields.map(sf ->
 											   sf.getTypeFactory()
-												   .buildAlias(alias + sf.fieldName)
+												   .buildAlias(, alias + sf.fieldName, )
 		));
 	}
 

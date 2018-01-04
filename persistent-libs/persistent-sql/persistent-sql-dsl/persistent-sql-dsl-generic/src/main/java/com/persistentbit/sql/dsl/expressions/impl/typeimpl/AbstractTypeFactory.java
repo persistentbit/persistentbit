@@ -70,7 +70,7 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	}
 
 	@Override
-	public E buildAlias(String alias) {
+	public E buildAlias(DExpr expr, String alias) {
 		return buildWithStrategy(
 			new AliasTypeStrategy<>(
 				getTypeClass(), this, alias));

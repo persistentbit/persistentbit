@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
@@ -13,9 +14,7 @@ import com.persistentbit.sql.dsl.expressions.impl.typeimpl.TypeImplComparableMix
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.Tuple2TypeFactory;
 import com.persistentbit.utils.exceptions.ToDo;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.function.Function;
 
 /**
@@ -40,8 +39,8 @@ public class EArrayTypeFactory implements ExprTypeFactory{
 
 
 	@Override
-	public DExpr buildAlias(String alias) {
-		throw new UnsupportedOperationException("buildAlias on a ETuple2");
+	public DExpr buildAlias(DExpr expr, String alias) {
+		return new EArrayImplAlias((EArrayImpl) expr, alias);
 	}
 
 	@Override
@@ -63,15 +62,12 @@ public class EArrayTypeFactory implements ExprTypeFactory{
 
 	@Override
 	public DExpr onlyTableColumn(DExpr genExpr) {
-		ETuple2 expr = (ETuple2) genExpr;
-		DExpr   e1   = context.getTypeFactory(expr.v1()).onlyTableColumn(expr);
-		DExpr   e2   = context.getTypeFactory(expr.v2()).onlyTableColumn(expr);
-		return new Tuple2TypeFactory.ETuple2Impl(e1, e2);
+		return ((EArrayImpl) genExpr).onlyTableColumn();
 	}
 
 	@Override
 	public DExpr buildVal(Object value) {
-		throw new UnsupportedOperationException("buildVal on ETuple2");
+		return new EArrayImplVal((ImmutableArray) value);
 	}
 
 
@@ -134,11 +130,16 @@ public class EArrayTypeFactory implements ExprTypeFactory{
 			return EArrayTypeFactory.this;
 		}
 
-		public abstract ExprTypeJdbcConvert getJdbcConverter();
+
 
 		@Override
 		public EArray<E1, J1> slice(EInt start, EInt end) {
-			return null;
+			return new EArrayImplSlice<>(itemTypeClass, this, start, end);
+		}
+
+		@Override
+		public E1 get(EInt index) {
+			return context.getTypeFactory(itemTypeClass).buildBinOp(this, BinOpOperator.opArrayIndex, index);
 		}
 
 		protected abstract SqlWithParams toSql();
@@ -146,6 +147,74 @@ public class EArrayTypeFactory implements ExprTypeFactory{
 		@Override
 		public EArray<E1, J1> getThis() {
 			return this;
+		}
+
+		public DExpr onlyTableColumn() {
+			return this;
+		}
+
+
+		public ExprTypeJdbcConvert getJdbcConverter() {
+			ExprTypeFactory<E1, J1> itemTypeFactory = context.getTypeFactory(itemTypeClass);
+			ExprTypeJdbcConvert     jdbcConvert     = itemTypeFactory.getJdbcConverter(itemTypeFactory.buildVal(null));
+			return new ExprTypeJdbcConvert<ImmutableArray>(){
+				@Override
+				public void setParam(int index, PreparedStatement stat, ImmutableArray value) throws SQLException {
+					if(value == null) {
+						stat.setNull(index, Types.ARRAY);
+					}
+					else {
+						Connection con = stat.getConnection();
+						Array      arr = jdbcConvert.createJdbcArray(stat.getConnection(), value);
+						stat.setArray(index, arr);
+					}
+
+				}
+
+				@Override
+				public ImmutableArray read(int index, ResultSet resultSet) throws SQLException {
+					Array array        = resultSet.getArray(index);
+					ImmutableArray res = jdbcConvert.createJavaArray(array);
+					array.free();
+					return res;
+				}
+
+				@Override
+				public Array createJdbcArray(Connection con, ImmutableArray<ImmutableArray> values
+				) throws SQLException {
+					throw new ToDo();
+					//					if(values == null) {
+					//						return null;
+					//					}
+					//					Object[] jdbcValues = values.map(v -> toJdbc.apply(v)).toArray(Object.class);
+					//					return con.createArrayOf(arrayType, jdbcValues);
+				}
+
+				@Override
+				public ImmutableArray<ImmutableArray> createJavaArray(Array jdbcArray) {
+					throw new ToDo();
+					//					if(jdbcArray == null) {
+					//						return null;
+					//					}
+					//					ArrayList<J> res = new ArrayList<>();
+					//					try(ResultSet rs = jdbcArray.getResultSet()) {
+					//						while(rs.next()) {
+					//							res.add(toJava.apply(rs.getObject(2)));
+					//						}
+					//					}
+					//					return ImmutableArray.from(res);
+				}
+
+				@Override
+				public int columnCount() {
+					return 1;
+				}
+
+				@Override
+				public PList<ExprTypeJdbcConvert> expand() {
+					return PList.val(this);
+				}
+			};
 		}
 	}
 
@@ -158,42 +227,17 @@ public class EArrayTypeFactory implements ExprTypeFactory{
 			this.values = values;
 		}
 
-
 		@Override
-		public ExprTypeJdbcConvert getJdbcConverter() {
-			ExprTypeFactory<E1, J1> itemTypeFactory = context.getTypeFactory(itemTypeClass);
-			return new ExprTypeJdbcConvert<ImmutableArray>(){
+		protected SqlWithParams toSql() {
+			return SqlWithParams.param(new PrepStatParam(){
 				@Override
-				public void setParam(int index, PreparedStatement stat, ImmutableArray value) throws SQLException {
-					for(J1 item : values) {
-						E1                      itemExpr = itemTypeFactory.buildVal(item);
-						ExprTypeJdbcConvert<J1> jdbc     = itemTypeFactory.getJdbcConverter(itemExpr);
-						jdbc.setParam(index, stat, item);
-						index += jdbc.columnCount();
-					}
+				public int _setPrepStatement(PMap<String, Object> extParams, PreparedStatement stat, int index
+				) throws SQLException {
+					ExprTypeJdbcConvert jdbc = getJdbcConverter();
+					jdbc.setParam(index, stat, values);
+					return jdbc.columnCount();
 				}
-
-				@Override
-				public ImmutableArray read(int index, ResultSet resultSet) throws SQLException {
-					throw new UnsupportedOperationException("Not supported");
-				}
-
-				@Override
-				public int columnCount() {
-					int count = 0;
-					for(J1 item : values) {
-						E1                      itemExpr = itemTypeFactory.buildVal(item);
-						ExprTypeJdbcConvert<J1> jdbc     = itemTypeFactory.getJdbcConverter(itemExpr);
-						count += jdbc.columnCount();
-					}
-					return count;
-				}
-
-				@Override
-				public PList<ExprTypeJdbcConvert> expand() {
-					return PList.val(this);
-				}
-			};
+			});
 		}
 	}
 
@@ -210,6 +254,16 @@ public class EArrayTypeFactory implements ExprTypeFactory{
 			this.fieldSelectionName = fieldSelectionName;
 			this.fieldName = fieldName;
 			this.columnName = columnName;
+		}
+
+		@Override
+		public DExpr onlyTableColumn() {
+			return new EArrayImplTableColumn(itemTypeClass, columnName, fieldName, columnName);
+		}
+
+		@Override
+		protected SqlWithParams toSql() {
+			return SqlWithParams.sql(fieldSelectionName);
 		}
 	}
 
@@ -230,7 +284,23 @@ public class EArrayTypeFactory implements ExprTypeFactory{
 		protected SqlWithParams toSql() {
 			return array.toSql().add("[").add(context.toSql(start)).add(":").add(context.toSql(end)).add("]");
 		}
-
-
 	}
+
+	private class EArrayImplAlias<E1 extends DExpr<J1>, J1> extends EArrayImpl<E1, J1>{
+
+		private final EArrayImpl<E1, J1> array;
+		private final String             alias;
+
+		public EArrayImplAlias(EArrayImpl<E1, J1> array, String alias) {
+			super(array.itemTypeClass);
+			this.array = array;
+			this.alias = alias;
+		}
+
+		@Override
+		protected SqlWithParams toSql() {
+			return SqlWithParams.sql(alias);
+		}
+	}
+
 }

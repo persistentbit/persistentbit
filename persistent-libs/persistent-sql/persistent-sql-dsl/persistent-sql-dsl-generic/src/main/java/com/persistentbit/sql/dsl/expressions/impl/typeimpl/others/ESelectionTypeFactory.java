@@ -41,7 +41,7 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 	}
 
 	@Override
-	public ESelection<J> buildAlias(String alias) {
+	public ESelection<J> buildAlias(DExpr expr, String alias) {
 		throw new UnsupportedOperationException("buildVal for a ESubQuery");
 	}
 

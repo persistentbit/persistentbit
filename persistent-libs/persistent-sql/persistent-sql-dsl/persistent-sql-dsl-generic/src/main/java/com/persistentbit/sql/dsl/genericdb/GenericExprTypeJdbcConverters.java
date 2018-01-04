@@ -1,11 +1,13 @@
 package com.persistentbit.sql.dsl.genericdb;
 
 import com.persistentbit.collections.PByteList;
-import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 
 import java.math.BigDecimal;
-import java.sql.*;
+import java.sql.Date;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -52,141 +54,36 @@ public class GenericExprTypeJdbcConverters{
 	);
 
 
-	static public final ExprTypeJdbcConvert<String>        forString        = new ExprTypeJdbcConvert<>(){
-		@Override
-		public void setParam(int index, PreparedStatement stat, String value) throws SQLException {
-			if(value == null) {
-				stat.setNull(index, Types.VARCHAR);
-				return;
-			}
-			stat.setString(index, value);
-		}
+	static public final ExprTypeJdbcConvert<String> forString = new ExprTypeJdbcConvert.SingleColumnImpl<>(
+		Types.VARCHAR, "text", j -> j, o -> (String) o
+	);
 
-		@Override
-		public String read(int index, ResultSet resultSet) throws SQLException {
-			return resultSet.getString(index);
-		}
+	static public final ExprTypeJdbcConvert<LocalDate> forLocalDate = new ExprTypeJdbcConvert.SingleColumnImpl<>(
+		Types.DATE, "date"
+		, j -> j == null ? null : Date.valueOf(j.atStartOfDay().toLocalDate())
+		, o -> o == null ? null : ((Date) o).toLocalDate()
+	);
 
-		@Override
-		public PList<ExprTypeJdbcConvert> expand() {
-			return PList.val(this);
-		}
 
-		@Override
-		public int columnCount() {
-			return 1;
-		}
-	};
-	static public final ExprTypeJdbcConvert<LocalDate>     forLocalDate     = new ExprTypeJdbcConvert<>(){
-		@Override
-		public void setParam(int index, PreparedStatement stat, LocalDate value) throws SQLException {
-			if(value == null) {
-				stat.setNull(index, Types.DATE);
-			}
-			else {
-				stat.setDate(index, Date.valueOf(value.atStartOfDay().toLocalDate()));
-			}
-		}
+	static public final ExprTypeJdbcConvert<LocalTime> forLocalTime = new ExprTypeJdbcConvert.SingleColumnImpl<>(
+		Types.TIME, "time"
+		, j -> j == null ? null : Time.valueOf(j)
+		, o -> o == null ? null : ((Time) o).toLocalTime()
+	);
 
-		@Override
-		public LocalDate read(int index, ResultSet resultSet) throws SQLException {
-			Date d = resultSet.getDate(index);
-			return d == null ? null : d.toLocalDate();
-		}
+	static public final ExprTypeJdbcConvert<LocalDateTime> forLocalDateTime =
+		new ExprTypeJdbcConvert.SingleColumnImpl<>(
+			Types.TIMESTAMP, "time"
+			, j -> j == null ? null : Timestamp.valueOf(j)
+			, o -> o == null ? null : ((Timestamp) o).toLocalDateTime()
+		);
 
-		@Override
-		public PList<ExprTypeJdbcConvert> expand() {
-			return PList.val(this);
-		}
 
-		@Override
-		public int columnCount() {
-			return 1;
-		}
-	};
-	static public final ExprTypeJdbcConvert<LocalTime>     forLocalTime     = new ExprTypeJdbcConvert<>(){
-		@Override
-		public void setParam(int index, PreparedStatement stat, LocalTime value) throws SQLException {
-			if(value == null) {
-				stat.setNull(index, Types.TIME);
-			}
-			else {
-				stat.setTime(index, Time.valueOf(value));
-			}
-		}
-
-		@Override
-		public LocalTime read(int index, ResultSet resultSet) throws SQLException {
-			Time t = resultSet.getTime(index);
-			return t == null ? null : t.toLocalTime();
-		}
-
-		@Override
-		public PList<ExprTypeJdbcConvert> expand() {
-			return PList.val(this);
-		}
-
-		@Override
-		public int columnCount() {
-			return 1;
-		}
-	};
-	static public final ExprTypeJdbcConvert<LocalDateTime> forLocalDateTime = new ExprTypeJdbcConvert<>(){
-		@Override
-		public void setParam(int index, PreparedStatement stat, LocalDateTime value) throws SQLException {
-			if(value == null) {
-				stat.setNull(index, Types.TIMESTAMP);
-			}
-			else {
-				stat.setTimestamp(index, Timestamp.valueOf(value));
-			}
-		}
-
-		@Override
-		public LocalDateTime read(int index, ResultSet resultSet) throws SQLException {
-			Timestamp d = resultSet.getTimestamp(index);
-			return d == null ? null : d.toLocalDateTime();
-		}
-
-		@Override
-		public PList<ExprTypeJdbcConvert> expand() {
-			return PList.val(this);
-		}
-
-		@Override
-		public int columnCount() {
-			return 1;
-		}
-	};
-	static public final ExprTypeJdbcConvert<PByteList>     forByteList      = new ExprTypeJdbcConvert<>(){
-		@Override
-		public void setParam(int index, PreparedStatement stat, PByteList value) throws SQLException {
-			if(value == null) {
-				stat.setNull(index, Types.BINARY);
-			}
-			else {
-				stat.setBinaryStream(index, value.getInputStream());
-			}
-		}
-
-		@Override
-		public PByteList read(int index, ResultSet resultSet) throws SQLException {
-			byte[] bytes = resultSet.getBytes(index);
-			return (bytes == null
-				? null
-				: PByteList.from(bytes));
-		}
-
-		@Override
-		public PList<ExprTypeJdbcConvert> expand() {
-			return PList.val(this);
-		}
-
-		@Override
-		public int columnCount() {
-			return 1;
-		}
-	};
+	static public final ExprTypeJdbcConvert<PByteList> forByteList = new ExprTypeJdbcConvert.SingleColumnImpl<>(
+		Types.BINARY, "bytea"
+		, j -> j == null ? null : j.toByteArray()
+		, o -> o == null ? null : PByteList.from((byte[]) o)
+	);
 
 
 }

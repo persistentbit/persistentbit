@@ -63,7 +63,7 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 	}
 
 	@Override
-	public EList buildAlias(String alias) {
+	public EList buildAlias(DExpr expr, String alias) {
 		throw new ToDo();
 	}
 

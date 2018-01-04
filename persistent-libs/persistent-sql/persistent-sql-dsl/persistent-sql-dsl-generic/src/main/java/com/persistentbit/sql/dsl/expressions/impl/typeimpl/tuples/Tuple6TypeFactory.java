@@ -33,7 +33,7 @@ public class Tuple6TypeFactory implements ExprTypeFactory{
 
 
 	@Override
-	public DExpr buildAlias(String alias) {
+	public DExpr buildAlias(DExpr expr, String alias) {
 		throw new UnsupportedOperationException("buildAlias on a ETuple2");
 	}
 

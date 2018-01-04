@@ -343,6 +343,11 @@ public class ExprContext{
 		return tf.of(e1, e2, e3, e4, e5, e6, e7);
 	}
 
+	public <E1 extends DExpr<J1>, J1> ExprTypeJdbcConvert<J1> getJdbcConverter(Class<E1> cls) {
+		ExprTypeFactory<E1, J1> tf = getTypeFactory(cls);
+		return getJdbcConverter(tf.buildVal(null));
+	}
+
 	public ExprTypeJdbcConvert	getJdbcConverter(DExpr expr){
 		return getTypeFactory(expr).getJdbcConverter(expr);
 	}
@@ -360,5 +365,8 @@ public class ExprContext{
 		return new Param<>(name,tf.buildParam(getter));
 	}
 
+	public <E1 extends DExpr<J1>, J1> E1 buildAlias(E1 expr, String alias) {
+		return getTypeFactory(expr).buildAlias(expr, alias);
+	}
 
 }
