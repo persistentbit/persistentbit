@@ -27,7 +27,7 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 	}
 
 	@Override
-	public Class<? extends DExpr<PList<DExpr>>> getTypeClass() {
+	public Class<EList> getTypeClass() {
 		return EList.class;
 	}
 
@@ -46,26 +46,6 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 		throw new ToDo();
 	}
 
-	@Override
-	public EList buildSelection(EList expr, String prefixAlias) {
-		throw new ToDo();
-	}
-
-	@Override
-	public PList<DExpr> expand(EList expr) {
-		throw new ToDo();
-	}
-
-
-	@Override
-	public SqlWithParams toSql(EList expr) {
-		throw new ToDo();
-	}
-
-	@Override
-	public EList buildAlias(DExpr expr, String alias) {
-		throw new ToDo();
-	}
 
 	@Override
 	public EList buildBinOp(DExpr left, BinOpOperator op, DExpr right) {
@@ -75,16 +55,6 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 	@Override
 	public EList buildSingleOp(DExpr expr, SingleOpOperator op
 	) {
-		throw new ToDo();
-	}
-
-	@Override
-	public EList onlyTableColumn(EList expr) {
-		throw new ToDo();
-	}
-
-	@Override
-	public ExprTypeJdbcConvert<PList<DExpr>> getJdbcConverter(EList expr) {
 		throw new ToDo();
 	}
 
@@ -112,6 +82,36 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 		@Override
 		public ExprTypeFactory<EList, PList<DExpr>> getTypeFactory() {
 			return EListTypeFactory.this;
+		}
+
+		@Override
+		public EList buildAlias(String alias) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public EList buildSelection(String prefixAlias) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public EList onlyTableColumn() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public PList<DExpr> expand() {
+			throw new ToDo();
+		}
+
+		@Override
+		public SqlWithParams toSql() {
+			throw new ToDo();
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<PList<DExpr>> getJdbcConverter() {
+			throw new ToDo();
 		}
 	}
 }

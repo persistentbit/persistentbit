@@ -83,8 +83,8 @@ public class Tuple2TypeFactory implements ExprTypeFactory {
 	@Override
 	public DExpr buildSelection(DExpr genExpr, String prefixAlias) {
 		ETuple2 expr = (ETuple2)genExpr;
-		DExpr e1 = context.getTypeFactory(expr.v1()).buildSelection(expr.v1(),
-			prefixAlias == null ? null : prefixAlias + "t1_");
+		DExpr e1 = context.buildSelection(expr.v1(),
+										  prefixAlias == null ? null : prefixAlias + "t1_");
 		DExpr e2 = context.getTypeFactory(expr.v2()).buildSelection(expr.v2(),
 			prefixAlias == null ? null : prefixAlias + "t2_");
 		return new ETuple2Impl<>(e1,e2);

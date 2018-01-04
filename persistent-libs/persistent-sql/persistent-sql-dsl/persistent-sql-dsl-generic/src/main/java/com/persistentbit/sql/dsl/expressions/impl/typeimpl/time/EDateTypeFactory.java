@@ -4,11 +4,11 @@ import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EDate;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.TypeImplComparableMixin;
-import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 
 import java.time.LocalDate;
 
@@ -21,7 +21,7 @@ import java.time.LocalDate;
 public class EDateTypeFactory extends AbstractTypeFactory<EDate, LocalDate>{
 
 	public EDateTypeFactory(ExprContext context) {
-		super(context, GenericExprTypeJdbcConverters.forLocalDate);
+		super(context);
 	}
 
 
@@ -35,6 +35,11 @@ public class EDateTypeFactory extends AbstractTypeFactory<EDate, LocalDate>{
 		return new EDateImpl(strategy);
 	}
 
+	@Override
+	protected ExprTypeJdbcConvert<LocalDate> getJdbcConverter() {
+		return context.getJavaJdbcConverter(LocalDate.class);
+	}
+
 	private final class EDateImpl extends AbstractTypeImpl<EDate, LocalDate>
 		implements EDate, TypeImplComparableMixin<EDate, LocalDate>{
 
@@ -42,6 +47,22 @@ public class EDateTypeFactory extends AbstractTypeFactory<EDate, LocalDate>{
 			super(typeStrategy);
 		}
 
+
+		@Override
+		public Class<EDate> getTypeClass() {
+			return EDate.class;
+		}
+
+		@Override
+		public EDate buildWithStrategy(TypeStrategy<LocalDate> typeStrategy
+		) {
+			return EDateTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<LocalDate> getJdbcConverter() {
+			return EDateTypeFactory.this.getJdbcConverter();
+		}
 
 		@Override
 		public ExprTypeFactory<EDate, LocalDate> getTypeFactory() {

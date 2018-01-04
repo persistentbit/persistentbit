@@ -1,9 +1,9 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 
 /**
  * TODOC
@@ -12,16 +12,18 @@ import com.persistentbit.sql.dsl.SqlWithParams;
  * @since 17/12/17
  */
 public class BinOpTypeStrategy<J> extends AbstractTypeStrategy<J>{
-	private final DExpr left;
+
+	private final ExprContext   context;
+	private final DExpr         left;
 	private final BinOpOperator operator;
-	private final DExpr right;
-	public BinOpTypeStrategy(Class<? extends DExpr<J>> typeClass,
-							 ExprTypeFactory exprTypeFactory,
+	private final DExpr         right;
+
+	public BinOpTypeStrategy(ExprContext context,
 							 DExpr left,
 							 BinOpOperator operator,
 							 DExpr right
 	) {
-		super(typeClass, exprTypeFactory);
+		this.context = context;
 		this.left = left;
 		this.operator = operator;
 		this.right = right;
@@ -31,10 +33,21 @@ public class BinOpTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 	@Override
 	public SqlWithParams _toSql() {
-		SqlWithParams sqlLeft = getTypeStrategy(left)._toSql();
-		SqlWithParams sqlRight = getTypeStrategy(right)._toSql();
-		return getExprContext().getBinOpSqlBuilder(operator)
+		SqlWithParams sqlLeft  = context.toSql(left);
+		SqlWithParams sqlRight = context.toSql(right);
+		return context.getBinOpSqlBuilder(operator)
 			.apply(left,sqlLeft,right,sqlRight);
 	}
+
+	@Override
+	public String _createAliasName(String aliasPrefix) {
+		return aliasPrefix;
+	}
+
+	@Override
+	public TypeStrategy<J> onlyColumnName() {
+		return this;
+	}
+
 
 }

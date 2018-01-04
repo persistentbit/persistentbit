@@ -18,6 +18,7 @@ import java.util.function.Function;
  * @author petermuys
  * @since 19/12/17
  */
+
 public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, J>{
 	private final ExprContext context;
 	public ESelectionTypeFactory(ExprContext context) {
@@ -40,10 +41,7 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 		throw new ToDo();
 	}
 
-	@Override
-	public ESelection<J> buildAlias(DExpr expr, String alias) {
-		throw new UnsupportedOperationException("buildVal for a ESubQuery");
-	}
+
 
 	@Override
 	public ESelection<J> buildBinOp(DExpr left, BinOpOperator op, DExpr right) {
@@ -60,30 +58,6 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 		throw new UnsupportedOperationException("buildVal for a ESubQuery");
 	}
 
-	@Override
-	public ESelection<J> onlyTableColumn(ESelection<J> expr) {
-		throw new UnsupportedOperationException("onlyTableColumn for a ESubQuery");
-	}
-
-	@Override
-	public ESelection<J> buildSelection(ESelection expr, String prefixAlias) {
-		if(prefixAlias == null){
-			return expr;
-		}
-		ESelectionImpl se = (ESelectionImpl)expr;
-		return new ESelectionImpl<>(context.getJdbcConverter(se),this,se.toSql().add(" AS " + prefixAlias));
-	}
-
-	@Override
-	public PList<DExpr> expand(ESelection expr) {
-		return PList.val(expr);
-	}
-
-	@Override
-	public SqlWithParams toSql(ESelection expr) {
-		ESelectionImpl impl = (ESelectionImpl)expr;
-		return impl.toSql();
-	}
 
 	@Override
 	public ExprContext getExprContext() {
@@ -96,11 +70,6 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 		return cls;
 	}
 
-	@Override
-	public ExprTypeJdbcConvert<J> getJdbcConverter(ESelection expr) {
-		ESelectionImpl<J> impl = (ESelectionImpl<J>)expr;
-		return impl.getJdbcConverter();
-	}
 
 	public ESelection<J>	create(TypedSelection1Impl<?,J> selection){
 		SqlWithParams sql = SqlWithParams.sql("(").add(selection.toSql()).add(")");
@@ -133,6 +102,30 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 		@Override
 		public String toString() {
 			return toSql().toString();
+		}
+
+		@Override
+		public DExpr<J1> buildAlias(String alias) {
+			throw new UnsupportedOperationException(alias);
+		}
+
+		@Override
+		public DExpr<J1> buildSelection(String prefixAlias) {
+			if(prefixAlias == null) {
+				return this;
+			}
+
+			return new ESelectionImpl<>(getJdbcConverter(), getTypeFactory(), toSql().add(" AS " + prefixAlias));
+		}
+
+		@Override
+		public DExpr<J1> onlyTableColumn() {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public PList<DExpr> expand() {
+			return PList.val(this);
 		}
 
 	}

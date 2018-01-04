@@ -1,10 +1,7 @@
 package com.persistentbit.sql.dsl.expressions.impl;
 
-import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
-import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 
 import java.util.function.Function;
 
@@ -22,14 +19,6 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 
 	E buildTableField(String fieldSelectionName, String fieldName, String columnName);
 
-	E buildAlias(DExpr expr, String alias);
-	E buildSelection(E expr, String prefixAlias);
-	E onlyTableColumn(E expr);
-	PList<DExpr> expand(E expr);
-
-	SqlWithParams toSql(E expr);
-
-	ExprTypeJdbcConvert<J> getJdbcConverter(E expr);
 
 	E buildBinOp(DExpr left, BinOpOperator op, DExpr right);
 
@@ -38,5 +27,6 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 
 
 	ExprContext	getExprContext();
-	Class<? extends DExpr<J>> getTypeClass();
+
+	Class<E> getTypeClass();
 }

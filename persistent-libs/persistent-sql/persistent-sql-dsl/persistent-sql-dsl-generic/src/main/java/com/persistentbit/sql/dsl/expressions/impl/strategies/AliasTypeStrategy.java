@@ -1,8 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
 import com.persistentbit.sql.dsl.SqlWithParams;
-import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 
 /**
  * TODOC
@@ -12,11 +10,8 @@ import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
  */
 public class AliasTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	private final String alias;
-	public AliasTypeStrategy(Class<? extends DExpr<J>> typeClass,
-							 ExprTypeFactory exprTypeFactory,
-							 String alias
-	) {
-		super(typeClass, exprTypeFactory);
+
+	public AliasTypeStrategy(String alias) {
 		this.alias = alias;
 	}
 	@Override
@@ -27,11 +22,6 @@ public class AliasTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	@Override
 	public String _createAliasName(String aliasPrefix) {
 		return aliasPrefix;
-	}
-
-	@Override
-	public String toString() {
-		return _toSql().toString();
 	}
 
 

@@ -2,8 +2,6 @@ package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
-import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.utils.Lazy;
@@ -23,12 +21,9 @@ public class ValTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	private final ExprTypeJdbcConvert<J> jdbcConvert;
 	private final Lazy<PrepStatParam> prepStatParam;
 
-	public ValTypeStrategy(Class<? extends DExpr<J>> typeClass,
-						   ExprTypeFactory<?, J> exprTypeFactory,
-						   J value,
+	public ValTypeStrategy(J value,
 						   ExprTypeJdbcConvert<J> jdbcConvert
 	) {
-		super(typeClass, exprTypeFactory);
 		this.value = value;
 		this.jdbcConvert = jdbcConvert;
 
@@ -57,6 +52,16 @@ public class ValTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 	@Override
 	public String toString() {
-		return "[" + typeClass.getSimpleName() + ":" + value + "]";
+		return "[" + value + "]";
+	}
+
+	@Override
+	public String _createAliasName(String aliasPrefix) {
+		return aliasPrefix;
+	}
+
+	@Override
+	public TypeStrategy<J> onlyColumnName() {
+		return this;
 	}
 }

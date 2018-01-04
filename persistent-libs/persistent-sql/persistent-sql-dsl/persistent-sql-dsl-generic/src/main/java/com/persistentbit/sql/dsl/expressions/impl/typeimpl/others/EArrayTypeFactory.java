@@ -1,29 +1,13 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
-import com.persistentbit.collections.ImmutableArray;
-import com.persistentbit.collections.PList;
-import com.persistentbit.collections.PMap;
-import com.persistentbit.sql.dsl.SqlWithParams;
-import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.EArray;
-import com.persistentbit.sql.dsl.expressions.EInt;
-import com.persistentbit.sql.dsl.expressions.ETuple2;
-import com.persistentbit.sql.dsl.expressions.impl.*;
-import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.TypeImplComparableMixin;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.Tuple2TypeFactory;
-import com.persistentbit.utils.exceptions.ToDo;
-
-import java.sql.*;
-import java.util.function.Function;
-
 /**
  * TODOC
  *
  * @author petermuys
  * @since 4/01/18
  */
-public class EArrayTypeFactory implements ExprTypeFactory{
+public class EArrayTypeFactory{}
+/*implements ExprTypeFactory{
 
 	private final ExprContext context;
 
@@ -304,3 +288,4 @@ public class EArrayTypeFactory implements ExprTypeFactory{
 	}
 
 }
+*/

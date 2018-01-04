@@ -1,9 +1,9 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
 import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
 
 /**
  * TODOC
@@ -12,15 +12,16 @@ import com.persistentbit.sql.dsl.SqlWithParams;
  * @since 17/12/17
  */
 public class SingleOpTypeStrategy<T> extends AbstractTypeStrategy<T>{
-	private final DExpr expr;
+
+	private final ExprContext      context;
+	private final DExpr            expr;
 	private final SingleOpOperator operator;
 
-	public SingleOpTypeStrategy(Class<? extends DExpr<T>> typeClass,
-								ExprTypeFactory exprTypeFactory,
+	public SingleOpTypeStrategy(ExprContext context,
 								DExpr expr,
 								SingleOpOperator operator
 	) {
-		super(typeClass, exprTypeFactory);
+		this.context = context;
 		this.expr = expr;
 		this.operator = operator;
 	}
@@ -28,8 +29,18 @@ public class SingleOpTypeStrategy<T> extends AbstractTypeStrategy<T>{
 
 	@Override
 	public SqlWithParams _toSql() {
-		SqlWithParams sql = getTypeStrategy(expr)._toSql();
-		return getExprContext().getSingleOpSqlBuilder(operator)
+		SqlWithParams sql = context.toSql(expr);
+		return context.getSingleOpSqlBuilder(operator)
 			.apply(expr,sql);
+	}
+
+	@Override
+	public String _createAliasName(String aliasPrefix) {
+		return aliasPrefix;
+	}
+
+	@Override
+	public TypeStrategy<T> onlyColumnName() {
+		return this;
 	}
 }

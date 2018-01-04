@@ -1,19 +1,18 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
-import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
-
 /**
  * TODOC
  *
  * @author petermuys
  * @since 17/12/17
  */
-public class AbstractTypeStrategy<J> implements TypeStrategy<J>{
+public abstract class AbstractTypeStrategy<J> implements TypeStrategy<J>{
 
+	@Override
+	public String toString() {
+		return _toSql().toString();
+	}
+/*
 	protected final Class<? extends DExpr<J>> typeClass;
 
 
@@ -64,7 +63,7 @@ public class AbstractTypeStrategy<J> implements TypeStrategy<J>{
 	public String _createAliasName(String aliasPrefix) {
 		return aliasPrefix;
 	}
-
+*/
 
 	/*@Override
 	public DExpr<J> _withAlias(String alias) {

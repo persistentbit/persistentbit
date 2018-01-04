@@ -5,9 +5,9 @@ import com.persistentbit.sql.dsl.expressions.EBigDecimal;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
-import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 
 import java.math.BigDecimal;
 
@@ -22,9 +22,13 @@ import java.math.BigDecimal;
 public class EBigDecimalTypeFactory extends AbstractTypeFactory<EBigDecimal, BigDecimal>{
 
 	public EBigDecimalTypeFactory(ExprContext context) {
-		super(context, GenericExprTypeJdbcConverters.forBigDecimal);
+		super(context);
 	}
 
+	@Override
+	protected ExprTypeJdbcConvert<BigDecimal> getJdbcConverter() {
+		return context.getJavaJdbcConverter(BigDecimal.class);
+	}
 
 	@Override
 	public Class<? extends DExpr<BigDecimal>> getTypeClass() {
@@ -44,6 +48,23 @@ public class EBigDecimalTypeFactory extends AbstractTypeFactory<EBigDecimal, Big
 
 		public EBigDecimalImpl(TypeStrategy<BigDecimal> strategy) {
 			super(strategy);
+		}
+
+
+		@Override
+		public Class<EBigDecimal> getTypeClass() {
+			return EBigDecimal.class;
+		}
+
+		@Override
+		public EBigDecimal buildWithStrategy(TypeStrategy<BigDecimal> typeStrategy
+		) {
+			return EBigDecimalTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<BigDecimal> getJdbcConverter() {
+			return EBigDecimalTypeFactory.this.getJdbcConverter();
 		}
 
 		@Override

@@ -1,16 +1,15 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
 import com.persistentbit.collections.PByteList;
-import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.EByteList;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.TypeImplComparableMixin;
-import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 
 /**
  * TODOC
@@ -21,12 +20,16 @@ import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 public class EByteListTypeFactory extends AbstractTypeFactory<EByteList, PByteList>{
 
 	public EByteListTypeFactory(ExprContext context) {
-		super(context, GenericExprTypeJdbcConverters.forByteList);
+		super(context);
 	}
 
+	@Override
+	protected ExprTypeJdbcConvert<PByteList> getJdbcConverter() {
+		return context.getJavaJdbcConverter(PByteList.class);
+	}
 
 	@Override
-	public Class<? extends DExpr<PByteList>> getTypeClass() {
+	public Class<EByteList> getTypeClass() {
 		return EByteList.class;
 	}
 
@@ -40,6 +43,21 @@ public class EByteListTypeFactory extends AbstractTypeFactory<EByteList, PByteLi
 
 		public EByteListImpl(TypeStrategy<PByteList> typeStrategy) {
 			super(typeStrategy);
+		}
+
+		@Override
+		public Class<EByteList> getTypeClass() {
+			return EByteList.class;
+		}
+
+		@Override
+		public EByteList buildWithStrategy(TypeStrategy<PByteList> typeStrategy) {
+			return EByteListTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<PByteList> getJdbcConverter() {
+			return EByteListTypeFactory.this.getJdbcConverter();
 		}
 
 		@Override
@@ -61,6 +79,11 @@ public class EByteListTypeFactory extends AbstractTypeFactory<EByteList, PByteLi
 		@Override
 		public EBool isNotNull() {
 			return getExprContext().isNotNull(this);
+		}
+
+		@Override
+		public ExprContext getContext() {
+			return context;
 		}
 	}
 }

@@ -4,9 +4,9 @@ import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
-import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 
 /**
  * TODOC
@@ -17,7 +17,7 @@ import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 public class ELongTypeFactory extends AbstractTypeFactory<ELong, Long>{
 
 	public ELongTypeFactory(ExprContext context) {
-		super(context, GenericExprTypeJdbcConverters.forLong);
+		super(context);
 	}
 
 
@@ -31,6 +31,11 @@ public class ELongTypeFactory extends AbstractTypeFactory<ELong, Long>{
 		return new ELongImpl(strategy);
 	}
 
+	@Override
+	protected ExprTypeJdbcConvert<Long> getJdbcConverter() {
+		return context.getJavaJdbcConverter(Long.class);
+	}
+
 	private class ELongImpl
 		extends AbstractNumberTypeImpl<ELong, ELong, ELong, ELong, EFloat, EDouble, EBigDecimal, ELong, ELong, Long>
 		implements ELong{
@@ -38,6 +43,21 @@ public class ELongTypeFactory extends AbstractTypeFactory<ELong, Long>{
 
 		public ELongImpl(TypeStrategy<Long> typeStrategy) {
 			super(typeStrategy);
+		}
+
+		@Override
+		public Class<ELong> getTypeClass() {
+			return ELong.class;
+		}
+
+		@Override
+		public ELong buildWithStrategy(TypeStrategy<Long> typeStrategy) {
+			return ELongTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Long> getJdbcConverter() {
+			return ELongTypeFactory.this.getJdbcConverter();
 		}
 
 		@Override

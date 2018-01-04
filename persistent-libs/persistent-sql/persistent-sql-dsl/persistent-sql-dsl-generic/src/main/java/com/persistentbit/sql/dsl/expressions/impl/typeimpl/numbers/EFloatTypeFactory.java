@@ -7,9 +7,9 @@ import com.persistentbit.sql.dsl.expressions.EFloat;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
-import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 
 /**
  * TODOC
@@ -20,7 +20,7 @@ import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 public class EFloatTypeFactory extends AbstractTypeFactory<EFloat, Float>{
 
 	public EFloatTypeFactory(ExprContext context) {
-		super(context, GenericExprTypeJdbcConverters.forFloat);
+		super(context);
 	}
 
 	@Override
@@ -28,7 +28,10 @@ public class EFloatTypeFactory extends AbstractTypeFactory<EFloat, Float>{
 		return EFloat.class;
 	}
 
-
+	@Override
+	protected ExprTypeJdbcConvert<Float> getJdbcConverter() {
+		return context.getJavaJdbcConverter(Float.class);
+	}
 
 	@Override
 	protected EFloat buildWithStrategy(TypeStrategy<Float> strategy) {
@@ -42,6 +45,22 @@ public class EFloatTypeFactory extends AbstractTypeFactory<EFloat, Float>{
 
 		public EFloatImpl(TypeStrategy<Float> strategy) {
 			super(strategy);
+		}
+
+		@Override
+		public Class<EFloat> getTypeClass() {
+			return EFloat.class;
+		}
+
+		@Override
+		public EFloat buildWithStrategy(TypeStrategy<Float> typeStrategy
+		) {
+			return EFloatTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Float> getJdbcConverter() {
+			return EFloatTypeFactory.this.getJdbcConverter();
 		}
 
 		@Override

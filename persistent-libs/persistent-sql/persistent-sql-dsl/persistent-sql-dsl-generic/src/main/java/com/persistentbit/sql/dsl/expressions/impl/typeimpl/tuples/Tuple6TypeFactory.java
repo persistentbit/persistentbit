@@ -57,12 +57,12 @@ public class Tuple6TypeFactory implements ExprTypeFactory{
 	@Override
 	public DExpr onlyTableColumn(DExpr genExpr) {
 		ETuple6 expr = (ETuple6) genExpr;
-		DExpr   e1   = context.getTypeFactory(expr.v1()).onlyTableColumn(expr);
-		DExpr   e2   = context.getTypeFactory(expr.v2()).onlyTableColumn(expr);
-		DExpr   e3   = context.getTypeFactory(expr.v3()).onlyTableColumn(expr);
-		DExpr   e4   = context.getTypeFactory(expr.v4()).onlyTableColumn(expr);
-		DExpr   e5   = context.getTypeFactory(expr.v5()).onlyTableColumn(expr);
-		DExpr   e6   = context.getTypeFactory(expr.v6()).onlyTableColumn(expr);
+		DExpr   e1   = context.onlyTableColumn(expr.v1());
+		DExpr   e2   = context.onlyTableColumn(expr.v2());
+		DExpr   e3   = context.onlyTableColumn(expr.v3());
+		DExpr   e4   = context.onlyTableColumn(expr.v4());
+		DExpr   e5   = context.onlyTableColumn(expr.v5());
+		DExpr   e6   = context.onlyTableColumn(expr.v6());
 		return new ETuple6Impl(e1, e2, e3, e4, e5, e6);
 	}
 
@@ -85,23 +85,23 @@ public class Tuple6TypeFactory implements ExprTypeFactory{
 	@Override
 	public DExpr buildSelection(DExpr genExpr, String prefixAlias) {
 		ETuple6 expr = (ETuple6) genExpr;
-		DExpr e1 = context.getTypeFactory(expr.v1()).buildSelection(expr.v1(),
-																	prefixAlias == null ? null : prefixAlias + "t1_"
+		DExpr e1 = (DExpr) context.buildSelection(expr.v1(),
+												  prefixAlias == null ? null : prefixAlias + "t1_"
 		);
-		DExpr e2 = context.getTypeFactory(expr.v2()).buildSelection(expr.v2(),
-																	prefixAlias == null ? null : prefixAlias + "t2_"
+		DExpr e2 = (DExpr) context.buildSelection(expr.v2(),
+												  prefixAlias == null ? null : prefixAlias + "t2_"
 		);
-		DExpr e3 = context.getTypeFactory(expr.v3()).buildSelection(expr.v3(),
-																	prefixAlias == null ? null : prefixAlias + "t3_"
+		DExpr e3 = (DExpr) context.buildSelection(expr.v3(),
+												  prefixAlias == null ? null : prefixAlias + "t3_"
 		);
-		DExpr e4 = context.getTypeFactory(expr.v4()).buildSelection(expr.v4(),
-																	prefixAlias == null ? null : prefixAlias + "t4_"
+		DExpr e4 = (DExpr) context.buildSelection(expr.v4(),
+												  prefixAlias == null ? null : prefixAlias + "t4_"
 		);
-		DExpr e5 = context.getTypeFactory(expr.v5()).buildSelection(expr.v5(),
-																	prefixAlias == null ? null : prefixAlias + "t5_"
+		DExpr e5 = (DExpr) context.buildSelection(expr.v5(),
+												  prefixAlias == null ? null : prefixAlias + "t5_"
 		);
-		DExpr e6 = context.getTypeFactory(expr.v6()).buildSelection(expr.v6(),
-																	prefixAlias == null ? null : prefixAlias + "t6_"
+		DExpr e6 = (DExpr) context.buildSelection(expr.v6(),
+												  prefixAlias == null ? null : prefixAlias + "t6_"
 		);
 		return new ETuple6Impl<>(e1, e2, e3, e4, e5, e6);
 	}
@@ -109,12 +109,12 @@ public class Tuple6TypeFactory implements ExprTypeFactory{
 	@Override
 	public PList<DExpr> expand(DExpr genExpr) {
 		ETuple6 expr = (ETuple6) genExpr;
-		return context.getTypeFactory(expr.v1()).expand(expr.v1())
-			.plusAll(context.getTypeFactory(expr.v2()).expand(expr.v2()))
-			.plusAll(context.getTypeFactory(expr.v3()).expand(expr.v3()))
-			.plusAll(context.getTypeFactory(expr.v4()).expand(expr.v4()))
-			.plusAll(context.getTypeFactory(expr.v5()).expand(expr.v5()))
-			.plusAll(context.getTypeFactory(expr.v6()).expand(expr.v6()))
+		return context.expand(expr.v1())
+			.plusAll(context.expand(expr.v2()))
+			.plusAll(context.expand(expr.v3()))
+			.plusAll(context.expand(expr.v4()))
+			.plusAll(context.expand(expr.v5()))
+			.plusAll(context.expand(expr.v6()))
 			;
 	}
 

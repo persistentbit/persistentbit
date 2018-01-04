@@ -3,7 +3,6 @@ package com.persistentbit.sql.dsl.expressions.impl.strategies;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.utils.Lazy;
@@ -20,16 +19,16 @@ import java.util.function.Function;
  */
 public class ParamTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
+	private final Class                                typeClass;
 	private final Function<PMap<String,Object>,Object> paramGetter;
-	private final ExprTypeJdbcConvert<J> jdbcConvert;
-	private final Lazy<PrepStatParam> prepStatParam;
+	private final ExprTypeJdbcConvert<J>               jdbcConvert;
+	private final Lazy<PrepStatParam>                  prepStatParam;
 
 	public ParamTypeStrategy(Class<? extends DExpr<J>> typeClass,
-							 ExprTypeFactory<?, J> exprTypeFactory,
 							 Function<PMap<String, Object>, Object> paramGetter,
 							 ExprTypeJdbcConvert<J> jdbcConvert
 	) {
-		super(typeClass, exprTypeFactory);
+		this.typeClass = typeClass;
 		this.paramGetter = paramGetter;
 		this.jdbcConvert = jdbcConvert;
 		this.prepStatParam = Lazy.code(() -> {
@@ -58,5 +57,15 @@ public class ParamTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	@Override
 	public String toString() {
 		return "Param[" + typeClass.getSimpleName() + "]";
+	}
+
+	@Override
+	public String _createAliasName(String aliasPrefix) {
+		return aliasPrefix;
+	}
+
+	@Override
+	public TypeStrategy<J> onlyColumnName() {
+		return this;
 	}
 }

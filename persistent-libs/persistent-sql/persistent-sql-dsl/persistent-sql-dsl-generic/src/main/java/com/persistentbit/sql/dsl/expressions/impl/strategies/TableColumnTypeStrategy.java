@@ -1,8 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
 import com.persistentbit.sql.dsl.SqlWithParams;
-import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 
 /**
  * TODOC
@@ -16,14 +14,10 @@ public class TableColumnTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	private final String columnName;
 
 	public TableColumnTypeStrategy(
-		Class<? extends DExpr<J>> typeClass,
-		ExprTypeFactory exprTypeFactory,
 		String fieldSelectionName,
 		String fieldName,
 		String columnName
-
 	) {
-		super(typeClass, exprTypeFactory);
 		this.fieldSelectionName = fieldSelectionName;
 		this.fieldName = fieldName;
 		this.columnName = columnName;
@@ -32,7 +26,7 @@ public class TableColumnTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	@Override
 	public TypeStrategy<J> onlyColumnName() {
 		return new TableColumnTypeStrategy<>(
-			typeClass, exprTypeFactory, columnName, fieldName, columnName
+			columnName, fieldName, columnName
 		);
 	}
 

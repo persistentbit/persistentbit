@@ -4,9 +4,9 @@ import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
-import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 
 /**
  * TODOC
@@ -17,7 +17,7 @@ import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 public class EByteTypeFactory extends AbstractTypeFactory<EByte, Byte>{
 
 	public EByteTypeFactory(ExprContext context) {
-		super(context, GenericExprTypeJdbcConverters.forByte);
+		super(context);
 	}
 
 
@@ -32,13 +32,34 @@ public class EByteTypeFactory extends AbstractTypeFactory<EByte, Byte>{
 		return new EByteImpl(strategy);
 	}
 
+	@Override
+	protected ExprTypeJdbcConvert<Byte> getJdbcConverter() {
+		return context.getJavaJdbcConverter(Byte.class);
+	}
+
 	private class EByteImpl
 		extends AbstractNumberTypeImpl<EByte, EShort, EInt, ELong, EFloat, EDouble, EBigDecimal, EByte, EByte, Byte>
 		implements EByte{
 
 
-		public EByteImpl(TypeStrategy typeStrategy) {
+		private EByteImpl(TypeStrategy typeStrategy) {
 			super(typeStrategy);
+		}
+
+		@Override
+		public Class<EByte> getTypeClass() {
+			return EByte.class;
+		}
+
+		@Override
+		public EByte buildWithStrategy(TypeStrategy<Byte> typeStrategy
+		) {
+			return EByteTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Byte> getJdbcConverter() {
+			return EByteTypeFactory.this.getJdbcConverter();
 		}
 
 		@Override

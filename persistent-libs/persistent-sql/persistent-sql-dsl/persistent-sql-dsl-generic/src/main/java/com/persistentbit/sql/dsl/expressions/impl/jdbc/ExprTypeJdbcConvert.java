@@ -21,7 +21,7 @@ public interface ExprTypeJdbcConvert<J>{
 
 	Array createJdbcArray(Connection con, ImmutableArray<J> values) throws SQLException;
 
-	ImmutableArray<J> createJavaArray(Array jdbcArray);
+	ImmutableArray<J> createJavaArray(Array jdbcArray) throws SQLException;
 
 	int columnCount();
 

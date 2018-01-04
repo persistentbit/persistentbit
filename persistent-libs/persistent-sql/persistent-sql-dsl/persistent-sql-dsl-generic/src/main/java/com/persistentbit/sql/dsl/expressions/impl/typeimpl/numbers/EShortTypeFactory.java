@@ -4,9 +4,9 @@ import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
-import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 
 /**
  * TODOC
@@ -17,13 +17,18 @@ import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 public class EShortTypeFactory extends AbstractTypeFactory<EShort,Short>{
 
 	public EShortTypeFactory(ExprContext context) {
-		super(context, GenericExprTypeJdbcConverters.forShort);
+		super(context);
 	}
 
 
 	@Override
 	public Class<? extends DExpr<Short>> getTypeClass() {
 		return EShort.class;
+	}
+
+	@Override
+	protected ExprTypeJdbcConvert<Short> getJdbcConverter() {
+		return context.getJavaJdbcConverter(Short.class);
 	}
 
 	@Override
@@ -35,6 +40,21 @@ public class EShortTypeFactory extends AbstractTypeFactory<EShort,Short>{
 
 		public EShortImpl(TypeStrategy<Short> typeStrategy) {
 			super(typeStrategy);
+		}
+
+		@Override
+		public Class<EShort> getTypeClass() {
+			return EShort.class;
+		}
+
+		@Override
+		public EShort buildWithStrategy(TypeStrategy<Short> typeStrategy) {
+			return EShortTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Short> getJdbcConverter() {
+			return EShortTypeFactory.this.getJdbcConverter();
 		}
 
 		@Override
