@@ -45,8 +45,9 @@ public class SubQuery1<E1 extends DExpr<J1>,J1> implements TableImpl<E1,J1>{
 		return v1;
 	}
 
+
 	@Override
-	public Class<Table<E1, J1>> getTypeClass() {
+	public Class<E1> getTypeClass() {
 		Class cls = SubQuery1.class;
 		return cls;
 	}

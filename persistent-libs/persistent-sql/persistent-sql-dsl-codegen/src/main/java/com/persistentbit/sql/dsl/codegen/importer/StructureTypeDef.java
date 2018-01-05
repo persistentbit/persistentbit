@@ -7,8 +7,8 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructTypeImplMixin;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructureField;
 
 import java.util.Iterator;
@@ -233,7 +233,7 @@ public class StructureTypeDef implements TypeDef{
 			);
 			//ADD TYPE CLASS
 			cls = cls.addMethod(
-				new JMethod("getTypeClass", "Class<? extends DExpr<" + javaRef.getClassName() + ">>")
+				new JMethod("getTypeClass", "Class<" + ref.getClassName() + ">")
 					.overrides()
 					.withAccessLevel(AccessLevel.Public)
 					.withCode(pw -> {
@@ -245,9 +245,9 @@ public class StructureTypeDef implements TypeDef{
 			JClass implCls = new JClass(impl)
 				.asFinal()
 				.withAccessLevel(AccessLevel.Private)
-				.extendsDef(ref.getClassName() + " implements " + ExprTypeImpl.class.getSimpleName() + "<" + ref
+				.extendsDef(ref.getClassName() + " implements " + StructTypeImplMixin.class.getSimpleName() + "<" + ref
 					.getClassName() + ", " + javaRef.getClassName() + ">")
-				.addImport(ExprTypeImpl.class);
+				.addImport(StructTypeImplMixin.class);
 			implCls = implCls.addMethod(
 				new JMethod(implCls.getClassName())
 					.addArg(new JArgument("Iterator<DExpr>", "iter"))
@@ -271,7 +271,7 @@ public class StructureTypeDef implements TypeDef{
 			);
 
 			implCls = implCls.addMethod(
-				new JMethod("getTypeFactory", ExprTypeFactory.class.getSimpleName() + "<" + ref
+				new JMethod("getTypeFactory", AbstractStructureTypeFactory.class.getSimpleName() + "<" + ref
 					.getClassName() + ", " + javaRef.getClassName() + ">")
 					.overrides()
 					.addImport(ExprTypeFactory.class)
@@ -289,6 +289,16 @@ public class StructureTypeDef implements TypeDef{
 						pw.println("return \"" + ref.getClassName() + "[\" + "
 									   + fields.map(f -> f.getJavaName(context)).toString(" + ")
 									   + " + \"]\";"
+						);
+					})
+			);
+
+			implCls = implCls.addMethod(
+				new JMethod("getThis", ref.getClassName())
+					.overrides()
+					.withAccessLevel(AccessLevel.Public)
+					.withCode(pw -> {
+						pw.println("return this;"
 						);
 					})
 			);

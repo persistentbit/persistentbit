@@ -24,7 +24,7 @@ public class EFloatTypeFactory extends AbstractTypeFactory<EFloat, Float>{
 	}
 
 	@Override
-	public Class<? extends DExpr<Float>> getTypeClass() {
+	public Class<EFloat> getTypeClass() {
 		return EFloat.class;
 	}
 

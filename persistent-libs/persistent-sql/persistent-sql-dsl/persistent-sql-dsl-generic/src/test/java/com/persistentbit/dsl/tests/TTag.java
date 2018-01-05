@@ -10,7 +10,6 @@ import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.tables.AbstractTable;
-import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableName;
 import com.persistentbit.sql.work.DbWork;
 
@@ -47,8 +46,8 @@ public class TTag extends AbstractTable<ETag, Tag>{
 	}
 
 	@Override
-	public Class<? extends Table<ETag, Tag>> getTypeClass() {
-		return this.getClass();
+	public Class<ETag> getTypeClass() {
+		return ETag.class;
 	}
 
 	@Override

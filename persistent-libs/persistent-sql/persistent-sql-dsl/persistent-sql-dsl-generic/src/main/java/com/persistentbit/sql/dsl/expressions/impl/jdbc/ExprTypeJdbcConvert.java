@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.expressions.impl.jdbc;
 
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
+import com.persistentbit.utils.exceptions.ToDo;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ public interface ExprTypeJdbcConvert<J>{
 
 
 	void setParam(int index, PreparedStatement stat, J value) throws SQLException;
+
 	J read(int index, ResultSet resultSet) throws SQLException;
 
 	Array createJdbcArray(Connection con, ImmutableArray<J> values) throws SQLException;
@@ -94,58 +96,32 @@ public interface ExprTypeJdbcConvert<J>{
 		}
 	}
 
-	/*
-		static <J> ExprTypeJdbcConvert<J> createSingleColumn(int count,
-			Function<Integer,Function<PreparedStatement,ThrowingFunction<J,Object,SQLException>>> setParam,
-			Function<Integer,ThrowingFunction<ResultSet,J,SQLException>> readResultSet
-		 ){
-			return new ExprTypeJdbcConvert<>(){
-				@Override
-				public void setParam(int index, PreparedStatement stat, J value) throws SQLException {
-					setParam.apply(index).apply(stat).apply(value);
-				}
 
-				@Override
-				public J read(int index, ResultSet resultSet) throws SQLException {
-					return readResultSet.apply(index).apply(resultSet);
-				}
-
-				@Override
-				public void setArrayParam(int index, PreparedStatement stat, ImmutableArray<J> array) throws SQLException {
-
-				}
-
-				@Override
-				public ImmutableArray<J> readArray(int index, ResultSet resultSet) throws SQLException {
-					return null;
-				}
-
-				@Override
-				public int columnCount() {
-					return count;
-				}
-
-				@Override
-				public PList<ExprTypeJdbcConvert> expand() {
-					return PList.val(this);
-				}
-			};
-		}*/
 	static <J> ExprTypeJdbcConvert<J> createMultiColumn(PList<ExprTypeJdbcConvert> group,
-														Function<Object[],J> toValue){
-		int count = group.map(g -> g.columnCount()).fold(0, (a, b) -> a+b);
+														Function<Object[], J> toValue) {
+		int count = group.map(g -> g.columnCount()).fold(0, (a, b) -> a + b);
 		return new ExprTypeJdbcConvert<>(){
 			@Override
 			public void setParam(int index, PreparedStatement stat, J value) throws SQLException {
+				throw new ToDo();
+			}
 
+			@Override
+			public Array createJdbcArray(Connection con, ImmutableArray<J> values) throws SQLException {
+				throw new UnsupportedOperationException();
+			}
+
+			@Override
+			public ImmutableArray<J> createJavaArray(Array jdbcArray) throws SQLException {
+				throw new UnsupportedOperationException();
 			}
 
 			@Override
 			public J read(int index, ResultSet resultSet) throws SQLException {
 				int      i   = 0;
 				Object[] res = new Object[count];
-				for(ExprTypeJdbcConvert item : group){
-					res[i++] = item.read(index,resultSet);
+				for(ExprTypeJdbcConvert item : group) {
+					res[i++] = item.read(index, resultSet);
 					index += item.columnCount();
 				}
 				return toValue.apply(res);

@@ -25,7 +25,7 @@ public class EBoolTypeFactory extends AbstractTypeFactory<EBool, Boolean>{
 
 
 	@Override
-	public Class<? extends DExpr<Boolean>> getTypeClass() {
+	public Class<EBool> getTypeClass() {
 		return EBool.class;
 	}
 
@@ -55,6 +55,11 @@ public class EBoolTypeFactory extends AbstractTypeFactory<EBool, Boolean>{
 		public EBool buildWithStrategy(TypeStrategy<Boolean> typeStrategy
 		) {
 			return new EBoolImpl(typeStrategy);
+		}
+
+		@Override
+		public ExprContext getContext() {
+			return EBoolTypeFactory.this.context;
 		}
 
 		@Override

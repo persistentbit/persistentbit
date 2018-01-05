@@ -4,11 +4,13 @@ import com.generated.expressions.EAddress;
 import com.generated.values.Address;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructureField;
 
@@ -26,10 +28,42 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 				, (EString) iter.next()
 			);
 		}
+
+		@Override
+		public EAddress buildAlias(String alias) {
+			return null;
+		}
+
+		@Override
+		public EAddress buildSelection(String prefixAlias) {
+			return null;
+		}
+
+		@Override
+		public EAddress onlyTableColumn() {
+			return null;
+		}
+
+		@Override
+		public PList<DExpr> expand() {
+			return null;
+		}
+
+		@Override
+		public SqlWithParams toSql() {
+			return null;
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Address> getJdbcConverter() {
+			return null;
+		}
+
 		@Override
 		public ExprTypeFactory<EAddress, Address> getTypeFactory() {
 			return AddressTypeFactory.this;
 		}
+
 		@Override
 		public String toString() {
 			return "EAddress[" + street + postalCode + city + "]";
@@ -39,6 +73,7 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 	public AddressTypeFactory(ExprContext context) {
 		super(context);
 	}
+
 	@Override
 	protected PList<StructureField<EAddress, Address>> buildFields() {
 		return PList.val(
@@ -47,6 +82,7 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 			, createField(EString.class, "city", "city", v -> v.getCity(), v -> v.city)
 		);
 	}
+
 	@Override
 	protected Address buildValue(Object[] fieldValues) {
 		return new Address(
@@ -55,12 +91,14 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 			, (String) fieldValues[2]
 		);
 	}
+
 	@Override
 	protected EAddressImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EAddressImpl(fieldValues.iterator());
 	}
+
 	@Override
-	public Class<? extends DExpr<Address>> getTypeClass() {
+	public Class<EAddress> getTypeClass() {
 		return EAddress.class;
 	}
 }

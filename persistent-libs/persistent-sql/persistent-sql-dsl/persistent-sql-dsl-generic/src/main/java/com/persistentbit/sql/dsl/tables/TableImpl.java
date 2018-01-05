@@ -11,7 +11,8 @@ import com.persistentbit.sql.dsl.expressions.DExpr;
  * @since 19/12/17
  */
 public interface TableImpl<EALL extends DExpr<J>,J> extends Table<EALL,J>{
-	Class<? extends Table<EALL,J>>	getTypeClass();
+
+	Class<EALL> getTypeClass();
 	SqlWithParams getFromName(@Nullable String defaultCatalog, @Nullable String defaultSchema);
 
 

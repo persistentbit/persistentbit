@@ -19,7 +19,6 @@ import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP1;
 import com.persistentbit.sql.dsl.tables.AbstractTable;
-import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableName;
 import com.persistentbit.sql.work.DbWork;
 
@@ -64,8 +63,8 @@ public class TPersons extends AbstractTable<EPersons, Persons>{
 		this(context, null);
 	}
 	@Override
-	public Class<? extends Table<EPersons, Persons>> getTypeClass() {
-		return this.getClass();
+	public Class<EPersons> getTypeClass() {
+		return EPersons.class;
 	}
 	@Override
 	protected TableName getTableName() {

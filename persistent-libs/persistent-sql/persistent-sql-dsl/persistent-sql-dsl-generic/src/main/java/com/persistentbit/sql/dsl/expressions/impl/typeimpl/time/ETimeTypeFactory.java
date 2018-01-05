@@ -1,6 +1,5 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.time;
 
-import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ETime;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
@@ -26,7 +25,7 @@ public class ETimeTypeFactory extends AbstractTypeFactory<ETime, LocalTime>{
 
 
 	@Override
-	public Class<? extends DExpr<LocalTime>> getTypeClass() {
+	public Class<ETime> getTypeClass() {
 		return ETime.class;
 	}
 
@@ -44,9 +43,13 @@ public class ETimeTypeFactory extends AbstractTypeFactory<ETime, LocalTime>{
 	private class ETimeImpl extends AbstractTypeImpl<ETime, LocalTime>
 		implements ETime, TypeImplComparableMixin<ETime, LocalTime>{
 
-		public ETimeImpl(ExprContext context, TypeStrategy<LocalTime> typeStrategy
-		) {
+		public ETimeImpl(ExprContext context, TypeStrategy<LocalTime> typeStrategy) {
 			super(typeStrategy);
+		}
+
+		@Override
+		public ExprContext getContext() {
+			return ETimeTypeFactory.this.context;
 		}
 
 		@Override

@@ -26,7 +26,7 @@ public abstract class AbstractNumberTypeImpl<BE,SE,IE,LE,FE,DE,BDE,NE,E extends 
 		this.binOp = (op, other) -> getTypeFactory().buildBinOp(this,op,other);
 	}
 
-	protected final ExprContext getContext(){
+	public final ExprContext getContext() {
 		return getTypeFactory().getExprContext();
 	}
 

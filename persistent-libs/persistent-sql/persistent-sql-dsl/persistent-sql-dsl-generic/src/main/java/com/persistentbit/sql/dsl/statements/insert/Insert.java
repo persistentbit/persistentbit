@@ -47,7 +47,7 @@ public abstract class Insert<T extends Table, AUTOGENKEY> implements DbWork<PLis
 		this.rows = rows;
 
 		this.jdbcConverters = Lazy.code(() ->
-											context.getTypeFactory(into.all()).getJdbcConverter(into.all()).expand()
+											context.getJdbcConverter(into.all()).expand()
 		);
 		this.autoGenKeyJdbcConverter = Lazy.code(() -> {
 			if(autoGenKeyName == null) {

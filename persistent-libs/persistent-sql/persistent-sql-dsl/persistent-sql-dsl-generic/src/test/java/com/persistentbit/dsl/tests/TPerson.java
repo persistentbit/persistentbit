@@ -13,7 +13,6 @@ import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP1;
 import com.persistentbit.sql.dsl.tables.AbstractTable;
-import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableName;
 import com.persistentbit.sql.work.DbWork;
 
@@ -63,8 +62,8 @@ public class TPerson extends AbstractTable<EPerson, Person>{
 	}
 
 	@Override
-	public Class<? extends Table<EPerson, Person>> getTypeClass() {
-		return this.getClass();
+	public Class<EPerson> getTypeClass() {
+		return EPerson.class;
 	}
 
 	@Override

@@ -6,11 +6,11 @@ import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.TypeImplComparableMixin;
-import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 
 /**
  * TODOC
@@ -21,14 +21,19 @@ import com.persistentbit.sql.dsl.genericdb.GenericExprTypeJdbcConverters;
 public class EStringTypeFactory extends AbstractTypeFactory<EString,String>{
 
 	public EStringTypeFactory(ExprContext context) {
-		super(context, GenericExprTypeJdbcConverters.forString);
+		super(context);
 	}
-
 
 	@Override
-	public Class<? extends DExpr<String>> getTypeClass() {
+	protected ExprTypeJdbcConvert<String> getJdbcConverter() {
+		return context.getJavaJdbcConverter(String.class);
+	}
+
+	@Override
+	public Class<EString> getTypeClass() {
 		return EString.class;
 	}
+
 
 	@Override
 	protected EString buildWithStrategy(TypeStrategy<String> strategy) {
@@ -38,6 +43,26 @@ public class EStringTypeFactory extends AbstractTypeFactory<EString,String>{
 
 		public EStringImpl(TypeStrategy<String> typeStrategy) {
 			super(typeStrategy);
+		}
+
+		@Override
+		public Class<EString> getTypeClass() {
+			return getTypeFactory().getTypeClass();
+		}
+
+		@Override
+		public EString buildWithStrategy(TypeStrategy<String> typeStrategy) {
+			return EStringTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprContext getContext() {
+			return context;
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<String> getJdbcConverter() {
+			return EStringTypeFactory.this.getJdbcConverter();
 		}
 
 		@Override

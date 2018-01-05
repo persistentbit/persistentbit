@@ -31,7 +31,7 @@ public class EBigDecimalTypeFactory extends AbstractTypeFactory<EBigDecimal, Big
 	}
 
 	@Override
-	public Class<? extends DExpr<BigDecimal>> getTypeClass() {
+	public Class<EBigDecimal> getTypeClass() {
 		return EBigDecimal.class;
 	}
 

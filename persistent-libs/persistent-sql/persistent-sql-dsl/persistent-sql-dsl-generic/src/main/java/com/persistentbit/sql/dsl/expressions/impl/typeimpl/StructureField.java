@@ -34,6 +34,11 @@ public class StructureField<E extends DExpr<J>,J>{
 		this.typeFactory = typeFactory;
 	}
 
+	@Override
+	public String toString() {
+		return "StructureField[" + columnName + ", " + fieldName + "]";
+	}
+
 	@SuppressWarnings("unchecked")
 	public ExprTypeFactory getTypeFactory() {
 		if(typeFactory == null){

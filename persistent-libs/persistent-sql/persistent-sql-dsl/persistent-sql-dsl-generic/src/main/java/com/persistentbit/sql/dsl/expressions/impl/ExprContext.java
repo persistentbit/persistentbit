@@ -97,7 +97,11 @@ public class ExprContext{
 
 
 	public <J> ExprTypeJdbcConvert<J> getJavaJdbcConverter(Class<J> javaClass) {
-		return javaJdbcConverter.get(javaClass);
+		ExprTypeJdbcConvert<J> result = javaJdbcConverter.get(javaClass);
+		if(result == null) {
+			throw new RuntimeException("No Java JdbcConverter found for " + javaClass);
+		}
+		return result;
 	}
 
 	public void setDefaultSingleOpBuilders() {

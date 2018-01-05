@@ -3,11 +3,13 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.collections.PStream;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 
 import java.util.function.Function;
 
@@ -66,12 +68,12 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 
 	//	@Override
 	//	@SuppressWarnings("unchecked")
-	//	public ExprTypeJdbcConvert<J> getJdbcConverter(E expr) {
-	//		PList<ExprTypeJdbcConvert> jdbcList =
-	//			fields.map(sf -> sf.getTypeFactory().getJdbcConverter(sf.expressionGetter.apply(expr))).plist();
-	//
-	//		return ExprTypeJdbcConvert.createMultiColumn(jdbcList, v -> isNull(v) ? null : buildValue(v));
-	//	}
+	public ExprTypeJdbcConvert<J> getJdbcConverter(E expr) {
+		PList<ExprTypeJdbcConvert> jdbcList =
+			fields.map(sf -> context.getJdbcConverter(sf.expressionGetter.apply(expr))).plist();
+
+		return ExprTypeJdbcConvert.createMultiColumn(jdbcList, v -> isNull(v) ? null : buildValue(v));
+	}
 
 	private boolean isNull(Object[] list) {
 		if(list == null) {
@@ -104,13 +106,12 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 		};
 	}
 
-	//	@Override
-	//	public E buildAlias(DExpr expr, String alias) {
-	//		return createExpression(fields.map(sf ->
-	//											   sf.getTypeFactory()
-	//												   .buildAlias(, alias + sf.fieldName, )
-	//		));
-	//	}
+
+	public E buildAlias(E expr, String alias) {
+		return createExpression(fields.map(sf -> (DExpr) context
+			.buildAlias(sf.expressionGetter.apply(expr), alias + sf.fieldName)
+		));
+	}
 
 	@Override
 	public E buildBinOp(DExpr left, BinOpOperator op, DExpr right) {
@@ -146,48 +147,41 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 		));
 	}
 
-	//	@Override
-	//	public E onlyTableColumn(E expr) {
-	//		return createExpression(
-	//			fields.map(sf ->
-	//						   sf.getTypeFactory().onlyTableColumn(sf.expressionGetter.apply(expr))
-	//			)
-	//		);
-	//	}
+	public E onlyTableColumn(E expr) {
+		return createExpression(
+			fields.map(sf ->
+						   context.onlyTableColumn(sf.expressionGetter.apply(expr))
+			)
+		);
+	}
 
 
-	//	@Override
-	//	@SuppressWarnings("unchecked")
-	//	public E buildSelection(E expr, String prefixAlias) {
-	//		return createExpression(fields.map(sf ->
-	//											   sf.getTypeFactory()
-	//												   .buildSelection(sf.expressionGetter.apply(expr), prefixAlias)
-	//		));
-	//	}
-	//
-	//	@Override
-	//	@SuppressWarnings("unchecked")
-	//	public PList<DExpr> expand(E expr) {
-	//		return fields
-	//			.map(sf -> sf.getTypeFactory()
-	//				.expand(sf.expressionGetter.apply(expr)))
-	//			.<DExpr>flatten().plist();
-	//
-	//	}
-	//
-	//	@Override
-	//	@SuppressWarnings("unchecked")
-	//	public SqlWithParams toSql(E expr) {
-	//		PStream<SqlWithParams> sql =
-	//			fields.map(sf ->
-	//						   sf.getTypeFactory()
-	//							   .toSql(sf.expressionGetter.apply(expr)));
-	//		if(sql.isEmpty()) {
-	//			return SqlWithParams.empty;
-	//		}
-	//		return sql.tail().fold(sql.head(), (a, b) -> a.add(", ").add(b));
-	//
-	//	}
+	@SuppressWarnings("unchecked")
+	public E buildSelection(E expr, String prefixAlias) {
+		return createExpression(fields.map(sf -> (DExpr) context
+			.buildSelection(sf.expressionGetter.apply(expr), prefixAlias)
+		));
+	}
+
+	@SuppressWarnings("unchecked")
+	public PList<DExpr> expand(E expr) {
+		return fields
+			.map(sf -> context.expand(sf.expressionGetter.apply(expr)))
+			.<DExpr>flatten().plist();
+
+	}
+
+
+	@SuppressWarnings("unchecked")
+	public SqlWithParams toSql(E expr) {
+		PStream<SqlWithParams> sql =
+			fields.map(sf -> context.toSql(sf.expressionGetter.apply(expr)));
+		if(sql.isEmpty()) {
+			return SqlWithParams.empty;
+		}
+		return sql.tail().fold(sql.head(), (a, b) -> a.add(", ").add(b));
+
+	}
 
 	@Override
 	public ExprContext getExprContext() {

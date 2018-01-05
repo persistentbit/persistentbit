@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.genericdb;
 
 import com.persistentbit.collections.PByteList;
+import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 
 import java.math.BigDecimal;
@@ -85,5 +86,19 @@ public class GenericExprTypeJdbcConverters{
 		, o -> o == null ? null : PByteList.from((byte[]) o)
 	);
 
-
+	static public final void init(ExprContext context) {
+		context.addJdbcConverter(Byte.class, forByte);
+		context.addJdbcConverter(Short.class, forShort);
+		context.addJdbcConverter(Integer.class, forInt);
+		context.addJdbcConverter(Long.class, forLong);
+		context.addJdbcConverter(Float.class, forFloat);
+		context.addJdbcConverter(Double.class, forDouble);
+		context.addJdbcConverter(BigDecimal.class, forBigDecimal);
+		context.addJdbcConverter(Boolean.class, forBool);
+		context.addJdbcConverter(LocalDateTime.class, forLocalDateTime);
+		context.addJdbcConverter(LocalDate.class, forLocalDate);
+		context.addJdbcConverter(LocalTime.class, forLocalTime);
+		context.addJdbcConverter(PByteList.class, forByteList);
+		context.addJdbcConverter(String.class, forString);
+	}
 }

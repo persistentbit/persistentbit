@@ -249,12 +249,11 @@ public class TableTypeDef implements TypeDef{
 				);
 				//CREATE TYPECLASS GETTER
 				cls = cls.addMethod(
-					new JMethod("getTypeClass", "Class<? extends " + Table.class.getSimpleName() + "<" + exprRef
-						.getClassName() + ", " + javaRef.getClassName() + ">>")
+					new JMethod("getTypeClass", "Class<" + exprRef.getClassName() + ">")
 						.withAccessLevel(AccessLevel.Public)
 						.overrides()
 						.withCode(pw -> {
-							pw.println("return this.getClass();");
+							pw.println("return " + exprRef.getClassName() + ".class;");
 						})
 						.addImport(JImport.forClass(Table.class))
 				);

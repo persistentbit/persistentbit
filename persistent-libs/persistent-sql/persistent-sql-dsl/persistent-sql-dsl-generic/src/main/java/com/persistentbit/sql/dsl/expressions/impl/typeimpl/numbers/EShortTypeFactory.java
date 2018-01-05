@@ -22,7 +22,7 @@ public class EShortTypeFactory extends AbstractTypeFactory<EShort,Short>{
 
 
 	@Override
-	public Class<? extends DExpr<Short>> getTypeClass() {
+	public Class<EShort> getTypeClass() {
 		return EShort.class;
 	}
 

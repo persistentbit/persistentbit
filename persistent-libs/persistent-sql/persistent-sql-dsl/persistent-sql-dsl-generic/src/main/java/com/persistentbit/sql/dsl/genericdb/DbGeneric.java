@@ -23,6 +23,7 @@ public class DbGeneric{
 		ExprContext c = new ExprContext();
 		GenericTypeFactories.registerAll(c);
 		GenericBinOps.setDefaultBinOpBuilders(c);
+		GenericExprTypeJdbcConverters.init(c);
 		return c;
 	}
 

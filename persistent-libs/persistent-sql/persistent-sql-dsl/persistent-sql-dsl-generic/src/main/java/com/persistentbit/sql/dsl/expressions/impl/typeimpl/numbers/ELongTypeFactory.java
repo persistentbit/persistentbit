@@ -22,7 +22,7 @@ public class ELongTypeFactory extends AbstractTypeFactory<ELong, Long>{
 
 
 	@Override
-	public Class<? extends DExpr<Long>> getTypeClass() {
+	public Class<ELong> getTypeClass() {
 		return ELong.class;
 	}
 

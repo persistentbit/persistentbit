@@ -22,7 +22,7 @@ public class EByteTypeFactory extends AbstractTypeFactory<EByte, Byte>{
 
 
 	@Override
-	public Class<? extends DExpr<Byte>> getTypeClass() {
+	public Class<EByte> getTypeClass() {
 		return EByte.class;
 	}
 

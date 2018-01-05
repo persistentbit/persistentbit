@@ -22,7 +22,7 @@ public class EIntTypeFactory extends AbstractTypeFactory<EInt, Integer>{
 
 
 	@Override
-	public Class<? extends DExpr<Integer>> getTypeClass() {
+	public Class<EInt> getTypeClass() {
 		return EInt.class;
 	}
 

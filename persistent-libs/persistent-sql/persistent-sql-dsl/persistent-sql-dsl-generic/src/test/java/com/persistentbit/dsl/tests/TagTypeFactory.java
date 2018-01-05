@@ -2,6 +2,7 @@ package com.persistentbit.dsl.tests;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EDateTime;
 import com.persistentbit.sql.dsl.expressions.ELong;
@@ -9,6 +10,7 @@ import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructureField;
 
@@ -48,7 +50,7 @@ public class TagTypeFactory extends AbstractStructureTypeFactory<ETag, Tag>{
 	}
 
 	@Override
-	public Class<? extends DExpr<Tag>> getTypeClass() {
+	public Class<ETag> getTypeClass() {
 		return ETag.class;
 	}
 
@@ -65,6 +67,36 @@ public class TagTypeFactory extends AbstractStructureTypeFactory<ETag, Tag>{
 		@Override
 		public ExprTypeFactory<ETag, Tag> getTypeFactory() {
 			return TagTypeFactory.this;
+		}
+
+		@Override
+		public ETag buildAlias(String alias) {
+			return null;
+		}
+
+		@Override
+		public ETag buildSelection(String prefixAlias) {
+			return null;
+		}
+
+		@Override
+		public ETag onlyTableColumn() {
+			return null;
+		}
+
+		@Override
+		public PList<DExpr> expand() {
+			return null;
+		}
+
+		@Override
+		public SqlWithParams toSql() {
+			return null;
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Tag> getJdbcConverter() {
+			return null;
 		}
 
 		@Override

@@ -24,7 +24,7 @@ public class EDoubleTypeFactory extends AbstractTypeFactory<EDouble, Double>{
 
 
 	@Override
-	public Class<? extends DExpr<Double>> getTypeClass() {
+	public Class<EDouble> getTypeClass() {
 		return EDouble.class;
 	}
 

@@ -2,6 +2,7 @@ package com.persistentbit.dsl.tests;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EDateTime;
 import com.persistentbit.sql.dsl.expressions.ELong;
@@ -9,6 +10,7 @@ import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructureField;
 
@@ -52,7 +54,7 @@ public class PersonTypeFactory extends AbstractStructureTypeFactory<EPerson, Per
 	}
 
 	@Override
-	public Class<? extends DExpr<Person>> getTypeClass() {
+	public Class<EPerson> getTypeClass() {
 		return EPerson.class;
 	}
 
@@ -67,6 +69,36 @@ public class PersonTypeFactory extends AbstractStructureTypeFactory<EPerson, Per
 				(EAddress) iter.next(),
 				(EDateTime) iter.next()
 			);
+		}
+
+		@Override
+		public EPerson buildAlias(String alias) {
+			return null;
+		}
+
+		@Override
+		public EPerson buildSelection(String prefixAlias) {
+			return null;
+		}
+
+		@Override
+		public EPerson onlyTableColumn() {
+			return null;
+		}
+
+		@Override
+		public PList<DExpr> expand() {
+			return null;
+		}
+
+		@Override
+		public SqlWithParams toSql() {
+			return null;
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Person> getJdbcConverter() {
+			return null;
 		}
 
 		@Override

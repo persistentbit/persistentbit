@@ -1,6 +1,5 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.time;
 
-import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EDate;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
@@ -26,7 +25,7 @@ public class EDateTypeFactory extends AbstractTypeFactory<EDate, LocalDate>{
 
 
 	@Override
-	public Class<? extends DExpr<LocalDate>> getTypeClass() {
+	public Class<EDate> getTypeClass() {
 		return EDate.class;
 	}
 
@@ -57,6 +56,11 @@ public class EDateTypeFactory extends AbstractTypeFactory<EDate, LocalDate>{
 		public EDate buildWithStrategy(TypeStrategy<LocalDate> typeStrategy
 		) {
 			return EDateTypeFactory.this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprContext getContext() {
+			return EDateTypeFactory.this.context;
 		}
 
 		@Override

@@ -2,11 +2,13 @@ package com.persistentbit.dsl.tests;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructureField;
 
@@ -46,8 +48,8 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 	}
 
 	@Override
-	public Class<? extends DExpr<Address>> getTypeClass() {
-		return null;
+	public Class<EAddress> getTypeClass() {
+		return EAddress.class;
 	}
 
 	private class EAddressImpl extends EAddress implements ExprTypeImpl<EAddress, Address>{
@@ -56,6 +58,35 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 			super((EString) iter.next(), (EString) iter.next(), (EString) iter.next());
 		}
 
+		@Override
+		public EAddress buildAlias(String alias) {
+			return null;
+		}
+
+		@Override
+		public EAddress buildSelection(String prefixAlias) {
+			return null;
+		}
+
+		@Override
+		public EAddress onlyTableColumn() {
+			return null;
+		}
+
+		@Override
+		public PList<DExpr> expand() {
+			return null;
+		}
+
+		@Override
+		public SqlWithParams toSql() {
+			return null;
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Address> getJdbcConverter() {
+			return null;
+		}
 
 		@Override
 		public ExprTypeFactory<EAddress, Address> getTypeFactory() {
