@@ -1,7 +1,9 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
@@ -76,6 +78,16 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	public E buildTableField(String fieldSelectionName, String fieldName, String columnName) {
 		return buildWithStrategy(
 			new TableColumnTypeStrategy<>(fieldSelectionName, fieldName, columnName));
+	}
+
+	@Override
+	public EArray<E, J> buildArrayTableField(String fieldSelectionName, String fieldName, String columnName) {
+		return context.buildArrayTableColumn(getTypeClass(), fieldSelectionName, fieldName, columnName);
+	}
+
+	@Override
+	public <V extends J> EArray<E, J> buildArrayVal(ImmutableArray<V> values) {
+		return context.buildArrayVal(getTypeClass(), values);
 	}
 
 	protected abstract ExprTypeJdbcConvert<J> getJdbcConverter();

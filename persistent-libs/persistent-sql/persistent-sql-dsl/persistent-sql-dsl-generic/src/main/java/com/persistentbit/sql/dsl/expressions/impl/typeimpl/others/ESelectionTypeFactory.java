@@ -1,9 +1,11 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.ESelection;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
@@ -58,6 +60,16 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 		throw new UnsupportedOperationException("buildVal for a ESubQuery");
 	}
 
+	@Override
+	public EArray<ESelection<J>, J> buildArrayTableField(String fieldSelectionName, String fieldName,
+														 String columnName) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <V extends J> EArray<ESelection<J>, J> buildArrayVal(ImmutableArray<V> values) {
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public ExprContext getExprContext() {

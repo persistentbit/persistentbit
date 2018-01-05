@@ -1,11 +1,13 @@
 package com.persistentbit.sql.dsl.expressions.impl;
 
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.ArrayExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.ESelectionTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.*;
 import com.persistentbit.sql.dsl.genericdb.GenericBinOps;
@@ -102,6 +104,19 @@ public class ExprContext{
 			throw new RuntimeException("No Java JdbcConverter found for " + javaClass);
 		}
 		return result;
+	}
+
+	public <E1 extends DExpr<J1>, J1> EArray<E1, J1> buildArrayVal(Class<E1> itemTypeClass,
+																   ImmutableArray<? extends J1> values) {
+		ArrayExprTypeFactory<E1, J1> atf = (ArrayExprTypeFactory) getTypeFactory(EArray.class);
+		return atf.createArrayVal(itemTypeClass, values);
+	}
+
+	public <E1 extends DExpr<J1>, J1> EArray<E1, J1> buildArrayTableColumn(Class<E1> itemTypeClass,
+																		   String fieldSelectionName, String fieldName,
+																		   String columnName) {
+		ArrayExprTypeFactory<E1, J1> atf = (ArrayExprTypeFactory) getTypeFactory(EArray.class);
+		return atf.createArrayTableColumn(itemTypeClass, fieldSelectionName, fieldName, columnName);
 	}
 
 	public void setDefaultSingleOpBuilders() {

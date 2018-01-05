@@ -1,8 +1,10 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples;
 
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.ETuple2;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
@@ -49,6 +51,15 @@ public abstract class AbstractTupleTypeFactor<E extends AbstractTupleTypeFactor.
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
+	public EArray buildArrayTableField(String fieldSelectionName, String fieldName, String columnName) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public EArray buildArrayVal(ImmutableArray values) {
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	public DExpr buildVal(Object value) {

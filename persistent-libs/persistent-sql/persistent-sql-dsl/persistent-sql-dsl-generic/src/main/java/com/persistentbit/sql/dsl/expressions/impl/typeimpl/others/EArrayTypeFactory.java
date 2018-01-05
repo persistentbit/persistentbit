@@ -1,12 +1,117 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
+import com.persistentbit.collections.ImmutableArray;
+import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EArray;
+import com.persistentbit.sql.dsl.expressions.EBool;
+import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
+import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
+import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
+import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
+
 /**
  * TODOC
  *
  * @author petermuys
  * @since 4/01/18
  */
-public class EArrayTypeFactory{}
+public class EArrayTypeFactory extends AbstractTypeFactory<EArray, ImmutableArray>{
+
+	public EArrayTypeFactory(ExprContext context) {
+		super(context);
+	}
+
+
+	@Override
+	public Class<EArray> getTypeClass() {
+		return EArray.class;
+	}
+
+
+	@Override
+	protected EArray buildWithStrategy(TypeStrategy<ImmutableArray> strategy) {
+		return new EArrayImpl(strategy);
+	}
+
+	@Override
+	protected ExprTypeJdbcConvert<ImmutableArray> getJdbcConverter() {
+		return context.getJavaJdbcConverter(ImmutableArray.class);
+	}
+
+	private class EArrayImpl<E1 extends DExpr<J1>, J1> extends AbstractTypeImpl<EArray<E1, J1>, ImmutableArray>
+		implements EArray<E1, ImmutableArray<J1>>{
+
+		public EArrayImpl(TypeStrategy<ImmutableArray> typeStrategy) {
+			super(typeStrategy);
+		}
+
+		@Override
+		public Class<EArray> getTypeClass() {
+			return EArray.class;
+		}
+
+		@Override
+		public EArray buildWithStrategy(TypeStrategy<ImmutableArray> typeStrategy
+		) {
+			return new EArrayTypeFactory. this.buildWithStrategy(typeStrategy);
+		}
+
+		@Override
+		public ExprContext getContext() {
+			return EArrayTypeFactory.this.context;
+		}
+
+		@Override
+		public ExprTypeJdbcConvert<Boolean> getJdbcConverter() {
+			return EArrayTypeFactory.this.getJdbcConverter();
+		}
+
+		@Override
+		public ExprTypeFactory<EBool, Boolean> getTypeFactory() {
+			return EArrayTypeFactory.this;
+		}
+
+
+		@Override
+		public EBool not() {
+			return getExprContext().booleanSingleOp(this, SingleOpOperator.opNot);
+		}
+
+		@Override
+		public EBool and(DExpr<Boolean> other) {
+			return getExprContext().booleanBinOp(this, BinOpOperator.opAnd, other);
+		}
+
+		@Override
+		public EBool or(DExpr<Boolean> other) {
+			return getExprContext().booleanBinOp(this, BinOpOperator.opOr, other);
+		}
+
+		@Override
+		public EBool eq(DExpr<Boolean> other) {
+			return getExprContext().eq(this, other);
+		}
+
+		@Override
+		public EBool notEq(DExpr<Boolean> other) {
+			return getExprContext().notEq(this, other);
+		}
+
+		@Override
+		public EBool isNull() {
+			return getExprContext().isNull(this);
+		}
+
+		@Override
+		public EBool isNotNull() {
+			return getExprContext().isNotNull(this);
+		}
+	}
+}
 /*implements ExprTypeFactory{
 
 	private final ExprContext context;

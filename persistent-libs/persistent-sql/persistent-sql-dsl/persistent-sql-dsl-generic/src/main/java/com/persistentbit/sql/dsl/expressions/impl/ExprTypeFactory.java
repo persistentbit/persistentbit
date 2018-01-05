@@ -1,7 +1,9 @@
 package com.persistentbit.sql.dsl.expressions.impl;
 
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EArray;
 
 import java.util.function.Function;
 
@@ -19,6 +21,9 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 
 	E buildTableField(String fieldSelectionName, String fieldName, String columnName);
 
+	EArray<E, J> buildArrayTableField(String fieldSelectionName, String fieldName, String columnName);
+
+	<V extends J> EArray<E, J> buildArrayVal(ImmutableArray<V> values);
 
 	E buildBinOp(DExpr left, BinOpOperator op, DExpr right);
 

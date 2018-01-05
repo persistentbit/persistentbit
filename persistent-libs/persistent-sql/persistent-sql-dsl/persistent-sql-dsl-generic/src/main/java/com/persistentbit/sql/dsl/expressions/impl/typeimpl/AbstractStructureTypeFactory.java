@@ -1,10 +1,12 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
@@ -56,6 +58,15 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 			));
 	}
 
+	@Override
+	public EArray<E, J> buildArrayTableField(String fieldSelectionName, String fieldName, String columnName) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public <V extends J> EArray<E, J> buildArrayVal(ImmutableArray<V> values) {
+		throw new UnsupportedOperationException();
+	}
 
 	@Override
 	@SuppressWarnings("unchecked")

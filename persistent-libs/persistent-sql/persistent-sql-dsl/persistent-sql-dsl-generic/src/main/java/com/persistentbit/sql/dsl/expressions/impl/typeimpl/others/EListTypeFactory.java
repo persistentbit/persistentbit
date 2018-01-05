@@ -1,9 +1,11 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.EList;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
@@ -63,6 +65,16 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 		throw new ToDo();
 	}
 
+	@Override
+	public EArray<EList, PList<DExpr>> buildArrayTableField(String fieldSelectionName, String fieldName,
+															String columnName) {
+		throw new ToDo();
+	}
+
+	@Override
+	public <V extends PList<DExpr>> EArray<EList, PList<DExpr>> buildArrayVal(ImmutableArray<V> values) {
+		throw new ToDo();
+	}
 
 	@Override
 	public ExprContext getExprContext() {
