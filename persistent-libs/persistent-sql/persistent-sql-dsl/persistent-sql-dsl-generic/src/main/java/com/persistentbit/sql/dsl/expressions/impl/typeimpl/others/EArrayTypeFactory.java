@@ -75,6 +75,10 @@ public class EArrayTypeFactory<I1 extends DExpr<JI1>, JI1>
 			this.itemTypeClass = itemTypeClass;
 		}
 
+		@Override
+		public String toString() {
+			return "EArrayImpl<" + itemTypeClass.getSimpleName() + ">[" + typeStrategy + "]";
+		}
 
 		@Override
 		public AbstractTypeFactory<EArray<I1, JI1>, ImmutableArray<JI1>> getTypeFactory() {
@@ -137,6 +141,16 @@ public class EArrayTypeFactory<I1 extends DExpr<JI1>, JI1>
 		}
 
 		@Override
+		public EArray<I1, JI1> slice(int start, int end) {
+			return slice(context.val(start), context.val(end));
+		}
+
+		@Override
+		public I1 get(int index) {
+			return get(context.val(index));
+		}
+
+		@Override
 		public I1 get(EInt index) {
 			return context.binOp(itemTypeClass, this, BinOpOperator.opArrayIndex, index);
 		}
@@ -149,6 +163,16 @@ public class EArrayTypeFactory<I1 extends DExpr<JI1>, JI1>
 		@Override
 		public EArray<I1, JI1> buildWithStrategy(TypeStrategy typeStrategy) {
 			return new EArrayImpl(typeStrategy, itemJdbcConverter, itemTypeClass);
+		}
+
+		@Override
+		public EArray<I1, JI1> buildVal(ImmutableArray<JI1> value) {
+			return new EArrayImpl<>(new ValTypeStrategy<>(value), itemJdbcConverter, itemTypeClass);
+		}
+
+		@Override
+		public EArray<I1, JI1> buildBinOp(DExpr left, BinOpOperator op, DExpr right) {
+			return new EArrayImpl<>(new BinOpTypeStrategy<>(left, op, right), itemJdbcConverter, itemTypeClass);
 		}
 	}
 }

@@ -52,22 +52,18 @@ public class TPgArrayTest extends AbstractTable<EPgArrayTest, PgArrayTest>{
 	public TPgArrayTest(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EPgArrayTest> getTypeClass() {
 		return EPgArrayTest.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TPgArrayTest as(String aliasName) {
 		return new TPgArrayTest(context, aliasName);
 	}
-
 	@Override
 	public EPgArrayTest all() {
 		return _all;

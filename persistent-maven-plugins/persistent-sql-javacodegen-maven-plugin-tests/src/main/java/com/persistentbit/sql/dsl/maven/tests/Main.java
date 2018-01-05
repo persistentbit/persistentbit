@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
 
+import com.mycompany.db.generated.values.PgArrayTest;
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
@@ -62,11 +63,46 @@ public class Main{
 		Supplier<DbTransaction> newTrans = () -> transSupplier.map(Supplier::get).orElseThrow();
 
 
-		pgArrayTest.insert(null,
-						   ImmutableArray.from(new String[]{"string1", "string2"}),
-						   ImmutableArray.from(new Integer[]{100, 101})
+		Long arrTestId = pgArrayTest.insert().add(null,
+												  ImmutableArray
+													  .from(new String[]{"string1", "string2", "string3", "string4"}),
+												  ImmutableArray.from(new Integer[]{100, 101})
+		).run(newTrans.get()).orElseThrow().map(ir -> ir.getAutoGenKey()).head();
+
+		pgArrayTest.update()
+			.set(pgArrayTest.strings, ImmutableArray
+				.val("Eerste String", "Tweede String", "Derde String", "Vierde String"))
+			.where(pgArrayTest.id.eq(arrTestId))
+			.run(newTrans.get())
+			.orElseThrow()
+		;
+
+		pgArrayTest.selectAll().run(newTrans.get()).orElseThrow().forEach(System.out::println);
+		PgArrayTest             arrRec    = pgArrayTest.selectById(arrTestId).run(newTrans.get()).orElseThrow();
+		ImmutableArray<Integer> newIntArr = ImmutableArray.val(1, 2, 3, 4, 5, 6, 7, 8, 10);
+		pgArrayTest.update(
+			arrRec.withInts(newIntArr)
 		).run(newTrans.get()).orElseThrow();
 		pgArrayTest.selectAll().run(newTrans.get()).orElseThrow().forEach(System.out::println);
+		pgArrayTest.query()
+			.selection(
+				pgArrayTest.strings.slice(2, 3),
+				upper(pgArrayTest.strings.get(1)),
+				initcap(pgArrayTest.strings.get(1))
+			)
+			.list()
+			.run(newTrans.get())
+			.orElseThrow()
+			.forEach(System.out::println);
+
+		pgArrayTest.query()
+			.where(pgArrayTest.ints.eq(newIntArr))
+			.selection(pgArrayTest.all())
+			.list()
+			.run(newTrans.get())
+			.orElseThrow()
+			.map(e -> "GOT " + e.toString())
+			.forEach(System.out::println);
 
 		Long idPersistentBit = authApp
 			.insert()

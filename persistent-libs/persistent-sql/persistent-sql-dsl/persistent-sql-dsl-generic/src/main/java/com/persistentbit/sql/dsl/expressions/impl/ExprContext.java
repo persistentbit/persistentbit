@@ -196,6 +196,10 @@ public class ExprContext{
 		return get(resultTypeClass).buildBinOp(left, operator, right);
 	}
 
+	public <E extends DExpr<J>, J> E binOp(E typeExpr, DExpr left, BinOpOperator operator, DExpr right) {
+		return ((ExprTypeImpl<E, J>) typeExpr).buildBinOp(left, operator, right);
+	}
+
 	public <E extends DExpr<J>, J> E val(Class<E> typeClass, J value) {
 		return get(typeClass).buildVal(value);
 	}
@@ -256,6 +260,9 @@ public class ExprContext{
 
 	public EString val(String v) { return get(EString.class).buildVal(v);}
 
+	public <E1 extends DExpr<J1>, J1> E1 buildVal(E1 exampleExpr, J1 value) {
+		return (E1) ((ExprTypeImpl) exampleExpr).buildVal(value);
+	}
 
 	public <E1 extends DExpr<J1>, J1> ESelection<J1> createESelection(TypedSelection1Impl<?, J1> selection1) {
 		ESelectionTypeFactory tf = (ESelectionTypeFactory) getTypeFactory(ESelection.class);

@@ -23,7 +23,7 @@ public interface TypeImplComparableMixin<E extends DExpr<J>,J> extends EComparab
 
 	@Override
 	default EBool eq(J other) {
-		return null;
+		return eq(getTypeFactory().getExprContext().buildVal(getThis(), other));
 	}
 
 	@Override
@@ -33,7 +33,8 @@ public interface TypeImplComparableMixin<E extends DExpr<J>,J> extends EComparab
 
 	@Override
 	default EBool notEq(J other) {
-		return null;
+		return notEq(getTypeFactory().getExprContext().buildVal(getThis(), other));
+
 	}
 
 	@Override
@@ -43,7 +44,7 @@ public interface TypeImplComparableMixin<E extends DExpr<J>,J> extends EComparab
 
 	@Override
 	default EBool lt(J other) {
-		return null;
+		return lt(getTypeFactory().getExprContext().buildVal(getThis(), other));
 	}
 
 	@Override
@@ -53,7 +54,7 @@ public interface TypeImplComparableMixin<E extends DExpr<J>,J> extends EComparab
 
 	@Override
 	default EBool gt(J other) {
-		return null;
+		return gt(getTypeFactory().getExprContext().buildVal(getThis(), other));
 	}
 
 	@Override
@@ -63,7 +64,7 @@ public interface TypeImplComparableMixin<E extends DExpr<J>,J> extends EComparab
 
 	@Override
 	default EBool ltEq(J other) {
-		return null;
+		return ltEq(getTypeFactory().getExprContext().buildVal(getThis(), other));
 	}
 
 	@Override
@@ -73,7 +74,7 @@ public interface TypeImplComparableMixin<E extends DExpr<J>,J> extends EComparab
 
 	@Override
 	default EBool gtEq(J other) {
-		return null;
+		return gtEq(getTypeFactory().getExprContext().buildVal(getThis(), other));
 	}
 
 	@Override

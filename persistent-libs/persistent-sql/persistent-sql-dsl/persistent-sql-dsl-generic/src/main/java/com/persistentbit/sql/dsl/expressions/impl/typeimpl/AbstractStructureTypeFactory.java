@@ -61,10 +61,13 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 	@Override
 	public <V extends J> E buildVal(V value) {
 		return createExpression(
-			fields.map(sf ->
-						   sf.getTypeFactory()
-							   .buildVal(sf.valueGetter.apply(value))
-			));
+			fields.map(sf -> {
+				if(sf.isArray) {
+					return sf.getTypeFactory().buildArrayVal((ImmutableArray) sf.valueGetter.apply(value));
+				}
+				return sf.getTypeFactory()
+					.buildVal(sf.valueGetter.apply(value));
+			}));
 	}
 
 	@Override
@@ -144,11 +147,10 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 
 	private E assign(E left, E right) {
 		return createExpression(
-			fields.map(sf -> sf.getTypeFactory()
-				.buildBinOp(
-					sf.expressionGetter.apply(left),
-					BinOpOperator.opAssign,
-					sf.expressionGetter.apply(right)
+			fields.<DExpr>map(sf -> context.binOp(sf.expressionGetter.apply(left),
+												  sf.expressionGetter.apply(left),
+												  BinOpOperator.opAssign,
+												  sf.expressionGetter.apply(right)
 				)
 			)
 		);

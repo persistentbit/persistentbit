@@ -25,17 +25,14 @@ public class PgArrayTestTypeFactory extends AbstractStructureTypeFactory<EPgArra
 				, (EArray<EInt, Integer>) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EPgArrayTest, PgArrayTest> getTypeFactory() {
 			return PgArrayTestTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EPgArrayTest[" + id + strings + ints + "]";
 		}
-
 		@Override
 		public EPgArrayTest getThis() {
 			return this;
@@ -45,7 +42,6 @@ public class PgArrayTestTypeFactory extends AbstractStructureTypeFactory<EPgArra
 	public PgArrayTestTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EPgArrayTest, PgArrayTest>> buildFields() {
 		return PList.val(
@@ -54,7 +50,6 @@ public class PgArrayTestTypeFactory extends AbstractStructureTypeFactory<EPgArra
 			, createArrayField(EInt.class, "ints", "ints", v -> v.getInts(), v -> v.ints)
 		);
 	}
-
 	@Override
 	protected PgArrayTest buildValue(Object[] fieldValues) {
 		return new PgArrayTest(
@@ -63,12 +58,10 @@ public class PgArrayTestTypeFactory extends AbstractStructureTypeFactory<EPgArra
 			, (ImmutableArray) fieldValues[2]
 		);
 	}
-
 	@Override
 	protected EPgArrayTestImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EPgArrayTestImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EPgArrayTest> getTypeClass() {
 		return EPgArrayTest.class;

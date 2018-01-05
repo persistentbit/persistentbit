@@ -26,4 +26,12 @@ public interface ExprTypeImpl<E extends DExpr<J>,J> extends DExpr<J>{
 	SqlWithParams toSql();
 
 	ExprTypeJdbcConvert<J> getJdbcConverter();
+
+	default E buildVal(J value) {
+		return getTypeFactory().buildVal(value);
+	}
+
+	default E buildBinOp(DExpr left, BinOpOperator op, DExpr right) {
+		return getTypeFactory().buildBinOp(left, op, right);
+	}
 }

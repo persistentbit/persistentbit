@@ -16,15 +16,14 @@ public class PgArrayTest{
 	private final long                    id;
 	private final ImmutableArray<String>  strings;
 	private final ImmutableArray<Integer> ints;
-
-
+	
+	
 	@Generated
 	public PgArrayTest(long id, ImmutableArray<String> strings, ImmutableArray<Integer> ints) {
 		this.id = Objects.requireNonNull(id, "id can not be null");
 		this.strings = Objects.requireNonNull(strings, "strings can not be null");
 		this.ints = Objects.requireNonNull(ints, "ints can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3>{
@@ -49,73 +48,57 @@ public class PgArrayTest{
 			return (Builder<_T1, _T2, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #id}.<br>
-	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public long getId() {
 		return this.id;
 	}
-
 	/**
 	 * Create a copy of this PgArrayTest object with a new value for field {@link #id}.<br>
-	 *
 	 * @param id The new value for field {@link #id}
-	 *
 	 * @return A new instance of {@link PgArrayTest}
 	 */
 	@Generated
 	public PgArrayTest withId(long id) {
 		return new PgArrayTest(id, strings, ints);
 	}
-
 	/**
 	 * Get the value of field {@link #strings}.<br>
-	 *
 	 * @return {@link #strings}
 	 */
 	@Generated
 	public ImmutableArray<String> getStrings() {
 		return this.strings;
 	}
-
 	/**
 	 * Create a copy of this PgArrayTest object with a new value for field {@link #strings}.<br>
-	 *
 	 * @param strings The new value for field {@link #strings}
-	 *
 	 * @return A new instance of {@link PgArrayTest}
 	 */
 	@Generated
 	public PgArrayTest withStrings(ImmutableArray<String> strings) {
 		return new PgArrayTest(id, strings, ints);
 	}
-
 	/**
 	 * Get the value of field {@link #ints}.<br>
-	 *
 	 * @return {@link #ints}
 	 */
 	@Generated
 	public ImmutableArray<Integer> getInts() {
 		return this.ints;
 	}
-
 	/**
 	 * Create a copy of this PgArrayTest object with a new value for field {@link #ints}.<br>
-	 *
 	 * @param ints The new value for field {@link #ints}
-	 *
 	 * @return A new instance of {@link PgArrayTest}
 	 */
 	@Generated
 	public PgArrayTest withInts(ImmutableArray<Integer> ints) {
 		return new PgArrayTest(id, strings, ints);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -127,7 +110,6 @@ public class PgArrayTest{
 		if(!ints.equals(obj.ints)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -137,17 +119,15 @@ public class PgArrayTest{
 		result = 31 * result + (this.ints != null ? this.ints.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
 		return "PgArrayTest[" +
 			"id=" + id +
 			", strings=" + strings +
-			", ints=" + ints +
+			", ints=" + ints + 
 			']';
 	}
-
 	@Generated
 	public PgArrayTest updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -157,7 +137,6 @@ public class PgArrayTest{
 		b = updater.apply(b);
 		return new PgArrayTest(b.id, b.strings, b.ints);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static PgArrayTest build(
@@ -165,7 +144,6 @@ public class PgArrayTest{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new PgArrayTest(b.id, b.strings, b.ints);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<PgArrayTest> buildExc(

@@ -153,7 +153,7 @@ public class Invoice{
 			"id=" + id +
 			", invoiceNummer=" + (invoiceNummer == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(invoiceNummer), 32, "...") + '\"') +
-			", fromCompanyId=" + fromCompanyId +
+			", fromCompanyId=" + fromCompanyId + 
 			", toCompanyId=" + toCompanyId + 
 			']';
 	}

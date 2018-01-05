@@ -43,5 +43,8 @@ public class TableColumnTypeStrategy<J> extends AbstractTypeStrategy<J>{
 		return aliasPrefix == null ? null : " AS " + aliasPrefix +  columnName;
 	}
 
-
+	@Override
+	public String toString() {
+		return "TableColumn[" + fieldName + ", " + columnName + "]";
+	}
 }

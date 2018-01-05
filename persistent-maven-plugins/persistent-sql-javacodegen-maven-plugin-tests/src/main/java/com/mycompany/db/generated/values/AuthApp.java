@@ -218,7 +218,7 @@ public class AuthApp{
 			", password=" + (password == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(password), 32, "...") + '\"') +
 			", isRoot=" + isRoot +
-			", isActive=" + isActive +
+			", isActive=" + isActive + 
 			", maxWrongPasswordCount=" + maxWrongPasswordCount + 
 			']';
 	}

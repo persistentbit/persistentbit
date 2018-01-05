@@ -873,7 +873,7 @@ public class AllGenericNulls{
 			", aTimestampWithZone=" + aTimestampWithZone +
 			", aDate=" + aDate +
 			", aTime=" + aTime +
-			", aTimeWithZone=" + aTimeWithZone +
+			", aTimeWithZone=" + aTimeWithZone + 
 			", aBoolean=" + aBoolean + 
 			']';
 	}

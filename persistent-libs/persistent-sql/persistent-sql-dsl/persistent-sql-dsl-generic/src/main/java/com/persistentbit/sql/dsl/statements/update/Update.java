@@ -45,17 +45,17 @@ public class Update implements DbWork<Integer>{
 		return new Update(context, table, where, setExpr);
 	}
 
-	public <E extends DExpr<J>, J> Update set(E left, E value) {
-		ExprTypeFactory<E, J> tf = context.getTypeFactory(left);
-		left = (E) context.onlyTableColumn(left);
+	public <E extends DExpr<J>, J> Update set(E orgLeft, E value) {
+		ExprTypeFactory<E, J> tf   = context.getTypeFactory(orgLeft);
+		E                     left = (E) context.onlyTableColumn(orgLeft);
 		return new Update(context, table, where,
-						  setExpr.plus(tf.buildBinOp(left, BinOpOperator.opAssign, value))
+						  setExpr.plus(context.binOp(orgLeft, left, BinOpOperator.opAssign, value))
 		);
 	}
 
 	public <E extends DExpr<J>, J> Update set(E left, J value) {
 		ExprTypeFactory<E, J> tf = context.getTypeFactory(left);
-		return set(left, tf.buildVal(value));
+		return set(left, context.buildVal(left, value));
 	}
 
 	@Override

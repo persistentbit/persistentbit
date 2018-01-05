@@ -49,8 +49,8 @@ public class GenericBinOps{
 		context.addBinOpBuilder(BinOpOperator.opArrayIndex, (left, sqlLeft, right, sqlRight) ->
 			sqlLeft.add("[").add(sqlRight).add("]")
 		);
-		context.addBinOpBuilder(BinOpOperator.opArrayIndex, (left, sqlLeft, right, sqlRight) -> {
-			ETuple2 tuple = (ETuple2) sqlRight;
+		context.addBinOpBuilder(BinOpOperator.opArraySlice, (left, sqlLeft, right, sqlRight) -> {
+			ETuple2 tuple = (ETuple2) right;
 			return sqlLeft.add("[").add(context.toSql(tuple.v1())).add(":").add(context.toSql(tuple.v2())).add("]");
 		});
 
