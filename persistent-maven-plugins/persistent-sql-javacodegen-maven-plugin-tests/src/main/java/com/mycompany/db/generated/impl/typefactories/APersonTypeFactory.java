@@ -33,17 +33,14 @@ public class APersonTypeFactory extends AbstractStructureTypeFactory<EAPerson, A
 				, (EString) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EAPerson, APerson> getTypeFactory() {
 			return APersonTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EAPerson[" + id + userName + password + street + houseNumber + busNumber + postalcode + city + country + "]";
 		}
-
 		@Override
 		public EAPerson getThis() {
 			return this;
@@ -53,7 +50,6 @@ public class APersonTypeFactory extends AbstractStructureTypeFactory<EAPerson, A
 	public APersonTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EAPerson, APerson>> buildFields() {
 		return PList.val(
@@ -69,7 +65,6 @@ public class APersonTypeFactory extends AbstractStructureTypeFactory<EAPerson, A
 			, createField(EString.class, "country", "country", v -> v.getCountry(), v -> v.country)
 		);
 	}
-
 	@Override
 	protected APerson buildValue(Object[] fieldValues) {
 		return new APerson(
@@ -84,12 +79,10 @@ public class APersonTypeFactory extends AbstractStructureTypeFactory<EAPerson, A
 			, (String) fieldValues[8]
 		);
 	}
-
 	@Override
 	protected EAPersonImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EAPersonImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EAPerson> getTypeClass() {
 		return EAPerson.class;

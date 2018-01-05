@@ -70,8 +70,8 @@ public class AllGenericNulls{
 	private final LocalTime     aTimeWithZone;
 	@Nullable
 	private final Boolean       aBoolean;
-
-
+	
+	
 	@Generated
 	public AllGenericNulls(String idPart1, long idPart2, short serSmall, int ser, long serBig,
 						   @Nullable Integer anInteger, @Nullable Long aBigint, @Nullable BigDecimal aDecimal72,
@@ -112,12 +112,10 @@ public class AllGenericNulls{
 		this.aTimeWithZone = aTimeWithZone;
 		this.aBoolean = aBoolean;
 	}
-
 	@Generated
 	public AllGenericNulls(String idPart1, long idPart2, short serSmall, int ser, long serBig) {
 		this(idPart1, idPart2, serSmall, ser, serBig, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5>{
@@ -292,623 +290,482 @@ public class AllGenericNulls{
 			return this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #idPart1}.<br>
-	 *
 	 * @return {@link #idPart1}
 	 */
 	@Generated
 	public String getIdPart1() {
 		return this.idPart1;
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #idPart1}.<br>
-	 *
 	 * @param idPart1 The new value for field {@link #idPart1}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withIdPart1(String idPart1) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #idPart2}.<br>
-	 *
 	 * @return {@link #idPart2}
 	 */
 	@Generated
 	public long getIdPart2() {
 		return this.idPart2;
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #idPart2}.<br>
-	 *
 	 * @param idPart2 The new value for field {@link #idPart2}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withIdPart2(long idPart2) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #serSmall}.<br>
-	 *
 	 * @return {@link #serSmall}
 	 */
 	@Generated
 	public short getSerSmall() {
 		return this.serSmall;
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #serSmall}.<br>
-	 *
 	 * @param serSmall The new value for field {@link #serSmall}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withSerSmall(short serSmall) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #ser}.<br>
-	 *
 	 * @return {@link #ser}
 	 */
 	@Generated
 	public int getSer() {
 		return this.ser;
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #ser}.<br>
-	 *
 	 * @param ser The new value for field {@link #ser}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withSer(int ser) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #serBig}.<br>
-	 *
 	 * @return {@link #serBig}
 	 */
 	@Generated
 	public long getSerBig() {
 		return this.serBig;
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #serBig}.<br>
-	 *
 	 * @param serBig The new value for field {@link #serBig}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withSerBig(long serBig) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #anInteger}.<br>
-	 *
 	 * @return {@link #anInteger}
 	 */
 	@Generated
 	public Optional<Integer> getAnInteger() {
 		return Optional.ofNullable(this.anInteger);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #anInteger}.<br>
-	 *
 	 * @param anInteger The new value for field {@link #anInteger}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAnInteger(@Nullable Integer anInteger) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aBigint}.<br>
-	 *
 	 * @return {@link #aBigint}
 	 */
 	@Generated
 	public Optional<Long> getABigint() {
 		return Optional.ofNullable(this.aBigint);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aBigint}.<br>
-	 *
 	 * @param aBigint The new value for field {@link #aBigint}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withABigint(@Nullable Long aBigint) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aDecimal72}.<br>
-	 *
 	 * @return {@link #aDecimal72}
 	 */
 	@Generated
 	public Optional<BigDecimal> getADecimal72() {
 		return Optional.ofNullable(this.aDecimal72);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aDecimal72}.<br>
-	 *
 	 * @param aDecimal72 The new value for field {@link #aDecimal72}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withADecimal72(@Nullable BigDecimal aDecimal72) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aNumeric6}.<br>
-	 *
 	 * @return {@link #aNumeric6}
 	 */
 	@Generated
 	public Optional<BigDecimal> getANumeric6() {
 		return Optional.ofNullable(this.aNumeric6);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aNumeric6}.<br>
-	 *
 	 * @param aNumeric6 The new value for field {@link #aNumeric6}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withANumeric6(@Nullable BigDecimal aNumeric6) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aNumeric}.<br>
-	 *
 	 * @return {@link #aNumeric}
 	 */
 	@Generated
 	public Optional<BigDecimal> getANumeric() {
 		return Optional.ofNullable(this.aNumeric);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aNumeric}.<br>
-	 *
 	 * @param aNumeric The new value for field {@link #aNumeric}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withANumeric(@Nullable BigDecimal aNumeric) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aReal}.<br>
-	 *
 	 * @return {@link #aReal}
 	 */
 	@Generated
 	public Optional<Float> getAReal() {
 		return Optional.ofNullable(this.aReal);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aReal}.<br>
-	 *
 	 * @param aReal The new value for field {@link #aReal}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAReal(@Nullable Float aReal) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aDouble}.<br>
-	 *
 	 * @return {@link #aDouble}
 	 */
 	@Generated
 	public Optional<Double> getADouble() {
 		return Optional.ofNullable(this.aDouble);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aDouble}.<br>
-	 *
 	 * @param aDouble The new value for field {@link #aDouble}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withADouble(@Nullable Double aDouble) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #anInt2}.<br>
-	 *
 	 * @return {@link #anInt2}
 	 */
 	@Generated
 	public Optional<Short> getAnInt2() {
 		return Optional.ofNullable(this.anInt2);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #anInt2}.<br>
-	 *
 	 * @param anInt2 The new value for field {@link #anInt2}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAnInt2(@Nullable Short anInt2) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #anInt4}.<br>
-	 *
 	 * @return {@link #anInt4}
 	 */
 	@Generated
 	public Optional<Integer> getAnInt4() {
 		return Optional.ofNullable(this.anInt4);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #anInt4}.<br>
-	 *
 	 * @param anInt4 The new value for field {@link #anInt4}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAnInt4(@Nullable Integer anInt4) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #anInt8}.<br>
-	 *
 	 * @return {@link #anInt8}
 	 */
 	@Generated
 	public Optional<Long> getAnInt8() {
 		return Optional.ofNullable(this.anInt8);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #anInt8}.<br>
-	 *
 	 * @param anInt8 The new value for field {@link #anInt8}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAnInt8(@Nullable Long anInt8) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aVarchar}.<br>
-	 *
 	 * @return {@link #aVarchar}
 	 */
 	@Generated
 	public Optional<String> getAVarchar() {
 		return Optional.ofNullable(this.aVarchar);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aVarchar}.<br>
-	 *
 	 * @param aVarchar The new value for field {@link #aVarchar}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAVarchar(@Nullable String aVarchar) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aVarchar10}.<br>
-	 *
 	 * @return {@link #aVarchar10}
 	 */
 	@Generated
 	public Optional<String> getAVarchar10() {
 		return Optional.ofNullable(this.aVarchar10);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aVarchar10}.<br>
-	 *
 	 * @param aVarchar10 The new value for field {@link #aVarchar10}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAVarchar10(@Nullable String aVarchar10) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aText}.<br>
-	 *
 	 * @return {@link #aText}
 	 */
 	@Generated
 	public Optional<String> getAText() {
 		return Optional.ofNullable(this.aText);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aText}.<br>
-	 *
 	 * @param aText The new value for field {@link #aText}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAText(@Nullable String aText) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aChar}.<br>
-	 *
 	 * @return {@link #aChar}
 	 */
 	@Generated
 	public Optional<String> getAChar() {
 		return Optional.ofNullable(this.aChar);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aChar}.<br>
-	 *
 	 * @param aChar The new value for field {@link #aChar}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAChar(@Nullable String aChar) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aChar10}.<br>
-	 *
 	 * @return {@link #aChar10}
 	 */
 	@Generated
 	public Optional<String> getAChar10() {
 		return Optional.ofNullable(this.aChar10);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aChar10}.<br>
-	 *
 	 * @param aChar10 The new value for field {@link #aChar10}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withAChar10(@Nullable String aChar10) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aBytea}.<br>
-	 *
 	 * @return {@link #aBytea}
 	 */
 	@Generated
 	public Optional<PByteList> getABytea() {
 		return Optional.ofNullable(this.aBytea);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aBytea}.<br>
-	 *
 	 * @param aBytea The new value for field {@link #aBytea}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withABytea(@Nullable PByteList aBytea) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aTimestamp3}.<br>
-	 *
 	 * @return {@link #aTimestamp3}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getATimestamp3() {
 		return Optional.ofNullable(this.aTimestamp3);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aTimestamp3}.<br>
-	 *
 	 * @param aTimestamp3 The new value for field {@link #aTimestamp3}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withATimestamp3(@Nullable LocalDateTime aTimestamp3) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aTimestamp}.<br>
-	 *
 	 * @return {@link #aTimestamp}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getATimestamp() {
 		return Optional.ofNullable(this.aTimestamp);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aTimestamp}.<br>
-	 *
 	 * @param aTimestamp The new value for field {@link #aTimestamp}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withATimestamp(@Nullable LocalDateTime aTimestamp) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aTimestampWithZone}.<br>
-	 *
 	 * @return {@link #aTimestampWithZone}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getATimestampWithZone() {
 		return Optional.ofNullable(this.aTimestampWithZone);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aTimestampWithZone}.<br>
-	 *
 	 * @param aTimestampWithZone The new value for field {@link #aTimestampWithZone}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withATimestampWithZone(@Nullable LocalDateTime aTimestampWithZone) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aDate}.<br>
-	 *
 	 * @return {@link #aDate}
 	 */
 	@Generated
 	public Optional<LocalDate> getADate() {
 		return Optional.ofNullable(this.aDate);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aDate}.<br>
-	 *
 	 * @param aDate The new value for field {@link #aDate}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withADate(@Nullable LocalDate aDate) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aTime}.<br>
-	 *
 	 * @return {@link #aTime}
 	 */
 	@Generated
 	public Optional<LocalTime> getATime() {
 		return Optional.ofNullable(this.aTime);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aTime}.<br>
-	 *
 	 * @param aTime The new value for field {@link #aTime}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withATime(@Nullable LocalTime aTime) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aTimeWithZone}.<br>
-	 *
 	 * @return {@link #aTimeWithZone}
 	 */
 	@Generated
 	public Optional<LocalTime> getATimeWithZone() {
 		return Optional.ofNullable(this.aTimeWithZone);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aTimeWithZone}.<br>
-	 *
 	 * @param aTimeWithZone The new value for field {@link #aTimeWithZone}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withATimeWithZone(@Nullable LocalTime aTimeWithZone) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	/**
 	 * Get the value of field {@link #aBoolean}.<br>
-	 *
 	 * @return {@link #aBoolean}
 	 */
 	@Generated
 	public Optional<Boolean> getABoolean() {
 		return Optional.ofNullable(this.aBoolean);
 	}
-
 	/**
 	 * Create a copy of this AllGenericNulls object with a new value for field {@link #aBoolean}.<br>
-	 *
 	 * @param aBoolean The new value for field {@link #aBoolean}
-	 *
 	 * @return A new instance of {@link AllGenericNulls}
 	 */
 	@Generated
 	public AllGenericNulls withABoolean(@Nullable Boolean aBoolean) {
 		return new AllGenericNulls(idPart1, idPart2, serSmall, ser, serBig, anInteger, aBigint, aDecimal72, aNumeric6, aNumeric, aReal, aDouble, anInt2, anInt4, anInt8, aVarchar, aVarchar10, aText, aChar, aChar10, aBytea, aTimestamp3, aTimestamp, aTimestampWithZone, aDate, aTime, aTimeWithZone, aBoolean);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -946,7 +803,6 @@ public class AllGenericNulls{
 		if(aBoolean != null ? !aBoolean.equals(obj.aBoolean) : obj.aBoolean != null) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -981,7 +837,6 @@ public class AllGenericNulls{
 		result = 31 * result + (this.aBoolean != null ? this.aBoolean.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -1019,10 +874,9 @@ public class AllGenericNulls{
 			", aDate=" + aDate +
 			", aTime=" + aTime +
 			", aTimeWithZone=" + aTimeWithZone +
-			", aBoolean=" + aBoolean +
+			", aBoolean=" + aBoolean + 
 			']';
 	}
-
 	@Generated
 	public AllGenericNulls updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -1057,7 +911,6 @@ public class AllGenericNulls{
 		b = updater.apply(b);
 		return new AllGenericNulls(b.idPart1, b.idPart2, b.serSmall, b.ser, b.serBig, b.anInteger, b.aBigint, b.aDecimal72, b.aNumeric6, b.aNumeric, b.aReal, b.aDouble, b.anInt2, b.anInt4, b.anInt8, b.aVarchar, b.aVarchar10, b.aText, b.aChar, b.aChar10, b.aBytea, b.aTimestamp3, b.aTimestamp, b.aTimestampWithZone, b.aDate, b.aTime, b.aTimeWithZone, b.aBoolean);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static AllGenericNulls build(
@@ -1065,7 +918,6 @@ public class AllGenericNulls{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new AllGenericNulls(b.idPart1, b.idPart2, b.serSmall, b.ser, b.serBig, b.anInteger, b.aBigint, b.aDecimal72, b.aNumeric6, b.aNumeric, b.aReal, b.aDouble, b.anInt2, b.anInt4, b.anInt8, b.aVarchar, b.aVarchar10, b.aText, b.aChar, b.aChar10, b.aBytea, b.aTimestamp3, b.aTimestamp, b.aTimestampWithZone, b.aDate, b.aTime, b.aTimeWithZone, b.aBoolean);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<AllGenericNulls> buildExc(

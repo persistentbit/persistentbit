@@ -4,7 +4,6 @@ import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
@@ -30,15 +29,15 @@ public class EBoolTypeFactory extends AbstractTypeFactory<EBool, Boolean>{
 	}
 
 	@Override
-	protected EBool buildWithStrategy(TypeStrategy<Boolean> strategy
-	) {
-		return new EBoolImpl(strategy);
+	public Class getValueClass() {
+		return Boolean.class;
 	}
 
 	@Override
-	protected ExprTypeJdbcConvert<Boolean> getJdbcConverter() {
-		return context.getJavaJdbcConverter(Boolean.class);
+	public EBool buildWithStrategy(TypeStrategy<Boolean> strategy) {
+		return new EBoolImpl(strategy);
 	}
+
 
 	private class EBoolImpl extends AbstractTypeImpl<EBool, Boolean> implements EBool{
 
@@ -46,29 +45,14 @@ public class EBoolTypeFactory extends AbstractTypeFactory<EBool, Boolean>{
 			super(typeStrategy);
 		}
 
-		@Override
-		public Class<EBool> getTypeClass() {
-			return EBool.class;
-		}
-
-		@Override
-		public EBool buildWithStrategy(TypeStrategy<Boolean> typeStrategy
-		) {
-			return new EBoolImpl(typeStrategy);
-		}
-
-		@Override
-		public ExprContext getContext() {
-			return EBoolTypeFactory.this.context;
-		}
 
 		@Override
 		public ExprTypeJdbcConvert<Boolean> getJdbcConverter() {
-			return EBoolTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(Boolean.class);
 		}
 
 		@Override
-		public ExprTypeFactory<EBool, Boolean> getTypeFactory() {
+		public AbstractTypeFactory<EBool, Boolean> getTypeFactory() {
 			return EBoolTypeFactory.this;
 		}
 

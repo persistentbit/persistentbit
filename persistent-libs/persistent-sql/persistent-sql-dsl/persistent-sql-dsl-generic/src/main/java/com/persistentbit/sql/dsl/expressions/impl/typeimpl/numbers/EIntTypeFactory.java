@@ -3,7 +3,6 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
@@ -27,14 +26,14 @@ public class EIntTypeFactory extends AbstractTypeFactory<EInt, Integer>{
 	}
 
 	@Override
-	protected EInt buildWithStrategy(TypeStrategy<Integer> strategy
+	public EInt buildWithStrategy(TypeStrategy<Integer> strategy
 	) {
 		return new EIntImpl(strategy);
 	}
 
 	@Override
-	protected ExprTypeJdbcConvert<Integer> getJdbcConverter() {
-		return context.getJavaJdbcConverter(Integer.class);
+	public Class getValueClass() {
+		return Integer.class;
 	}
 
 	private class EIntImpl
@@ -47,23 +46,12 @@ public class EIntTypeFactory extends AbstractTypeFactory<EInt, Integer>{
 		}
 
 		@Override
-		public Class<EInt> getTypeClass() {
-			return EInt.class;
-		}
-
-		@Override
-		public EInt buildWithStrategy(TypeStrategy<Integer> typeStrategy
-		) {
-			return EIntTypeFactory.this.buildWithStrategy(typeStrategy);
-		}
-
-		@Override
 		public ExprTypeJdbcConvert<Integer> getJdbcConverter() {
-			return EIntTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(Integer.class);
 		}
 
 		@Override
-		public ExprTypeFactory<EInt, Integer> getTypeFactory() {
+		public AbstractTypeFactory<EInt, Integer> getTypeFactory() {
 			return EIntTypeFactory.this;
 		}
 

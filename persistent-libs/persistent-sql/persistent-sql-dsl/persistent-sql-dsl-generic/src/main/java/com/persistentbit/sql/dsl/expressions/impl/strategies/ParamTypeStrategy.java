@@ -5,7 +5,7 @@ import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
-import com.persistentbit.utils.Lazy;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -21,37 +21,34 @@ public class ParamTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 	private final Class                                typeClass;
 	private final Function<PMap<String,Object>,Object> paramGetter;
-	private final ExprTypeJdbcConvert<J>               jdbcConvert;
-	private final Lazy<PrepStatParam>                  prepStatParam;
 
-	public ParamTypeStrategy(Class<? extends DExpr<J>> typeClass,
-							 Function<PMap<String, Object>, Object> paramGetter,
-							 ExprTypeJdbcConvert<J> jdbcConvert
+
+	public ParamTypeStrategy(Class<? extends DExpr> typeClass,
+							 Function<PMap<String, Object>, Object> paramGetter
 	) {
 		this.typeClass = typeClass;
 		this.paramGetter = paramGetter;
-		this.jdbcConvert = jdbcConvert;
-		this.prepStatParam = Lazy.code(() -> {
 
-			return new PrepStatParam(){
-				@Override
-				public int _setPrepStatement(PMap<String,Object> extParams, PreparedStatement stat, int index) throws SQLException {
-					jdbcConvert.setParam(index, stat, (J)paramGetter.apply(extParams));
-					return jdbcConvert.columnCount();
-				}
-
-				@Override
-				public String toString() {
-					return "Param  of type " + typeClass;
-				}
-			};
-		});
 	}
 
 
 	@Override
-	public SqlWithParams _toSql() {
-		return SqlWithParams.param(prepStatParam.get());
+	public SqlWithParams _toSql(AbstractTypeImpl impl) {
+		ExprTypeJdbcConvert jdbcConvert = impl.getJdbcConverter();
+		PrepStatParam stat = new PrepStatParam(){
+			@Override
+			public int _setPrepStatement(PMap<String, Object> extParams, PreparedStatement stat,
+										 int index) throws SQLException {
+				jdbcConvert.setParam(index, stat, (J) paramGetter.apply(extParams));
+				return jdbcConvert.columnCount();
+			}
+
+			@Override
+			public String toString() {
+				return "Param  of type " + typeClass;
+			}
+		};
+		return SqlWithParams.param(stat);
 	}
 
 	@Override
@@ -60,12 +57,12 @@ public class ParamTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	}
 
 	@Override
-	public String _createAliasName(String aliasPrefix) {
+	public String _createAliasName(AbstractTypeImpl impl, String aliasPrefix) {
 		return aliasPrefix;
 	}
 
 	@Override
-	public TypeStrategy<J> onlyColumnName() {
+	public TypeStrategy<J> onlyColumnName(AbstractTypeImpl impl) {
 		return this;
 	}
 }

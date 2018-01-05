@@ -4,7 +4,11 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.codegen.importer.CgContext;
 import com.persistentbit.sql.dsl.codegen.importer.DbImportSettings;
 import com.persistentbit.sql.dsl.codegen.importer.GenericDbImporter;
+import com.persistentbit.sql.dsl.codegen.importer.TableField;
+import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
+import com.persistentbit.sql.meta.data.DbMetaColumn;
+import com.persistentbit.sql.meta.data.DbMetaTable;
 
 /**
  * TODOC
@@ -27,6 +31,124 @@ public class PostgresDbImporter extends GenericDbImporter{
 				}
 				return cgContext;
 			});
+	}
+
+	@Override
+	protected Result<TableField> createArrayField(DbMetaTable table, DbMetaColumn column) {
+		return Result.function(table, column).code(log -> {
+			Class<? extends DExpr> itemCls = null;
+			switch(column.getType().getDbTypeName().orElse(null)) {
+				case "_numeric":
+					itemCls = EBigDecimal.class;
+					break;
+				case "_int8":
+					itemCls = ELong.class;
+					break;
+				case "_int4":
+					itemCls = EInt.class;
+					break;
+				case "_int2":
+					itemCls = EShort.class;
+					break;
+				case "_float4":
+					itemCls = EFloat.class;
+					break;
+				case "_float8":
+					itemCls = EDouble.class;
+					break;
+				case "_money":
+					//element = new DbJavaFieldCustomObject(column, javaName, Money.class);
+					break;
+				case "_varchar":
+				case "_text":
+				case "_bpchar":
+					itemCls = EString.class;
+					break;
+				case "_bytea":
+					itemCls = EByteList.class;
+					break;
+				case "_timestamp":
+					itemCls = EDateTime.class;
+					break;
+				case "_timestamptz":
+					itemCls = EDateTime.class;
+					break;
+				case "_date":
+					itemCls = EDate.class;
+					break;
+				case "_time":
+					itemCls = ETime.class;
+					break;
+				case "_timetz":
+					itemCls = ETime.class;
+					break;
+				case "_interval":
+					//element = new DbJavaFieldCustomObject(column, javaName, Interval.class);
+					break;
+				case "_bool":
+					itemCls = EBool.class;
+					break;
+				case "_cidr":
+					//element = new DbJavaFieldCustomObject(column, javaName, Cidr.class);
+					break;
+				case "_inet":
+					//element = new DbJavaFieldCustomObject(column, javaName, Inet.class);
+					break;
+				case "_macaddr":
+					//element = new DbJavaFieldCustomObject(column, javaName, Macaddr.class);
+					break;
+				case "_bit":
+				case "_varbit":
+					//element = new DbJavaFieldCustomObject(column,javaName, PBitList.class);
+					break;
+				case "_tsvector":
+					//element = new DbJavaFieldCustomObject(column, javaName, Tsvector.class);
+					break;
+
+				case "_tsquery":
+					//element = new DbJavaFieldCustomObject(column, javaName, Tsquery.class);
+					break;
+
+				case "_uuid":
+					//element = new DbJavaFieldCustomObject(column, javaName, UUID.class);
+					break;
+				case "_xml":
+					//element = new DbJavaFieldCustomObject(column, javaName, Xml.class);
+					break;
+
+				case "_json":
+					//element = new DbJavaFieldCustomObject(column, javaName, Json.class);
+					break;
+
+				//case "_enum_test":
+				//case "_full_name":
+				//case "us_postal_code":
+
+				default:
+					/*DbEnumType enumType = enumTypes.find(et -> ("_" + et.getName()).equals(dbTypeName)).orElse(null);
+					if(enumType != null){
+
+						element = new DbJavaFieldEnum(column,javaName,enumType,nameTransformer.toJavaName(enumType.getName()),toJavaPackage(rootPackage,nameTransformer,enumType.getSchema()));
+						break;
+					}
+					DbCustomType customType = customTypes.find(ct -> ("_" + ct.getDefinition().getName()).equals(dbTypeName)).orElse(null);
+					if(customType != null){
+						String pack = toJavaPackage(rootPackage,nameTransformer,customType.getDefinition().getSchema());
+						String clsName = nameTransformer.toJavaName(customType.getDefinition().getName());
+						element = new DbJavaFieldStruct(column,javaName,customType.getDefinition(),clsName,pack);
+						break;
+					}
+					*/
+
+					break;
+			}
+			if(itemCls == null) {
+				return Result.failure("Don't know array element type " + column.getType().getDbTypeName()
+					.orElse(null) + " for " + column + " in table " + table);
+			}
+			return createSimpleField(itemCls, table, column).map(sf -> sf.asArray());
+		});
+
 	}
 
 	/*

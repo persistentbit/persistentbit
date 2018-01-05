@@ -66,22 +66,18 @@ public class TCompany extends AbstractTable<ECompany, Company>{
 	public TCompany(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<ECompany> getTypeClass() {
 		return ECompany.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TCompany as(String aliasName) {
 		return new TCompany(context, aliasName);
 	}
-
 	@Override
 	public ECompany all() {
 		return _all;

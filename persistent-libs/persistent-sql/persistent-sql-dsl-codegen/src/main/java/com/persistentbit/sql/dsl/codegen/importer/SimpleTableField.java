@@ -1,10 +1,12 @@
 package com.persistentbit.sql.dsl.codegen.importer;
 
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.AccessLevel;
 import com.persistentbit.javacodegen.JField;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.string.UString;
 
 /**
@@ -22,13 +24,16 @@ public class SimpleTableField implements TableField{
 	private final boolean          hasDefault;
 	private final boolean          isPrimKey;
 	private final boolean          isAutoGenKey;
+	private final boolean          isArray;
 	private final StructTableField parent;
 
 	public SimpleTableField(TypeRef typeRef, CgTableName tableName, String columnName,
 							boolean isNullable,
 							boolean hasDefault,
 							boolean isPrimKey,
-							boolean isAutoGenKey, StructTableField parent
+							boolean isAutoGenKey,
+							boolean isArray,
+							StructTableField parent
 	) {
 		this.typeRef = typeRef;
 		this.tableName = tableName;
@@ -37,6 +42,7 @@ public class SimpleTableField implements TableField{
 		this.hasDefault = hasDefault;
 		this.isPrimKey = isPrimKey;
 		this.isAutoGenKey = isAutoGenKey;
+		this.isArray = isArray;
 		this.parent = parent;
 	}
 
@@ -46,7 +52,13 @@ public class SimpleTableField implements TableField{
 							boolean isPrimKey,
 							boolean isAutoGenKey
 	) {
-		this(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, isAutoGenKey, null);
+		this(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, isAutoGenKey, false, null);
+	}
+
+	public SimpleTableField asArray() {
+		return new SimpleTableField(
+			typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, isAutoGenKey, true, parent
+		);
 	}
 
 	@Override
@@ -84,6 +96,25 @@ public class SimpleTableField implements TableField{
 	}
 
 	@Override
+	public String createCreateFieldCode(CgContext context, String javaValueTypeClass) {
+		if(isArray) {
+			String res = "createArrayField(" + typeRef.getClassName() + ".class, ";
+			res += "\"" + getColumnName(context) + "\", \"" + getJavaName(context) + "\", ";
+			String javaGetter = getJavaGetter(context);
+
+			res += "v -> v." + getJavaGetter(context);
+			res += ", v -> v." + getJavaName(context) + ")";
+			return res;
+		}
+		String res = "createField(" + getTypeRef(context).getClassName() + ".class, ";
+		res += "\"" + getColumnName(context) + "\", \"" + getJavaName(context) + "\", ";
+		String javaGetter = getJavaGetter(context);
+
+		res += "v -> v." + getJavaGetter(context);
+		res += ", v -> v." + getJavaName(context) + ")";
+		return res;
+	}
+	@Override
 	public boolean isNullable(CgContext context) {
 		return isNullable;
 	}
@@ -105,7 +136,7 @@ public class SimpleTableField implements TableField{
 	}
 
 	public SimpleTableField withParent(StructTableField parent) {
-		return new SimpleTableField(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, isAutoGenKey, parent);
+		return new SimpleTableField(typeRef, tableName, columnName, isNullable, hasDefault, isPrimKey, isAutoGenKey, isArray, parent);
 	}
 
 	@Override
@@ -116,11 +147,17 @@ public class SimpleTableField implements TableField{
 
 	@Override
 	public TypeRef getTypeRef(CgContext context) {
+		if(isArray) {
+			return TypeRef.create(EArray.class).withGenerics(typeRef, context.getTypeDef(typeRef).getJavaRef(context));
+		}
 		return typeRef;
 	}
 
 
 	public TypeRef getJavaTypeRef(CgContext context) {
+		if(isArray) {
+			return TypeRef.create(ImmutableArray.class).withGenerics(context.getTypeDef(typeRef).getJavaRef(context));
+		}
 		return context.getTypeDef(typeRef).getJavaRef(context);
 	}
 

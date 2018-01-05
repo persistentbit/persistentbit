@@ -2,7 +2,6 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.time;
 
 import com.persistentbit.sql.dsl.expressions.ETime;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
@@ -30,13 +29,12 @@ public class ETimeTypeFactory extends AbstractTypeFactory<ETime, LocalTime>{
 	}
 
 	@Override
-	protected ExprTypeJdbcConvert<LocalTime> getJdbcConverter() {
-		return context.getJavaJdbcConverter(LocalTime.class);
+	public Class getValueClass() {
+		return LocalTime.class;
 	}
 
-
 	@Override
-	protected ETime buildWithStrategy(TypeStrategy<LocalTime> strategy) {
+	public ETime buildWithStrategy(TypeStrategy<LocalTime> strategy) {
 		return new ETimeImpl(context, strategy);
 	}
 
@@ -47,29 +45,14 @@ public class ETimeTypeFactory extends AbstractTypeFactory<ETime, LocalTime>{
 			super(typeStrategy);
 		}
 
-		@Override
-		public ExprContext getContext() {
-			return ETimeTypeFactory.this.context;
-		}
-
-		@Override
-		public Class<ETime> getTypeClass() {
-			return ETime.class;
-		}
-
-		@Override
-		public ETime buildWithStrategy(TypeStrategy<LocalTime> typeStrategy
-		) {
-			return ETimeTypeFactory.this.buildWithStrategy(typeStrategy);
-		}
 
 		@Override
 		public ExprTypeJdbcConvert<LocalTime> getJdbcConverter() {
-			return ETimeTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(LocalTime.class);
 		}
 
 		@Override
-		public ExprTypeFactory<ETime, LocalTime> getTypeFactory() {
+		public AbstractTypeFactory<ETime, LocalTime> getTypeFactory() {
 			return ETimeTypeFactory.this;
 		}
 

@@ -13,17 +13,18 @@ import java.util.function.Function;
  * @since 23/12/17
  */
 public class StructureField<E extends DExpr<J>,J>{
-	public final ExprContext context;
+	public final ExprContext            context;
 	public final Class<? extends DExpr> typeClass;
-	public final String columnName;
-	public final String fieldName;
-	public final Function<J,Object>	valueGetter;
-	public final Function<E,DExpr> expressionGetter;
-	private ExprTypeFactory<E,J> typeFactory;
+	public final String                 columnName;
+	public final String                 fieldName;
+	public final Function<J,Object>     valueGetter;
+	public final Function<E,DExpr>      expressionGetter;
+	public final boolean                isArray;
+	private      ExprTypeFactory<E,J>   typeFactory;
 
 	public StructureField(ExprContext context, Class<? extends DExpr> typeClass, String columnName, String fieldName,
 						  Function<J, Object> valueGetter,
-						  Function<E, DExpr> expressionGetter, ExprTypeFactory<E,J> typeFactory
+						  Function<E, DExpr> expressionGetter, boolean isArray, ExprTypeFactory<E, J> typeFactory
 	) {
 		this.context = context;
 		this.typeClass = typeClass;
@@ -31,6 +32,7 @@ public class StructureField<E extends DExpr<J>,J>{
 		this.fieldName = fieldName;
 		this.valueGetter = valueGetter;
 		this.expressionGetter = expressionGetter;
+		this.isArray = isArray;
 		this.typeFactory = typeFactory;
 	}
 

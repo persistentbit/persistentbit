@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.codegen.importer;
 
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PByteList;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
@@ -15,6 +16,7 @@ import com.persistentbit.sql.dsl.codegen.config.TableDef;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers.*;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EArrayTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EBoolTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EByteListTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EStringTypeFactory;
@@ -62,6 +64,7 @@ public class CgContext{
 		register(new SimpleTypeDef(EDateTime.class, LocalDateTime.class, EDateTimeTypeFactory.class));
 		register(new SimpleTypeDef(EDate.class, LocalDate.class, EDateTypeFactory.class));
 		register(new SimpleTypeDef(ETime.class, LocalTime.class, ETimeTypeFactory.class));
+		register(new SimpleTypeDef(EArray.class, ImmutableArray.class, EArrayTypeFactory.class));
 		//register(new SimpleTypeDef(EBitList.class, PBitList.class, EBitList));
 		register(new SimpleTypeDef(EByteList.class, PByteList.class, EByteListTypeFactory.class));
 

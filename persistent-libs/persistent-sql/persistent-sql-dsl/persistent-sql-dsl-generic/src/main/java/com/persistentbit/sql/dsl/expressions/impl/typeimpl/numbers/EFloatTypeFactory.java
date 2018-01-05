@@ -6,7 +6,6 @@ import com.persistentbit.sql.dsl.expressions.EDouble;
 import com.persistentbit.sql.dsl.expressions.EFloat;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
@@ -29,12 +28,12 @@ public class EFloatTypeFactory extends AbstractTypeFactory<EFloat, Float>{
 	}
 
 	@Override
-	protected ExprTypeJdbcConvert<Float> getJdbcConverter() {
-		return context.getJavaJdbcConverter(Float.class);
+	public Class getValueClass() {
+		return Float.class;
 	}
 
 	@Override
-	protected EFloat buildWithStrategy(TypeStrategy<Float> strategy) {
+	public EFloat buildWithStrategy(TypeStrategy<Float> strategy) {
 		return new EFloatImpl(strategy);
 	}
 
@@ -47,24 +46,15 @@ public class EFloatTypeFactory extends AbstractTypeFactory<EFloat, Float>{
 			super(strategy);
 		}
 
-		@Override
-		public Class<EFloat> getTypeClass() {
-			return EFloat.class;
-		}
 
-		@Override
-		public EFloat buildWithStrategy(TypeStrategy<Float> typeStrategy
-		) {
-			return EFloatTypeFactory.this.buildWithStrategy(typeStrategy);
-		}
 
 		@Override
 		public ExprTypeJdbcConvert<Float> getJdbcConverter() {
-			return EFloatTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(Float.class);
 		}
 
 		@Override
-		public ExprTypeFactory<EFloat, Float> getTypeFactory() {
+		public AbstractTypeFactory<EFloat, Float> getTypeFactory() {
 			return EFloatTypeFactory.this;
 		}
 

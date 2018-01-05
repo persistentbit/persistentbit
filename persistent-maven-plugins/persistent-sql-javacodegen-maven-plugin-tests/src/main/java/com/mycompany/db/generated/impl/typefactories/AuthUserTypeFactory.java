@@ -34,17 +34,14 @@ public class AuthUserTypeFactory extends AbstractStructureTypeFactory<EAuthUser,
 				, (EDateTime) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EAuthUser, AuthUser> getTypeFactory() {
 			return AuthUserTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EAuthUser[" + id + authAppId + userName + password + wrongPasswordCount + created + lastLogin + verified + resetPasswordCode + resetPasswordValidUntil + verifyCode + verifyCodeValidUntil + "]";
 		}
-
 		@Override
 		public EAuthUser getThis() {
 			return this;
@@ -54,7 +51,6 @@ public class AuthUserTypeFactory extends AbstractStructureTypeFactory<EAuthUser,
 	public AuthUserTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EAuthUser, AuthUser>> buildFields() {
 		return PList.val(
@@ -78,7 +74,6 @@ public class AuthUserTypeFactory extends AbstractStructureTypeFactory<EAuthUser,
 				.getVerifyCodeValidUntil().orElse(null), v -> v.verifyCodeValidUntil)
 		);
 	}
-
 	@Override
 	protected AuthUser buildValue(Object[] fieldValues) {
 		return new AuthUser(
@@ -96,12 +91,10 @@ public class AuthUserTypeFactory extends AbstractStructureTypeFactory<EAuthUser,
 			, (LocalDateTime) fieldValues[11]
 		);
 	}
-
 	@Override
 	protected EAuthUserImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EAuthUserImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EAuthUser> getTypeClass() {
 		return EAuthUser.class;

@@ -1,17 +1,24 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 
 import com.persistentbit.collections.ImmutableArray;
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
-import com.persistentbit.sql.dsl.expressions.EBool;
+import com.persistentbit.sql.dsl.expressions.EInt;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
+import com.persistentbit.sql.dsl.expressions.impl.strategies.BinOpTypeStrategy;
+import com.persistentbit.sql.dsl.expressions.impl.strategies.TableColumnTypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
+import com.persistentbit.sql.dsl.expressions.impl.strategies.ValTypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.ArrayExprTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.TypeImplComparableMixin;
+import com.persistentbit.utils.exceptions.ToDo;
+
+import java.sql.*;
 
 /**
  * TODOC
@@ -19,7 +26,9 @@ import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
  * @author petermuys
  * @since 4/01/18
  */
-public class EArrayTypeFactory extends AbstractTypeFactory<EArray, ImmutableArray>{
+public class EArrayTypeFactory<I1 extends DExpr<JI1>, JI1>
+	extends AbstractTypeFactory<EArray<I1, JI1>, ImmutableArray<JI1>> implements
+	ArrayExprTypeFactory{
 
 	public EArrayTypeFactory(ExprContext context) {
 		super(context);
@@ -31,267 +40,82 @@ public class EArrayTypeFactory extends AbstractTypeFactory<EArray, ImmutableArra
 		return EArray.class;
 	}
 
-
 	@Override
-	protected EArray buildWithStrategy(TypeStrategy<ImmutableArray> strategy) {
-		return new EArrayImpl(strategy);
-	}
-
-	@Override
-	protected ExprTypeJdbcConvert<ImmutableArray> getJdbcConverter() {
-		return context.getJavaJdbcConverter(ImmutableArray.class);
-	}
-
-	private class EArrayImpl<E1 extends DExpr<J1>, J1> extends AbstractTypeImpl<EArray<E1, J1>, ImmutableArray>
-		implements EArray<E1, ImmutableArray<J1>>{
-
-		public EArrayImpl(TypeStrategy<ImmutableArray> typeStrategy) {
-			super(typeStrategy);
-		}
-
-		@Override
-		public Class<EArray> getTypeClass() {
-			return EArray.class;
-		}
-
-		@Override
-		public EArray buildWithStrategy(TypeStrategy<ImmutableArray> typeStrategy
-		) {
-			return new EArrayTypeFactory. this.buildWithStrategy(typeStrategy);
-		}
-
-		@Override
-		public ExprContext getContext() {
-			return EArrayTypeFactory.this.context;
-		}
-
-		@Override
-		public ExprTypeJdbcConvert<Boolean> getJdbcConverter() {
-			return EArrayTypeFactory.this.getJdbcConverter();
-		}
-
-		@Override
-		public ExprTypeFactory<EBool, Boolean> getTypeFactory() {
-			return EArrayTypeFactory.this;
-		}
-
-
-		@Override
-		public EBool not() {
-			return getExprContext().booleanSingleOp(this, SingleOpOperator.opNot);
-		}
-
-		@Override
-		public EBool and(DExpr<Boolean> other) {
-			return getExprContext().booleanBinOp(this, BinOpOperator.opAnd, other);
-		}
-
-		@Override
-		public EBool or(DExpr<Boolean> other) {
-			return getExprContext().booleanBinOp(this, BinOpOperator.opOr, other);
-		}
-
-		@Override
-		public EBool eq(DExpr<Boolean> other) {
-			return getExprContext().eq(this, other);
-		}
-
-		@Override
-		public EBool notEq(DExpr<Boolean> other) {
-			return getExprContext().notEq(this, other);
-		}
-
-		@Override
-		public EBool isNull() {
-			return getExprContext().isNull(this);
-		}
-
-		@Override
-		public EBool isNotNull() {
-			return getExprContext().isNotNull(this);
-		}
-	}
-}
-/*implements ExprTypeFactory{
-
-	private final ExprContext context;
-
-
-	@Override
-	public Class getTypeClass() {
-		return EArray.class;
-	}
-
-	public EArrayTypeFactory(ExprContext context) {
-		this.context = context;
-	}
-
-
-	@Override
-	public DExpr buildAlias(DExpr expr, String alias) {
-		return new EArrayImplAlias((EArrayImpl) expr, alias);
+	public Class getValueClass() {
+		return ImmutableArray.class;
 	}
 
 	@Override
-	public DExpr buildBinOp(DExpr left, BinOpOperator op, DExpr right
-	) {
-		throw new UnsupportedOperationException("BinOp " + op);
-	}
-
-	@Override
-	public DExpr buildSingleOp(DExpr expr, SingleOpOperator op
-	) {
-		throw new UnsupportedOperationException("SingleOp " + op);
-	}
-
-	@Override
-	public DExpr buildTableField(String fieldSelectionName, String fieldName, String columnName) {
+	public EArray buildWithStrategy(TypeStrategy<ImmutableArray<JI1>> strategy) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public DExpr onlyTableColumn(DExpr genExpr) {
-		return ((EArrayImpl) genExpr).onlyTableColumn();
+	public EArray createArrayVal(Class itemClass, ExprTypeJdbcConvert itemJdbcConverter, ImmutableArray values) {
+		return new EArrayImpl(new ValTypeStrategy(values), itemJdbcConverter, itemClass);
 	}
 
 	@Override
-	public DExpr buildVal(Object value) {
-		return new EArrayImplVal((ImmutableArray) value);
+	public EArray createArrayTableColumn(Class itemClass, ExprTypeJdbcConvert itemJdbcConverter,
+										 String fieldSelectionName, String fieldName, String columnName) {
+		return new EArrayImpl(new TableColumnTypeStrategy<>(fieldSelectionName, fieldName, columnName), itemJdbcConverter, itemClass);
 	}
 
 
-	@Override
-	public DExpr buildParam(Function paramGetter) {
-		throw new ToDo();
-	}
+	private class EArrayImpl<I1 extends DExpr<JI1>, JI1> extends AbstractTypeImpl<EArray<I1, JI1>, ImmutableArray<JI1>>
+		implements EArray<I1, JI1>, TypeImplComparableMixin<EArray<I1, JI1>, ImmutableArray<JI1>>{
 
-	@Override
-	public DExpr buildCall(String callName, Object... params) {
-		throw new ToDo();
-	}
+		private final ExprTypeJdbcConvert<JI1> itemJdbcConverter;
+		private final Class<I1>                itemTypeClass;
 
-	@Override
-	public DExpr buildSelection(DExpr genExpr, String prefixAlias) {
-		ETuple2 expr = (ETuple2) genExpr;
-		DExpr e1 = context.getTypeFactory(expr.v1()).buildSelection(expr.v1(),
-																	prefixAlias == null ? null : prefixAlias + "t1_"
-		);
-		DExpr e2 = context.getTypeFactory(expr.v2()).buildSelection(expr.v2(),
-																	prefixAlias == null ? null : prefixAlias + "t2_"
-		);
-		return new Tuple2TypeFactory.ETuple2Impl<>(e1, e2);
-	}
-
-	@Override
-	public PList<DExpr> expand(DExpr genExpr) {
-		return PList.val(genExpr);
-	}
-
-	@Override
-	public ExprTypeJdbcConvert getJdbcConverter(DExpr expr) {
-		EArrayImpl impl = (EArrayImpl) expr;
-		return impl.getJdbcConverter();
-	}
-
-	@Override
-	public SqlWithParams toSql(DExpr genExpr) {
-		EArrayImpl impl = (EArrayImpl) genExpr;
-		return impl.toSql();
-	}
-
-
-	@Override
-	public ExprContext getExprContext() {
-		return context;
-	}
-
-	private abstract class EArrayImpl<E1 extends DExpr<J1>, J1> implements EArray<E1, J1>,
-		ExprTypeImpl<EArray<E1, J1>, ImmutableArray<J1>>, TypeImplComparableMixin<EArray<E1, J1>, ImmutableArray<J1>{
-
-		protected final Class<E1> itemTypeClass;
-
-		public EArrayImpl(Class<E1> itemTypeClass) {
+		public EArrayImpl(TypeStrategy<ImmutableArray<JI1>> typeStrategy, ExprTypeJdbcConvert<JI1> itemJdbcConverter,
+						  Class<I1> itemTypeClass) {
+			super(typeStrategy);
+			this.itemJdbcConverter = itemJdbcConverter;
 			this.itemTypeClass = itemTypeClass;
 		}
 
-		@Override
-		public ExprTypeFactory getTypeFactory() {
-			return EArrayTypeFactory.this;
-		}
-
-
 
 		@Override
-		public EArray<E1, J1> slice(EInt start, EInt end) {
-			return new EArrayImplSlice<>(itemTypeClass, this, start, end);
+		public AbstractTypeFactory<EArray<I1, JI1>, ImmutableArray<JI1>> getTypeFactory() {
+			return (AbstractTypeFactory) EArrayTypeFactory.this;
 		}
 
 		@Override
-		public E1 get(EInt index) {
-			return context.getTypeFactory(itemTypeClass).buildBinOp(this, BinOpOperator.opArrayIndex, index);
-		}
+		public ExprTypeJdbcConvert<ImmutableArray<JI1>> getJdbcConverter() {
 
-		protected abstract SqlWithParams toSql();
-
-		@Override
-		public EArray<E1, J1> getThis() {
-			return this;
-		}
-
-		public DExpr onlyTableColumn() {
-			return this;
-		}
-
-
-		public ExprTypeJdbcConvert getJdbcConverter() {
-			ExprTypeFactory<E1, J1> itemTypeFactory = context.getTypeFactory(itemTypeClass);
-			ExprTypeJdbcConvert     jdbcConvert     = itemTypeFactory.getJdbcConverter(itemTypeFactory.buildVal(null));
-			return new ExprTypeJdbcConvert<ImmutableArray>(){
+			return new ExprTypeJdbcConvert<ImmutableArray<JI1>>(){
 				@Override
-				public void setParam(int index, PreparedStatement stat, ImmutableArray value) throws SQLException {
+				public void setParam(int index, PreparedStatement stat, ImmutableArray<JI1> value) throws SQLException {
 					if(value == null) {
 						stat.setNull(index, Types.ARRAY);
 					}
 					else {
-						Connection con = stat.getConnection();
-						Array      arr = jdbcConvert.createJdbcArray(stat.getConnection(), value);
+						Array arr = itemJdbcConverter.createJdbcArray(stat.getConnection(), value);
 						stat.setArray(index, arr);
 					}
-
 				}
 
 				@Override
-				public ImmutableArray read(int index, ResultSet resultSet) throws SQLException {
-					Array array        = resultSet.getArray(index);
-					ImmutableArray res = jdbcConvert.createJavaArray(array);
-					array.free();
+				public ImmutableArray<JI1> read(int index, ResultSet resultSet) throws SQLException {
+					Array arr = resultSet.getArray(index);
+					if(arr == null) {
+						return null;
+					}
+					ImmutableArray<JI1> res = itemJdbcConverter.createJavaArray(arr);
+					arr.free();
 					return res;
 				}
 
 				@Override
-				public Array createJdbcArray(Connection con, ImmutableArray<ImmutableArray> values
-				) throws SQLException {
+				public Array createJdbcArray(Connection con,
+											 ImmutableArray<ImmutableArray<JI1>> values) throws SQLException {
 					throw new ToDo();
-					//					if(values == null) {
-					//						return null;
-					//					}
-					//					Object[] jdbcValues = values.map(v -> toJdbc.apply(v)).toArray(Object.class);
-					//					return con.createArrayOf(arrayType, jdbcValues);
 				}
 
 				@Override
-				public ImmutableArray<ImmutableArray> createJavaArray(Array jdbcArray) {
+				public ImmutableArray<ImmutableArray<JI1>> createJavaArray(Array jdbcArray) throws SQLException {
 					throw new ToDo();
-					//					if(jdbcArray == null) {
-					//						return null;
-					//					}
-					//					ArrayList<J> res = new ArrayList<>();
-					//					try(ResultSet rs = jdbcArray.getResultSet()) {
-					//						while(rs.next()) {
-					//							res.add(toJava.apply(rs.getObject(2)));
-					//						}
-					//					}
-					//					return ImmutableArray.from(res);
 				}
 
 				@Override
@@ -305,92 +129,26 @@ public class EArrayTypeFactory extends AbstractTypeFactory<EArray, ImmutableArra
 				}
 			};
 		}
-	}
 
-	private class EArrayImplVal<E1 extends DExpr<J1>, J1> extends EArrayImpl<E1, J1>{
-
-		private ImmutableArray<J1> values;
-
-		private EArrayImplVal(Class<E1> itemClass, ImmutableArray<J1> values) {
-			super(itemClass);
-			this.values = values;
+		@Override
+		public EArray slice(EInt start, EInt end) {
+			return buildWithStrategy(new BinOpTypeStrategy(this, BinOpOperator.opArraySlice, context
+				.tuple(start, end)));
 		}
 
 		@Override
-		protected SqlWithParams toSql() {
-			return SqlWithParams.param(new PrepStatParam(){
-				@Override
-				public int _setPrepStatement(PMap<String, Object> extParams, PreparedStatement stat, int index
-				) throws SQLException {
-					ExprTypeJdbcConvert jdbc = getJdbcConverter();
-					jdbc.setParam(index, stat, values);
-					return jdbc.columnCount();
-				}
-			});
-		}
-	}
-
-	private class EArrayImplTableColumn<E1 extends DExpr<J1>, J1> extends EArrayImpl<E1, J1>{
-
-		private final String fieldSelectionName;
-		private final String fieldName;
-		private final String columnName;
-
-		public EArrayImplTableColumn(Class<E1> itemTypeClass, String fieldSelectionName, String fieldName,
-									 String columnName
-		) {
-			super(itemTypeClass);
-			this.fieldSelectionName = fieldSelectionName;
-			this.fieldName = fieldName;
-			this.columnName = columnName;
+		public I1 get(EInt index) {
+			return context.binOp(itemTypeClass, this, BinOpOperator.opArrayIndex, index);
 		}
 
 		@Override
-		public DExpr onlyTableColumn() {
-			return new EArrayImplTableColumn(itemTypeClass, columnName, fieldName, columnName);
+		public EArray getThis() {
+			return this;
 		}
 
 		@Override
-		protected SqlWithParams toSql() {
-			return SqlWithParams.sql(fieldSelectionName);
+		public EArray<I1, JI1> buildWithStrategy(TypeStrategy typeStrategy) {
+			return new EArrayImpl(typeStrategy, itemJdbcConverter, itemTypeClass);
 		}
 	}
-
-	private class EArrayImplSlice<E1 extends DExpr<J1>, J1> extends EArrayImpl<E1, J1>{
-
-		private final EArrayImpl<E1, J1> array;
-		private final EInt               start;
-		private final EInt               end;
-
-		public EArrayImplSlice(Class<E1> itemTypeClass, EArrayImpl<E1, J1> array, EInt start, EInt end) {
-			super(itemTypeClass);
-			this.array = array;
-			this.start = start;
-			this.end = end;
-		}
-
-		@Override
-		protected SqlWithParams toSql() {
-			return array.toSql().add("[").add(context.toSql(start)).add(":").add(context.toSql(end)).add("]");
-		}
-	}
-
-	private class EArrayImplAlias<E1 extends DExpr<J1>, J1> extends EArrayImpl<E1, J1>{
-
-		private final EArrayImpl<E1, J1> array;
-		private final String             alias;
-
-		public EArrayImplAlias(EArrayImpl<E1, J1> array, String alias) {
-			super(array.itemTypeClass);
-			this.array = array;
-			this.alias = alias;
-		}
-
-		@Override
-		protected SqlWithParams toSql() {
-			return SqlWithParams.sql(alias);
-		}
-	}
-
 }
-*/

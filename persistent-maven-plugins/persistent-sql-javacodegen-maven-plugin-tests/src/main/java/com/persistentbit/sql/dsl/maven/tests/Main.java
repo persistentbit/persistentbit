@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.maven.tests;
 
 
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
@@ -12,8 +13,7 @@ import com.persistentbit.sql.work.DbWork;
 import java.sql.Connection;
 import java.util.function.Supplier;
 
-import static com.mycompany.db.generated.GoatData.authApp;
-import static com.mycompany.db.generated.GoatData.authUser;
+import static com.mycompany.db.generated.GoatData.*;
 import static com.persistentbit.sql.dsl.postgres.rt.DbPostgres.upper;
 
 
@@ -60,6 +60,13 @@ public class Main{
 			);
 		result.orElseThrow();
 		Supplier<DbTransaction> newTrans = () -> transSupplier.map(Supplier::get).orElseThrow();
+
+
+		pgArrayTest.insert(null,
+						   ImmutableArray.from(new String[]{"string1", "string2"}),
+						   ImmutableArray.from(new Integer[]{100, 101})
+		).run(newTrans.get()).orElseThrow();
+		pgArrayTest.selectAll().run(newTrans.get()).orElseThrow().forEach(System.out::println);
 
 		Long idPersistentBit = authApp
 			.insert()

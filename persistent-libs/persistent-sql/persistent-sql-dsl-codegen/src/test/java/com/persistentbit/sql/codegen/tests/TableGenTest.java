@@ -45,24 +45,24 @@ public class TableGenTest{
 			PList.val(
 				new SimpleTableField(
 					TypeRef.create(ELong.class), tn, "person_id", false, true, true,
-					true, null
+					true, false, null
 				),
 				new SimpleTableField(
 					TypeRef.create(EString.class), tn, "first_name", false, false, false,
-					false, null
+					false, false, null
 				),
 				new SimpleTableField(
 					TypeRef.create(EString.class), tn, "middle_name", true, false, false,
-					false, null
+					false, false, null
 				),
 				new SimpleTableField(
 					TypeRef.create(EString.class), tn, "last_Name", false, false, false,
-					false, null
+					false, false, null
 				),
 				new StructTableField(new CgTableName("address"), "home_"),
 				new SimpleTableField(
 					TypeRef.create(EDateTime.class), tn, "created", false, true, false,
-					false, null
+					false, false, null
 				)
 			)
 		);

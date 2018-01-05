@@ -1,6 +1,7 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
 import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
 /**
  * TODOC
@@ -24,21 +25,21 @@ public class TableColumnTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	}
 
 	@Override
-	public TypeStrategy<J> onlyColumnName() {
+	public TypeStrategy<J> onlyColumnName(AbstractTypeImpl impl) {
 		return new TableColumnTypeStrategy<>(
 			columnName, fieldName, columnName
 		);
 	}
 
 	@Override
-	public SqlWithParams _toSql() {
+	public SqlWithParams _toSql(AbstractTypeImpl impl) {
 		return SqlWithParams.sql(fieldSelectionName);
 	}
 
 
 
 	@Override
-	public String _createAliasName(String aliasPrefix) {
+	public String _createAliasName(AbstractTypeImpl impl, String aliasPrefix) {
 		return aliasPrefix == null ? null : " AS " + aliasPrefix +  columnName;
 	}
 

@@ -32,17 +32,14 @@ public class AuthUserRememberMeTypeFactory
 				, (EString) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EAuthUserRememberMe, AuthUserRememberMe> getTypeFactory() {
 			return AuthUserRememberMeTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EAuthUserRememberMe[" + id + authUserId + code + validUntil + passwordCode + "]";
 		}
-
 		@Override
 		public EAuthUserRememberMe getThis() {
 			return this;
@@ -52,7 +49,6 @@ public class AuthUserRememberMeTypeFactory
 	public AuthUserRememberMeTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EAuthUserRememberMe, AuthUserRememberMe>> buildFields() {
 		return PList.val(
@@ -63,7 +59,6 @@ public class AuthUserRememberMeTypeFactory
 			, createField(EString.class, "password_code", "passwordCode", v -> v.getPasswordCode(), v -> v.passwordCode)
 		);
 	}
-
 	@Override
 	protected AuthUserRememberMe buildValue(Object[] fieldValues) {
 		return new AuthUserRememberMe(
@@ -74,12 +69,10 @@ public class AuthUserRememberMeTypeFactory
 			, (String) fieldValues[4]
 		);
 	}
-
 	@Override
 	protected EAuthUserRememberMeImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EAuthUserRememberMeImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EAuthUserRememberMe> getTypeClass() {
 		return EAuthUserRememberMe.class;

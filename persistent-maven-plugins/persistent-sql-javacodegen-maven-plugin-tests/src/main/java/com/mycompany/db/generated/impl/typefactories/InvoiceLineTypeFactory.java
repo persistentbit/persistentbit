@@ -26,17 +26,14 @@ public class InvoiceLineTypeFactory extends AbstractStructureTypeFactory<EInvoic
 				, (EString) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EInvoiceLine, InvoiceLine> getTypeFactory() {
 			return InvoiceLineTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EInvoiceLine[" + id + invoiceId + product + "]";
 		}
-
 		@Override
 		public EInvoiceLine getThis() {
 			return this;
@@ -46,7 +43,6 @@ public class InvoiceLineTypeFactory extends AbstractStructureTypeFactory<EInvoic
 	public InvoiceLineTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EInvoiceLine, InvoiceLine>> buildFields() {
 		return PList.val(
@@ -55,7 +51,6 @@ public class InvoiceLineTypeFactory extends AbstractStructureTypeFactory<EInvoic
 			, createField(EString.class, "product", "product", v -> v.getProduct().orElse(null), v -> v.product)
 		);
 	}
-
 	@Override
 	protected InvoiceLine buildValue(Object[] fieldValues) {
 		return new InvoiceLine(
@@ -64,12 +59,10 @@ public class InvoiceLineTypeFactory extends AbstractStructureTypeFactory<EInvoic
 			, (String) fieldValues[2]
 		);
 	}
-
 	@Override
 	protected EInvoiceLineImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EInvoiceLineImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EInvoiceLine> getTypeClass() {
 		return EInvoiceLine.class;

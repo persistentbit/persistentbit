@@ -2,7 +2,6 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.time;
 
 import com.persistentbit.sql.dsl.expressions.EDateTime;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
@@ -30,14 +29,15 @@ public class EDateTimeTypeFactory extends AbstractTypeFactory<EDateTime,LocalDat
 	}
 
 	@Override
-	protected EDateTime buildWithStrategy(TypeStrategy<LocalDateTime> strategy) {
-		return new EDateTimeImpl(strategy);
+	public Class getValueClass() {
+		return LocalDateTime.class;
 	}
 
 	@Override
-	protected ExprTypeJdbcConvert<LocalDateTime> getJdbcConverter() {
-		return context.getJavaJdbcConverter(LocalDateTime.class);
+	public EDateTime buildWithStrategy(TypeStrategy<LocalDateTime> strategy) {
+		return new EDateTimeImpl(strategy);
 	}
+
 
 	private class EDateTimeImpl extends AbstractTypeImpl<EDateTime,LocalDateTime> implements EDateTime,TypeImplComparableMixin<EDateTime,LocalDateTime>{
 
@@ -45,13 +45,9 @@ public class EDateTimeTypeFactory extends AbstractTypeFactory<EDateTime,LocalDat
 			super(typeStrategy);
 		}
 
-		@Override
-		public ExprContext getContext() {
-			return EDateTimeTypeFactory.this.context;
-		}
 
 		@Override
-		public ExprTypeFactory<EDateTime, LocalDateTime> getTypeFactory() {
+		public AbstractTypeFactory<EDateTime, LocalDateTime> getTypeFactory() {
 			return EDateTimeTypeFactory.this;
 		}
 
@@ -61,19 +57,8 @@ public class EDateTimeTypeFactory extends AbstractTypeFactory<EDateTime,LocalDat
 		}
 
 		@Override
-		public Class<EDateTime> getTypeClass() {
-			return EDateTime.class;
-		}
-
-		@Override
-		public EDateTime buildWithStrategy(TypeStrategy<LocalDateTime> typeStrategy
-		) {
-			return EDateTimeTypeFactory.this.buildWithStrategy(typeStrategy);
-		}
-
-		@Override
 		public ExprTypeJdbcConvert<LocalDateTime> getJdbcConverter() {
-			return EDateTimeTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(LocalDateTime.class);
 		}
 	}
 }

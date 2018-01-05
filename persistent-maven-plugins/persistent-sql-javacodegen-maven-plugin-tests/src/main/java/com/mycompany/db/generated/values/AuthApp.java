@@ -21,8 +21,8 @@ public class AuthApp{
 	private final boolean isActive;
 	@Nullable
 	private final Integer maxWrongPasswordCount;
-
-
+	
+	
 	@Generated
 	public AuthApp(long id, String name, String password, boolean isRoot, boolean isActive,
 				   @Nullable Integer maxWrongPasswordCount) {
@@ -33,12 +33,10 @@ public class AuthApp{
 		this.isActive = Objects.requireNonNull(isActive, "isActive can not be null");
 		this.maxWrongPasswordCount = maxWrongPasswordCount;
 	}
-
 	@Generated
 	public AuthApp(long id, String name, String password, boolean isRoot, boolean isActive) {
 		this(id, name, password, isRoot, isActive, null);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5>{
@@ -81,139 +79,108 @@ public class AuthApp{
 			return this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #id}.<br>
-	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public long getId() {
 		return this.id;
 	}
-
 	/**
 	 * Create a copy of this AuthApp object with a new value for field {@link #id}.<br>
-	 *
 	 * @param id The new value for field {@link #id}
-	 *
 	 * @return A new instance of {@link AuthApp}
 	 */
 	@Generated
 	public AuthApp withId(long id) {
 		return new AuthApp(id, name, password, isRoot, isActive, maxWrongPasswordCount);
 	}
-
 	/**
 	 * Get the value of field {@link #name}.<br>
-	 *
 	 * @return {@link #name}
 	 */
 	@Generated
 	public String getName() {
 		return this.name;
 	}
-
 	/**
 	 * Create a copy of this AuthApp object with a new value for field {@link #name}.<br>
-	 *
 	 * @param name The new value for field {@link #name}
-	 *
 	 * @return A new instance of {@link AuthApp}
 	 */
 	@Generated
 	public AuthApp withName(String name) {
 		return new AuthApp(id, name, password, isRoot, isActive, maxWrongPasswordCount);
 	}
-
 	/**
 	 * Get the value of field {@link #password}.<br>
-	 *
 	 * @return {@link #password}
 	 */
 	@Generated
 	public String getPassword() {
 		return this.password;
 	}
-
 	/**
 	 * Create a copy of this AuthApp object with a new value for field {@link #password}.<br>
-	 *
 	 * @param password The new value for field {@link #password}
-	 *
 	 * @return A new instance of {@link AuthApp}
 	 */
 	@Generated
 	public AuthApp withPassword(String password) {
 		return new AuthApp(id, name, password, isRoot, isActive, maxWrongPasswordCount);
 	}
-
 	/**
 	 * Get the value of field {@link #isRoot}.<br>
-	 *
 	 * @return {@link #isRoot}
 	 */
 	@Generated
 	public boolean getIsRoot() {
 		return this.isRoot;
 	}
-
 	/**
 	 * Create a copy of this AuthApp object with a new value for field {@link #isRoot}.<br>
-	 *
 	 * @param isRoot The new value for field {@link #isRoot}
-	 *
 	 * @return A new instance of {@link AuthApp}
 	 */
 	@Generated
 	public AuthApp withIsRoot(boolean isRoot) {
 		return new AuthApp(id, name, password, isRoot, isActive, maxWrongPasswordCount);
 	}
-
 	/**
 	 * Get the value of field {@link #isActive}.<br>
-	 *
 	 * @return {@link #isActive}
 	 */
 	@Generated
 	public boolean getIsActive() {
 		return this.isActive;
 	}
-
 	/**
 	 * Create a copy of this AuthApp object with a new value for field {@link #isActive}.<br>
-	 *
 	 * @param isActive The new value for field {@link #isActive}
-	 *
 	 * @return A new instance of {@link AuthApp}
 	 */
 	@Generated
 	public AuthApp withIsActive(boolean isActive) {
 		return new AuthApp(id, name, password, isRoot, isActive, maxWrongPasswordCount);
 	}
-
 	/**
 	 * Get the value of field {@link #maxWrongPasswordCount}.<br>
-	 *
 	 * @return {@link #maxWrongPasswordCount}
 	 */
 	@Generated
 	public Optional<Integer> getMaxWrongPasswordCount() {
 		return Optional.ofNullable(this.maxWrongPasswordCount);
 	}
-
 	/**
 	 * Create a copy of this AuthApp object with a new value for field {@link #maxWrongPasswordCount}.<br>
-	 *
 	 * @param maxWrongPasswordCount The new value for field {@link #maxWrongPasswordCount}
-	 *
 	 * @return A new instance of {@link AuthApp}
 	 */
 	@Generated
 	public AuthApp withMaxWrongPasswordCount(@Nullable Integer maxWrongPasswordCount) {
 		return new AuthApp(id, name, password, isRoot, isActive, maxWrongPasswordCount);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -229,7 +196,6 @@ public class AuthApp{
 			.equals(obj.maxWrongPasswordCount) : obj.maxWrongPasswordCount != null) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -242,7 +208,6 @@ public class AuthApp{
 		result = 31 * result + (this.maxWrongPasswordCount != null ? this.maxWrongPasswordCount.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -254,10 +219,9 @@ public class AuthApp{
 			.present(UString.escapeToJavaString(password), 32, "...") + '\"') +
 			", isRoot=" + isRoot +
 			", isActive=" + isActive +
-			", maxWrongPasswordCount=" + maxWrongPasswordCount +
+			", maxWrongPasswordCount=" + maxWrongPasswordCount + 
 			']';
 	}
-
 	@Generated
 	public AuthApp updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -270,7 +234,6 @@ public class AuthApp{
 		b = updater.apply(b);
 		return new AuthApp(b.id, b.name, b.password, b.isRoot, b.isActive, b.maxWrongPasswordCount);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static AuthApp build(
@@ -278,7 +241,6 @@ public class AuthApp{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new AuthApp(b.id, b.name, b.password, b.isRoot, b.isActive, b.maxWrongPasswordCount);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<AuthApp> buildExc(

@@ -35,6 +35,10 @@ public final class ImmutableArray<T> extends AbstractIPList<T, ImmutableArray<T>
 		return new ImmutableArray<>(data);
 	}
 
+	public static <R> ImmutableArray<R> from(R[] values) {
+		return new ImmutableArray<>(values);
+	}
+
 	public static <R> ImmutableArray<R> from(Iterable<R> iterable) {
 		int         length = 0;
 		for(R anIterable : iterable) {

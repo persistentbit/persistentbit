@@ -57,22 +57,18 @@ public class TAuthApp extends AbstractTable<EAuthApp, AuthApp>{
 	public TAuthApp(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EAuthApp> getTypeClass() {
 		return EAuthApp.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TAuthApp as(String aliasName) {
 		return new TAuthApp(context, aliasName);
 	}
-
 	@Override
 	public EAuthApp all() {
 		return _all;

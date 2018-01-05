@@ -70,22 +70,18 @@ public class TAuthUser extends AbstractTable<EAuthUser, AuthUser>{
 	public TAuthUser(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EAuthUser> getTypeClass() {
 		return EAuthUser.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TAuthUser as(String aliasName) {
 		return new TAuthUser(context, aliasName);
 	}
-
 	@Override
 	public EAuthUser all() {
 		return _all;

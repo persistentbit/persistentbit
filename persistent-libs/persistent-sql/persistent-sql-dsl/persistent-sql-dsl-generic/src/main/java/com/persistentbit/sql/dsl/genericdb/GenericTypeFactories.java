@@ -3,10 +3,7 @@ package com.persistentbit.sql.dsl.genericdb;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers.*;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EBoolTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EByteListTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.ESelectionTypeFactory;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.EStringTypeFactory;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.*;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTimeTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.ETimeTypeFactory;
@@ -44,6 +41,7 @@ public class GenericTypeFactories{
 		context.registerType(EString.class,EStringTypeFactory.class);
 		context.registerType(ESelection.class,ESelectionTypeFactory.class);
 		context.registerType(EByteList.class, EByteListTypeFactory.class);
+		context.registerType(EArray.class, EArrayTypeFactory.class);
 	}
 	@SuppressWarnings("unchecked")
 	static public void tupleFactories(ExprContext context){

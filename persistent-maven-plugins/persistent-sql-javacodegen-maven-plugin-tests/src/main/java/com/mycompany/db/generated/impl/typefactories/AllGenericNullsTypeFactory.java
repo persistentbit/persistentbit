@@ -55,17 +55,14 @@ public class AllGenericNullsTypeFactory extends AbstractStructureTypeFactory<EAl
 				, (EBool) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EAllGenericNulls, AllGenericNulls> getTypeFactory() {
 			return AllGenericNullsTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EAllGenericNulls[" + idPart1 + idPart2 + serSmall + ser + serBig + anInteger + aBigint + aDecimal72 + aNumeric6 + aNumeric + aReal + aDouble + anInt2 + anInt4 + anInt8 + aVarchar + aVarchar10 + aText + aChar + aChar10 + aBytea + aTimestamp3 + aTimestamp + aTimestampWithZone + aDate + aTime + aTimeWithZone + aBoolean + "]";
 		}
-
 		@Override
 		public EAllGenericNulls getThis() {
 			return this;
@@ -75,7 +72,6 @@ public class AllGenericNullsTypeFactory extends AbstractStructureTypeFactory<EAl
 	public AllGenericNullsTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EAllGenericNulls, AllGenericNulls>> buildFields() {
 		return PList.val(
@@ -117,7 +113,6 @@ public class AllGenericNullsTypeFactory extends AbstractStructureTypeFactory<EAl
 			, createField(EBool.class, "a_boolean", "aBoolean", v -> v.getABoolean().orElse(null), v -> v.aBoolean)
 		);
 	}
-
 	@Override
 	protected AllGenericNulls buildValue(Object[] fieldValues) {
 		return new AllGenericNulls(
@@ -151,12 +146,10 @@ public class AllGenericNullsTypeFactory extends AbstractStructureTypeFactory<EAl
 			, (Boolean) fieldValues[27]
 		);
 	}
-
 	@Override
 	protected EAllGenericNullsImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EAllGenericNullsImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EAllGenericNulls> getTypeClass() {
 		return EAllGenericNulls.class;

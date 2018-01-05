@@ -107,22 +107,18 @@ public class TAllGenericNulls extends AbstractTable<EAllGenericNulls, AllGeneric
 	public TAllGenericNulls(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EAllGenericNulls> getTypeClass() {
 		return EAllGenericNulls.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TAllGenericNulls as(String aliasName) {
 		return new TAllGenericNulls(context, aliasName);
 	}
-
 	@Override
 	public EAllGenericNulls all() {
 		return _all;

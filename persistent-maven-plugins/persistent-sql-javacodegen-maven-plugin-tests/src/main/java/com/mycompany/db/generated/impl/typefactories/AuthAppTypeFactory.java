@@ -27,17 +27,14 @@ public class AuthAppTypeFactory extends AbstractStructureTypeFactory<EAuthApp, A
 				, (EInt) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EAuthApp, AuthApp> getTypeFactory() {
 			return AuthAppTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EAuthApp[" + id + name + password + isRoot + isActive + maxWrongPasswordCount + "]";
 		}
-
 		@Override
 		public EAuthApp getThis() {
 			return this;
@@ -47,7 +44,6 @@ public class AuthAppTypeFactory extends AbstractStructureTypeFactory<EAuthApp, A
 	public AuthAppTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EAuthApp, AuthApp>> buildFields() {
 		return PList.val(
@@ -60,7 +56,6 @@ public class AuthAppTypeFactory extends AbstractStructureTypeFactory<EAuthApp, A
 				.getMaxWrongPasswordCount().orElse(null), v -> v.maxWrongPasswordCount)
 		);
 	}
-
 	@Override
 	protected AuthApp buildValue(Object[] fieldValues) {
 		return new AuthApp(
@@ -72,12 +67,10 @@ public class AuthAppTypeFactory extends AbstractStructureTypeFactory<EAuthApp, A
 			, (Integer) fieldValues[5]
 		);
 	}
-
 	@Override
 	protected EAuthAppImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EAuthAppImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EAuthApp> getTypeClass() {
 		return EAuthApp.class;

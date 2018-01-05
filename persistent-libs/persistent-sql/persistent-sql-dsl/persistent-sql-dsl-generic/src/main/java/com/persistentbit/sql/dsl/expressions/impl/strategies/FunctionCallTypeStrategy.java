@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
 /**
  * TODOC
@@ -12,21 +12,18 @@ import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
  */
 public class FunctionCallTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
-	private final ExprContext context;
 	private final String      callName;
 	private final Object[]    arguments;
 
-	public FunctionCallTypeStrategy(ExprContext context,
-									String callName,
+	public FunctionCallTypeStrategy(String callName,
 									Object... arguments
 	) {
-		this.context = context;
 		this.callName = callName;
 		this.arguments = arguments;
 	}
 
 	@Override
-	public SqlWithParams _toSql() {
+	public SqlWithParams _toSql(AbstractTypeImpl impl) {
 		SqlWithParams sql        = SqlWithParams.sql(callName + "(");
 		boolean       first      = true;
 		boolean       prevString = false;
@@ -43,7 +40,7 @@ public class FunctionCallTypeStrategy<J> extends AbstractTypeStrategy<J>{
 				}
 				first = false;
 				prevString = false;
-				sql = sql.add(context.toSql(expr));
+				sql = sql.add(impl.getContext().toSql(expr));
 			}
 
 		}
@@ -51,12 +48,12 @@ public class FunctionCallTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	}
 
 	@Override
-	public String _createAliasName(String aliasPrefix) {
+	public String _createAliasName(AbstractTypeImpl impl, String aliasPrefix) {
 		return aliasPrefix;
 	}
 
 	@Override
-	public TypeStrategy<J> onlyColumnName() {
+	public TypeStrategy<J> onlyColumnName(AbstractTypeImpl impl) {
 		return this;
 	}
 }

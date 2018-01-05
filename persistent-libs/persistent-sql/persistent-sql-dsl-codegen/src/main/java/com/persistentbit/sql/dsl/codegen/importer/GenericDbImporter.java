@@ -71,7 +71,8 @@ public class GenericDbImporter{
 		);
 	}
 
-	private Result<TableField> createField(Class<? extends DExpr> exprCls, DbMetaTable table, DbMetaColumn column) {
+	protected Result<SimpleTableField> createSimpleField(Class<? extends DExpr> exprCls, DbMetaTable table,
+														 DbMetaColumn column) {
 		DbMetaDataType mt = column.getType();
 		//String         javaName = nameTransformer.toJavaName(table,column);
 		boolean isNullable = mt.getIsNullable();
@@ -90,6 +91,10 @@ public class GenericDbImporter{
 												   isPrimKey,
 												   isAutoGen
 		));
+	}
+
+	protected Result<TableField> createField(Class<? extends DExpr> exprCls, DbMetaTable table, DbMetaColumn column) {
+		return createSimpleField(exprCls, table, column).map(tf -> tf);
 	}
 
 	protected Result<TableField> getTableField(
@@ -190,7 +195,7 @@ public class GenericDbImporter{
 
 
 				case Types.ARRAY:
-					return Result.failure("Array objects not yet implemented");
+					return createArrayField(table, column);
 				//return createArrayField(rootPackage,nameTransformer,javaName, table, column,customTypes,enumTypes,domains);
 
 				case Types.OTHER:
@@ -204,7 +209,9 @@ public class GenericDbImporter{
 
 	}
 
-
+	protected Result<TableField> createArrayField(DbMetaTable table, DbMetaColumn column) {
+		return Result.failure("Array objects not yet implemented for " + table.name + " " + column.getName());
+	}
 
 
 }

@@ -8,7 +8,6 @@ import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
-import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.*;
 
 import java.util.function.Function;
@@ -28,7 +27,7 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	}
 
 
-	protected abstract E buildWithStrategy(TypeStrategy<J> strategy);
+	public abstract E buildWithStrategy(TypeStrategy<J> strategy);
 
 
 
@@ -45,33 +44,33 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	@Override
 	public <V extends J> E buildVal(V value) {
 		return buildWithStrategy(
-			new ValTypeStrategy<>(value, getJdbcConverter()));
+			new ValTypeStrategy<>(value));
 	}
 
 	@Override
 	public E buildParam(Function<PMap<String, Object>, Object> paramGetter) {
 		return buildWithStrategy(
-			new ParamTypeStrategy<>(getTypeClass(), paramGetter, getJdbcConverter())
+			new ParamTypeStrategy<>(getTypeClass(), paramGetter)
 		);
 	}
 
 	@Override
 	public E buildCall(String callName, Object... params) {
 		return buildWithStrategy(
-			new FunctionCallTypeStrategy<>(context, callName, params)
+			new FunctionCallTypeStrategy<>(callName, params)
 		);
 	}
 
 	@Override
 	public E buildBinOp(DExpr left, BinOpOperator op, DExpr right) {
 		return buildWithStrategy(
-			new BinOpTypeStrategy<>(context, left, op, right));
+			new BinOpTypeStrategy<>(left, op, right));
 	}
 
 	@Override
 	public E buildSingleOp(DExpr expr, SingleOpOperator op) {
 		return buildWithStrategy(
-			new SingleOpTypeStrategy<>(context, expr, op));
+			new SingleOpTypeStrategy<>(expr, op));
 	}
 
 	@Override
@@ -82,15 +81,17 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 
 	@Override
 	public EArray<E, J> buildArrayTableField(String fieldSelectionName, String fieldName, String columnName) {
-		return context.buildArrayTableColumn(getTypeClass(), fieldSelectionName, fieldName, columnName);
+		return context.buildArrayTableColumn(getTypeClass(), context
+			.getJavaJdbcConverter(getValueClass()), fieldSelectionName, fieldName, columnName);
 	}
 
 	@Override
 	public <V extends J> EArray<E, J> buildArrayVal(ImmutableArray<V> values) {
-		return context.buildArrayVal(getTypeClass(), values);
+		return context.buildArrayVal(getTypeClass(), context.getJavaJdbcConverter(getValueClass()), values);
 	}
 
-	protected abstract ExprTypeJdbcConvert<J> getJdbcConverter();
+
+	public abstract Class getValueClass();
 
 
 }

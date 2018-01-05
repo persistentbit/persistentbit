@@ -45,7 +45,16 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 																			Function<JF, Object> valueGetter,
 																			Function<EF, DExpr> expressionGetter
 	) {
-		return new StructureField<>(context, typeClass, columnName, fieldName, valueGetter, expressionGetter, null);
+		return new StructureField<>(context, typeClass, columnName, fieldName, valueGetter, expressionGetter, false, null);
+	}
+
+	protected <EF extends DExpr<JF>, JF> StructureField<EF, JF> createArrayField(Class<? extends DExpr> itemTypeClass,
+																				 String columnName,
+																				 String fieldName,
+																				 Function<JF, Object> valueGetter,
+																				 Function<EF, DExpr> expressionGetter
+	) {
+		return new StructureField<>(context, itemTypeClass, columnName, fieldName, valueGetter, expressionGetter, true, null);
 	}
 
 
@@ -152,10 +161,16 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 
 	@Override
 	public E buildTableField(String fieldSelectionName, String fieldName, String columnName) {
-		return createExpression(fields.map(sf ->
-											   sf.getTypeFactory()
-												   .buildTableField(fieldSelectionName + sf.columnName, fieldName + sf.fieldName, columnName + sf.columnName)
-		));
+		return createExpression(
+			fields.map(sf -> {
+						   if(sf.isArray == false) {
+							   return sf.getTypeFactory()
+								   .buildTableField(fieldSelectionName + sf.columnName, fieldName + sf.fieldName, columnName + sf.columnName);
+						   }
+						   return sf.getTypeFactory()
+							   .buildArrayTableField(fieldSelectionName + sf.columnName, fieldName + sf.fieldName, columnName + sf.columnName);
+					   }
+			));
 	}
 
 	public E onlyTableColumn(E expr) {

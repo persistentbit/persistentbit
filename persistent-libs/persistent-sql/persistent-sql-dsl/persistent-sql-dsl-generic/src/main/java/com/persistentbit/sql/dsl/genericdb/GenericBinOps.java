@@ -1,5 +1,6 @@
 package com.persistentbit.sql.dsl.genericdb;
 
+import com.persistentbit.sql.dsl.expressions.ETuple2;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 
@@ -45,6 +46,13 @@ public class GenericBinOps{
 		context.addBinOpBuilder(BinOpOperator.opAssign, (left, sqlLeft, right, sqlRight) ->
 			sqlLeft.add(" = ").add(sqlRight)
 		);
+		context.addBinOpBuilder(BinOpOperator.opArrayIndex, (left, sqlLeft, right, sqlRight) ->
+			sqlLeft.add("[").add(sqlRight).add("]")
+		);
+		context.addBinOpBuilder(BinOpOperator.opArrayIndex, (left, sqlLeft, right, sqlRight) -> {
+			ETuple2 tuple = (ETuple2) sqlRight;
+			return sqlLeft.add("[").add(context.toSql(tuple.v1())).add(":").add(context.toSql(tuple.v2())).add("]");
+		});
 
 	}
 }

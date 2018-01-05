@@ -55,22 +55,18 @@ public class TInvoice extends AbstractTable<EInvoice, Invoice>{
 	public TInvoice(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EInvoice> getTypeClass() {
 		return EInvoice.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TInvoice as(String aliasName) {
 		return new TInvoice(context, aliasName);
 	}
-
 	@Override
 	public EInvoice all() {
 		return _all;

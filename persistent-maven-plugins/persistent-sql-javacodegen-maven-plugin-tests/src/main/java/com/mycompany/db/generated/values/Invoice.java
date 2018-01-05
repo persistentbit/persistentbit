@@ -17,8 +17,8 @@ public class Invoice{
 	private final String invoiceNummer;
 	private final long   fromCompanyId;
 	private final long   toCompanyId;
-
-
+	
+	
 	@Generated
 	public Invoice(long id, String invoiceNummer, long fromCompanyId, long toCompanyId) {
 		this.id = Objects.requireNonNull(id, "id can not be null");
@@ -26,7 +26,6 @@ public class Invoice{
 		this.fromCompanyId = Objects.requireNonNull(fromCompanyId, "fromCompanyId can not be null");
 		this.toCompanyId = Objects.requireNonNull(toCompanyId, "toCompanyId can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4>{
@@ -57,95 +56,74 @@ public class Invoice{
 			return (Builder<_T1, _T2, _T3, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #id}.<br>
-	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public long getId() {
 		return this.id;
 	}
-
 	/**
 	 * Create a copy of this Invoice object with a new value for field {@link #id}.<br>
-	 *
 	 * @param id The new value for field {@link #id}
-	 *
 	 * @return A new instance of {@link Invoice}
 	 */
 	@Generated
 	public Invoice withId(long id) {
 		return new Invoice(id, invoiceNummer, fromCompanyId, toCompanyId);
 	}
-
 	/**
 	 * Get the value of field {@link #invoiceNummer}.<br>
-	 *
 	 * @return {@link #invoiceNummer}
 	 */
 	@Generated
 	public String getInvoiceNummer() {
 		return this.invoiceNummer;
 	}
-
 	/**
 	 * Create a copy of this Invoice object with a new value for field {@link #invoiceNummer}.<br>
-	 *
 	 * @param invoiceNummer The new value for field {@link #invoiceNummer}
-	 *
 	 * @return A new instance of {@link Invoice}
 	 */
 	@Generated
 	public Invoice withInvoiceNummer(String invoiceNummer) {
 		return new Invoice(id, invoiceNummer, fromCompanyId, toCompanyId);
 	}
-
 	/**
 	 * Get the value of field {@link #fromCompanyId}.<br>
-	 *
 	 * @return {@link #fromCompanyId}
 	 */
 	@Generated
 	public long getFromCompanyId() {
 		return this.fromCompanyId;
 	}
-
 	/**
 	 * Create a copy of this Invoice object with a new value for field {@link #fromCompanyId}.<br>
-	 *
 	 * @param fromCompanyId The new value for field {@link #fromCompanyId}
-	 *
 	 * @return A new instance of {@link Invoice}
 	 */
 	@Generated
 	public Invoice withFromCompanyId(long fromCompanyId) {
 		return new Invoice(id, invoiceNummer, fromCompanyId, toCompanyId);
 	}
-
 	/**
 	 * Get the value of field {@link #toCompanyId}.<br>
-	 *
 	 * @return {@link #toCompanyId}
 	 */
 	@Generated
 	public long getToCompanyId() {
 		return this.toCompanyId;
 	}
-
 	/**
 	 * Create a copy of this Invoice object with a new value for field {@link #toCompanyId}.<br>
-	 *
 	 * @param toCompanyId The new value for field {@link #toCompanyId}
-	 *
 	 * @return A new instance of {@link Invoice}
 	 */
 	@Generated
 	public Invoice withToCompanyId(long toCompanyId) {
 		return new Invoice(id, invoiceNummer, fromCompanyId, toCompanyId);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -158,7 +136,6 @@ public class Invoice{
 		if(toCompanyId != obj.toCompanyId) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -169,7 +146,6 @@ public class Invoice{
 		result = 31 * result + (int) (this.toCompanyId ^ (this.toCompanyId >>> 32));
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -178,10 +154,9 @@ public class Invoice{
 			", invoiceNummer=" + (invoiceNummer == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(invoiceNummer), 32, "...") + '\"') +
 			", fromCompanyId=" + fromCompanyId +
-			", toCompanyId=" + toCompanyId +
+			", toCompanyId=" + toCompanyId + 
 			']';
 	}
-
 	@Generated
 	public Invoice updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -192,7 +167,6 @@ public class Invoice{
 		b = updater.apply(b);
 		return new Invoice(b.id, b.invoiceNummer, b.fromCompanyId, b.toCompanyId);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Invoice build(
@@ -200,7 +174,6 @@ public class Invoice{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Invoice(b.id, b.invoiceNummer, b.fromCompanyId, b.toCompanyId);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<Invoice> buildExc(

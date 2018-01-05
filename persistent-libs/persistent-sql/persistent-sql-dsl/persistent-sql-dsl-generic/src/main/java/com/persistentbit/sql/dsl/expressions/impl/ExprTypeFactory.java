@@ -33,5 +33,5 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 
 	ExprContext	getExprContext();
 
-	Class<E> getTypeClass();
+	Class<? extends DExpr> getTypeClass();
 }

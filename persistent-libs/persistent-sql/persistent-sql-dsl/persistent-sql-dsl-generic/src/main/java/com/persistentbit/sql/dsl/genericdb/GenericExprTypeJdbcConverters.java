@@ -86,6 +86,7 @@ public class GenericExprTypeJdbcConverters{
 		, o -> o == null ? null : PByteList.from((byte[]) o)
 	);
 
+
 	static public final void init(ExprContext context) {
 		context.addJdbcConverter(Byte.class, forByte);
 		context.addJdbcConverter(Short.class, forShort);

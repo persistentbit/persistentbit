@@ -5,7 +5,6 @@ import com.persistentbit.sql.dsl.expressions.EBigDecimal;
 import com.persistentbit.sql.dsl.expressions.EDouble;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
@@ -29,13 +28,12 @@ public class EDoubleTypeFactory extends AbstractTypeFactory<EDouble, Double>{
 	}
 
 	@Override
-	protected ExprTypeJdbcConvert<Double> getJdbcConverter() {
-		return context.getJavaJdbcConverter(Double.class);
+	public Class getValueClass() {
+		return Double.class;
 	}
 
-
 	@Override
-	protected EDouble buildWithStrategy(TypeStrategy<Double> strategy) {
+	public EDouble buildWithStrategy(TypeStrategy<Double> strategy) {
 		return new EDoubleImpl(strategy);
 	}
 
@@ -49,23 +47,15 @@ public class EDoubleTypeFactory extends AbstractTypeFactory<EDouble, Double>{
 		}
 
 
-		@Override
-		public Class<EDouble> getTypeClass() {
-			return EDouble.class;
-		}
 
-		@Override
-		public EDouble buildWithStrategy(TypeStrategy<Double> typeStrategy) {
-			return EDoubleTypeFactory.this.buildWithStrategy(typeStrategy);
-		}
 
 		@Override
 		public ExprTypeJdbcConvert<Double> getJdbcConverter() {
-			return EDoubleTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(Double.class);
 		}
 
 		@Override
-		public ExprTypeFactory<EDouble, Double> getTypeFactory() {
+		public AbstractTypeFactory<EDouble, Double> getTypeFactory() {
 			return EDoubleTypeFactory.this;
 		}
 

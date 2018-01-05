@@ -34,8 +34,8 @@ public class AuthUser{
 	private final String        verifyCode;
 	@Nullable
 	private final LocalDateTime verifyCodeValidUntil;
-
-
+	
+	
 	@Generated
 	public AuthUser(long id, long authAppId, String userName, String password, int wrongPasswordCount,
 					@Nullable LocalDateTime created, @Nullable LocalDateTime lastLogin,
@@ -55,12 +55,10 @@ public class AuthUser{
 		this.verifyCode = verifyCode;
 		this.verifyCodeValidUntil = verifyCodeValidUntil;
 	}
-
 	@Generated
 	public AuthUser(long id, long authAppId, String userName, String password, int wrongPasswordCount) {
 		this(id, authAppId, userName, password, wrongPasswordCount, null, null, null, null, null, null, null);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5>{
@@ -140,271 +138,210 @@ public class AuthUser{
 			return this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #id}.<br>
-	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public long getId() {
 		return this.id;
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #id}.<br>
-	 *
 	 * @param id The new value for field {@link #id}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withId(long id) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #authAppId}.<br>
-	 *
 	 * @return {@link #authAppId}
 	 */
 	@Generated
 	public long getAuthAppId() {
 		return this.authAppId;
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #authAppId}.<br>
-	 *
 	 * @param authAppId The new value for field {@link #authAppId}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withAuthAppId(long authAppId) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #userName}.<br>
-	 *
 	 * @return {@link #userName}
 	 */
 	@Generated
 	public String getUserName() {
 		return this.userName;
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #userName}.<br>
-	 *
 	 * @param userName The new value for field {@link #userName}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withUserName(String userName) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #password}.<br>
-	 *
 	 * @return {@link #password}
 	 */
 	@Generated
 	public String getPassword() {
 		return this.password;
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #password}.<br>
-	 *
 	 * @param password The new value for field {@link #password}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withPassword(String password) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #wrongPasswordCount}.<br>
-	 *
 	 * @return {@link #wrongPasswordCount}
 	 */
 	@Generated
 	public int getWrongPasswordCount() {
 		return this.wrongPasswordCount;
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #wrongPasswordCount}.<br>
-	 *
 	 * @param wrongPasswordCount The new value for field {@link #wrongPasswordCount}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withWrongPasswordCount(int wrongPasswordCount) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #created}.<br>
-	 *
 	 * @return {@link #created}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getCreated() {
 		return Optional.ofNullable(this.created);
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #created}.<br>
-	 *
 	 * @param created The new value for field {@link #created}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withCreated(@Nullable LocalDateTime created) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #lastLogin}.<br>
-	 *
 	 * @return {@link #lastLogin}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getLastLogin() {
 		return Optional.ofNullable(this.lastLogin);
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #lastLogin}.<br>
-	 *
 	 * @param lastLogin The new value for field {@link #lastLogin}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withLastLogin(@Nullable LocalDateTime lastLogin) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #verified}.<br>
-	 *
 	 * @return {@link #verified}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getVerified() {
 		return Optional.ofNullable(this.verified);
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #verified}.<br>
-	 *
 	 * @param verified The new value for field {@link #verified}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withVerified(@Nullable LocalDateTime verified) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #resetPasswordCode}.<br>
-	 *
 	 * @return {@link #resetPasswordCode}
 	 */
 	@Generated
 	public Optional<String> getResetPasswordCode() {
 		return Optional.ofNullable(this.resetPasswordCode);
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #resetPasswordCode}.<br>
-	 *
 	 * @param resetPasswordCode The new value for field {@link #resetPasswordCode}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withResetPasswordCode(@Nullable String resetPasswordCode) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #resetPasswordValidUntil}.<br>
-	 *
 	 * @return {@link #resetPasswordValidUntil}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getResetPasswordValidUntil() {
 		return Optional.ofNullable(this.resetPasswordValidUntil);
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #resetPasswordValidUntil}.<br>
-	 *
 	 * @param resetPasswordValidUntil The new value for field {@link #resetPasswordValidUntil}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withResetPasswordValidUntil(@Nullable LocalDateTime resetPasswordValidUntil) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #verifyCode}.<br>
-	 *
 	 * @return {@link #verifyCode}
 	 */
 	@Generated
 	public Optional<String> getVerifyCode() {
 		return Optional.ofNullable(this.verifyCode);
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #verifyCode}.<br>
-	 *
 	 * @param verifyCode The new value for field {@link #verifyCode}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withVerifyCode(@Nullable String verifyCode) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	/**
 	 * Get the value of field {@link #verifyCodeValidUntil}.<br>
-	 *
 	 * @return {@link #verifyCodeValidUntil}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getVerifyCodeValidUntil() {
 		return Optional.ofNullable(this.verifyCodeValidUntil);
 	}
-
 	/**
 	 * Create a copy of this AuthUser object with a new value for field {@link #verifyCodeValidUntil}.<br>
-	 *
 	 * @param verifyCodeValidUntil The new value for field {@link #verifyCodeValidUntil}
-	 *
 	 * @return A new instance of {@link AuthUser}
 	 */
 	@Generated
 	public AuthUser withVerifyCodeValidUntil(@Nullable LocalDateTime verifyCodeValidUntil) {
 		return new AuthUser(id, authAppId, userName, password, wrongPasswordCount, created, lastLogin, verified, resetPasswordCode, resetPasswordValidUntil, verifyCode, verifyCodeValidUntil);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -428,7 +365,6 @@ public class AuthUser{
 			.equals(obj.verifyCodeValidUntil) : obj.verifyCodeValidUntil != null) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -447,7 +383,6 @@ public class AuthUser{
 		result = 31 * result + (this.verifyCodeValidUntil != null ? this.verifyCodeValidUntil.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -467,10 +402,9 @@ public class AuthUser{
 			", resetPasswordValidUntil=" + resetPasswordValidUntil +
 			", verifyCode=" + (verifyCode == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(verifyCode), 32, "...") + '\"') +
-			", verifyCodeValidUntil=" + verifyCodeValidUntil +
+			", verifyCodeValidUntil=" + verifyCodeValidUntil + 
 			']';
 	}
-
 	@Generated
 	public AuthUser updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -489,7 +423,6 @@ public class AuthUser{
 		b = updater.apply(b);
 		return new AuthUser(b.id, b.authAppId, b.userName, b.password, b.wrongPasswordCount, b.created, b.lastLogin, b.verified, b.resetPasswordCode, b.resetPasswordValidUntil, b.verifyCode, b.verifyCodeValidUntil);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static AuthUser build(
@@ -497,7 +430,6 @@ public class AuthUser{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new AuthUser(b.id, b.authAppId, b.userName, b.password, b.wrongPasswordCount, b.created, b.lastLogin, b.verified, b.resetPasswordCode, b.resetPasswordValidUntil, b.verifyCode, b.verifyCodeValidUntil);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<AuthUser> buildExc(

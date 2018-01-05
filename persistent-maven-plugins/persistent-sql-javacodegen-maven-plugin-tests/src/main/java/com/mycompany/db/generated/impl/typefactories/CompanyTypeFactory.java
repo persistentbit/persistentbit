@@ -33,17 +33,14 @@ public class CompanyTypeFactory extends AbstractStructureTypeFactory<ECompany, C
 				, (ELong) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<ECompany, Company> getTypeFactory() {
 			return CompanyTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "ECompany[" + id + companyName + adresStreet + adresHouseNumber + adresBusNumber + adresPostalcode + adresCity + adresCountry + ownerPersonId + "]";
 		}
-
 		@Override
 		public ECompany getThis() {
 			return this;
@@ -53,7 +50,6 @@ public class CompanyTypeFactory extends AbstractStructureTypeFactory<ECompany, C
 	public CompanyTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<ECompany, Company>> buildFields() {
 		return PList.val(
@@ -72,7 +68,6 @@ public class CompanyTypeFactory extends AbstractStructureTypeFactory<ECompany, C
 				.orElse(null), v -> v.ownerPersonId)
 		);
 	}
-
 	@Override
 	protected Company buildValue(Object[] fieldValues) {
 		return new Company(
@@ -87,12 +82,10 @@ public class CompanyTypeFactory extends AbstractStructureTypeFactory<ECompany, C
 			, (Long) fieldValues[8]
 		);
 	}
-
 	@Override
 	protected ECompanyImpl createExpression(PStream<DExpr> fieldValues) {
 		return new ECompanyImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<ECompany> getTypeClass() {
 		return ECompany.class;

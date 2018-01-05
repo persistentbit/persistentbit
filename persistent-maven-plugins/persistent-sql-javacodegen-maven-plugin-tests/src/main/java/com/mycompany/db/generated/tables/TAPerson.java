@@ -66,22 +66,18 @@ public class TAPerson extends AbstractTable<EAPerson, APerson>{
 	public TAPerson(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EAPerson> getTypeClass() {
 		return EAPerson.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TAPerson as(String aliasName) {
 		return new TAPerson(context, aliasName);
 	}
-
 	@Override
 	public EAPerson all() {
 		return _all;

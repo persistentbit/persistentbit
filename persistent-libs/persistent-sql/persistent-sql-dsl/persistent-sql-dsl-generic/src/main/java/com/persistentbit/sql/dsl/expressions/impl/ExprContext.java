@@ -107,16 +107,18 @@ public class ExprContext{
 	}
 
 	public <E1 extends DExpr<J1>, J1> EArray<E1, J1> buildArrayVal(Class<E1> itemTypeClass,
+																   ExprTypeJdbcConvert<J1> itemJdbcConverter,
 																   ImmutableArray<? extends J1> values) {
 		ArrayExprTypeFactory<E1, J1> atf = (ArrayExprTypeFactory) getTypeFactory(EArray.class);
-		return atf.createArrayVal(itemTypeClass, values);
+		return atf.createArrayVal(itemTypeClass, itemJdbcConverter, values);
 	}
 
 	public <E1 extends DExpr<J1>, J1> EArray<E1, J1> buildArrayTableColumn(Class<E1> itemTypeClass,
+																		   ExprTypeJdbcConvert<J1> itemJdbcConverter,
 																		   String fieldSelectionName, String fieldName,
 																		   String columnName) {
 		ArrayExprTypeFactory<E1, J1> atf = (ArrayExprTypeFactory) getTypeFactory(EArray.class);
-		return atf.createArrayTableColumn(itemTypeClass, fieldSelectionName, fieldName, columnName);
+		return atf.createArrayTableColumn(itemTypeClass, itemJdbcConverter, fieldSelectionName, fieldName, columnName);
 	}
 
 	public void setDefaultSingleOpBuilders() {

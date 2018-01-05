@@ -4,7 +4,6 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.AliasTypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.SelectionStrategy;
@@ -29,6 +28,7 @@ public abstract class AbstractTypeImpl<E extends DExpr<J>, J> implements ExprTyp
 		return typeStrategy;
 	}
 
+
 	@Override
 	public String toString() {
 		return typeStrategy.toString();
@@ -45,15 +45,14 @@ public abstract class AbstractTypeImpl<E extends DExpr<J>, J> implements ExprTyp
 		if(prefixAlias == null) {
 			return (E) this;
 		}
-		String newAlias = typeStrategy._createAliasName(prefixAlias);
-		return buildWithStrategy(
-			new SelectionStrategy<>(getContext(), this, newAlias));
+		String newAlias = typeStrategy._createAliasName(this, prefixAlias);
+		return buildWithStrategy(new SelectionStrategy(this, newAlias));
 
 	}
 
 	@Override
 	public E onlyTableColumn() {
-		return buildWithStrategy(getTypeStrategy().onlyColumnName());
+		return buildWithStrategy(getTypeStrategy().onlyColumnName(this));
 	}
 
 	@Override
@@ -63,15 +62,22 @@ public abstract class AbstractTypeImpl<E extends DExpr<J>, J> implements ExprTyp
 
 	@Override
 	public SqlWithParams toSql() {
-		return getTypeStrategy()._toSql();
+		return getTypeStrategy()._toSql(this);
 	}
 
 
-	public abstract Class<E> getTypeClass();
+	public final Class<? extends DExpr> getTypeClass() {
+		return getTypeFactory().getTypeClass();
+	}
 
-	public abstract ExprTypeFactory<E, J> getTypeFactory();
 
-	public abstract E buildWithStrategy(TypeStrategy<J> typeStrategy);
+	public E buildWithStrategy(TypeStrategy typeStrategy) {
+		return (E) getTypeFactory().buildWithStrategy(typeStrategy);
+	}
 
-	public abstract ExprContext getContext();
+	public final ExprContext getContext() {
+		return getTypeFactory().context;
+	}
+
+	public abstract AbstractTypeFactory<E, J> getTypeFactory();
 }

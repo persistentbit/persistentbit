@@ -4,7 +4,6 @@ import com.persistentbit.collections.PByteList;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.EByteList;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
@@ -24,8 +23,8 @@ public class EByteListTypeFactory extends AbstractTypeFactory<EByteList, PByteLi
 	}
 
 	@Override
-	protected ExprTypeJdbcConvert<PByteList> getJdbcConverter() {
-		return context.getJavaJdbcConverter(PByteList.class);
+	public Class getValueClass() {
+		return PByteList.class;
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class EByteListTypeFactory extends AbstractTypeFactory<EByteList, PByteLi
 	}
 
 	@Override
-	protected EByteList buildWithStrategy(TypeStrategy<PByteList> strategy) {
+	public EByteList buildWithStrategy(TypeStrategy<PByteList> strategy) {
 		return new EByteListImpl(strategy);
 	}
 
@@ -45,23 +44,14 @@ public class EByteListTypeFactory extends AbstractTypeFactory<EByteList, PByteLi
 			super(typeStrategy);
 		}
 
-		@Override
-		public Class<EByteList> getTypeClass() {
-			return EByteList.class;
-		}
-
-		@Override
-		public EByteList buildWithStrategy(TypeStrategy<PByteList> typeStrategy) {
-			return EByteListTypeFactory.this.buildWithStrategy(typeStrategy);
-		}
 
 		@Override
 		public ExprTypeJdbcConvert<PByteList> getJdbcConverter() {
-			return EByteListTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(PByteList.class);
 		}
 
 		@Override
-		public ExprTypeFactory<EByteList, PByteList> getTypeFactory() {
+		public AbstractTypeFactory<EByteList, PByteList> getTypeFactory() {
 			return EByteListTypeFactory.this;
 		}
 
@@ -81,9 +71,5 @@ public class EByteListTypeFactory extends AbstractTypeFactory<EByteList, PByteLi
 			return getExprContext().isNotNull(this);
 		}
 
-		@Override
-		public ExprContext getContext() {
-			return context;
-		}
 	}
 }

@@ -2,7 +2,6 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers;
 
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
-import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
@@ -25,12 +24,6 @@ public abstract class AbstractNumberTypeImpl<BE,SE,IE,LE,FE,DE,BDE,NE,E extends 
 		super(typeStrategy);
 		this.binOp = (op, other) -> getTypeFactory().buildBinOp(this,op,other);
 	}
-
-	public final ExprContext getContext() {
-		return getTypeFactory().getExprContext();
-	}
-
-
 	protected abstract BE beBinOp(BinOpOperator op, DExpr other);
 	protected abstract SE seBinOp(BinOpOperator op, DExpr other);
 	protected abstract IE ieBinOp(BinOpOperator op, DExpr other);

@@ -59,22 +59,18 @@ public class TAuthUserRememberMe extends AbstractTable<EAuthUserRememberMe, Auth
 	public TAuthUserRememberMe(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EAuthUserRememberMe> getTypeClass() {
 		return EAuthUserRememberMe.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TAuthUserRememberMe as(String aliasName) {
 		return new TAuthUserRememberMe(context, aliasName);
 	}
-
 	@Override
 	public EAuthUserRememberMe all() {
 		return _all;

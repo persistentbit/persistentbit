@@ -5,7 +5,6 @@ import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
@@ -24,9 +23,10 @@ public class EStringTypeFactory extends AbstractTypeFactory<EString,String>{
 		super(context);
 	}
 
+
 	@Override
-	protected ExprTypeJdbcConvert<String> getJdbcConverter() {
-		return context.getJavaJdbcConverter(String.class);
+	public Class getValueClass() {
+		return String.class;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class EStringTypeFactory extends AbstractTypeFactory<EString,String>{
 
 
 	@Override
-	protected EString buildWithStrategy(TypeStrategy<String> strategy) {
+	public EString buildWithStrategy(TypeStrategy<String> strategy) {
 		return new EStringImpl(strategy);
 	}
 	private class EStringImpl extends AbstractTypeImpl<EString,String> implements EString, TypeImplComparableMixin<EString,String>{
@@ -45,28 +45,14 @@ public class EStringTypeFactory extends AbstractTypeFactory<EString,String>{
 			super(typeStrategy);
 		}
 
-		@Override
-		public Class<EString> getTypeClass() {
-			return getTypeFactory().getTypeClass();
-		}
-
-		@Override
-		public EString buildWithStrategy(TypeStrategy<String> typeStrategy) {
-			return EStringTypeFactory.this.buildWithStrategy(typeStrategy);
-		}
-
-		@Override
-		public ExprContext getContext() {
-			return context;
-		}
 
 		@Override
 		public ExprTypeJdbcConvert<String> getJdbcConverter() {
-			return EStringTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(String.class);
 		}
 
 		@Override
-		public ExprTypeFactory<EString, String> getTypeFactory() {
+		public AbstractTypeFactory<EString, String> getTypeFactory() {
 			return EStringTypeFactory.this;
 		}
 

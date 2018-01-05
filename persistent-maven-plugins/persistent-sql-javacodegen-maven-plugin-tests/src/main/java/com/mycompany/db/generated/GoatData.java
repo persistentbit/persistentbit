@@ -8,6 +8,7 @@ import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
 public class GoatData extends DbPostgres{
 
 
+	public static final TPgArrayTest        pgArrayTest        = new TPgArrayTest(_context);
 	public static final TAllGenericNulls    allGenericNulls    = new TAllGenericNulls(_context);
 	public static final TAPerson            aPerson            = new TAPerson(_context);
 	public static final TAuthUser           authUser           = new TAuthUser(_context);
@@ -16,6 +17,10 @@ public class GoatData extends DbPostgres{
 	public static final TCompany            company            = new TCompany(_context);
 	public static final TInvoiceLine        invoiceLine        = new TInvoiceLine(_context);
 	public static final TInvoice            invoice            = new TInvoice(_context);
+
+	public static EPgArrayTest val(PgArrayTest value) {
+		return _context.getTypeFactory(EPgArrayTest.class).buildVal(value);
+	}
 
 	public static EAllGenericNulls val(AllGenericNulls value) {
 		return _context.getTypeFactory(EAllGenericNulls.class).buildVal(value);

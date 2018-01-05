@@ -1,4 +1,6 @@
 -->>DropAll
+DROP TABLE IF EXISTS pg_array_test;
+
 DROP TABLE IF EXISTS invoice;
 DROP TABLE IF EXISTS invoice_line;
 DROP TABLE IF EXISTS company;
@@ -13,6 +15,7 @@ DROP TABLE IF EXISTS auth_app;
 
 DROP TABLE IF EXISTS all_generic;
 DROP TABLE IF EXISTS all_generic_nulls;
+
 
 
 -->>genericDataTypes
@@ -203,6 +206,13 @@ CREATE TABLE invoice_line (
   id         BIGSERIAL PRIMARY KEY NOT NULL,
   invoice_id BIGINT                NOT NULL,
   product    VARCHAR(256)
+);
+
+-->>createArrayTest
+CREATE TABLE pg_array_test (
+  id      BIGSERIAL PRIMARY KEY  NOT NULL,
+  strings VARCHAR(80) ARRAY [10] NOT NULL,
+  ints    INT ARRAY [10]         NOT NULL
 );
 
 -->>insertTestData

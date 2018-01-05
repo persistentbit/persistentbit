@@ -8,10 +8,11 @@ package com.persistentbit.sql.dsl.expressions.impl.strategies;
  */
 public abstract class AbstractTypeStrategy<J> implements TypeStrategy<J>{
 
-	@Override
-	public String toString() {
-		return _toSql().toString();
-	}
+
+
+
+
+
 /*
 	protected final Class<? extends DExpr<J>> typeClass;
 

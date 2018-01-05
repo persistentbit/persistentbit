@@ -3,7 +3,6 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
@@ -27,12 +26,12 @@ public class EShortTypeFactory extends AbstractTypeFactory<EShort,Short>{
 	}
 
 	@Override
-	protected ExprTypeJdbcConvert<Short> getJdbcConverter() {
-		return context.getJavaJdbcConverter(Short.class);
+	public Class getValueClass() {
+		return Short.class;
 	}
 
 	@Override
-	protected EShort buildWithStrategy(TypeStrategy<Short> strategy) {
+	public EShort buildWithStrategy(TypeStrategy<Short> strategy) {
 		return new EShortImpl(strategy);
 	}
 	private class EShortImpl extends AbstractNumberTypeImpl<EShort,EShort,EInt,ELong,EFloat,EDouble,EBigDecimal,EShort,EShort,Short> implements EShort{
@@ -42,23 +41,15 @@ public class EShortTypeFactory extends AbstractTypeFactory<EShort,Short>{
 			super(typeStrategy);
 		}
 
-		@Override
-		public Class<EShort> getTypeClass() {
-			return EShort.class;
-		}
 
-		@Override
-		public EShort buildWithStrategy(TypeStrategy<Short> typeStrategy) {
-			return EShortTypeFactory.this.buildWithStrategy(typeStrategy);
-		}
 
 		@Override
 		public ExprTypeJdbcConvert<Short> getJdbcConverter() {
-			return EShortTypeFactory.this.getJdbcConverter();
+			return context.getJavaJdbcConverter(Short.class);
 		}
 
 		@Override
-		public ExprTypeFactory<EShort, Short> getTypeFactory() {
+		public AbstractTypeFactory<EShort, Short> getTypeFactory() {
 			return EShortTypeFactory.this;
 		}
 

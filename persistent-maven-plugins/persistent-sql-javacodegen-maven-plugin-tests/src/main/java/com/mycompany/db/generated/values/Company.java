@@ -25,8 +25,8 @@ public class Company{
 	private final String adresCountry;
 	@Nullable
 	private final Long   ownerPersonId;
-
-
+	
+	
 	@Generated
 	public Company(long id, String companyName, String adresStreet, int adresHouseNumber,
 				   @Nullable String adresBusNumber, String adresPostalcode, String adresCity, String adresCountry,
@@ -41,13 +41,11 @@ public class Company{
 		this.adresCountry = Objects.requireNonNull(adresCountry, "adresCountry can not be null");
 		this.ownerPersonId = ownerPersonId;
 	}
-
 	@Generated
 	public Company(long id, String companyName, String adresStreet, int adresHouseNumber, String adresPostalcode,
 				   String adresCity, String adresCountry) {
 		this(id, companyName, adresStreet, adresHouseNumber, null, adresPostalcode, adresCity, adresCountry, null);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7>{
@@ -108,205 +106,159 @@ public class Company{
 			return this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #id}.<br>
-	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public long getId() {
 		return this.id;
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #id}.<br>
-	 *
 	 * @param id The new value for field {@link #id}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withId(long id) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	/**
 	 * Get the value of field {@link #companyName}.<br>
-	 *
 	 * @return {@link #companyName}
 	 */
 	@Generated
 	public String getCompanyName() {
 		return this.companyName;
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #companyName}.<br>
-	 *
 	 * @param companyName The new value for field {@link #companyName}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withCompanyName(String companyName) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	/**
 	 * Get the value of field {@link #adresStreet}.<br>
-	 *
 	 * @return {@link #adresStreet}
 	 */
 	@Generated
 	public String getAdresStreet() {
 		return this.adresStreet;
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #adresStreet}.<br>
-	 *
 	 * @param adresStreet The new value for field {@link #adresStreet}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withAdresStreet(String adresStreet) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	/**
 	 * Get the value of field {@link #adresHouseNumber}.<br>
-	 *
 	 * @return {@link #adresHouseNumber}
 	 */
 	@Generated
 	public int getAdresHouseNumber() {
 		return this.adresHouseNumber;
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #adresHouseNumber}.<br>
-	 *
 	 * @param adresHouseNumber The new value for field {@link #adresHouseNumber}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withAdresHouseNumber(int adresHouseNumber) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	/**
 	 * Get the value of field {@link #adresBusNumber}.<br>
-	 *
 	 * @return {@link #adresBusNumber}
 	 */
 	@Generated
 	public Optional<String> getAdresBusNumber() {
 		return Optional.ofNullable(this.adresBusNumber);
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #adresBusNumber}.<br>
-	 *
 	 * @param adresBusNumber The new value for field {@link #adresBusNumber}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withAdresBusNumber(@Nullable String adresBusNumber) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	/**
 	 * Get the value of field {@link #adresPostalcode}.<br>
-	 *
 	 * @return {@link #adresPostalcode}
 	 */
 	@Generated
 	public String getAdresPostalcode() {
 		return this.adresPostalcode;
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #adresPostalcode}.<br>
-	 *
 	 * @param adresPostalcode The new value for field {@link #adresPostalcode}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withAdresPostalcode(String adresPostalcode) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	/**
 	 * Get the value of field {@link #adresCity}.<br>
-	 *
 	 * @return {@link #adresCity}
 	 */
 	@Generated
 	public String getAdresCity() {
 		return this.adresCity;
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #adresCity}.<br>
-	 *
 	 * @param adresCity The new value for field {@link #adresCity}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withAdresCity(String adresCity) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	/**
 	 * Get the value of field {@link #adresCountry}.<br>
-	 *
 	 * @return {@link #adresCountry}
 	 */
 	@Generated
 	public String getAdresCountry() {
 		return this.adresCountry;
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #adresCountry}.<br>
-	 *
 	 * @param adresCountry The new value for field {@link #adresCountry}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withAdresCountry(String adresCountry) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	/**
 	 * Get the value of field {@link #ownerPersonId}.<br>
-	 *
 	 * @return {@link #ownerPersonId}
 	 */
 	@Generated
 	public Optional<Long> getOwnerPersonId() {
 		return Optional.ofNullable(this.ownerPersonId);
 	}
-
 	/**
 	 * Create a copy of this Company object with a new value for field {@link #ownerPersonId}.<br>
-	 *
 	 * @param ownerPersonId The new value for field {@link #ownerPersonId}
-	 *
 	 * @return A new instance of {@link Company}
 	 */
 	@Generated
 	public Company withOwnerPersonId(@Nullable Long ownerPersonId) {
 		return new Company(id, companyName, adresStreet, adresHouseNumber, adresBusNumber, adresPostalcode, adresCity, adresCountry, ownerPersonId);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -325,7 +277,6 @@ public class Company{
 		if(ownerPersonId != null ? !ownerPersonId.equals(obj.ownerPersonId) : obj.ownerPersonId != null) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -341,7 +292,6 @@ public class Company{
 		result = 31 * result + (this.ownerPersonId != null ? this.ownerPersonId.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -360,10 +310,9 @@ public class Company{
 			.present(UString.escapeToJavaString(adresCity), 32, "...") + '\"') +
 			", adresCountry=" + (adresCountry == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(adresCountry), 32, "...") + '\"') +
-			", ownerPersonId=" + ownerPersonId +
+			", ownerPersonId=" + ownerPersonId + 
 			']';
 	}
-
 	@Generated
 	public Company updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -379,7 +328,6 @@ public class Company{
 		b = updater.apply(b);
 		return new Company(b.id, b.companyName, b.adresStreet, b.adresHouseNumber, b.adresBusNumber, b.adresPostalcode, b.adresCity, b.adresCountry, b.ownerPersonId);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Company build(
@@ -387,7 +335,6 @@ public class Company{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Company(b.id, b.companyName, b.adresStreet, b.adresHouseNumber, b.adresBusNumber, b.adresPostalcode, b.adresCity, b.adresCountry, b.ownerPersonId);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<Company> buildExc(

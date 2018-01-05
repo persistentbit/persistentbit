@@ -19,8 +19,8 @@ public class AuthUserRememberMe{
 	private final String        code;
 	private final LocalDateTime validUntil;
 	private final String        passwordCode;
-
-
+	
+	
 	@Generated
 	public AuthUserRememberMe(long id, long authUserId, String code, LocalDateTime validUntil, String passwordCode) {
 		this.id = Objects.requireNonNull(id, "id can not be null");
@@ -29,7 +29,6 @@ public class AuthUserRememberMe{
 		this.validUntil = Objects.requireNonNull(validUntil, "validUntil can not be null");
 		this.passwordCode = Objects.requireNonNull(passwordCode, "passwordCode can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5>{
@@ -66,117 +65,91 @@ public class AuthUserRememberMe{
 			return (Builder<_T1, _T2, _T3, _T4, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #id}.<br>
-	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public long getId() {
 		return this.id;
 	}
-
 	/**
 	 * Create a copy of this AuthUserRememberMe object with a new value for field {@link #id}.<br>
-	 *
 	 * @param id The new value for field {@link #id}
-	 *
 	 * @return A new instance of {@link AuthUserRememberMe}
 	 */
 	@Generated
 	public AuthUserRememberMe withId(long id) {
 		return new AuthUserRememberMe(id, authUserId, code, validUntil, passwordCode);
 	}
-
 	/**
 	 * Get the value of field {@link #authUserId}.<br>
-	 *
 	 * @return {@link #authUserId}
 	 */
 	@Generated
 	public long getAuthUserId() {
 		return this.authUserId;
 	}
-
 	/**
 	 * Create a copy of this AuthUserRememberMe object with a new value for field {@link #authUserId}.<br>
-	 *
 	 * @param authUserId The new value for field {@link #authUserId}
-	 *
 	 * @return A new instance of {@link AuthUserRememberMe}
 	 */
 	@Generated
 	public AuthUserRememberMe withAuthUserId(long authUserId) {
 		return new AuthUserRememberMe(id, authUserId, code, validUntil, passwordCode);
 	}
-
 	/**
 	 * Get the value of field {@link #code}.<br>
-	 *
 	 * @return {@link #code}
 	 */
 	@Generated
 	public String getCode() {
 		return this.code;
 	}
-
 	/**
 	 * Create a copy of this AuthUserRememberMe object with a new value for field {@link #code}.<br>
-	 *
 	 * @param code The new value for field {@link #code}
-	 *
 	 * @return A new instance of {@link AuthUserRememberMe}
 	 */
 	@Generated
 	public AuthUserRememberMe withCode(String code) {
 		return new AuthUserRememberMe(id, authUserId, code, validUntil, passwordCode);
 	}
-
 	/**
 	 * Get the value of field {@link #validUntil}.<br>
-	 *
 	 * @return {@link #validUntil}
 	 */
 	@Generated
 	public LocalDateTime getValidUntil() {
 		return this.validUntil;
 	}
-
 	/**
 	 * Create a copy of this AuthUserRememberMe object with a new value for field {@link #validUntil}.<br>
-	 *
 	 * @param validUntil The new value for field {@link #validUntil}
-	 *
 	 * @return A new instance of {@link AuthUserRememberMe}
 	 */
 	@Generated
 	public AuthUserRememberMe withValidUntil(LocalDateTime validUntil) {
 		return new AuthUserRememberMe(id, authUserId, code, validUntil, passwordCode);
 	}
-
 	/**
 	 * Get the value of field {@link #passwordCode}.<br>
-	 *
 	 * @return {@link #passwordCode}
 	 */
 	@Generated
 	public String getPasswordCode() {
 		return this.passwordCode;
 	}
-
 	/**
 	 * Create a copy of this AuthUserRememberMe object with a new value for field {@link #passwordCode}.<br>
-	 *
 	 * @param passwordCode The new value for field {@link #passwordCode}
-	 *
 	 * @return A new instance of {@link AuthUserRememberMe}
 	 */
 	@Generated
 	public AuthUserRememberMe withPasswordCode(String passwordCode) {
 		return new AuthUserRememberMe(id, authUserId, code, validUntil, passwordCode);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -190,7 +163,6 @@ public class AuthUserRememberMe{
 		if(!passwordCode.equals(obj.passwordCode)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -202,7 +174,6 @@ public class AuthUserRememberMe{
 		result = 31 * result + (this.passwordCode != null ? this.passwordCode.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -216,7 +187,6 @@ public class AuthUserRememberMe{
 			.present(UString.escapeToJavaString(passwordCode), 32, "...") + '\"') +
 			']';
 	}
-
 	@Generated
 	public AuthUserRememberMe updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -228,7 +198,6 @@ public class AuthUserRememberMe{
 		b = updater.apply(b);
 		return new AuthUserRememberMe(b.id, b.authUserId, b.code, b.validUntil, b.passwordCode);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static AuthUserRememberMe build(
@@ -236,7 +205,6 @@ public class AuthUserRememberMe{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new AuthUserRememberMe(b.id, b.authUserId, b.code, b.validUntil, b.passwordCode);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<AuthUserRememberMe> buildExc(

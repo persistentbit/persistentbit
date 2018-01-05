@@ -24,8 +24,8 @@ public class APerson{
 	private final String postalcode;
 	private final String city;
 	private final String country;
-
-
+	
+	
 	@Generated
 	public APerson(long id, String userName, String password, String street, int houseNumber,
 				   @Nullable String busNumber, String postalcode, String city, String country) {
@@ -39,13 +39,11 @@ public class APerson{
 		this.city = Objects.requireNonNull(city, "city can not be null");
 		this.country = Objects.requireNonNull(country, "country can not be null");
 	}
-
 	@Generated
 	public APerson(long id, String userName, String password, String street, int houseNumber, String postalcode,
 				   String city, String country) {
 		this(id, userName, password, street, houseNumber, null, postalcode, city, country);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, _T8>{
@@ -106,205 +104,159 @@ public class APerson{
 			return (Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #id}.<br>
-	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public long getId() {
 		return this.id;
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #id}.<br>
-	 *
 	 * @param id The new value for field {@link #id}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withId(long id) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	/**
 	 * Get the value of field {@link #userName}.<br>
-	 *
 	 * @return {@link #userName}
 	 */
 	@Generated
 	public String getUserName() {
 		return this.userName;
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #userName}.<br>
-	 *
 	 * @param userName The new value for field {@link #userName}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withUserName(String userName) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	/**
 	 * Get the value of field {@link #password}.<br>
-	 *
 	 * @return {@link #password}
 	 */
 	@Generated
 	public String getPassword() {
 		return this.password;
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #password}.<br>
-	 *
 	 * @param password The new value for field {@link #password}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withPassword(String password) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	/**
 	 * Get the value of field {@link #street}.<br>
-	 *
 	 * @return {@link #street}
 	 */
 	@Generated
 	public String getStreet() {
 		return this.street;
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #street}.<br>
-	 *
 	 * @param street The new value for field {@link #street}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withStreet(String street) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	/**
 	 * Get the value of field {@link #houseNumber}.<br>
-	 *
 	 * @return {@link #houseNumber}
 	 */
 	@Generated
 	public int getHouseNumber() {
 		return this.houseNumber;
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #houseNumber}.<br>
-	 *
 	 * @param houseNumber The new value for field {@link #houseNumber}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withHouseNumber(int houseNumber) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	/**
 	 * Get the value of field {@link #busNumber}.<br>
-	 *
 	 * @return {@link #busNumber}
 	 */
 	@Generated
 	public Optional<String> getBusNumber() {
 		return Optional.ofNullable(this.busNumber);
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #busNumber}.<br>
-	 *
 	 * @param busNumber The new value for field {@link #busNumber}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withBusNumber(@Nullable String busNumber) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	/**
 	 * Get the value of field {@link #postalcode}.<br>
-	 *
 	 * @return {@link #postalcode}
 	 */
 	@Generated
 	public String getPostalcode() {
 		return this.postalcode;
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #postalcode}.<br>
-	 *
 	 * @param postalcode The new value for field {@link #postalcode}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withPostalcode(String postalcode) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	/**
 	 * Get the value of field {@link #city}.<br>
-	 *
 	 * @return {@link #city}
 	 */
 	@Generated
 	public String getCity() {
 		return this.city;
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #city}.<br>
-	 *
 	 * @param city The new value for field {@link #city}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withCity(String city) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	/**
 	 * Get the value of field {@link #country}.<br>
-	 *
 	 * @return {@link #country}
 	 */
 	@Generated
 	public String getCountry() {
 		return this.country;
 	}
-
 	/**
 	 * Create a copy of this APerson object with a new value for field {@link #country}.<br>
-	 *
 	 * @param country The new value for field {@link #country}
-	 *
 	 * @return A new instance of {@link APerson}
 	 */
 	@Generated
 	public APerson withCountry(String country) {
 		return new APerson(id, userName, password, street, houseNumber, busNumber, postalcode, city, country);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -322,7 +274,6 @@ public class APerson{
 		if(!country.equals(obj.country)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -338,7 +289,6 @@ public class APerson{
 		result = 31 * result + (this.country != null ? this.country.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -361,7 +311,6 @@ public class APerson{
 			.present(UString.escapeToJavaString(country), 32, "...") + '\"') +
 			']';
 	}
-
 	@Generated
 	public APerson updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -377,7 +326,6 @@ public class APerson{
 		b = updater.apply(b);
 		return new APerson(b.id, b.userName, b.password, b.street, b.houseNumber, b.busNumber, b.postalcode, b.city, b.country);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static APerson build(
@@ -385,7 +333,6 @@ public class APerson{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new APerson(b.id, b.userName, b.password, b.street, b.houseNumber, b.busNumber, b.postalcode, b.city, b.country);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<APerson> buildExc(

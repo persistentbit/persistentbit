@@ -1,15 +1,14 @@
 package com.mycompany.db.generated.tables;
 
-import com.mycompany.db.generated.expressions.EInvoiceLine;
-import com.mycompany.db.generated.impl.typefactories.InvoiceLineTypeFactory;
-import com.mycompany.db.generated.inserts.InsertInvoiceLine;
-import com.mycompany.db.generated.values.InvoiceLine;
+import com.mycompany.db.generated.expressions.EPgArrayTest;
+import com.mycompany.db.generated.impl.typefactories.PgArrayTestTypeFactory;
+import com.mycompany.db.generated.inserts.InsertPgArrayTest;
+import com.mycompany.db.generated.values.PgArrayTest;
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.expressions.ELong;
-import com.persistentbit.sql.dsl.expressions.EString;
-import com.persistentbit.sql.dsl.expressions.Param;
+import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
 import com.persistentbit.sql.dsl.statements.select.Query;
@@ -22,25 +21,25 @@ import com.persistentbit.sql.work.DbWork;
 
 import java.util.function.Function;
 
-public class TInvoiceLine extends AbstractTable<EInvoiceLine, InvoiceLine>{
+public class TPgArrayTest extends AbstractTable<EPgArrayTest, PgArrayTest>{
 
-	private final TableName _tableName = new TableName("persistenttest", "persistenttest", "invoice_line");
-	private final DbWorkP1<Long, InvoiceLine> _selectById;
-	private final EInvoiceLine                _all;
+	private final TableName _tableName = new TableName("persistenttest", "persistenttest", "pg_array_test");
+	private final DbWorkP1<Long, PgArrayTest> _selectById;
+	private final EPgArrayTest                _all;
 	public final  ELong                       id;
-	public final  ELong                       invoiceId;
-	public final  EString                     product;
+	public final  EArray<EString, String>     strings;
+	public final  EArray<EInt, Integer>       ints;
 
 
-	private TInvoiceLine(ExprContext context, String alias) {
+	private TPgArrayTest(ExprContext context, String alias) {
 		super(context, alias);
-		context.registerType(EInvoiceLine.class, InvoiceLineTypeFactory.class);
+		context.registerType(EPgArrayTest.class, PgArrayTestTypeFactory.class);
 		this._all = context
-			.getTypeFactory(EInvoiceLine.class)
+			.getTypeFactory(EPgArrayTest.class)
 			.buildTableField(createFullTableNameOrAlias() + ".", "", "");
 		this.id = _all.id;
-		this.invoiceId = _all.invoiceId;
-		this.product = _all.product;
+		this.strings = _all.strings;
+		this.ints = _all.ints;
 		this._selectById = query(p -> q -> {
 			Param<ELong> paramid = context.param(ELong.class, "id");
 			return q
@@ -50,23 +49,27 @@ public class TInvoiceLine extends AbstractTable<EInvoiceLine, InvoiceLine>{
 		});
 	}
 
-	public TInvoiceLine(ExprContext context) {
+	public TPgArrayTest(ExprContext context) {
 		this(context, null);
 	}
+
 	@Override
-	public Class<EInvoiceLine> getTypeClass() {
-		return EInvoiceLine.class;
+	public Class<EPgArrayTest> getTypeClass() {
+		return EPgArrayTest.class;
 	}
+
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
+
 	@Override
-	public TInvoiceLine as(String aliasName) {
-		return new TInvoiceLine(context, aliasName);
+	public TPgArrayTest as(String aliasName) {
+		return new TPgArrayTest(context, aliasName);
 	}
+
 	@Override
-	public EInvoiceLine all() {
+	public EPgArrayTest all() {
 		return _all;
 	}
 
@@ -74,21 +77,22 @@ public class TInvoiceLine extends AbstractTable<EInvoiceLine, InvoiceLine>{
 		return new QueryImpl(context, PList.val(this));
 	}
 
-	public <R> R query(Function<EInvoiceLine, Function<Query, R>> builder) {
+	public <R> R query(Function<EPgArrayTest, Function<Query, R>> builder) {
 		return builder.apply(all()).apply(query());
 	}
 
-	public InsertInvoiceLine insert() {
-		return new InsertInvoiceLine(context, this);
+	public InsertPgArrayTest insert() {
+		return new InsertPgArrayTest(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Long id, @Nullable Long invoiceId, @Nullable String product) {
+	public DbWork<Integer> insert(@Nullable Long id, @Nullable ImmutableArray<String> strings,
+								  @Nullable ImmutableArray<Integer> ints) {
 		return insert()
-			.add(id, invoiceId, product)
+			.add(id, strings, ints)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
 	}
 
-	public DbWork<InvoiceLine> insert(InvoiceLine p) {
+	public DbWork<PgArrayTest> insert(PgArrayTest p) {
 		return insert().add(p)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt())
 				.flatMap(ir ->
@@ -97,22 +101,22 @@ public class TInvoiceLine extends AbstractTable<EInvoiceLine, InvoiceLine>{
 								 : Result.success(p)));
 	}
 
-	public EInvoiceLine val(InvoiceLine value) {
-		return context.getTypeFactory(EInvoiceLine.class).buildVal(value);
+	public EPgArrayTest val(PgArrayTest value) {
+		return context.getTypeFactory(EPgArrayTest.class).buildVal(value);
 	}
 
 	public Update update() {
 		return new Update(context, this);
 	}
 
-	public DbWork<Integer> update(InvoiceLine value) {
-		EInvoiceLine e = val(value);
+	public DbWork<Integer> update(PgArrayTest value) {
+		EPgArrayTest e = val(value);
 		return update()
 			.set(all(), e)
 			.where(this.id.eq(e.id));
 	}
 
-	public DbWork<InvoiceLine> selectById(long id) {
+	public DbWork<PgArrayTest> selectById(long id) {
 		return _selectById.with(id);
 	}
 
