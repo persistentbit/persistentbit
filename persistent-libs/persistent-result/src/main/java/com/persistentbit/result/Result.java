@@ -186,7 +186,7 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 	/**
 	 * Convert this result to an optional.<br>
 	 *
-	 * @return Some value for success orOf an empty optional
+	 * @return Some value for success or an empty optional
 	 */
 	public abstract Optional<T> getOpt();
 

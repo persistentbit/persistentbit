@@ -9,6 +9,7 @@ import com.persistentbit.sql.dsl.statements.work.DbWorkP1;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP2;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP3;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP4;
+import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.work.DbWork;
 
 /**
@@ -28,6 +29,12 @@ public interface TypedSelection1
 	ESelection<J1> asExpr();
 
 	DbWork<PList<J1>> list();
+
+	default PList<J1> list(DbTransaction trans) {
+		return list()
+			.run(trans)
+			.orElseThrow();
+	}
 
 	<P1 extends DExpr<PJ1>, PJ1> DbWorkP1<PJ1, PList<J1>> list(Param<P1> p1);
 
@@ -50,6 +57,13 @@ public interface TypedSelection1
 		> DbWorkP4<PJ1, PJ2, PJ3, PJ4, PList<J1>> list(Param<P1> p1, Param<P2> p2, Param<P3> p3, Param<P4> p4);
 
 	DbWork<J1> one();
+
+	default J1 one(DbTransaction trans) {
+		return one()
+			.run(trans)
+			.throwOnError()
+			.orElse(null);
+	}
 
 
 	<P1 extends DExpr<PJ1>, PJ1> DbWorkP1<PJ1, J1> one(Param<P1> p1);
