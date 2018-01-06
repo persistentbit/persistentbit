@@ -37,17 +37,14 @@ public class GenDataTypeFactory extends AbstractStructureTypeFactory<EGenData, G
 				, (EString) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EGenData, GenData> getTypeFactory() {
 			return GenDataTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EGenData[" + genDataId + aInt + aShort + aLong + aNum + aDouble + aReal + aBool + aDate + aTime + aTimestamp + aString + "]";
 		}
-
 		@Override
 		public EGenData getThis() {
 			return this;
@@ -57,7 +54,6 @@ public class GenDataTypeFactory extends AbstractStructureTypeFactory<EGenData, G
 	public GenDataTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EGenData, GenData>> buildFields() {
 		return PList.val(
@@ -75,7 +71,6 @@ public class GenDataTypeFactory extends AbstractStructureTypeFactory<EGenData, G
 			, createField(EString.class, "A_STRING", "aString", v -> v.getAString(), v -> v.aString)
 		);
 	}
-
 	@Override
 	protected GenData buildValue(Object[] fieldValues) {
 		return new GenData(
@@ -93,12 +88,10 @@ public class GenDataTypeFactory extends AbstractStructureTypeFactory<EGenData, G
 			, (String) fieldValues[11]
 		);
 	}
-
 	@Override
 	protected EGenDataImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EGenDataImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EGenData> getTypeClass() {
 		return EGenData.class;

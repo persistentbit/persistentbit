@@ -73,22 +73,18 @@ public class TGenData extends AbstractTable<EGenData, GenData>{
 	public TGenData(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EGenData> getTypeClass() {
 		return EGenData.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TGenData as(String aliasName) {
 		return new TGenData(context, aliasName);
 	}
-
 	@Override
 	public EGenData all() {
 		return _all;

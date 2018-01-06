@@ -29,8 +29,8 @@ public class GenData{
 	private final LocalTime     aTime;
 	private final LocalDateTime aTimestamp;
 	private final String        aString;
-
-
+	
+	
 	@Generated
 	public GenData(int genDataId, int aInt, short aShort, long aLong, BigDecimal aNum, double aDouble, float aReal,
 				   boolean aBool, LocalDate aDate, LocalTime aTime, LocalDateTime aTimestamp, String aString) {
@@ -47,7 +47,6 @@ public class GenData{
 		this.aTimestamp = Objects.requireNonNull(aTimestamp, "aTimestamp can not be null");
 		this.aString = Objects.requireNonNull(aString, "aString can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, _T8, _T9, _T10, _T11, _T12>{
@@ -127,271 +126,210 @@ public class GenData{
 			return (Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, _T8, _T9, _T10, _T11, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #genDataId}.<br>
-	 *
 	 * @return {@link #genDataId}
 	 */
 	@Generated
 	public int getGenDataId() {
 		return this.genDataId;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #genDataId}.<br>
-	 *
 	 * @param genDataId The new value for field {@link #genDataId}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withGenDataId(int genDataId) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aInt}.<br>
-	 *
 	 * @return {@link #aInt}
 	 */
 	@Generated
 	public int getAInt() {
 		return this.aInt;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aInt}.<br>
-	 *
 	 * @param aInt The new value for field {@link #aInt}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withAInt(int aInt) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aShort}.<br>
-	 *
 	 * @return {@link #aShort}
 	 */
 	@Generated
 	public short getAShort() {
 		return this.aShort;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aShort}.<br>
-	 *
 	 * @param aShort The new value for field {@link #aShort}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withAShort(short aShort) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aLong}.<br>
-	 *
 	 * @return {@link #aLong}
 	 */
 	@Generated
 	public long getALong() {
 		return this.aLong;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aLong}.<br>
-	 *
 	 * @param aLong The new value for field {@link #aLong}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withALong(long aLong) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aNum}.<br>
-	 *
 	 * @return {@link #aNum}
 	 */
 	@Generated
 	public BigDecimal getANum() {
 		return this.aNum;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aNum}.<br>
-	 *
 	 * @param aNum The new value for field {@link #aNum}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withANum(BigDecimal aNum) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aDouble}.<br>
-	 *
 	 * @return {@link #aDouble}
 	 */
 	@Generated
 	public double getADouble() {
 		return this.aDouble;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aDouble}.<br>
-	 *
 	 * @param aDouble The new value for field {@link #aDouble}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withADouble(double aDouble) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aReal}.<br>
-	 *
 	 * @return {@link #aReal}
 	 */
 	@Generated
 	public float getAReal() {
 		return this.aReal;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aReal}.<br>
-	 *
 	 * @param aReal The new value for field {@link #aReal}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withAReal(float aReal) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aBool}.<br>
-	 *
 	 * @return {@link #aBool}
 	 */
 	@Generated
 	public boolean getABool() {
 		return this.aBool;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aBool}.<br>
-	 *
 	 * @param aBool The new value for field {@link #aBool}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withABool(boolean aBool) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aDate}.<br>
-	 *
 	 * @return {@link #aDate}
 	 */
 	@Generated
 	public LocalDate getADate() {
 		return this.aDate;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aDate}.<br>
-	 *
 	 * @param aDate The new value for field {@link #aDate}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withADate(LocalDate aDate) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aTime}.<br>
-	 *
 	 * @return {@link #aTime}
 	 */
 	@Generated
 	public LocalTime getATime() {
 		return this.aTime;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aTime}.<br>
-	 *
 	 * @param aTime The new value for field {@link #aTime}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withATime(LocalTime aTime) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aTimestamp}.<br>
-	 *
 	 * @return {@link #aTimestamp}
 	 */
 	@Generated
 	public LocalDateTime getATimestamp() {
 		return this.aTimestamp;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aTimestamp}.<br>
-	 *
 	 * @param aTimestamp The new value for field {@link #aTimestamp}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withATimestamp(LocalDateTime aTimestamp) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	/**
 	 * Get the value of field {@link #aString}.<br>
-	 *
 	 * @return {@link #aString}
 	 */
 	@Generated
 	public String getAString() {
 		return this.aString;
 	}
-
 	/**
 	 * Create a copy of this GenData object with a new value for field {@link #aString}.<br>
-	 *
 	 * @param aString The new value for field {@link #aString}
-	 *
 	 * @return A new instance of {@link GenData}
 	 */
 	@Generated
 	public GenData withAString(String aString) {
 		return new GenData(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -414,7 +352,6 @@ public class GenData{
 		if(!aString.equals(obj.aString)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -435,7 +372,6 @@ public class GenData{
 		result = 31 * result + (this.aString != null ? this.aString.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -455,7 +391,6 @@ public class GenData{
 			.present(UString.escapeToJavaString(aString), 32, "...") + '\"') +
 			']';
 	}
-
 	@Generated
 	public GenData updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -474,7 +409,6 @@ public class GenData{
 		b = updater.apply(b);
 		return new GenData(b.genDataId, b.aInt, b.aShort, b.aLong, b.aNum, b.aDouble, b.aReal, b.aBool, b.aDate, b.aTime, b.aTimestamp, b.aString);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static GenData build(
@@ -482,7 +416,6 @@ public class GenData{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new GenData(b.genDataId, b.aInt, b.aShort, b.aLong, b.aNum, b.aDouble, b.aReal, b.aBool, b.aDate, b.aTime, b.aTimestamp, b.aString);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<GenData> buildExc(
