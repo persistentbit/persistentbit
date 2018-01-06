@@ -16,6 +16,7 @@ public class GoatData extends DbPostgres{
 	public static final TAuthUserRememberMe authUserRememberMe = new TAuthUserRememberMe(_context);
 	public static final TCompany            company            = new TCompany(_context);
 	public static final TCaseWhenTest       caseWhenTest       = new TCaseWhenTest(_context);
+	public static final TLimitOffsetTest    limitOffsetTest    = new TLimitOffsetTest(_context);
 	public static final TInvoiceLine        invoiceLine        = new TInvoiceLine(_context);
 	public static final TInvoice            invoice            = new TInvoice(_context);
 
@@ -49,6 +50,10 @@ public class GoatData extends DbPostgres{
 
 	public static ECaseWhenTest val(CaseWhenTest value) {
 		return _context.getTypeFactory(ECaseWhenTest.class).buildVal(value);
+	}
+
+	public static ELimitOffsetTest val(LimitOffsetTest value) {
+		return _context.getTypeFactory(ELimitOffsetTest.class).buildVal(value);
 	}
 
 	public static EInvoiceLine val(InvoiceLine value) {

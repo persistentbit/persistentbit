@@ -445,4 +445,8 @@ public class ExprContext{
 	public DExpr onlyTableColumn(DExpr expr) {
 		return ((ExprTypeImpl) expr).onlyTableColumn();
 	}
+
+	public <E1 extends DExpr<J1>, J1> E1 buildCall(Class<E1> typeClass, String callName, Object... params) {
+		return get(typeClass).buildCall(callName, params);
+	}
 }

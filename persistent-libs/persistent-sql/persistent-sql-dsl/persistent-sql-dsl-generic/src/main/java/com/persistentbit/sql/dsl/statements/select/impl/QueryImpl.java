@@ -8,7 +8,6 @@ import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.TypedSelection1;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.tuples.*;
-import com.persistentbit.utils.exceptions.ToDo;
 
 /**
  * TODOC
@@ -79,13 +78,28 @@ public class QueryImpl implements Query{
 	}
 
 	@Override
+	public Query limit(ELong limit) {
+		return new QueryImpl(qc.withLimitAndOffset(Tuple2.of(limit, null)));
+	}
+
+	@Override
+	public Query limitAndOffset(ELong limit, ELong offset) {
+		return new QueryImpl(qc.withLimitAndOffset(Tuple2.of(limit, offset)));
+	}
+
+	@Override
 	public Query limit(long limit) {
-		throw new ToDo();
+		return limit(qc.context.val(limit));
 	}
 
 	@Override
 	public Query limitAndOffset(long limit, long offset) {
-		throw new ToDo();
+		return limitAndOffset(qc.context.val(limit), qc.context.val(offset));
+	}
+
+	@Override
+	public Query distinct() {
+		return new QueryImpl(qc.withDistinct(true));
 	}
 
 	@Override

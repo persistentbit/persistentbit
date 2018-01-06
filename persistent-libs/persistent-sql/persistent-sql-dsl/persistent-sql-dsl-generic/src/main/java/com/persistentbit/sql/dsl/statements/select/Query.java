@@ -29,9 +29,14 @@ public interface Query{
 
 	Query where(EBool whereExpr);
 
+	Query limit(ELong limit);
+
+	Query limitAndOffset(ELong limit, ELong offset);
 
 	Query limit(long limit);
 	Query limitAndOffset(long limit, long offset);
+
+	Query distinct();
 
 
 

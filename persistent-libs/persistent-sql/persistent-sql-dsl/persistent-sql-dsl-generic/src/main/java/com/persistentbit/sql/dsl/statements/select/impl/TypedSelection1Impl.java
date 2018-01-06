@@ -5,6 +5,7 @@ import com.persistentbit.collections.PMap;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.ESelection;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -16,6 +17,7 @@ import com.persistentbit.sql.dsl.statements.work.DbWorkP2;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP3;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP4;
 import com.persistentbit.sql.work.DbWork;
+import com.persistentbit.tuples.Tuple2;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -57,6 +59,9 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 				.empty
 				.add(query.qc.joins.map(j -> j.toSql()), System.lineSeparator());
 		SqlWithParams res = SqlWithParams.sql("SELECT ");
+		if(query.qc.distinct) {
+			res = res.add(" DISTINCT ");
+		}
 		res = res.add(context.toSql(colAsSelection));
 		res = res.add(SqlWithParams.nl);
 		res = res.add(" FROM " + from);
@@ -64,6 +69,13 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 		res = res.add(joins);
 		if(query.qc.where != null){
 			res = res.add(" WHERE ").add(context.toSql(query.qc.where));
+		}
+		if(query.qc.limitAndOffset != null) {
+			Tuple2<ELong, ELong> t = query.qc.limitAndOffset;
+			res = res.add(" LIMIT ").add(context.toSql(t._1));
+			if(t._2 != null) {
+				res = res.add(" OFFSET ").add(context.toSql(t._2));
+			}
 		}
 		return res;
 	}

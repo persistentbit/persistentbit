@@ -10,17 +10,18 @@ import com.persistentbit.result.Result;
 import java.util.Objects;
 import java.util.function.Function;
 
-public class CaseWhenTest{
+public class LimitOffsetTest{
 
 	private final int  id;
 	private final long value;
 
 
 	@Generated
-	public CaseWhenTest(int id, long value) {
+	public LimitOffsetTest(int id, long value) {
 		this.id = Objects.requireNonNull(id, "id can not be null");
 		this.value = Objects.requireNonNull(value, "value can not be null");
 	}
+
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2>{
@@ -39,50 +40,62 @@ public class CaseWhenTest{
 			return (Builder<_T1, SET>) this;
 		}
 	}
+
 	/**
 	 * Get the value of field {@link #id}.<br>
+	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public int getId() {
 		return this.id;
 	}
+
 	/**
-	 * Create a copy of this CaseWhenTest object with a new value for field {@link #id}.<br>
+	 * Create a copy of this LimitOffsetTest object with a new value for field {@link #id}.<br>
+	 *
 	 * @param id The new value for field {@link #id}
-	 * @return A new instance of {@link CaseWhenTest}
+	 *
+	 * @return A new instance of {@link LimitOffsetTest}
 	 */
 	@Generated
-	public CaseWhenTest withId(int id) {
-		return new CaseWhenTest(id, value);
+	public LimitOffsetTest withId(int id) {
+		return new LimitOffsetTest(id, value);
 	}
+
 	/**
 	 * Get the value of field {@link #value}.<br>
+	 *
 	 * @return {@link #value}
 	 */
 	@Generated
 	public long getValue() {
 		return this.value;
 	}
+
 	/**
-	 * Create a copy of this CaseWhenTest object with a new value for field {@link #value}.<br>
+	 * Create a copy of this LimitOffsetTest object with a new value for field {@link #value}.<br>
+	 *
 	 * @param value The new value for field {@link #value}
-	 * @return A new instance of {@link CaseWhenTest}
+	 *
+	 * @return A new instance of {@link LimitOffsetTest}
 	 */
 	@Generated
-	public CaseWhenTest withValue(long value) {
-		return new CaseWhenTest(id, value);
+	public LimitOffsetTest withValue(long value) {
+		return new LimitOffsetTest(id, value);
 	}
+
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
 		if(this == o) return true;
-		if(o instanceof CaseWhenTest == false) return false;
-		CaseWhenTest obj = (CaseWhenTest) o;
+		if(o instanceof LimitOffsetTest == false) return false;
+		LimitOffsetTest obj = (LimitOffsetTest) o;
 		if(id != obj.id) return false;
 		if(value != obj.value) return false;
 		return true;
 	}
+
 	@Generated
 	@Override
 	public int hashCode() {
@@ -91,32 +104,36 @@ public class CaseWhenTest{
 		result = 31 * result + (int) (this.value ^ (this.value >>> 32));
 		return result;
 	}
+
 	@Generated
 	@Override
 	public String toString() {
-		return "CaseWhenTest[" +
+		return "LimitOffsetTest[" +
 			"id=" + id +
-			", value=" + value + 
+			", value=" + value +
 			']';
 	}
+
 	@Generated
-	public CaseWhenTest updated(Function<Builder, Builder> updater) {
+	public LimitOffsetTest updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
 		b.setId(this.id);
 		b.setValue(this.value);
 		b = updater.apply(b);
-		return new CaseWhenTest(b.id, b.value);
+		return new LimitOffsetTest(b.id, b.value);
 	}
+
 	@Generated
 	@SuppressWarnings("unchecked")
-	public static CaseWhenTest build(ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {
+	public static LimitOffsetTest build(ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
-		return new CaseWhenTest(b.id, b.value);
+		return new LimitOffsetTest(b.id, b.value);
 	}
+
 	@Generated
 	@SuppressWarnings("unchecked")
-	public static Result<CaseWhenTest> buildExc(
+	public static Result<LimitOffsetTest> buildExc(
 		ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {
-		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new CaseWhenTest(b.id, b.value));
+		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new LimitOffsetTest(b.id, b.value));
 	}
 }

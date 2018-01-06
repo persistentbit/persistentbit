@@ -123,7 +123,7 @@ public class PgArrayTest{
 	@Override
 	public String toString() {
 		return "PgArrayTest[" +
-			"id=" + id +
+			"id=" + id + 
 			", strings=" + strings + 
 			", ints=" + ints + 
 			']';

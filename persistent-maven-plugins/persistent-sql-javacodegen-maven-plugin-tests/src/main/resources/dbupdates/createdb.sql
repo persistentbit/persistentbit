@@ -1,6 +1,7 @@
 -->>DropAll
 DROP TABLE IF EXISTS pg_array_test;
 DROP TABLE IF EXISTS case_when_test;
+DROP TABLE IF EXISTS limit_offset_test;
 
 DROP TABLE IF EXISTS invoice;
 DROP TABLE IF EXISTS invoice_line;
@@ -219,6 +220,17 @@ CREATE TABLE case_when_test (
 
 TRUNCATE case_when_test;
 INSERT INTO case_when_test (id, value)
+VALUES
+  (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
+
+-->>createCaseWhenTest
+CREATE TABLE limit_offset_test (
+  id    INT    NOT NULL,
+  value BIGINT NOT NULL
+);
+
+TRUNCATE limit_offset_test;
+INSERT INTO limit_offset_test (id, value)
 VALUES
   (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
 

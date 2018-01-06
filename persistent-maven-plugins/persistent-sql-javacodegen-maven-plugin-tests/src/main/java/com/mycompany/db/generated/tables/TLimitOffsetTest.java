@@ -1,9 +1,9 @@
 package com.mycompany.db.generated.tables;
 
-import com.mycompany.db.generated.expressions.ECaseWhenTest;
-import com.mycompany.db.generated.impl.typefactories.CaseWhenTestTypeFactory;
-import com.mycompany.db.generated.inserts.InsertCaseWhenTest;
-import com.mycompany.db.generated.values.CaseWhenTest;
+import com.mycompany.db.generated.expressions.ELimitOffsetTest;
+import com.mycompany.db.generated.impl.typefactories.LimitOffsetTestTypeFactory;
+import com.mycompany.db.generated.inserts.InsertLimitOffsetTest;
+import com.mycompany.db.generated.values.LimitOffsetTest;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
@@ -20,41 +20,45 @@ import com.persistentbit.sql.work.DbWork;
 
 import java.util.function.Function;
 
-public class TCaseWhenTest extends AbstractTable<ECaseWhenTest, CaseWhenTest>{
+public class TLimitOffsetTest extends AbstractTable<ELimitOffsetTest, LimitOffsetTest>{
 
-	private final TableName _tableName = new TableName("persistenttest", "persistenttest", "case_when_test");
-	private final ECaseWhenTest _all;
-	public final  EInt          id;
-	public final  ELong         value;
+	private final TableName _tableName = new TableName("persistenttest", "persistenttest", "limit_offset_test");
+	private final ELimitOffsetTest _all;
+	public final  EInt             id;
+	public final  ELong            value;
 
 
-	private TCaseWhenTest(ExprContext context, String alias) {
+	private TLimitOffsetTest(ExprContext context, String alias) {
 		super(context, alias);
-		context.registerType(ECaseWhenTest.class, CaseWhenTestTypeFactory.class);
+		context.registerType(ELimitOffsetTest.class, LimitOffsetTestTypeFactory.class);
 		this._all = context
-			.getTypeFactory(ECaseWhenTest.class)
+			.getTypeFactory(ELimitOffsetTest.class)
 			.buildTableField(createFullTableNameOrAlias() + ".", "", "");
 		this.id = _all.id;
 		this.value = _all.value;
 	}
 
-	public TCaseWhenTest(ExprContext context) {
+	public TLimitOffsetTest(ExprContext context) {
 		this(context, null);
 	}
+
 	@Override
-	public Class<ECaseWhenTest> getTypeClass() {
-		return ECaseWhenTest.class;
+	public Class<ELimitOffsetTest> getTypeClass() {
+		return ELimitOffsetTest.class;
 	}
+
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
+
 	@Override
-	public TCaseWhenTest as(String aliasName) {
-		return new TCaseWhenTest(context, aliasName);
+	public TLimitOffsetTest as(String aliasName) {
+		return new TLimitOffsetTest(context, aliasName);
 	}
+
 	@Override
-	public ECaseWhenTest all() {
+	public ELimitOffsetTest all() {
 		return _all;
 	}
 
@@ -62,12 +66,12 @@ public class TCaseWhenTest extends AbstractTable<ECaseWhenTest, CaseWhenTest>{
 		return new QueryImpl(context, PList.val(this));
 	}
 
-	public <R> R query(Function<ECaseWhenTest, Function<Query, R>> builder) {
+	public <R> R query(Function<ELimitOffsetTest, Function<Query, R>> builder) {
 		return builder.apply(all()).apply(query());
 	}
 
-	public InsertCaseWhenTest insert() {
-		return new InsertCaseWhenTest(context, this);
+	public InsertLimitOffsetTest insert() {
+		return new InsertLimitOffsetTest(context, this);
 	}
 
 	public DbWork<Integer> insert(@Nullable Integer id, @Nullable Long value) {
@@ -76,7 +80,7 @@ public class TCaseWhenTest extends AbstractTable<ECaseWhenTest, CaseWhenTest>{
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
 	}
 
-	public DbWork<CaseWhenTest> insert(CaseWhenTest p) {
+	public DbWork<LimitOffsetTest> insert(LimitOffsetTest p) {
 		return insert().add(p)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt())
 				.flatMap(ir ->
@@ -85,8 +89,8 @@ public class TCaseWhenTest extends AbstractTable<ECaseWhenTest, CaseWhenTest>{
 								 : Result.success(p)));
 	}
 
-	public ECaseWhenTest val(CaseWhenTest value) {
-		return context.getTypeFactory(ECaseWhenTest.class).buildVal(value);
+	public ELimitOffsetTest val(LimitOffsetTest value) {
+		return context.getTypeFactory(ELimitOffsetTest.class).buildVal(value);
 	}
 
 	public Update update() {
@@ -94,6 +98,6 @@ public class TCaseWhenTest extends AbstractTable<ECaseWhenTest, CaseWhenTest>{
 	}
 
 	public Delete delete() {
-		return new Delete(context, this); 
+		return new Delete(context, this);
 	}
 }

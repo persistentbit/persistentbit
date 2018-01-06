@@ -115,6 +115,25 @@ public class Main{
 				.end()
 			).list(newTrans.get()).forEach(System.out::println);
 
+		//LIMIT-OFFSET TEST
+
+
+		limitOffsetTest.query()
+			.limit(4)
+			.selection(val("Limit 4"), limitOffsetTest.all())
+			.list(newTrans.get())
+			.forEach(System.out::println);
+
+		limitOffsetTest.query()
+			.limitAndOffset(3, 2)
+			.selection(val("Limit 3 offset 2"), limitOffsetTest.all())
+			.list(newTrans.get())
+			.forEach(System.out::println);
+		long recCount = limitOffsetTest.query()
+			.selection(countAll())
+			.one(newTrans.get());
+		System.out.println("Count for no limit and offset == " + recCount);
+
 
 		// OTHER TESTS
 		Long idPersistentBit = authApp

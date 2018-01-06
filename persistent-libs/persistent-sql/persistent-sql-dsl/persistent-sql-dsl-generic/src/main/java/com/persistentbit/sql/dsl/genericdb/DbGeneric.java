@@ -150,4 +150,16 @@ public class DbGeneric{
 	public static Case caseWhen() {
 		return new Case(_context);
 	}
+
+	public static ELong countAll() {
+		return _context.buildCall(ELong.class, "count", "*");
+	}
+
+	public static ELong count(DExpr expr) {
+		return _context.buildCall(ELong.class, "count", expr);
+	}
+
+	public static ELong countDistinct(DExpr expr) {
+		return _context.buildCall(ELong.class, "count", "distinct ", expr);
+	}
 }

@@ -31,8 +31,6 @@ public class TableName {
 			this.schemaName = schemaName;
 			this.tableName = Objects.requireNonNull(tableName, "tableName can not be null");
 	}
-
-
 	@Generated
 	public TableName(String tableName){
 			this(null, null, tableName);
