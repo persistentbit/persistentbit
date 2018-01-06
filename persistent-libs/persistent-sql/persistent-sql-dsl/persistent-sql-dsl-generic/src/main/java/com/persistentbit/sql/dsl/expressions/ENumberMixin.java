@@ -1,5 +1,7 @@
 package com.persistentbit.sql.dsl.expressions;
 
+import com.persistentbit.collections.PStream;
+
 /**
  * TODOC
  *
@@ -12,6 +14,26 @@ public interface ENumberMixin<BE,SE,IE,LE,FE,DE,BDE,E extends DExpr<N>,N extends
 
 	EBool notEq(DExpr<? extends Number> other);
 	EBool notEq(N other);
+
+	EBool between(DExpr<? extends Number> lowerRangeInclusive, DExpr<? extends Number> upperRangeInclusive);
+
+	EBool notBetween(DExpr<? extends Number> lowerRangeInclusive, DExpr<? extends Number> upperRangeInclusive);
+
+	EBool in(ESelection<N> subQuerySelection);
+
+	EBool notIn(ESelection<N> subQuerySelection);
+
+	default EBool in(E... list) {
+		return in(PStream.from(list));
+	}
+
+	EBool in(Iterable<E> list);
+
+	default EBool notIn(E... list) {
+		return notIn(PStream.from(list));
+	}
+
+	EBool notIn(Iterable<E> list);
 
 	EBool lt(DExpr<? extends Number> other);
 	EBool lt(N other);

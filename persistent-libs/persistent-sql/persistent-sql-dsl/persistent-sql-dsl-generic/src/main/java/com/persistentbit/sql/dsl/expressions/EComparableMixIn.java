@@ -1,5 +1,7 @@
 package com.persistentbit.sql.dsl.expressions;
 
+import com.persistentbit.collections.PStream;
+
 /**
  * TODOC
  *
@@ -27,4 +29,25 @@ public interface EComparableMixIn<E extends DExpr<J>,J>{
 
 	EBool isNull();
 	EBool isNotNull();
+
+	EBool between(E lowerRangeInclusive, E upperRangeInclusive);
+
+	EBool notBetween(E lowerRangeInclusive, E upperRangeInclusive);
+
+	EBool in(ESelection<J> subQuerySelection);
+
+	EBool notIn(ESelection<J> subQuerySelection);
+
+	default EBool in(E... list) {
+		return in(PStream.from(list));
+	}
+
+	EBool in(Iterable<E> list);
+
+	default EBool notIn(E... list) {
+		return notIn(PStream.from(list));
+	}
+
+	EBool notIn(Iterable<E> list);
+
 }

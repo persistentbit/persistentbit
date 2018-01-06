@@ -1,5 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers;
 
+import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
@@ -242,5 +243,71 @@ public abstract class AbstractNumberTypeImpl<BE,SE,IE,LE,FE,DE,BDE,NE,E extends 
 	protected abstract E val(J value);
 
 
+	@Override
+	public EBool between(DExpr<? extends Number> lowerRangeInclusive, DExpr<? extends Number> upperRangeInclusive) {
+		return getContext()
+			.customSql(EBool.class, () ->
+				getContext().toSql(this)
+					.add(" BETWEEN (")
+					.add(getContext().toSql(lowerRangeInclusive))
+					.add(" AND ")
+					.add(getContext().toSql(upperRangeInclusive))
+					.add(") ")
+			);
+	}
 
+	@Override
+	public EBool notBetween(DExpr<? extends Number> lowerRangeInclusive, DExpr<? extends Number> upperRangeInclusive) {
+		return getContext()
+			.customSql(EBool.class, () ->
+				getContext().toSql(this)
+					.add(" NOT BETWEEN (")
+					.add(getContext().toSql(lowerRangeInclusive))
+					.add(" AND ")
+					.add(getContext().toSql(upperRangeInclusive))
+					.add(") ")
+			);
+	}
+
+	@Override
+	public EBool in(ESelection<J> subQuerySelection) {
+		return getContext()
+			.customSql(EBool.class, () ->
+				getContext().toSql(this)
+					.add(" IN ")
+					.add(getContext().toSql(subQuerySelection))
+			);
+	}
+
+	@Override
+	public EBool notIn(ESelection<J> subQuerySelection) {
+		return getContext()
+			.customSql(EBool.class, () ->
+				getContext().toSql(this)
+					.add(" NOT IN ")
+					.add(getContext().toSql(subQuerySelection))
+			);
+	}
+
+	@Override
+	public EBool in(Iterable<E> list) {
+		return getContext()
+			.customSql(EBool.class, () ->
+				getContext().toSql(this)
+					.add(" IN (")
+					.add(PStream.from(list).map(e -> getContext().toSql(e)), ", ")
+					.add(")")
+			);
+	}
+
+	@Override
+	public EBool notIn(Iterable<E> list) {
+		return getContext()
+			.customSql(EBool.class, () ->
+				getContext().toSql(this)
+					.add(" NOT IN (")
+					.add(PStream.from(list).map(e -> getContext().toSql(e)), ", ")
+					.add(")")
+			);
+	}
 }
