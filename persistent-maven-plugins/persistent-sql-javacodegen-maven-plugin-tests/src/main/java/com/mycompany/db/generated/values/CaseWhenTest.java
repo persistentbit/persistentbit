@@ -14,8 +14,8 @@ public class CaseWhenTest{
 
 	private final int  id;
 	private final long value;
-
-
+	
+	
 	@Generated
 	public CaseWhenTest(int id, long value) {
 		this.id = Objects.requireNonNull(id, "id can not be null");
@@ -95,7 +95,7 @@ public class CaseWhenTest{
 	@Override
 	public String toString() {
 		return "CaseWhenTest[" +
-			"id=" + id +
+			"id=" + id + 
 			", value=" + value + 
 			']';
 	}

@@ -70,9 +70,49 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 		if(query.qc.where != null){
 			res = res.add(" WHERE ").add(context.toSql(query.qc.where));
 		}
+		PList<GroupByDef> groupByList = query.qc.groupBy;
+		if(groupByList.isEmpty() == false) {
+			res = res.add(SqlWithParams.nl);
+			if(groupByList.size() > 1) {
+				res = res.add(" GROUP BY GROUPING SETS(");
+			}
+			else {
+				res = res.add(" GROUP BY ");
+			}
+			for(GroupByDef set : groupByList) {
+				switch(set.getType()) {
+					case cube:
+						res = res.add("CUBE ");
+						break;
+					case rollup:
+						res = res.add("ROLLUP ");
+						break;
+					case normal:
+						break;
+					default:
+						throw new RuntimeException("Unknown: " + set.getType());
+				}
+				res = res.add("(").add(set.getExpressions().map(expr -> context.toSql(expr)), ", ").add(") ");
+			}
+			if(groupByList.size() > 1) {
+				res = res.add(") ");
+			}
+
+			if(query.qc.having != null) {
+				res = res.add(SqlWithParams.nl);
+				res = res.add("HAVING ").add(context.toSql(query.qc.having));
+			}
+		}
+		if(query.qc.orderBy.isEmpty() == false) {
+			res = res.add(SqlWithParams.nl).add("ORDER BY ");
+			res = res.add(
+				query.qc.orderBy.map(ob -> context.toSql(ob.getExpr()).add(" ").add(ob.getDir().name())), ", "
+			);
+		}
+
 		if(query.qc.limitAndOffset != null) {
 			Tuple2<ELong, ELong> t = query.qc.limitAndOffset;
-			res = res.add(" LIMIT ").add(context.toSql(t._1));
+			res = res.add(SqlWithParams.nl).add(" LIMIT ").add(context.toSql(t._1));
 			if(t._2 != null) {
 				res = res.add(" OFFSET ").add(context.toSql(t._2));
 			}

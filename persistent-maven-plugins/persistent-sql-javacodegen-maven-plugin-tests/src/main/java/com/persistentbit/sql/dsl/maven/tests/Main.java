@@ -105,6 +105,21 @@ public class Main{
 			.map(e -> "GOT " + e.toString())
 			.forEach(System.out::println);
 
+		// JOIN TEST
+		joinTestCompany.query()
+			.fullJoin(joinTestEmployee).on(joinTestEmployee.empId.eq(joinTestCompany.ownerEmpId))
+			.selection(joinTestCompany.all(), joinTestEmployee.all())
+			.list(newTrans.get())
+			.forEach(r -> System.out.println("FullJoin " + r));
+
+		joinTestCompanyEmployee.query()
+			.leftJoin(joinTestEmployee.as("werkers")).using(joinTestEmployee.as("werkers").empId)
+			.leftJoin(joinTestCompany).using(joinTestCompany.cmpId)
+			.selection(val("JOIN TEST COMPANY EMPLOYEES"), joinTestCompany.name, joinTestEmployee
+				.as("werkers").name, joinTestCompanyEmployee.function)
+			.list(newTrans.get())
+			.forEach(System.out::println);
+
 		// CASE-WHEN TEST
 
 		caseWhenTest.query()
@@ -134,6 +149,45 @@ public class Main{
 			.one(newTrans.get());
 		System.out.println("Count for no limit and offset == " + recCount);
 
+
+		//GROUP BY TEST
+		groupByTest.
+			selectAll()
+			.run(newTrans.get())
+			.orElseThrow()
+			.forEach(r -> System.out.println("GROUP-BY-TEST-ALL: " + r));
+
+		groupByTest.query()
+			.where(groupByTest.active)
+			.groupBy(groupByTest.hiringYear)
+			.orderByDesc(groupByTest.hiringYear)
+			.selection(val("GROUPING BY HIRING YEAR"), groupByTest.hiringYear, count(groupByTest.empId))
+			.list(newTrans.get())
+			.forEach(System.out::println);
+
+		groupByTest.query()
+			.where(groupByTest.active)
+			.groupBy(groupByTest.hiringYear, groupByTest.hiringQuarter)
+			.orderByDesc(groupByTest.hiringYear).orderByDesc(groupByTest.hiringQuarter)
+			.selection(val("GROUPING BY HIRING YEAR AND QUARTER"), groupByTest.hiringYear, groupByTest.hiringQuarter, count(groupByTest.empId))
+			.list(newTrans.get())
+			.forEach(System.out::println);
+
+		groupByTest.query()
+			.where(groupByTest.active)
+			.groupByRollup(groupByTest.hiringYear, groupByTest.hiringQuarter)
+			.orderByDesc(groupByTest.hiringYear).orderByDesc(groupByTest.hiringQuarter)
+			.selection(val("GROUPING ROLLUP BY HIRING YEAR AND QUARTER"), groupByTest.hiringYear, groupByTest.hiringQuarter, count(groupByTest.empId))
+			.list(newTrans.get())
+			.forEach(System.out::println);
+
+		groupByTest.query()
+			.where(groupByTest.active)
+			.groupByCube(groupByTest.hiringYear, groupByTest.hiringQuarter)
+			.orderByDesc(groupByTest.hiringYear).orderByDesc(groupByTest.hiringQuarter)
+			.selection(val("GROUPING CUBE BY HIRING YEAR AND QUARTER"), groupByTest.hiringYear, groupByTest.hiringQuarter, count(groupByTest.empId))
+			.list(newTrans.get())
+			.forEach(System.out::println);
 
 		// OTHER TESTS
 		Long idPersistentBit = authApp

@@ -1,7 +1,9 @@
 package com.persistentbit.sql.dsl.statements.select.impl;
 
 import com.persistentbit.code.annotations.Nullable;
+import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.statements.select.Join;
 import com.persistentbit.sql.dsl.statements.select.Query;
@@ -20,29 +22,34 @@ public class JoinImpl implements Join{
 	}
 
 	private final QueryImpl query;
-	private final Type type;
-	private final Table selectable;
+	private final Type      type;
+	private final Table     selectable;
 	@Nullable
-	private final EBool joinExpr;
+	private final EBool     joinExpr;
 
-	public JoinImpl(QueryImpl query, Type type, Table selectable,
-					@Nullable
-						EBool joinExpr
-	) {
+	private final PList<DExpr> using;
+
+	public JoinImpl(QueryImpl query, Type type, Table selectable, @Nullable EBool joinExpr, PList<DExpr> using) {
 		this.query = query;
 		this.type = type;
 		this.selectable = selectable;
 		this.joinExpr = joinExpr;
+		this.using = using;
 	}
 
 	public JoinImpl(QueryImpl query, Type type, Table selectable) {
-		this(query, type, selectable, null);
+		this(query, type, selectable, null, PList.empty());
 	}
 
 	@Override
-	public Query on(EBool joinExpr
-	) {
-		return new JoinImpl(query, type, selectable, joinExpr).query();
+	public Query on(EBool joinExpr) {
+		return new JoinImpl(query, type, selectable, joinExpr, PList.empty()).query();
+	}
+
+	@Override
+	public Query using(DExpr... columnExpr) {
+		PList<DExpr> using = PList.val(columnExpr).map(query.qc.context::onlyTableColumn);
+		return new JoinImpl(query, type, selectable, null, using).query();
 	}
 
 	@Override
@@ -70,11 +77,14 @@ public class JoinImpl implements Join{
 
 		}
 		SqlWithParams result = SqlWithParams
-								   .nl
-								   .add(res)
-								   .add(query.qc.context.getFromTableName(selectable));
+			.nl
+			.add(res)
+			.add(query.qc.context.getFromTableName(selectable));
 		if(joinExpr != null) {
 			result = result.add(" ON ").add(query.qc.context.toSql(joinExpr));
+		}
+		if(using.isEmpty() == false) {
+			result = result.add(" USING(").add(using.map(e -> query.qc.context.toSql(e)), ", ").add(") ");
 		}
 		return result;
 	}

@@ -30,6 +30,27 @@ public class QueryImpl implements Query{
 		));
 	}
 
+
+	@Override
+	public Query groupBy(DExpr... expr) {
+		return new QueryImpl(qc.withGroupBy(qc.groupBy.plus(new GroupByDef(GroupByType.normal, PList.val(expr)))));
+	}
+
+	@Override
+	public Query groupByRollup(DExpr... expr) {
+		return new QueryImpl(qc.withGroupBy(qc.groupBy.plus(new GroupByDef(GroupByType.rollup, PList.val(expr)))));
+	}
+
+	@Override
+	public Query groupByCube(DExpr... expr) {
+		return new QueryImpl(qc.withGroupBy(qc.groupBy.plus(new GroupByDef(GroupByType.cube, PList.val(expr)))));
+	}
+
+	@Override
+	public Query having(EBool condition) {
+		return new QueryImpl(qc.withHaving(condition));
+	}
+
 	@Override
 	public Query orderByDesc(DExpr<?> expr) {
 		return orderBy(new OrderBy(expr, OrderBy.Direction.desc));

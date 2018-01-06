@@ -41,22 +41,18 @@ public class TLimitOffsetTest extends AbstractTable<ELimitOffsetTest, LimitOffse
 	public TLimitOffsetTest(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<ELimitOffsetTest> getTypeClass() {
 		return ELimitOffsetTest.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TLimitOffsetTest as(String aliasName) {
 		return new TLimitOffsetTest(context, aliasName);
 	}
-
 	@Override
 	public ELimitOffsetTest all() {
 		return _all;
@@ -98,6 +94,6 @@ public class TLimitOffsetTest extends AbstractTable<ELimitOffsetTest, LimitOffse
 	}
 
 	public Delete delete() {
-		return new Delete(context, this);
+		return new Delete(context, this); 
 	}
 }

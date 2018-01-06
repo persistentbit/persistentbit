@@ -1,7 +1,11 @@
 -->>DropAll
+DROP TABLE IF EXISTS group_by_test;
 DROP TABLE IF EXISTS pg_array_test;
 DROP TABLE IF EXISTS case_when_test;
 DROP TABLE IF EXISTS limit_offset_test;
+DROP TABLE IF EXISTS join_test_company_employee;
+DROP TABLE IF EXISTS join_test_company;
+DROP TABLE IF EXISTS join_test_employee;
 
 DROP TABLE IF EXISTS invoice;
 DROP TABLE IF EXISTS invoice_line;
@@ -234,6 +238,71 @@ INSERT INTO limit_offset_test (id, value)
 VALUES
   (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
 
+-->>createTableGroupByTest
+CREATE TABLE group_by_test (
+  emp_id         BIGSERIAL NOT NULL PRIMARY KEY,
+  hiring_year    INTEGER   NOT NULL,
+  hiring_quarter INTEGER   NOT NULL,
+  active         BOOLEAN   NOT NULL
+);
+TRUNCATE group_by_test;
+INSERT INTO group_by_test (hiring_year, hiring_quarter, active)
+VALUES
+  (2000, 1, TRUE),
+  (2000, 1, FALSE),
+  (2000, 2, TRUE),
+  (2000, 3, TRUE),
+  (2000, 2, FALSE),
+  (2001, 3, TRUE),
+  (2001, 4, TRUE),
+  (2001, 2, TRUE),
+  (2001, 3, TRUE),
+  (2001, 4, TRUE);
+-->>createTablesJoinTest
+CREATE TABLE join_test_employee (
+  emp_id BIGINT       NOT NULL PRIMARY KEY,
+  name   VARCHAR(256) NOT NULL
+);
+
+CREATE TABLE join_test_company (
+  cmp_id       BIGINT       NOT NULL PRIMARY KEY,
+  name         VARCHAR(256) NOT NULL,
+  owner_emp_id BIGINT       NULL REFERENCES join_test_employee (emp_id)
+);
+
+CREATE TABLE join_test_company_employee (
+  cmp_id   BIGINT       NOT NULL REFERENCES join_test_company
+  ,
+  emp_id   BIGINT       NOT NULL REFERENCES join_test_employee
+  ,
+  function VARCHAR(256) NOT NULL
+  ,
+  CONSTRAINT com_empl_prim_key PRIMARY KEY (cmp_id, emp_id)
+);
+
+TRUNCATE join_test_company_employee, join_test_company, join_test_company_employee;
+
+INSERT INTO join_test_employee (emp_id, name)
+VALUES
+  (1, 'Peter Muys')
+  , (2, 'Jo Vanhoute')
+  , (3, 'Ruben')
+  , (4, 'Els Van Oost');
+
+INSERT INTO join_test_company (cmp_id, name, owner_emp_id)
+VALUES
+  (1, 'Muys Software', 1)
+  , (2, 'Kbc', 2)
+  , (3, 'EauDeMie', 4);
+
+INSERT INTO join_test_company_employee (cmp_id, emp_id, "function")
+VALUES
+  (1, 1, 'developer'),
+  (2, 1, 'contracter'),
+  (2, 2, 'Project lead'),
+  (2, 3, 'developer'),
+  (3, 4, 'owner'),
+  (3, 1, 'website developer');
 -->>insertTestData
 INSERT INTO person (id, user_name, password, street, house_number, bus_number, postalcode, city, country)
 VALUES

@@ -122,7 +122,7 @@ public class PgArrayTest{
 	@Generated
 	@Override
 	public String toString() {
-		return "PgArrayTest[" +
+		return "PgArrayTest[" + 
 			"id=" + id + 
 			", strings=" + strings + 
 			", ints=" + ints + 

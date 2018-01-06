@@ -1,5 +1,6 @@
 package com.persistentbit.sql.dsl.statements.select;
 
+import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
 
 /**
@@ -13,6 +14,8 @@ public interface Join{
 	}
 
 	Query on(EBool joinExpr);
+
+	Query using(DExpr... columnExpr);
 
 	Query query();
 

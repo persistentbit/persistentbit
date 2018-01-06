@@ -26,17 +26,14 @@ public class LimitOffsetTestTypeFactory extends AbstractStructureTypeFactory<ELi
 				, (ELong) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<ELimitOffsetTest, LimitOffsetTest> getTypeFactory() {
 			return LimitOffsetTestTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "ELimitOffsetTest[" + id + value + "]";
 		}
-
 		@Override
 		public ELimitOffsetTest getThis() {
 			return this;
@@ -46,7 +43,6 @@ public class LimitOffsetTestTypeFactory extends AbstractStructureTypeFactory<ELi
 	public LimitOffsetTestTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<ELimitOffsetTest, LimitOffsetTest>> buildFields() {
 		return PList.val(
@@ -54,7 +50,6 @@ public class LimitOffsetTestTypeFactory extends AbstractStructureTypeFactory<ELi
 			, createField(ELong.class, "value", "value", v -> v.getValue(), v -> v.value)
 		);
 	}
-
 	@Override
 	protected LimitOffsetTest buildValue(Object[] fieldValues) {
 		return new LimitOffsetTest(
@@ -62,12 +57,10 @@ public class LimitOffsetTestTypeFactory extends AbstractStructureTypeFactory<ELi
 			, (Long) fieldValues[1]
 		);
 	}
-
 	@Override
 	protected ELimitOffsetTestImpl createExpression(PStream<DExpr> fieldValues) {
 		return new ELimitOffsetTestImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<ELimitOffsetTest> getTypeClass() {
 		return ELimitOffsetTest.class;

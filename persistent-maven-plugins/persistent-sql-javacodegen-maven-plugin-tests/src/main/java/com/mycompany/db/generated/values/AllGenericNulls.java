@@ -870,7 +870,7 @@ public class AllGenericNulls{
 			", aBytea=" + aBytea +
 			", aTimestamp3=" + aTimestamp3 +
 			", aTimestamp=" + aTimestamp +
-			", aTimestampWithZone=" + aTimestampWithZone +
+			", aTimestampWithZone=" + aTimestampWithZone + 
 			", aDate=" + aDate + 
 			", aTime=" + aTime + 
 			", aTimeWithZone=" + aTimeWithZone + 

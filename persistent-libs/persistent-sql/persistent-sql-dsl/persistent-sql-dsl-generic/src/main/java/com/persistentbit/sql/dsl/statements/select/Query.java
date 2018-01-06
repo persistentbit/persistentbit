@@ -13,7 +13,13 @@ import com.persistentbit.tuples.*;
 public interface Query{
 
 
+	Query groupBy(DExpr... expr);
 
+	Query groupByRollup(DExpr... expr);
+
+	Query groupByCube(DExpr... expr);
+
+	Query having(EBool condition);
 
 	Query orderByDesc(DExpr<?> expr);
 
