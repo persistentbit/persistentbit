@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.sql.PreparedStatement;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * TODOC
@@ -198,6 +199,14 @@ public class ExprContext{
 
 	public <E extends DExpr<J>, J> E binOp(E typeExpr, DExpr left, BinOpOperator operator, DExpr right) {
 		return ((ExprTypeImpl<E, J>) typeExpr).buildBinOp(left, operator, right);
+	}
+
+	public <E extends DExpr<J>, J> E customSql(Class<E> resultTypeClass, Supplier<SqlWithParams> sqlSupplier) {
+		return get(resultTypeClass).buildCustomSql(sqlSupplier);
+	}
+
+	public <E extends DExpr<J>, J> E customSql(E typeExpr, Supplier<SqlWithParams> sqlSupplier) {
+		return ((ExprTypeImpl<E, J>) typeExpr).buildCustomSql(sqlSupplier);
 	}
 
 	public <E extends DExpr<J>, J> E val(Class<E> typeClass, J value) {

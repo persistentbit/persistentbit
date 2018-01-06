@@ -1,11 +1,11 @@
 -->>DropAll
 DROP TABLE IF EXISTS pg_array_test;
+DROP TABLE IF EXISTS case_when_test;
 
 DROP TABLE IF EXISTS invoice;
 DROP TABLE IF EXISTS invoice_line;
 DROP TABLE IF EXISTS company;
 DROP TABLE IF EXISTS person;
-
 
 
 DROP TABLE IF EXISTS auth_user_roles;
@@ -15,8 +15,6 @@ DROP TABLE IF EXISTS auth_app;
 
 DROP TABLE IF EXISTS all_generic;
 DROP TABLE IF EXISTS all_generic_nulls;
-
-
 
 -->>genericDataTypes
 
@@ -35,7 +33,7 @@ CREATE TABLE all_generic (
   a_double              DOUBLE PRECISION,
   an_int2               INT2,
   an_int4               INT4,
-  an_int8 int8,
+  an_int8               INT8,
   -- a_money money,
   -- an_enum ENUM_TEST,
   -- an_enum_in_public PUBLIC.ENUM_TEST_IN_PUBLIC_SCHEMA,
@@ -72,40 +70,40 @@ CREATE TABLE all_generic (
 );
 
 CREATE TABLE all_generic_nulls (
-  id_part1              VARCHAR(256) NOT NULL,
-  id_part2              BIGINT       NOT NULL,
+  id_part1              VARCHAR(256)             NOT NULL,
+  id_part2              BIGINT                   NOT NULL,
   ser_small             SMALLSERIAL,
   ser                   SERIAL,
-  ser_big               BIGSERIAL ,
-  an_integer            INTEGER NULL,
-  a_bigint              BIGINT NULL,
-  a_decimal_7_2         DECIMAL(7, 2) NULL,
-  a_numeric_6           NUMERIC(6) NULL,
-  a_numeric             NUMERIC NULL,
-  a_real                REAL NULL,
-  a_double              DOUBLE PRECISION NULL,
-  an_int2               INT2 NULL,
-  an_int4               INT4 NULL,
-  an_int8 int8 NULL,
+  ser_big               BIGSERIAL,
+  an_integer            INTEGER                  NULL,
+  a_bigint              BIGINT                   NULL,
+  a_decimal_7_2         DECIMAL(7, 2)            NULL,
+  a_numeric_6           NUMERIC(6)               NULL,
+  a_numeric             NUMERIC                  NULL,
+  a_real                REAL                     NULL,
+  a_double              DOUBLE PRECISION         NULL,
+  an_int2               INT2                     NULL,
+  an_int4               INT4                     NULL,
+  an_int8               INT8                     NULL,
   -- a_money money,
   -- an_enum ENUM_TEST,
   -- an_enum_in_public PUBLIC.ENUM_TEST_IN_PUBLIC_SCHEMA,
   -- a_struct FULL_NAME,
   -- a_domain us_postal_code,
-  a_varchar             VARCHAR NULL,
-  a_varchar_10          VARCHAR(10) NULL,
-  a_text                TEXT NULL,
-  a_char                CHAR NULL,
-  a_char_10             CHAR(10) NULL,
-  a_bytea               BYTEA NULL,
-  a_timestamp_3         TIMESTAMP(3) NULL,
-  a_timestamp           TIMESTAMP NULL,
+  a_varchar             VARCHAR                  NULL,
+  a_varchar_10          VARCHAR(10)              NULL,
+  a_text                TEXT                     NULL,
+  a_char                CHAR                     NULL,
+  a_char_10             CHAR(10)                 NULL,
+  a_bytea               BYTEA                    NULL,
+  a_timestamp_3         TIMESTAMP(3)             NULL,
+  a_timestamp           TIMESTAMP                NULL,
   a_timestamp_with_zone TIMESTAMP WITH TIME ZONE NULL,
-  a_date                DATE NULL,
-  a_time                TIME NULL,
-  a_time_with_zone      TIME WITH TIME ZONE NULL,
+  a_date                DATE                     NULL,
+  a_time                TIME                     NULL,
+  a_time_with_zone      TIME WITH TIME ZONE      NULL,
   -- an_interval           INTERVAL,
-  a_boolean             BOOLEAN NULL,
+  a_boolean             BOOLEAN                  NULL,
   --a_cidr cidr,
   --an_inet inet,
   --a_macaddr macaddr,
@@ -145,8 +143,8 @@ CREATE TABLE auth_user (
   user_name                  VARCHAR(256)          NOT NULL,
   password                   VARCHAR(256)          NOT NULL,
   wrong_password_count       INT                   NOT NULL DEFAULT 0,
-  created                    TIMESTAMP                      DEFAULT CURRENT_TIMESTAMP ,
-  last_login                 TIMESTAMP                      DEFAULT CURRENT_TIMESTAMP ,
+  created                    TIMESTAMP                      DEFAULT CURRENT_TIMESTAMP,
+  last_login                 TIMESTAMP                      DEFAULT CURRENT_TIMESTAMP,
   verified                   TIMESTAMP,
   reset_password_code        VARCHAR(256),
   reset_password_valid_until TIMESTAMP,
@@ -165,8 +163,6 @@ CREATE TABLE auth_user_remember_me (
 );
 CREATE UNIQUE INDEX idx_users_remember_me_code
   ON auth_user_remember_me (auth_user_id, code);
-
-
 
 -->>createPerson
 CREATE TABLE person (
@@ -215,6 +211,17 @@ CREATE TABLE pg_array_test (
   ints    INT ARRAY [10]         NOT NULL
 );
 
+-->>createCaseWhenTest
+CREATE TABLE case_when_test (
+  id    INT    NOT NULL,
+  value BIGINT NOT NULL
+);
+
+TRUNCATE case_when_test;
+INSERT INTO case_when_test (id, value)
+VALUES
+  (1, 1), (2, 2), (3, 3), (4, 4), (5, 5), (6, 6), (7, 7), (8, 8), (9, 9), (10, 10);
+
 -->>insertTestData
 INSERT INTO person (id, user_name, password, street, house_number, bus_number, postalcode, city, country)
 VALUES
@@ -232,8 +239,8 @@ VALUES
   (2, 'Eau De Mie', 'Snoekstraat', 10, NULL, '9000', 'Gent', 'BE', 2);
 ALTER SEQUENCE company_id_seq RESTART WITH 100;
 
-INSERT into invoice (invoice_nummer, from_company_id, to_company_id)
-    values('2017-01',2,1);
+INSERT INTO invoice (invoice_nummer, from_company_id, to_company_id)
+VALUES ('2017-01', 2, 1);
 
 ALTER SEQUENCE invoice_id_seq RESTART WITH 100;
 -->>

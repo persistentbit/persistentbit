@@ -14,6 +14,7 @@ import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * Abstract Base class for {@link ExprTypeFactory}s for Structures and Tables
@@ -77,6 +78,11 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 
 	@Override
 	public <V extends J> EArray<E, J> buildArrayVal(ImmutableArray<V> values) {
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public E buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
 		throw new UnsupportedOperationException();
 	}
 

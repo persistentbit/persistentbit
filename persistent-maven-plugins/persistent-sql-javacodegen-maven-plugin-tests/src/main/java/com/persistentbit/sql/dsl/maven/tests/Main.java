@@ -62,6 +62,7 @@ public class Main{
 		result.orElseThrow();
 		Supplier<DbTransaction> newTrans = () -> transSupplier.map(Supplier::get).orElseThrow();
 
+		//   POSTGRES ARRAY TEST
 
 		Long arrTestId = pgArrayTest.insert().add(null,
 												  ImmutableArray
@@ -104,6 +105,18 @@ public class Main{
 			.map(e -> "GOT " + e.toString())
 			.forEach(System.out::println);
 
+		// CASE-WHEN TEST
+
+		caseWhenTest.query()
+			.selection(caseWhenTest.all(), caseWhen()
+				.when(caseWhenTest.value.eq(1L), val("First value"))
+				.when(caseWhenTest.value.ltEq(5L), val("<= 5"))
+				.whenElse(val("> 5"))
+				.end()
+			).list(newTrans.get()).forEach(System.out::println);
+
+
+		// OTHER TESTS
 		Long idPersistentBit = authApp
 			.insert()
 			.add(null, "persistentbit", "pw", true, true, 3)

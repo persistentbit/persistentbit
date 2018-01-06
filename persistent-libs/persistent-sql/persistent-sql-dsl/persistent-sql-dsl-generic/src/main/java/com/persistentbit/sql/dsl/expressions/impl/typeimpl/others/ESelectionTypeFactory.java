@@ -13,6 +13,7 @@ import com.persistentbit.sql.dsl.statements.select.impl.TypedSelection1Impl;
 import com.persistentbit.utils.exceptions.ToDo;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * TODOC
@@ -58,6 +59,11 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 	@Override
 	public ESelection<J> buildTableField(String fieldSelectionName, String fieldName, String columnName) {
 		throw new UnsupportedOperationException("buildVal for a ESubQuery");
+	}
+
+	@Override
+	public ESelection<J> buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
+		throw new UnsupportedOperationException("ESubQuery");
 	}
 
 	@Override

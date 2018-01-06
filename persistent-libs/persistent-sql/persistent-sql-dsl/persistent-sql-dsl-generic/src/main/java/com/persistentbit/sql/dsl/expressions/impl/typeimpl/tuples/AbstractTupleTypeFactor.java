@@ -11,6 +11,7 @@ import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.utils.exceptions.ToDo;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * TODOC
@@ -44,6 +45,11 @@ public abstract class AbstractTupleTypeFactor<E extends AbstractTupleTypeFactor.
 	public DExpr buildSingleOp(DExpr expr, SingleOpOperator op
 	) {
 		throw new UnsupportedOperationException("SingleOp " + op);
+	}
+
+	@Override
+	public DExpr buildCustomSql(Supplier sqlSupplier) {
+		throw new UnsupportedOperationException("Custom Sql");
 	}
 
 	@Override

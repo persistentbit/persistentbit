@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.genericdb;
 
 import com.persistentbit.collections.PByteList;
 import com.persistentbit.sql.dsl.expressions.*;
+import com.persistentbit.sql.dsl.expressions.impl.Case;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 
 import java.math.BigDecimal;
@@ -146,4 +147,7 @@ public class DbGeneric{
 	}
 
 
+	public static Case caseWhen() {
+		return new Case(_context);
+	}
 }

@@ -2,10 +2,12 @@ package com.persistentbit.sql.dsl.expressions.impl;
 
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PMap;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * TODOC
@@ -28,6 +30,8 @@ public interface ExprTypeFactory<E extends DExpr<J>,J> {
 	E buildBinOp(DExpr left, BinOpOperator op, DExpr right);
 
 	E buildSingleOp(DExpr expr, SingleOpOperator op);
+
+	E buildCustomSql(Supplier<SqlWithParams> sqlSupplier);
 
 
 

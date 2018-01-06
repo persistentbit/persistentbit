@@ -5,6 +5,8 @@ import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 
+import java.util.function.Supplier;
+
 /**
  * TODOC
  *
@@ -33,5 +35,9 @@ public interface ExprTypeImpl<E extends DExpr<J>,J> extends DExpr<J>{
 
 	default E buildBinOp(DExpr left, BinOpOperator op, DExpr right) {
 		return getTypeFactory().buildBinOp(left, op, right);
+	}
+
+	default E buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
+		return getTypeFactory().buildCustomSql(sqlSupplier);
 	}
 }

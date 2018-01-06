@@ -124,7 +124,7 @@ public class PgArrayTest{
 	public String toString() {
 		return "PgArrayTest[" +
 			"id=" + id +
-			", strings=" + strings +
+			", strings=" + strings + 
 			", ints=" + ints + 
 			']';
 	}

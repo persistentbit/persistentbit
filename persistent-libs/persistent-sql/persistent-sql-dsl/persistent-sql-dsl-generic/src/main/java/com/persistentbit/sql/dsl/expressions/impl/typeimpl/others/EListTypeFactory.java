@@ -13,6 +13,7 @@ import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
 import com.persistentbit.utils.exceptions.ToDo;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * TODOC
@@ -57,6 +58,11 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 	@Override
 	public EList buildSingleOp(DExpr expr, SingleOpOperator op
 	) {
+		throw new ToDo();
+	}
+
+	@Override
+	public EList buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
 		throw new ToDo();
 	}
 

@@ -2,6 +2,7 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PMap;
+import com.persistentbit.sql.dsl.SqlWithParams;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
@@ -11,6 +12,7 @@ import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.*;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 /**
  * TODOC
@@ -71,6 +73,11 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	public E buildSingleOp(DExpr expr, SingleOpOperator op) {
 		return buildWithStrategy(
 			new SingleOpTypeStrategy<>(expr, op));
+	}
+
+	@Override
+	public E buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
+		return buildWithStrategy(new CustomSqlTypeStrategy<>(sqlSupplier));
 	}
 
 	@Override
