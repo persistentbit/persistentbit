@@ -21,6 +21,7 @@ public interface ExprTypeImpl<E extends DExpr<J>,J> extends DExpr<J>{
 
 	E buildSelection(String prefixAlias);
 
+
 	E onlyTableColumn();
 
 	PList<DExpr> expand();
@@ -40,4 +41,9 @@ public interface ExprTypeImpl<E extends DExpr<J>,J> extends DExpr<J>{
 	default E buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
 		return getTypeFactory().buildCustomSql(sqlSupplier);
 	}
+
+	default E buildCall(String callName, Object... params) {
+		return getTypeFactory().buildCall(callName, params);
+	}
+
 }

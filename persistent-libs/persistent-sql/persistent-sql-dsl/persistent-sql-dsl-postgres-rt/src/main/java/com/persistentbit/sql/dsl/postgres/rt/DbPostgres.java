@@ -12,103 +12,8 @@ import com.persistentbit.sql.dsl.genericdb.DbGeneric;
  */
 public class DbPostgres extends DbGeneric{
 
-	public static EInt bit_length(EString string) {
-		return intFun("bit_length", string);
-	}
 
-	public static EInt char_length(EString string) {
-		return intFun("char_length", string);
-	}
 
-	public static EInt octet_length(EString string) {
-		return intFun("octet_length", string);
-	}
-
-	public static EString lower(EString v) {
-		return strFun("lower", v);
-	}
-
-	public static EString overlay(EString v1, EInt from) {
-		return strFun("overlay", v1, " placing ", from);
-	}
-
-	public static EString overlay(EString v1, EInt from, EInt vFor) {
-		return strFun("overlay", v1, " placing ", from, " for ", vFor);
-	}
-
-	public static EString overlay(EString v1, int from) {
-		return strFun("overlay", v1, " placing ", _context.val(from));
-	}
-
-	public static EString overlay(EString v1, int from, int vFor) {
-		return strFun("overlay", v1, " placing ", _context.val(from), " for ", _context.val(vFor));
-	}
-
-	public static EInt position(EString substring, EString inString) {
-		return intFun("position", substring, " in ", inString);
-	}
-
-	public static EString substring(EString string, EInt from) {
-		return strFun("substring", string, " from ", from);
-	}
-
-	public static EString subString(EString string, EInt from, EInt vFor) {
-		return strFun(
-			"substring", string, " from ", from, " for ", vFor
-		);
-	}
-
-	public static EString subString(EString string, EString fromPattern) {
-		return strFun(
-			"substring", string, " from ", fromPattern
-		);
-	}
-
-	public static EString subString(EString string, EString fromPattern, EString forEscape) {
-		return strFun(
-			"substring", string, " from ", fromPattern, " for ", forEscape
-		);
-	}
-
-	public static EString trimLeading(EString chars, EString fromString) {
-		return strFun(
-			"trim", "leading ", chars, " from ", fromString
-		);
-	}
-
-	public static EString trimLeading(EString fromString) {
-		return strFun(
-			"trim", "leading from ", fromString
-		);
-	}
-
-	public static EString trimTrailing(EString chars, EString fromString) {
-		return strFun(
-			"trim", "trailing ", chars, " from ", fromString
-		);
-	}
-
-	public static EString trimTrailing(EString fromString) {
-		return strFun(
-			"trim", "trailing from ", fromString
-		);
-	}
-
-	public static EString trimBoth(EString chars, EString fromString) {
-		return strFun(
-			"trim", "both ", chars, " from ", fromString
-		);
-	}
-
-	public static EString trimBoth(EString fromString) {
-		return strFun(
-			"trim", "both from ", fromString
-		);
-	}
-
-	public static EString upper(EString string) {
-		return strFun("upper", string);
-	}
 
 	public static EInt ascii(EString string) {
 		return intFun("ascii", string);
@@ -297,25 +202,12 @@ public class DbPostgres extends DbGeneric{
 	}
 
 	//		MATHEMATICAL FUNCTIONS
-	public static <E1 extends DExpr<J1>, J1 extends Number> E1 abs(E1 x) {
-		return _context.getTypeFactory(x).buildCall("abs", x);
-	}
+
 
 	public static EDouble cbrt(EDouble x) {
 		return dblFun("cbrt", x);
 	}
 
-	public static EFloat ceil(EFloat x) {
-		return fltFun("ceil", x);
-	}
-
-	public static EDouble ceil(EDouble x) {
-		return dblFun("ceil", x);
-	}
-
-	public static EBigDecimal ceil(EBigDecimal x) {
-		return decFun("ceil", x);
-	}
 
 	public static EDouble degrees(EDouble x) {
 		return dblFun("degrees", x);
@@ -327,23 +219,5 @@ public class DbPostgres extends DbGeneric{
 	}
 	//		HELPER FUNCTIONS
 
-	static private EInt intFun(String name, Object... args) {
-		return _context.getTypeFactory(EInt.class).buildCall(name, args);
-	}
 
-	static private EDouble dblFun(String name, Object... args) {
-		return _context.getTypeFactory(EDouble.class).buildCall(name, args);
-	}
-
-	static private EFloat fltFun(String name, Object... args) {
-		return _context.getTypeFactory(EFloat.class).buildCall(name, args);
-	}
-
-	static private EBigDecimal decFun(String name, Object... args) {
-		return _context.getTypeFactory(EBigDecimal.class).buildCall(name, args);
-	}
-
-	static private EString strFun(String name, Object... args) {
-		return _context.getTypeFactory(EString.class).buildCall(name, args);
-	}
 }

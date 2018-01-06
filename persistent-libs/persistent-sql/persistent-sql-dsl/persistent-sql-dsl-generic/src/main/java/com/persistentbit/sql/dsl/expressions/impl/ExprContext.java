@@ -59,9 +59,10 @@ public class ExprContext{
 	}
 
 
-	private PMap<Class<? extends DExpr>, Lazy<ExprTypeFactory>> typeFactories = PMap.empty();
-	private PMap<BinOpOperator, BinOpSqlBuilder>                binOpMap      = PMap.empty();
-	private PMap<SingleOpOperator, SingleOpSqlBuilder>          singleOpMap   = PMap.empty();
+	private PMap<Class<? extends DExpr>, Lazy<ExprTypeFactory>> typeFactories    = PMap.empty();
+	private PMap<BinOpOperator, BinOpSqlBuilder>                binOpMap         = PMap.empty();
+	private PMap<SingleOpOperator, SingleOpSqlBuilder>          singleOpMap      = PMap.empty();
+	private PMap<Class<? extends DExpr>, String>                defaultDbTypeMap = PMap.empty();
 
 	private PMap<Class, ExprTypeJdbcConvert> javaJdbcConverter = PMap.empty();
 
@@ -96,6 +97,19 @@ public class ExprContext{
 	public <J> ExprContext addJdbcConverter(Class<J> javaClass, ExprTypeJdbcConvert<J> converter) {
 		this.javaJdbcConverter = this.javaJdbcConverter.put(javaClass, converter);
 		return this;
+	}
+
+	public ExprContext addDefaultDbTypeName(Class<? extends DExpr> typeClass, String defaultDbTypeName) {
+		this.defaultDbTypeMap = defaultDbTypeMap.put(typeClass, defaultDbTypeName);
+		return this;
+	}
+
+	public String getDefaultDbTypeName(Class<? extends DExpr> typeClass) {
+		String res = defaultDbTypeMap.get(typeClass);
+		if(res == null) {
+			throw new RuntimeException("Unknown default db type name for " + typeClass.getSimpleName());
+		}
+		return res;
 	}
 
 
@@ -448,5 +462,9 @@ public class ExprContext{
 
 	public <E1 extends DExpr<J1>, J1> E1 buildCall(Class<E1> typeClass, String callName, Object... params) {
 		return get(typeClass).buildCall(callName, params);
+	}
+
+	public <E1 extends DExpr<J1>, J1> E1 buildCall(E1 typeExpr, String callName, Object... params) {
+		return ((ExprTypeImpl<E1, J1>) typeExpr).buildCall(callName, params);
 	}
 }
