@@ -27,7 +27,9 @@ public class GenericExprTypeJdbcConverters{
 
 
 	static public final ExprTypeJdbcConvert<Short> forShort = new ExprTypeJdbcConvert.SingleColumnImpl<>(
-		Types.SMALLINT, "smallint", j -> j, o -> (Short) o
+		Types.SMALLINT, "smallint",
+		j -> j,
+		o -> ((Number) o).shortValue()
 	);
 
 	static public final ExprTypeJdbcConvert<Integer> forInt = new ExprTypeJdbcConvert.SingleColumnImpl<>(

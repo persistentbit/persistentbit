@@ -24,7 +24,7 @@ public enum DbNameToJavaNameType{
 			case toUpperCase:
 				return s -> s.toUpperCase();
 			case snakeToMixedCase:
-				return s -> UString.firstUpperCase(UString.snake_toCamelCase(s));
+				return s -> UString.firstUpperCase(UString.snake_toCamelCase(s.toLowerCase()));
 			default:
 				throw new ToDo(this.name());
 		}
@@ -39,7 +39,7 @@ public enum DbNameToJavaNameType{
 			case toUpperCase:
 				return s -> s.toUpperCase();
 			case snakeToMixedCase:
-				return s -> UString.firstLowerCase(UString.snake_toCamelCase(s));
+				return s -> UString.firstLowerCase(UString.snake_toCamelCase(s.toLowerCase()));
 			default:
 				throw new ToDo(this.name());
 		}

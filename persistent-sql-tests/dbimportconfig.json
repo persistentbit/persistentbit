@@ -1,0 +1,82 @@
+{
+  "instances": [
+    {
+      "javaDbName": "DbPg",
+      "connector": {
+        "driverClass": "org.postgresql.Driver",
+        "url": "jdbc:postgresql://localhost:7000/postgres",
+        "userName": "postgres",
+        "password": "docker"
+      },
+      "schemas": [
+        {
+          "catalogName": "postgres",
+          "schemaName": "pbtest",
+          "javaName": "pbtest",
+          "tableNamePrefixes": [],
+          "tableNamePostfixes": [],
+          "excludeTables": [
+          ]
+        }
+      ],
+      "codeGen": {
+        "outputDir": "src/main/java",
+        "generic": false,
+        "rootPackage": "com.pbtest.postgres"
+      },
+      "nameConversionType": "snakeToMixedCase"
+    },
+    {
+      "javaDbName": "DbMy",
+      "connector": {
+        "driverClass": "com.mysql.cj.jdbc.Driver",
+        "url": "jdbc:mysql://localhost:6603/pbtest",
+        "userName": "root",
+        "password": "docker"
+      },
+      "schemas": [
+        {
+          "catalogName": "pbtest",
+          "schemaName": "",
+          "javaName": "pbtest",
+          "tableNamePrefixes": [],
+          "tableNamePostfixes": [],
+          "excludeTables": [
+          ]
+        }
+      ],
+      "codeGen": {
+        "outputDir": "src/main/java",
+        "generic": false,
+        "rootPackage": "com.pbtest.mysql"
+      },
+      "nameConversionType": "snakeToMixedCase"
+    },
+    {
+      "javaDbName": "DbH2",
+      "connector": {
+        "driverClass": "org.h2.Driver",
+        "url": "jdbc:h2:tcp://localhost:9092/default",
+        "userName": "sa",
+        "password": null
+      },
+      "schemas": [
+        {
+          "catalogName": "DEFAULT",
+          "schemaName": "PBTEST",
+          "javaName": "pbtest",
+          "tableNamePrefixes": [],
+          "tableNamePostfixes": [],
+          "excludeTables": [
+          ]
+        }
+      ],
+      "codeGen": {
+        "outputDir": "src/main/java",
+        "generic": false,
+        "rootPackage": "com.pbtest.h2"
+      },
+      "nameConversionType": "snakeToMixedCase"
+    }
+  ]
+}

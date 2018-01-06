@@ -8,6 +8,7 @@
     <modules>
         <module>persistent-libs</module>
         <module>persistent-maven-plugins</module>
+        <module>persistent-sql-tests</module>
     </modules>
     <packaging>pom</packaging>
 

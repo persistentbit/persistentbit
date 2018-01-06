@@ -59,6 +59,17 @@ public interface DbWork<R>{
 		);
 	}
 
+
+	default <NEXT> DbWork<NEXT> andThen(Function<R, DbWork<NEXT>> other) {
+		return trans -> {
+			Result<R> resR = run(trans);
+			if(resR.isPresent() == false) {
+				return resR.map(v -> null); //Map error
+			}
+			R r = resR.orElseThrow();
+			return other.apply(r).run(trans);
+		};
+	}
 	default <OTHER> DbWork<Tuple2<R, OTHER>> combine(Function<R, DbWork<OTHER>> other) {
 		return trans -> {
 			Result<R> resR = run(trans);
@@ -67,7 +78,7 @@ public interface DbWork<R>{
 			}
 			R r = resR.orElseThrow();
 			return other.apply(r).run(trans)
-						.map(o -> Tuple2.of(r, o));
+				.map(o -> Tuple2.of(r, o));
 		};
 	}
 
