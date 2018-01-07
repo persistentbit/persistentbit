@@ -3,6 +3,10 @@ package com.persistentbit.sql.dsl.postgres.rt;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.genericdb.DbGeneric;
+import com.persistentbit.sql.dsl.orderby.OrderBy;
+import com.persistentbit.sql.dsl.postgres.rt.windowover.WindowOver;
+
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -215,9 +219,155 @@ public class DbPostgres extends DbGeneric{
 
 	public static <E1 extends DExpr<J1>, J1 extends Number, E2 extends DExpr<J2>, J2 extends Number> E1 div(E1 y, E2 x
 	) {
-		return _context.getTypeFactory(y).buildCall("div", y, x);
+		return _context.buildCall(y, "div", y, x);
 	}
-	//		HELPER FUNCTIONS
+
+	//		WINDOW FUNCTIONS
+	public static ELong row_number() {
+		return _context.buildCall(ELong.class, "row_number");
+	}
+
+	public static ELong row_number(OrderBy orderBy) {
+		return _context.buildCall(ELong.class, "row_number", _context.toSql(orderBy));
+	}
+
+	public static ELong rank() {
+		return _context.buildCall(ELong.class, "rank");
+	}
+
+	public static ELong rank(OrderBy orderBy) {
+		return _context.buildCall(ELong.class, "rank", _context.toSql(orderBy));
+	}
+
+	public static ELong dense_rank() {
+		return _context.buildCall(ELong.class, "dense_rank");
+	}
+
+	public static ELong dense_rank(OrderBy orderBy) {
+		return _context.buildCall(ELong.class, "dense_rank", _context.toSql(orderBy));
+	}
+
+	public static EDouble cume_dist() {
+		return _context.buildCall(EDouble.class, "cume_dist");
+	}
+
+	public static EDouble cume_dist(OrderBy orderBy) {
+		return _context.buildCall(EDouble.class, "cume_dist", _context.toSql(orderBy));
+	}
+
+	public static EInt ntile(EInt numBuckets) {
+		return _context.buildCall(EInt.class, "ntile", numBuckets);
+	}
+
+	public static EInt ntile(EInt numBuckets, OrderBy orderBy) {
+		return _context.buildCall(EInt.class, "ntile", numBuckets, ", ", _context.toSql(orderBy));
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 lag(E1 value) {
+		return _context.buildCall(value, "lag", value);
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 lag(E1 value, EInt offset, @Nullable E1 defaultNull) {
+		if(defaultNull == null) {
+			return _context.buildCall(value, "lag", value, offset);
+		}
+		else {
+			return _context.buildCall(value, "lag", value, offset, defaultNull);
+		}
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 lag(E1 value, OrderBy orderBy) {
+		return _context.buildCall(value, "lag", value, ", ", _context.toSql(orderBy));
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 lag(E1 value, EInt offset, @Nullable E1 defaultNull, OrderBy orderBy) {
+		if(defaultNull == null) {
+			return _context.buildCall(value, "lag", value, offset, _context.toSql(orderBy));
+		}
+		else {
+			return _context.buildCall(value, "lag", value, offset, defaultNull, _context.toSql(orderBy));
+		}
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 lead(E1 value) {
+		return _context.buildCall(value, "lead", value);
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 lead(E1 value, EInt offset, @Nullable E1 defaultNull) {
+		if(defaultNull == null) {
+			return _context.buildCall(value, "lead", value, offset);
+		}
+		else {
+			return _context.buildCall(value, "lead", value, offset, defaultNull);
+		}
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 lead(E1 value, OrderBy orderBy) {
+		return _context.buildCall(value, "lead", value, _context.toSql(orderBy));
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 lead(E1 value, EInt offset, @Nullable E1 defaultNull, OrderBy orderBy) {
+		if(defaultNull == null) {
+			return _context.buildCall(value, "lead", value, offset, _context.toSql(orderBy));
+		}
+		else {
+			return _context.buildCall(value, "lead", value, offset, defaultNull, _context.toSql(orderBy));
+		}
+	}
+
+	static public <E1 extends DExpr<J1>, J1> E1 first_value(E1 value) {
+		return _context.buildCall(value, "first_value", value);
+	}
+
+	static public <E1 extends DExpr<J1>, J1> E1 first_value(E1 value, OrderBy orderBy) {
+		return _context.buildCall(value, "first_value", value, _context.toSql(orderBy));
+	}
+
+	static public <E1 extends DExpr<J1>, J1> E1 last_value(E1 value) {
+		return _context.buildCall(value, "last_value", value);
+	}
+
+	static public <E1 extends DExpr<J1>, J1> E1 last_value(E1 value, OrderBy orderBy) {
+		return _context.buildCall(value, "last_value", value, _context.toSql(orderBy));
+	}
+
+	static public <E1 extends DExpr<J1>, J1> E1 nth_value(E1 value, EInt nth) {
+		return _context.buildCall(value, "nth_value", value, nth);
+	}
+
+	static public <E1 extends DExpr<J1>, J1> E1 nth_value(E1 value, EInt nth, OrderBy orderBy) {
+		return _context.buildCall(value, "nth_value", value, nth, _context.toSql(orderBy));
+	}
 
 
+	public static <E1 extends DExpr<J1>, J1> E1 filter(E1 aggregateFunction, EBool whereExpr) {
+		return _context.customSql(aggregateFunction, () ->
+			_context.toSql(aggregateFunction)
+				.add(" FILTER ( WHERE")
+				.add(_context.toSql(whereExpr))
+				.add(")")
+		);
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 withinGroup(E1 aggregateFunction, OrderBy orderBy) {
+		return _context.customSql(aggregateFunction, () ->
+			_context.toSql(aggregateFunction)
+				.add(" WITHIN GROUP (")
+				.add(_context.toSql(orderBy))
+				.add(")")
+		);
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 over(E1 aggregateFunction, Function<WindowOver, WindowOver> over) {
+		return over(aggregateFunction, over.apply(WindowOver.empty()));
+	}
+
+	public static <E1 extends DExpr<J1>, J1> E1 over(E1 aggregateFunction, WindowOver window) {
+		return _context.customSql(aggregateFunction, () ->
+			_context.toSql(aggregateFunction)
+				.add(" OVER(")
+				.add(_context.toSql(window))
+				.add(")")
+		);
+	}
 }

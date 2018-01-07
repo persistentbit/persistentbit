@@ -103,12 +103,8 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 				res = res.add("HAVING ").add(context.toSql(query.qc.having));
 			}
 		}
-		if(query.qc.orderBy.isEmpty() == false) {
-			res = res.add(SqlWithParams.nl).add("ORDER BY ");
-			res = res.add(
-				query.qc.orderBy.map(ob -> context.toSql(ob.getExpr()).add(" ").add(ob.getDir().name())), ", "
-			);
-		}
+		res = res.add(context.toSql(query.qc.orderBy));
+
 
 		if(query.qc.limitAndOffset != null) {
 			Tuple2<ELong, ELong> t = query.qc.limitAndOffset;

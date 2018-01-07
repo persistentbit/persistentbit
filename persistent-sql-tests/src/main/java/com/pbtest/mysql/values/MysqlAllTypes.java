@@ -17,8 +17,8 @@ public class MysqlAllTypes{
 	private final PByteList aTinyint;
 	private final PByteList aTinyintUnsinged;
 	private final boolean   aBool;
-
-
+	
+	
 	@Generated
 	public MysqlAllTypes(boolean aBit, PByteList aTinyint, PByteList aTinyintUnsinged, boolean aBool) {
 		this.aBit = Objects.requireNonNull(aBit, "aBit can not be null");
@@ -26,7 +26,6 @@ public class MysqlAllTypes{
 		this.aTinyintUnsinged = Objects.requireNonNull(aTinyintUnsinged, "aTinyintUnsinged can not be null");
 		this.aBool = Objects.requireNonNull(aBool, "aBool can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4>{
@@ -57,95 +56,74 @@ public class MysqlAllTypes{
 			return (Builder<_T1, _T2, _T3, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #aBit}.<br>
-	 *
 	 * @return {@link #aBit}
 	 */
 	@Generated
 	public boolean getABit() {
 		return this.aBit;
 	}
-
 	/**
 	 * Create a copy of this MysqlAllTypes object with a new value for field {@link #aBit}.<br>
-	 *
 	 * @param aBit The new value for field {@link #aBit}
-	 *
 	 * @return A new instance of {@link MysqlAllTypes}
 	 */
 	@Generated
 	public MysqlAllTypes withABit(boolean aBit) {
 		return new MysqlAllTypes(aBit, aTinyint, aTinyintUnsinged, aBool);
 	}
-
 	/**
 	 * Get the value of field {@link #aTinyint}.<br>
-	 *
 	 * @return {@link #aTinyint}
 	 */
 	@Generated
 	public PByteList getATinyint() {
 		return this.aTinyint;
 	}
-
 	/**
 	 * Create a copy of this MysqlAllTypes object with a new value for field {@link #aTinyint}.<br>
-	 *
 	 * @param aTinyint The new value for field {@link #aTinyint}
-	 *
 	 * @return A new instance of {@link MysqlAllTypes}
 	 */
 	@Generated
 	public MysqlAllTypes withATinyint(PByteList aTinyint) {
 		return new MysqlAllTypes(aBit, aTinyint, aTinyintUnsinged, aBool);
 	}
-
 	/**
 	 * Get the value of field {@link #aTinyintUnsinged}.<br>
-	 *
 	 * @return {@link #aTinyintUnsinged}
 	 */
 	@Generated
 	public PByteList getATinyintUnsinged() {
 		return this.aTinyintUnsinged;
 	}
-
 	/**
 	 * Create a copy of this MysqlAllTypes object with a new value for field {@link #aTinyintUnsinged}.<br>
-	 *
 	 * @param aTinyintUnsinged The new value for field {@link #aTinyintUnsinged}
-	 *
 	 * @return A new instance of {@link MysqlAllTypes}
 	 */
 	@Generated
 	public MysqlAllTypes withATinyintUnsinged(PByteList aTinyintUnsinged) {
 		return new MysqlAllTypes(aBit, aTinyint, aTinyintUnsinged, aBool);
 	}
-
 	/**
 	 * Get the value of field {@link #aBool}.<br>
-	 *
 	 * @return {@link #aBool}
 	 */
 	@Generated
 	public boolean getABool() {
 		return this.aBool;
 	}
-
 	/**
 	 * Create a copy of this MysqlAllTypes object with a new value for field {@link #aBool}.<br>
-	 *
 	 * @param aBool The new value for field {@link #aBool}
-	 *
 	 * @return A new instance of {@link MysqlAllTypes}
 	 */
 	@Generated
 	public MysqlAllTypes withABool(boolean aBool) {
 		return new MysqlAllTypes(aBit, aTinyint, aTinyintUnsinged, aBool);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -158,7 +136,6 @@ public class MysqlAllTypes{
 		if(aBool != obj.aBool) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -169,7 +146,6 @@ public class MysqlAllTypes{
 		result = 31 * result + (this.aBool ? 1 : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -177,10 +153,9 @@ public class MysqlAllTypes{
 			"aBit=" + aBit +
 			", aTinyint=" + aTinyint +
 			", aTinyintUnsinged=" + aTinyintUnsinged +
-			", aBool=" + aBool +
+			", aBool=" + aBool + 
 			']';
 	}
-
 	@Generated
 	public MysqlAllTypes updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -191,7 +166,6 @@ public class MysqlAllTypes{
 		b = updater.apply(b);
 		return new MysqlAllTypes(b.aBit, b.aTinyint, b.aTinyintUnsinged, b.aBool);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static MysqlAllTypes build(
@@ -199,7 +173,6 @@ public class MysqlAllTypes{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new MysqlAllTypes(b.aBit, b.aTinyint, b.aTinyintUnsinged, b.aBool);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<MysqlAllTypes> buildExc(

@@ -8,6 +8,7 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.orderby.OrderBy;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.tuples.Tuple2;
 
@@ -34,8 +35,7 @@ public class QueryCtx {
 	final PList<GroupByDef>    groupBy;
 	@Nullable
 	final EBool                having;
-	@DefaultEmpty
-	final PList<OrderBy>       orderBy;
+	final OrderBy              orderBy;
 	@Nullable
 	final Tuple2<ELong, ELong> limitAndOffset;
 	@DefaultValue("false")
@@ -44,7 +44,7 @@ public class QueryCtx {
 	
 	@Generated
 	public QueryCtx(ExprContext context, PList<Table> from, @Nullable PList<JoinImpl> joins, @Nullable EBool where,
-					@Nullable PList<GroupByDef> groupBy, @Nullable EBool having, @Nullable PList<OrderBy> orderBy,
+					@Nullable PList<GroupByDef> groupBy, @Nullable EBool having, OrderBy orderBy,
 					@Nullable Tuple2<ELong, ELong> limitAndOffset, @Nullable Boolean distinct) {
 			this.context = Objects.requireNonNull(context, "context can not be null");
 			this.from = Objects.requireNonNull(from, "from can not be null");
@@ -52,17 +52,17 @@ public class QueryCtx {
 			this.where = where;
 		this.groupBy = groupBy == null ? PList.empty() : groupBy;
 		this.having = having;
-			this.orderBy = orderBy == null ? PList.empty() : orderBy;
+		this.orderBy = Objects.requireNonNull(orderBy, "orderBy can not be null");
 			this.limitAndOffset = limitAndOffset;
 		this.distinct = distinct == null ? false : distinct;
 	}
 	@Generated
-	public QueryCtx(ExprContext context, PList<Table> from){
-		this(context, from, null, null, null, null, null, null, null);
+	public QueryCtx(ExprContext context, PList<Table> from, OrderBy orderBy) {
+		this(context, from, null, null, null, null, orderBy, null, null);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder<_T1, _T2> {
+	static public class Builder<_T1, _T2, _T3>{
 
 		private ExprContext          context;
 		private PList<Table>         from;
@@ -70,48 +70,52 @@ public class QueryCtx {
 		private EBool                where;
 		private PList<GroupByDef>    groupBy;
 		private EBool                having;
-		private PList<OrderBy>       orderBy;
+		private OrderBy              orderBy;
 		private Tuple2<ELong, ELong> limitAndOffset;
 		private boolean              distinct;
-		
-		
-		public  Builder<SET, _T2>	setContext(ExprContext context){
+
+
+		public Builder<SET, _T2, _T3> setContext(ExprContext context) {
 			this.context	=	context;
-			return (Builder<SET, _T2>)this;
+			return (Builder<SET, _T2, _T3>) this;
 		}
-		public  Builder<_T1, SET>	setFrom(PList<Table> from){
+
+		public Builder<_T1, SET, _T3> setFrom(PList<Table> from) {
 			this.from	=	from;
-			return (Builder<_T1, SET>)this;
+			return (Builder<_T1, SET, _T3>) this;
 		}
-		public  Builder<_T1, _T2>	setJoins(@Nullable PList<JoinImpl> joins){
+
+		public Builder<_T1, _T2, _T3> setJoins(@Nullable PList<JoinImpl> joins) {
 			this.joins	=	joins;
 			return this;
 		}
-		public  Builder<_T1, _T2>	setWhere(@Nullable EBool where){
+
+		public Builder<_T1, _T2, _T3> setWhere(@Nullable EBool where) {
 			this.where	=	where;
 			return this;
 		}
 
-		public Builder<_T1, _T2> setGroupBy(@Nullable PList<GroupByDef> groupBy) {
+		public Builder<_T1, _T2, _T3> setGroupBy(@Nullable PList<GroupByDef> groupBy) {
 			this.groupBy = groupBy;
 			return this;
 		}
 
-		public Builder<_T1, _T2> setHaving(@Nullable EBool having) {
+		public Builder<_T1, _T2, _T3> setHaving(@Nullable EBool having) {
 			this.having = having;
 			return this;
 		}
-		public  Builder<_T1, _T2>	setOrderBy(@Nullable PList<OrderBy> orderBy){
+
+		public Builder<_T1, _T2, SET> setOrderBy(OrderBy orderBy) {
 			this.orderBy	=	orderBy;
-			return this;
+			return (Builder<_T1, _T2, SET>) this;
 		}
 
-		public Builder<_T1, _T2> setLimitAndOffset(@Nullable Tuple2<ELong, ELong> limitAndOffset) {
+		public Builder<_T1, _T2, _T3> setLimitAndOffset(@Nullable Tuple2<ELong, ELong> limitAndOffset) {
 			this.limitAndOffset	=	limitAndOffset;
 			return this;
 		}
 
-		public Builder<_T1, _T2> setDistinct(@Nullable Boolean distinct) {
+		public Builder<_T1, _T2, _T3> setDistinct(@Nullable Boolean distinct) {
 			this.distinct = distinct;
 			return this;
 		}
@@ -184,44 +188,34 @@ public class QueryCtx {
 	public  QueryCtx	withWhere(@Nullable EBool where){
 		return new QueryCtx(context, from, joins, where, groupBy, having, orderBy, limitAndOffset, distinct);
 	}
-
 	/**
 	 * Get the value of field {@link #groupBy}.<br>
-	 *
 	 * @return {@link #groupBy}
 	 */
 	@Generated
 	public PList<GroupByDef> getGroupBy() {
 		return this.groupBy;
 	}
-
 	/**
 	 * Create a copy of this QueryCtx object with a new value for field {@link #groupBy}.<br>
-	 *
 	 * @param groupBy The new value for field {@link #groupBy}
-	 *
 	 * @return A new instance of {@link QueryCtx}
 	 */
 	@Generated
 	public QueryCtx withGroupBy(@Nullable PList<GroupByDef> groupBy) {
 		return new QueryCtx(context, from, joins, where, groupBy, having, orderBy, limitAndOffset, distinct);
 	}
-
 	/**
 	 * Get the value of field {@link #having}.<br>
-	 *
 	 * @return {@link #having}
 	 */
 	@Generated
 	public Optional<EBool> getHaving() {
 		return Optional.ofNullable(this.having);
 	}
-
 	/**
 	 * Create a copy of this QueryCtx object with a new value for field {@link #having}.<br>
-	 *
 	 * @param having The new value for field {@link #having}
-	 *
 	 * @return A new instance of {@link QueryCtx}
 	 */
 	@Generated
@@ -233,7 +227,7 @@ public class QueryCtx {
 	 * @return {@link #orderBy}
 	 */
 	@Generated
-	public  PList<OrderBy>	getOrderBy(){
+	public OrderBy getOrderBy() {
 		return this.orderBy;
 	}
 	/**
@@ -242,7 +236,7 @@ public class QueryCtx {
 	 * @return A new instance of {@link QueryCtx}
 	 */
 	@Generated
-	public QueryCtx withOrderBy(@Nullable PList<OrderBy> orderBy) {
+	public QueryCtx withOrderBy(OrderBy orderBy) {
 		return new QueryCtx(context, from, joins, where, groupBy, having, orderBy, limitAndOffset, distinct);
 	}
 	/**
@@ -313,13 +307,13 @@ public class QueryCtx {
 	}
 	@Generated
 	@Override
-	public  String	toString() {
-		return "QueryCtx[" + 
+	public String toString() {
+		return "QueryCtx[" +
 			"context=" + context +
 			", from=" + from +
 			", joins=" + joins +
 			", where=" + where +
-			", groupBy=" + groupBy +
+			", groupBy=" + groupBy + 
 			", having=" + having + 
 			", orderBy=" + orderBy + 
 			", limitAndOffset=" + limitAndOffset + 
@@ -343,14 +337,14 @@ public class QueryCtx {
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static QueryCtx	build(ThrowingFunction<Builder<NOT,NOT>, Builder<SET, SET>, Exception> setter) {
+	public static QueryCtx build(ThrowingFunction<Builder<NOT, NOT, NOT>, Builder<SET, SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new QueryCtx(b.context, b.from, b.joins, b.where, b.groupBy, b.having, b.orderBy, b.limitAndOffset, b.distinct);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
-	public static Result<QueryCtx> buildExc(ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {
+	public static Result<QueryCtx> buildExc(
+		ThrowingFunction<Builder<NOT, NOT, NOT>, Builder<SET, SET, SET>, Exception> setter) {
 		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new QueryCtx(b.context, b.from, b.joins, b.where, b.groupBy, b.having, b.orderBy, b.limitAndOffset, b.distinct));
 	}
 }

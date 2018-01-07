@@ -1,4 +1,4 @@
-package com.persistentbit.sql.dsl.statements.select.impl;
+package com.persistentbit.sql.dsl.orderby;
 
 import com.persistentbit.sql.dsl.expressions.DExpr;
 
@@ -9,11 +9,12 @@ import com.persistentbit.sql.dsl.expressions.DExpr;
  * @since 28/11/17
  */
 
-public class OrderBy{
+public class OrderByItem{
 
 	private final DExpr<?> expr;
 	private final Direction dir;
-	public OrderBy(DExpr<?> expr, Direction dir) {
+
+	public OrderByItem(DExpr<?> expr, Direction dir) {
 		this.expr = expr;
 		this.dir = dir;
 	}

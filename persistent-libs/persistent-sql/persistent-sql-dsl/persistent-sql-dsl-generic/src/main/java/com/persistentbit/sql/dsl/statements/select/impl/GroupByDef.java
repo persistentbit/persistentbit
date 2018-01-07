@@ -24,14 +24,13 @@ public class GroupByDef{
 
 	private final GroupByType  type;
 	private final PList<DExpr> expressions;
-
-
+	
+	
 	@Generated
 	public GroupByDef(GroupByType type, PList<DExpr> expressions) {
 		this.type = Objects.requireNonNull(type, "type can not be null");
 		this.expressions = Objects.requireNonNull(expressions, "expressions can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2>{
@@ -50,51 +49,40 @@ public class GroupByDef{
 			return (Builder<_T1, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #type}.<br>
-	 *
 	 * @return {@link #type}
 	 */
 	@Generated
 	public GroupByType getType() {
 		return this.type;
 	}
-
 	/**
 	 * Create a copy of this GroupByDef object with a new value for field {@link #type}.<br>
-	 *
 	 * @param type The new value for field {@link #type}
-	 *
 	 * @return A new instance of {@link GroupByDef}
 	 */
 	@Generated
 	public GroupByDef withType(GroupByType type) {
 		return new GroupByDef(type, expressions);
 	}
-
 	/**
 	 * Get the value of field {@link #expressions}.<br>
-	 *
 	 * @return {@link #expressions}
 	 */
 	@Generated
 	public PList<DExpr> getExpressions() {
 		return this.expressions;
 	}
-
 	/**
 	 * Create a copy of this GroupByDef object with a new value for field {@link #expressions}.<br>
-	 *
 	 * @param expressions The new value for field {@link #expressions}
-	 *
 	 * @return A new instance of {@link GroupByDef}
 	 */
 	@Generated
 	public GroupByDef withExpressions(PList<DExpr> expressions) {
 		return new GroupByDef(type, expressions);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -105,7 +93,6 @@ public class GroupByDef{
 		if(!expressions.equals(obj.expressions)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -114,16 +101,14 @@ public class GroupByDef{
 		result = 31 * result + (this.expressions != null ? this.expressions.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
 		return "GroupByDef[" +
 			"type=" + type +
-			", expressions=" + expressions +
+			", expressions=" + expressions + 
 			']';
 	}
-
 	@Generated
 	public GroupByDef updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -132,14 +117,12 @@ public class GroupByDef{
 		b = updater.apply(b);
 		return new GroupByDef(b.type, b.expressions);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static GroupByDef build(ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new GroupByDef(b.type, b.expressions);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<GroupByDef> buildExc(

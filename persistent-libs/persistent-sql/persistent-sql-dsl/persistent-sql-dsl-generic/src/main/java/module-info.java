@@ -29,6 +29,9 @@ module persistent.sql.dsl.generic {
 	exports com.persistentbit.sql.dsl.expressions.impl.typeimpl.time;
 	exports com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples;
 	exports com.persistentbit.sql.dsl.expressions.impl.jdbc;
+	exports com.persistentbit.sql.dsl.orderby;
+	exports com.persistentbit.sql.dsl.assql;
+
 	exports com.persistentbit.sql.dsl.genericdb;
 
 

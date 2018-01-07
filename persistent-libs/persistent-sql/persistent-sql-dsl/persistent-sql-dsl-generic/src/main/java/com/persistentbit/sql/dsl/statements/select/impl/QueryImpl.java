@@ -3,6 +3,8 @@ package com.persistentbit.sql.dsl.statements.select.impl;
 import com.persistentbit.collections.PList;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.orderby.OrderBy;
+import com.persistentbit.sql.dsl.orderby.OrderByItem;
 import com.persistentbit.sql.dsl.statements.select.Join;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.TypedSelection1;
@@ -27,6 +29,7 @@ public class QueryImpl implements Query{
 		this(QueryCtx.build(b -> b
 			.setContext(context)
 			.setFrom(from)
+			.setOrderBy(OrderBy.empty())
 		));
 	}
 
@@ -53,16 +56,16 @@ public class QueryImpl implements Query{
 
 	@Override
 	public Query orderByDesc(DExpr<?> expr) {
-		return orderBy(new OrderBy(expr, OrderBy.Direction.desc));
+		return orderBy(new OrderByItem(expr, OrderByItem.Direction.desc));
 	}
 
 	@Override
 	public Query orderByAsc(DExpr<?> expr) {
-		return orderBy(new OrderBy(expr, OrderBy.Direction.asc));
+		return orderBy(new OrderByItem(expr, OrderByItem.Direction.asc));
 	}
 
-	private Query orderBy(OrderBy orderBy) {
-		return new QueryImpl(qc.withOrderBy(qc.orderBy.plus(orderBy)));
+	private Query orderBy(OrderByItem orderBy) {
+		return new QueryImpl(qc.withOrderBy(qc.orderBy.add(orderBy)));
 	}
 
 	@Override

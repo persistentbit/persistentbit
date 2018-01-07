@@ -5,6 +5,8 @@ import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.assql.SqlConvertible;
+import com.persistentbit.sql.dsl.assql.SqlConvertibleImpl;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.ArrayExprTypeFactory;
@@ -466,5 +468,9 @@ public class ExprContext{
 
 	public <E1 extends DExpr<J1>, J1> E1 buildCall(E1 typeExpr, String callName, Object... params) {
 		return ((ExprTypeImpl<E1, J1>) typeExpr).buildCall(callName, params);
+	}
+
+	public SqlWithParams toSql(SqlConvertible sqlConvertible) {
+		return ((SqlConvertibleImpl) sqlConvertible).toSql(this);
 	}
 }

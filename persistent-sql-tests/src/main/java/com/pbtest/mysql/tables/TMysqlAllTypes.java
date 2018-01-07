@@ -46,22 +46,18 @@ public class TMysqlAllTypes extends AbstractTable<EMysqlAllTypes, MysqlAllTypes>
 	public TMysqlAllTypes(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EMysqlAllTypes> getTypeClass() {
 		return EMysqlAllTypes.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TMysqlAllTypes as(String aliasName) {
 		return new TMysqlAllTypes(context, aliasName);
 	}
-
 	@Override
 	public EMysqlAllTypes all() {
 		return _all;
@@ -104,6 +100,6 @@ public class TMysqlAllTypes extends AbstractTable<EMysqlAllTypes, MysqlAllTypes>
 	}
 
 	public Delete delete() {
-		return new Delete(context, this);
+		return new Delete(context, this); 
 	}
 }

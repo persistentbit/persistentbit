@@ -36,5 +36,8 @@ public class CustomSqlTypeStrategy<J> extends AbstractTypeStrategy<J>{
 		return this;
 	}
 
-
+	@Override
+	public String toString() {
+		return sqlSupplier.get().toString();
+	}
 }

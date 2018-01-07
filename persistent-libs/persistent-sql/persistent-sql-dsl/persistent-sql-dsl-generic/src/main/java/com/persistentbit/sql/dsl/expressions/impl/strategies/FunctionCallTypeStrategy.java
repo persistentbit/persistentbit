@@ -30,8 +30,14 @@ public class FunctionCallTypeStrategy<J> extends AbstractTypeStrategy<J>{
 		for(Object obj : arguments) {
 			DExpr expr = obj instanceof DExpr ? (DExpr) obj : null;
 			if(expr == null) {
-				//use it as a string
-				sql = sql.add(obj.toString());
+				if(obj instanceof SqlWithParams) {
+					sql = sql.add((SqlWithParams) obj);
+				}
+				else {
+					//use it as a string
+					sql = sql.add(obj.toString());
+				}
+
 				prevString = true;
 			}
 			else {

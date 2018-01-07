@@ -29,17 +29,14 @@ public class MysqlAllTypesTypeFactory extends AbstractStructureTypeFactory<EMysq
 				, (EBool) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EMysqlAllTypes, MysqlAllTypes> getTypeFactory() {
 			return MysqlAllTypesTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EMysqlAllTypes[" + aBit + aTinyint + aTinyintUnsinged + aBool + "]";
 		}
-
 		@Override
 		public EMysqlAllTypes getThis() {
 			return this;
@@ -49,7 +46,6 @@ public class MysqlAllTypesTypeFactory extends AbstractStructureTypeFactory<EMysq
 	public MysqlAllTypesTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EMysqlAllTypes, MysqlAllTypes>> buildFields() {
 		return PList.val(
@@ -60,7 +56,6 @@ public class MysqlAllTypesTypeFactory extends AbstractStructureTypeFactory<EMysq
 			, createField(EBool.class, "a_bool", "aBool", v -> v.getABool(), v -> v.aBool)
 		);
 	}
-
 	@Override
 	protected MysqlAllTypes buildValue(Object[] fieldValues) {
 		return new MysqlAllTypes(
@@ -70,12 +65,10 @@ public class MysqlAllTypesTypeFactory extends AbstractStructureTypeFactory<EMysq
 			, (Boolean) fieldValues[3]
 		);
 	}
-
 	@Override
 	protected EMysqlAllTypesImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EMysqlAllTypesImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EMysqlAllTypes> getTypeClass() {
 		return EMysqlAllTypes.class;
