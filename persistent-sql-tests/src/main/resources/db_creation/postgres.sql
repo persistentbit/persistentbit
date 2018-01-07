@@ -38,4 +38,25 @@ VALUES
   ('iPad', 3, 700),
   ('Kindle Fire', 3, 150),
   ('Samsung Galaxy Tab', 3, 200);
+
+-- Custom Function
+DELIMITER !!
+CREATE FUNCTION pbtest_inc(value INTEGER)
+  RETURNS INTEGER AS $$
+BEGIN
+  RETURN value + 1;
+END; $$
+LANGUAGE plpgsql;
+!!
+
+DELIMITER ;
+DELIMITER !!
+CREATE FUNCTION pbtest_inct(value INTEGER)
+  RETURNS INTEGER AS $$
+BEGIN
+  RETURN value + 2;
+END; $$
+LANGUAGE plpgsql;
+!!
+
 -->>

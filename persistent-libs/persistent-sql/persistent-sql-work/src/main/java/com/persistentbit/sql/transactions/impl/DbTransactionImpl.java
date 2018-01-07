@@ -82,7 +82,8 @@ public class DbTransactionImpl implements DbTransaction{
 			currentConnection = resCon
 				.mapExc(con -> {
 					con.setAutoCommit(false);
-					con.setReadOnly(readOnly);
+					//TODO THIS GIVES AN ERROR...
+					//con.setReadOnly(readOnly);
 					return con;
 				}).orElseThrow();
 

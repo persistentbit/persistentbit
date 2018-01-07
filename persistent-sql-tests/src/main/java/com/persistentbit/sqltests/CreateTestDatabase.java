@@ -6,8 +6,8 @@ import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.meta.DbMetaDataImporter;
+import com.persistentbit.sql.meta.data.DbMetaFunction;
 import com.persistentbit.sql.meta.data.DbMetaSchema;
-import com.persistentbit.sql.meta.data.DbMetaTable;
 import com.persistentbit.sql.transactions.DbTransaction;
 import com.persistentbit.sql.updater.DbScriptRunner;
 import com.persistentbit.sql.updater.SqlSnippets;
@@ -107,25 +107,21 @@ public class CreateTestDatabase{
 
 	public static void main(String[] args) {
 		ModuleLogging.consoleLogPrint.registerAsGlobalHandler();
-
-		System.out.println(DbMetaDataImporter.getDatabase().run(transMySql.get()).orElseThrow());
-		System.out.println(DbMetaDataImporter.getDatabase().run(transPg.get()).orElseThrow());
-		System.out.println(DbMetaDataImporter.getAllSchemas().run(transMySql.get()).orElseThrow());
-		System.out.println(DbMetaDataImporter.getCatalogs().run(transMySql.get()).orElseThrow());
-		for(DbMetaSchema schema : DbMetaDataImporter.getAllSchemas().run(transMySql.get()).orElseThrow()) {
-			System.out.println("Tables for schema " + schema);
-			for(DbMetaTable tableMeta : DbMetaDataImporter.getTablesAndViews(schema).run(transMySql.get())
-				.orElseThrow()) {
-				System.out.println(" Table: " + tableMeta);
-			}
-		}
-		for(DbMetaSchema schema : DbMetaDataImporter.getAllSchemas().run(transH2.get()).orElseThrow()) {
-			System.out.println("Tables for schema in h2" + schema);
-			for(DbMetaTable tableMeta : DbMetaDataImporter.getTablesAndViews(schema).run(transH2.get()).orElseThrow()) {
-				System.out.println(" Table: " + tableMeta);
-			}
-		}
-
 		rebuildAll().orElseThrow();
+
+		Supplier<DbTransaction> transSup = transPg;
+		System.out.println("DATABASE:" + DbMetaDataImporter.getDatabase().run(transSup.get()).orElseThrow());
+		PList<DbMetaSchema> allSchemas = DbMetaDataImporter.getAllSchemas().run(transSup.get()).orElseThrow();
+		for(DbMetaSchema schema : allSchemas) {
+			if(schema.name.equals("pbtest") || schema.name.equals("")) {
+				System.out.println("Functions for schema " + schema);
+				for(DbMetaFunction function : DbMetaDataImporter.getFunctions(schema).run(transSup.get())
+					.orElseThrow()) {
+					System.out.println("Function: " + function);
+				}
+			}
+		}
+
+
 	}
 }

@@ -21,24 +21,21 @@ import java.util.function.Function;
  */
 @CaseClass
 public class DbMetaDatabase {
-	private  final String  productName;
-	private  final int     dbMajorVersion;
-	private  final int     dbMinorVersion;
-	private  final String  driveName;
-	private  final int     driverMajorVersion;
-	private  final int     driverMinorVersion;
-	private  final int     jdbcMajorVersion;
-	private  final int     jdbcMinorVersion;
-	@Nullable
-	private  final String  url;
-	private  final boolean supportsGetGeneratedKeys;
-	private  final String  catalogSeparator;
-	private final  String  schemaTerm;
-	private final  String  catalogTerm;
 
-	public boolean usesSchemas() {
-		return schemaTerm.isEmpty() == false;
-	}
+	private final String  productName;
+	private final int     dbMajorVersion;
+	private final int     dbMinorVersion;
+	private final String  driveName;
+	private final int     driverMajorVersion;
+	private final int     driverMinorVersion;
+	private final int     jdbcMajorVersion;
+	private final int     jdbcMinorVersion;
+	@Nullable
+	private final String  url;
+	private final boolean supportsGetGeneratedKeys;
+	private final String  catalogSeparator;
+	private final String  schemaTerm;
+	private final String  catalogTerm;
 	
 	
 	@Generated
@@ -70,6 +67,7 @@ public class DbMetaDatabase {
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, _T8, _T9, _T10, _T11, _T12>{
+
 		private String  productName;
 		private int     dbMajorVersion;
 		private int     dbMinorVersion;
@@ -159,6 +157,10 @@ public class DbMetaDatabase {
 			this.catalogTerm = catalogTerm;
 			return (Builder<_T1, _T2, _T3, _T4, _T5, _T6, _T7, _T8, _T9, _T10, _T11, SET>) this;
 		}
+	}
+
+	public boolean usesSchemas() {
+		return schemaTerm.isEmpty() == false;
 	}
 	/**
 	 * Get the value of field {@link #productName}.<br>
@@ -347,44 +349,34 @@ public class DbMetaDatabase {
 	public  DbMetaDatabase	withCatalogSeparator(String catalogSeparator){
 		return new DbMetaDatabase(productName, dbMajorVersion, dbMinorVersion, driveName, driverMajorVersion, driverMinorVersion, jdbcMajorVersion, jdbcMinorVersion, url, supportsGetGeneratedKeys, catalogSeparator, schemaTerm, catalogTerm);
 	}
-
 	/**
 	 * Get the value of field {@link #schemaTerm}.<br>
-	 *
 	 * @return {@link #schemaTerm}
 	 */
 	@Generated
 	public String getSchemaTerm() {
 		return this.schemaTerm;
 	}
-
 	/**
 	 * Create a copy of this DbMetaDatabase object with a new value for field {@link #schemaTerm}.<br>
-	 *
 	 * @param schemaTerm The new value for field {@link #schemaTerm}
-	 *
 	 * @return A new instance of {@link DbMetaDatabase}
 	 */
 	@Generated
 	public DbMetaDatabase withSchemaTerm(String schemaTerm) {
 		return new DbMetaDatabase(productName, dbMajorVersion, dbMinorVersion, driveName, driverMajorVersion, driverMinorVersion, jdbcMajorVersion, jdbcMinorVersion, url, supportsGetGeneratedKeys, catalogSeparator, schemaTerm, catalogTerm);
 	}
-
 	/**
 	 * Get the value of field {@link #catalogTerm}.<br>
-	 *
 	 * @return {@link #catalogTerm}
 	 */
 	@Generated
 	public String getCatalogTerm() {
 		return this.catalogTerm;
 	}
-
 	/**
 	 * Create a copy of this DbMetaDatabase object with a new value for field {@link #catalogTerm}.<br>
-	 *
 	 * @param catalogTerm The new value for field {@link #catalogTerm}
-	 *
 	 * @return A new instance of {@link DbMetaDatabase}
 	 */
 	@Generated
@@ -444,7 +436,7 @@ public class DbMetaDatabase {
 			", jdbcMajorVersion=" + jdbcMajorVersion + 
 			", jdbcMinorVersion=" + jdbcMinorVersion + 
 			", url=" + (url == null ? "null" : '\"' + UString.present(UString.escapeToJavaString(url),32,"...") + '\"') +
-			", supportsGetGeneratedKeys=" + supportsGetGeneratedKeys + 
+			", supportsGetGeneratedKeys=" + supportsGetGeneratedKeys +
 			", catalogSeparator=" + (catalogSeparator == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(catalogSeparator), 32, "...") + '\"') +
 			", schemaTerm=" + (schemaTerm == null ? "null" : '\"' + UString
@@ -471,15 +463,13 @@ public class DbMetaDatabase {
 		b = updater.apply(b);
 		return new DbMetaDatabase(b.productName, b.dbMajorVersion, b.dbMinorVersion, b.driveName, b.driverMajorVersion, b.driverMinorVersion, b.jdbcMajorVersion, b.jdbcMinorVersion, b.url, b.supportsGetGeneratedKeys, b.catalogSeparator, b.schemaTerm, b.catalogTerm);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static DbMetaDatabase build(
-		ThrowingFunction<Builder<NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT,NOT>, Builder<SET,SET,SET,SET,SET,SET,SET,SET,SET,SET,SET, SET>, Exception> setter) {
+		ThrowingFunction<Builder<NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT, NOT>, Builder<SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new DbMetaDatabase(b.productName, b.dbMajorVersion, b.dbMinorVersion, b.driveName, b.driverMajorVersion, b.driverMinorVersion, b.jdbcMajorVersion, b.jdbcMinorVersion, b.url, b.supportsGetGeneratedKeys, b.catalogSeparator, b.schemaTerm, b.catalogTerm);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<DbMetaDatabase> buildExc(

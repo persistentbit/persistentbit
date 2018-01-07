@@ -102,6 +102,77 @@ public class DbMetaDataImporter{
 
 	}
 
+	public static DbWork<PList<DbMetaFunction>> getFunctions(DbMetaSchema schema) {
+		return getDatabase()
+			.andThen(dbMeta ->
+						 DbWork.function(schema).code(trans -> con -> log -> {
+							 ResultSet funRs;
+							 if(dbMeta.usesSchemas()) {
+								 funRs = con.getMetaData().getFunctions(
+									 "%",
+									 schema.getName().orElse(""),
+									 "%"
+								 );
+							 }
+							 else {
+								 funRs = con.getMetaData().getFunctions(
+									 schema.getCatalog().getName().orElse(""),
+									 schema.getName().orElse(""),
+									 "%"
+								 );
+							 }
+							 Result<PList<DbMetaFunction>> functions = UJdbc.getList(funRs, rs -> {
+								 String firstColumnName = rs.getMetaData().getColumnName(1);
+								 if(firstColumnName.equalsIgnoreCase("PROCEDURE_CAT")) {
+									 //Fucking progres returns the data for getProcedures(...) instead of getFunctions(...)
+									 return null;
+								 }
+
+								 String function_cat   = rs.getString(1);//"FUNCTION_CAT");
+								 String function_schem = rs.getString(2);//"FUNCTION_SCHEM");
+								 String function_name  = rs.getString(3);//"FUNCTION_NAME");
+								 String remarks        = rs.getString(4);//"REMARKS");
+								 int    function_type  = rs.getInt(5);//"FUNCTION_TYPE");
+								 String specific_name  = rs.getString(6);//"SPECIFIC_NAME");
+								 //String column_name  = rs.getString("COLUMN_NAME");
+								 //String column_type = rs.getString("COLUMN_TYPE");
+								 //int data_type = rs.getInt("DATA_TYPE");
+								 //String type_name = rs.getString("TYPE_NAME");
+								 //int precision = rs.getInt("PRECISION");
+								 //int length = rs.getInt("LENGTH");
+
+
+								 //String type_cat = rs.getString("TYPE_CAT");
+								 //String type_schem = rs.getString("TYPE_SCHEM");
+								 //String type_name = rs.getString("TYPE_NAME");
+								 //String self_referencing_col_name = rs.getString("SELF_REFERENCING_COL_NAME");
+								 //String ref_generation = rs.getString("REF_GENERATION");
+								 MetaFunctionType ftype;
+								 switch(function_type) {
+									 case 0:
+										 ftype = MetaFunctionType.resultUnknown;
+										 break;
+									 case 1:
+										 ftype = MetaFunctionType.resultNoTable;
+										 break;
+									 case 2:
+										 ftype = MetaFunctionType.resultTable;
+										 break;
+									 default:
+										 throw new ToDo("Unknown function type: " + function_type);
+								 }
+								 return DbMetaFunction.build(b -> b
+									 .setComment(remarks)
+									 .setFunctionType(ftype).setName(function_name).setSchema(schema)
+									 .setSpecificName(specific_name == null ? function_name : specific_name)
+								 );
+							 });
+							 return functions.map(l -> l.filterNulls().plist());
+						 })
+			);
+
+	}
+
 	public static DbWork<PList<DbMetaTable>> getTables(DbMetaSchema schema) {
 		return getTables(schema, "TABLE");
 	}
@@ -237,6 +308,7 @@ public class DbMetaDataImporter{
 		});
 
 	}
+
 
 	public static DbWork<DbMetaTable> loadColumns(DbMetaTable table) {
 		return DbWork.function(table).code(trans -> con -> log -> {
