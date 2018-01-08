@@ -43,7 +43,7 @@ public class DbScriptRunner{
 						stat.execute(sql);
 					}
 				} catch(SQLException e) {
-					throw new RuntimeException("Error executing " + getFullName(name), e);
+					throw new RuntimeException("Error executing " + getFullName(name) + ": " + sql, e);
 				}
 
 
