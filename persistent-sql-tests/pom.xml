@@ -16,10 +16,16 @@
         <version.postgresql>42.1.4</version.postgresql>
         <version.h2>1.4.193</version.h2>
         <version.mysql>8.0.8-dmr</version.mysql>
+        <version.oracle>12.2.0.1</version.oracle>
     </properties>
 
 
     <dependencies>
+        <dependency>
+            <groupId>com.oracle.jdbc</groupId>
+            <artifactId>ojdbc8</artifactId>
+            <version>${version.oracle}</version>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>

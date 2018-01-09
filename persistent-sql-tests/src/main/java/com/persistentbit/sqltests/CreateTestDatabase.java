@@ -36,6 +36,11 @@ public class CreateTestDatabase{
 		.orElseThrow();
 
 
+	static public final DbConnector conOracle = DbConnector
+		.fromUrl("oracle.jdbc.OracleDriver", "jdbc:oracle:thin:@localhost:1521:xe", "system", "oracle")
+		.map(p -> p.pooledConnector(10))
+		.orElseThrow();
+
 	static public final Supplier<DbTransaction> transMySql = () -> DbTransaction.create(conMySql);
 	static public final Supplier<DbTransaction> transH2    = () -> DbTransaction.create(conH2);
 	static public final Supplier<DbTransaction> transPg    = () -> DbTransaction.create(conPg);
@@ -98,10 +103,21 @@ public class CreateTestDatabase{
 				.flatMap(ok -> runScript(conH2, sql, "create"));
 	}
 
+	static public Result<OK> rebuildOracle() {
+		String base = "/db_creation/";
+		String sql  = base + "oracle.sql";
+
+		return
+			runScript(conOracle, sql, "init")
+				//.flatMap(ok -> runGeneric(conOracle))
+				.flatMap(ok -> runScript(conOracle, sql, "create"));
+	}
+
 	static public Result<OK> rebuildAll() {
 		return rebuildMySql()
 			.flatMap(ok -> rebuildPg())
-			.flatMap(ok -> rebuildH2());
+			.flatMap(ok -> rebuildH2())
+			.flatMap(ok -> rebuildOracle());
 	}
 
 
