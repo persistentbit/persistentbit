@@ -51,22 +51,18 @@ public class TProductGroups extends AbstractTable<EProductGroups, ProductGroups>
 	public TProductGroups(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EProductGroups> getTypeClass() {
 		return EProductGroups.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TProductGroups as(String aliasName) {
 		return new TProductGroups(context, aliasName);
 	}
-
 	@Override
 	public EProductGroups all() {
 		return _all;

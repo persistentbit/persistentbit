@@ -17,8 +17,8 @@ public class Products{
 	private final String productName;
 	private final double price;
 	private final int    groupId;
-
-
+	
+	
 	@Generated
 	public Products(int productId, String productName, double price, int groupId) {
 		this.productId = Objects.requireNonNull(productId, "productId can not be null");
@@ -26,7 +26,6 @@ public class Products{
 		this.price = Objects.requireNonNull(price, "price can not be null");
 		this.groupId = Objects.requireNonNull(groupId, "groupId can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4>{
@@ -57,95 +56,74 @@ public class Products{
 			return (Builder<_T1, _T2, _T3, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #productId}.<br>
-	 *
 	 * @return {@link #productId}
 	 */
 	@Generated
 	public int getProductId() {
 		return this.productId;
 	}
-
 	/**
 	 * Create a copy of this Products object with a new value for field {@link #productId}.<br>
-	 *
 	 * @param productId The new value for field {@link #productId}
-	 *
 	 * @return A new instance of {@link Products}
 	 */
 	@Generated
 	public Products withProductId(int productId) {
 		return new Products(productId, productName, price, groupId);
 	}
-
 	/**
 	 * Get the value of field {@link #productName}.<br>
-	 *
 	 * @return {@link #productName}
 	 */
 	@Generated
 	public String getProductName() {
 		return this.productName;
 	}
-
 	/**
 	 * Create a copy of this Products object with a new value for field {@link #productName}.<br>
-	 *
 	 * @param productName The new value for field {@link #productName}
-	 *
 	 * @return A new instance of {@link Products}
 	 */
 	@Generated
 	public Products withProductName(String productName) {
 		return new Products(productId, productName, price, groupId);
 	}
-
 	/**
 	 * Get the value of field {@link #price}.<br>
-	 *
 	 * @return {@link #price}
 	 */
 	@Generated
 	public double getPrice() {
 		return this.price;
 	}
-
 	/**
 	 * Create a copy of this Products object with a new value for field {@link #price}.<br>
-	 *
 	 * @param price The new value for field {@link #price}
-	 *
 	 * @return A new instance of {@link Products}
 	 */
 	@Generated
 	public Products withPrice(double price) {
 		return new Products(productId, productName, price, groupId);
 	}
-
 	/**
 	 * Get the value of field {@link #groupId}.<br>
-	 *
 	 * @return {@link #groupId}
 	 */
 	@Generated
 	public int getGroupId() {
 		return this.groupId;
 	}
-
 	/**
 	 * Create a copy of this Products object with a new value for field {@link #groupId}.<br>
-	 *
 	 * @param groupId The new value for field {@link #groupId}
-	 *
 	 * @return A new instance of {@link Products}
 	 */
 	@Generated
 	public Products withGroupId(int groupId) {
 		return new Products(productId, productName, price, groupId);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -159,7 +137,6 @@ public class Products{
 		if(groupId != obj.groupId) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -172,7 +149,6 @@ public class Products{
 		result = 31 * result + this.groupId;
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -181,10 +157,9 @@ public class Products{
 			", productName=" + (productName == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(productName), 32, "...") + '\"') +
 			", price=" + price +
-			", groupId=" + groupId +
+			", groupId=" + groupId + 
 			']';
 	}
-
 	@Generated
 	public Products updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -195,7 +170,6 @@ public class Products{
 		b = updater.apply(b);
 		return new Products(b.productId, b.productName, b.price, b.groupId);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Products build(
@@ -203,7 +177,6 @@ public class Products{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Products(b.productId, b.productName, b.price, b.groupId);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<Products> buildExc(

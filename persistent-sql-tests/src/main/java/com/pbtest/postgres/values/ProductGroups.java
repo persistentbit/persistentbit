@@ -15,14 +15,13 @@ public class ProductGroups{
 
 	private final int    groupId;
 	private final String groupName;
-
-
+	
+	
 	@Generated
 	public ProductGroups(int groupId, String groupName) {
 		this.groupId = Objects.requireNonNull(groupId, "groupId can not be null");
 		this.groupName = Objects.requireNonNull(groupName, "groupName can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2>{
@@ -41,51 +40,40 @@ public class ProductGroups{
 			return (Builder<_T1, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #groupId}.<br>
-	 *
 	 * @return {@link #groupId}
 	 */
 	@Generated
 	public int getGroupId() {
 		return this.groupId;
 	}
-
 	/**
 	 * Create a copy of this ProductGroups object with a new value for field {@link #groupId}.<br>
-	 *
 	 * @param groupId The new value for field {@link #groupId}
-	 *
 	 * @return A new instance of {@link ProductGroups}
 	 */
 	@Generated
 	public ProductGroups withGroupId(int groupId) {
 		return new ProductGroups(groupId, groupName);
 	}
-
 	/**
 	 * Get the value of field {@link #groupName}.<br>
-	 *
 	 * @return {@link #groupName}
 	 */
 	@Generated
 	public String getGroupName() {
 		return this.groupName;
 	}
-
 	/**
 	 * Create a copy of this ProductGroups object with a new value for field {@link #groupName}.<br>
-	 *
 	 * @param groupName The new value for field {@link #groupName}
-	 *
 	 * @return A new instance of {@link ProductGroups}
 	 */
 	@Generated
 	public ProductGroups withGroupName(String groupName) {
 		return new ProductGroups(groupId, groupName);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -96,7 +84,6 @@ public class ProductGroups{
 		if(!groupName.equals(obj.groupName)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -105,7 +92,6 @@ public class ProductGroups{
 		result = 31 * result + (this.groupName != null ? this.groupName.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -115,7 +101,6 @@ public class ProductGroups{
 			.present(UString.escapeToJavaString(groupName), 32, "...") + '\"') +
 			']';
 	}
-
 	@Generated
 	public ProductGroups updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -124,14 +109,12 @@ public class ProductGroups{
 		b = updater.apply(b);
 		return new ProductGroups(b.groupId, b.groupName);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static ProductGroups build(ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new ProductGroups(b.groupId, b.groupName);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<ProductGroups> buildExc(

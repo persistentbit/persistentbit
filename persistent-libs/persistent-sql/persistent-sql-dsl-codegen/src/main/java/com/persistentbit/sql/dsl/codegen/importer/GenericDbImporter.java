@@ -10,7 +10,6 @@ import com.persistentbit.sql.meta.data.DbMetaDataType;
 import com.persistentbit.sql.meta.data.DbMetaSchema;
 import com.persistentbit.sql.meta.data.DbMetaTable;
 import com.persistentbit.sql.transactions.DbTransaction;
-import com.persistentbit.utils.exceptions.ToDo;
 
 import java.sql.Types;
 import java.util.function.Supplier;
@@ -177,7 +176,8 @@ public class GenericDbImporter{
 					return createField(EByteList.class, table, column);
 
 				case Types.STRUCT:
-					throw new ToDo("Struct not yet supported");
+					return createStructField(table, column);
+				//throw new ToDo("Struct not yet supported");
 					//String pack = toJavaPackage(rootPackage,nameTransformer,table.getSchema());
 					//String clsName = nameTransformer.toJavaName(mt.getDbTypeName().get());
 					//return new DbJavaFieldStruct(
@@ -185,11 +185,11 @@ public class GenericDbImporter{
 					//javaName,
 					//getCustomTypeMetaTable(transSup,schemas,table.getSchema(),mt.getDbTypeName().get()).get(),clsName,pack);
 				case Types.JAVA_OBJECT:
-					return Result.failure("Not Implemented: JAVA_OBJECT for " + column);
+					return createObjectField(table, column);
 				case Types.SQLXML:
 					return createField(EString.class, table, column);
 				case Types.DISTINCT:
-					return Result.failure("Domain objects not yet implemented");
+					return createDistinctField(table, column);
 				//DbMetaUDT udt = domains.find(u -> u.getName().equals(mt.getDbTypeName().orElse(null))).get();
 				//return new DbJavaFieldDomain(column,udt,javaName,nameTransformer.toJavaName(udt.getName()),this.toJavaPackage(rootPackage,nameTransformer,udt.getSchema()));
 
@@ -203,15 +203,34 @@ public class GenericDbImporter{
 				//return getOtherJavaField(column, javaName);
 
 				default:
-					return Result.failure("Unknown: " + column);
+					return createOtherField(table, column);
 			}
 		});
 
 	}
 
 	protected Result<TableField> createArrayField(DbMetaTable table, DbMetaColumn column) {
-		return Result.failure("Array objects not yet implemented for " + table.name + " " + column.getName());
+		return createField(EObject.class, table, column);
+		//return Result.failure("Array objects not yet implemented for " + table.name + " " + column.getName());
 	}
 
+	protected Result<TableField> createStructField(DbMetaTable table, DbMetaColumn column) {
+		return createField(EObject.class, table, column);
+		//return Result.failure("Array objects not yet implemented for " + table.name + " " + column.getName());
+	}
 
+	protected Result<TableField> createDistinctField(DbMetaTable table, DbMetaColumn column) {
+		return createField(EObject.class, table, column);
+		//return Result.failure("Array objects not yet implemented for " + table.name + " " + column.getName());
+	}
+
+	protected Result<TableField> createObjectField(DbMetaTable table, DbMetaColumn column) {
+		return createField(EObject.class, table, column);
+		//return Result.failure("Array objects not yet implemented for " + table.name + " " + column.getName());
+	}
+
+	protected Result<TableField> createOtherField(DbMetaTable table, DbMetaColumn column) {
+		return createField(EObject.class, table, column);
+		//return Result.failure("Array objects not yet implemented for " + table.name + " " + column.getName());
+	}
 }

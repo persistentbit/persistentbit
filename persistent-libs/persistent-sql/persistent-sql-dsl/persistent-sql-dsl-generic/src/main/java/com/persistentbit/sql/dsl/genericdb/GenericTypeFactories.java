@@ -42,6 +42,7 @@ public class GenericTypeFactories{
 		context.registerType(ESelection.class,ESelectionTypeFactory.class);
 		context.registerType(EByteList.class, EByteListTypeFactory.class);
 		context.registerType(EArray.class, EArrayTypeFactory.class);
+		context.registerType(EObject.class, EObjectTypeFactory.class);
 	}
 	@SuppressWarnings("unchecked")
 	static public void tupleFactories(ExprContext context){

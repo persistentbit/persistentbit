@@ -26,17 +26,14 @@ public class ProductGroupsTypeFactory extends AbstractStructureTypeFactory<EProd
 				, (EString) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EProductGroups, ProductGroups> getTypeFactory() {
 			return ProductGroupsTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EProductGroups[" + groupId + groupName + "]";
 		}
-
 		@Override
 		public EProductGroups getThis() {
 			return this;
@@ -46,7 +43,6 @@ public class ProductGroupsTypeFactory extends AbstractStructureTypeFactory<EProd
 	public ProductGroupsTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EProductGroups, ProductGroups>> buildFields() {
 		return PList.val(
@@ -54,7 +50,6 @@ public class ProductGroupsTypeFactory extends AbstractStructureTypeFactory<EProd
 			, createField(EString.class, "group_name", "groupName", v -> v.getGroupName(), v -> v.groupName)
 		);
 	}
-
 	@Override
 	protected ProductGroups buildValue(Object[] fieldValues) {
 		return new ProductGroups(
@@ -62,12 +57,10 @@ public class ProductGroupsTypeFactory extends AbstractStructureTypeFactory<EProd
 			, (String) fieldValues[1]
 		);
 	}
-
 	@Override
 	protected EProductGroupsImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EProductGroupsImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EProductGroups> getTypeClass() {
 		return EProductGroups.class;

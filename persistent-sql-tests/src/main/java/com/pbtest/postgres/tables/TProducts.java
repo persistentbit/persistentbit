@@ -56,22 +56,18 @@ public class TProducts extends AbstractTable<EProducts, Products>{
 	public TProducts(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EProducts> getTypeClass() {
 		return EProducts.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TProducts as(String aliasName) {
 		return new TProducts(context, aliasName);
 	}
-
 	@Override
 	public EProducts all() {
 		return _all;

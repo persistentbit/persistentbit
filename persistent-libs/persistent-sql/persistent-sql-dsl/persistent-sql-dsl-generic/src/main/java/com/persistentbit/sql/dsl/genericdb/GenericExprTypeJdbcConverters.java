@@ -21,7 +21,10 @@ import java.time.LocalTime;
  */
 public class GenericExprTypeJdbcConverters{
 
-	static public final ExprTypeJdbcConvert<Byte> forByte = new ExprTypeJdbcConvert.SingleColumnImpl<Byte>(
+	static public final ExprTypeJdbcConvert<Object> forObject = new ExprTypeJdbcConvert.SingleColumnImpl<Object>(
+		Types.OTHER, "object", j -> j, o -> o
+	);
+	static public final ExprTypeJdbcConvert<Byte>   forByte   = new ExprTypeJdbcConvert.SingleColumnImpl<Byte>(
 		Types.TINYINT, "byte", j -> j, o -> (Byte) o
 	);
 

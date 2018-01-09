@@ -152,7 +152,7 @@ public class MysqlAllTypes{
 		return "MysqlAllTypes[" +
 			"aBit=" + aBit +
 			", aTinyint=" + aTinyint +
-			", aTinyintUnsinged=" + aTinyintUnsinged +
+			", aTinyintUnsinged=" + aTinyintUnsinged + 
 			", aBool=" + aBool + 
 			']';
 	}
