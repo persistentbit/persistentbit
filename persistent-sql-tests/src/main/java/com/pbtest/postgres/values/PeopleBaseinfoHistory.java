@@ -44,13 +44,11 @@ public class PeopleBaseinfoHistory{
 		this.genderCode = Objects.requireNonNull(genderCode, "genderCode can not be null");
 		this.birthDay = birthDay;
 	}
-
 	@Generated
 	public PeopleBaseinfoHistory(long personId, LocalDateTime startTime, String salutationCode, String nameFirst,
 								 String nameLast, String genderCode) {
 		this(personId, startTime, null, salutationCode, nameFirst, null, nameLast, genderCode, null);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5, _T6>{
@@ -111,205 +109,159 @@ public class PeopleBaseinfoHistory{
 			return this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #personId}.<br>
-	 *
 	 * @return {@link #personId}
 	 */
 	@Generated
 	public long getPersonId() {
 		return this.personId;
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #personId}.<br>
-	 *
 	 * @param personId The new value for field {@link #personId}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withPersonId(long personId) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	/**
 	 * Get the value of field {@link #startTime}.<br>
-	 *
 	 * @return {@link #startTime}
 	 */
 	@Generated
 	public LocalDateTime getStartTime() {
 		return this.startTime;
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #startTime}.<br>
-	 *
 	 * @param startTime The new value for field {@link #startTime}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withStartTime(LocalDateTime startTime) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	/**
 	 * Get the value of field {@link #endTime}.<br>
-	 *
 	 * @return {@link #endTime}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getEndTime() {
 		return Optional.ofNullable(this.endTime);
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #endTime}.<br>
-	 *
 	 * @param endTime The new value for field {@link #endTime}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withEndTime(@Nullable LocalDateTime endTime) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	/**
 	 * Get the value of field {@link #salutationCode}.<br>
-	 *
 	 * @return {@link #salutationCode}
 	 */
 	@Generated
 	public String getSalutationCode() {
 		return this.salutationCode;
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #salutationCode}.<br>
-	 *
 	 * @param salutationCode The new value for field {@link #salutationCode}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withSalutationCode(String salutationCode) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	/**
 	 * Get the value of field {@link #nameFirst}.<br>
-	 *
 	 * @return {@link #nameFirst}
 	 */
 	@Generated
 	public String getNameFirst() {
 		return this.nameFirst;
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #nameFirst}.<br>
-	 *
 	 * @param nameFirst The new value for field {@link #nameFirst}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withNameFirst(String nameFirst) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	/**
 	 * Get the value of field {@link #nameMiddle}.<br>
-	 *
 	 * @return {@link #nameMiddle}
 	 */
 	@Generated
 	public Optional<String> getNameMiddle() {
 		return Optional.ofNullable(this.nameMiddle);
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #nameMiddle}.<br>
-	 *
 	 * @param nameMiddle The new value for field {@link #nameMiddle}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withNameMiddle(@Nullable String nameMiddle) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	/**
 	 * Get the value of field {@link #nameLast}.<br>
-	 *
 	 * @return {@link #nameLast}
 	 */
 	@Generated
 	public String getNameLast() {
 		return this.nameLast;
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #nameLast}.<br>
-	 *
 	 * @param nameLast The new value for field {@link #nameLast}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withNameLast(String nameLast) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	/**
 	 * Get the value of field {@link #genderCode}.<br>
-	 *
 	 * @return {@link #genderCode}
 	 */
 	@Generated
 	public String getGenderCode() {
 		return this.genderCode;
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #genderCode}.<br>
-	 *
 	 * @param genderCode The new value for field {@link #genderCode}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withGenderCode(String genderCode) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	/**
 	 * Get the value of field {@link #birthDay}.<br>
-	 *
 	 * @return {@link #birthDay}
 	 */
 	@Generated
 	public Optional<LocalDate> getBirthDay() {
 		return Optional.ofNullable(this.birthDay);
 	}
-
 	/**
 	 * Create a copy of this PeopleBaseinfoHistory object with a new value for field {@link #birthDay}.<br>
-	 *
 	 * @param birthDay The new value for field {@link #birthDay}
-	 *
 	 * @return A new instance of {@link PeopleBaseinfoHistory}
 	 */
 	@Generated
 	public PeopleBaseinfoHistory withBirthDay(@Nullable LocalDate birthDay) {
 		return new PeopleBaseinfoHistory(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -327,7 +279,6 @@ public class PeopleBaseinfoHistory{
 		if(birthDay != null ? !birthDay.equals(obj.birthDay) : obj.birthDay != null) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -343,7 +294,6 @@ public class PeopleBaseinfoHistory{
 		result = 31 * result + (this.birthDay != null ? this.birthDay.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -361,10 +311,9 @@ public class PeopleBaseinfoHistory{
 			.present(UString.escapeToJavaString(nameLast), 32, "...") + '\"') +
 			", genderCode=" + (genderCode == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(genderCode), 32, "...") + '\"') +
-			", birthDay=" + birthDay +
+			", birthDay=" + birthDay + 
 			']';
 	}
-
 	@Generated
 	public PeopleBaseinfoHistory updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -380,7 +329,6 @@ public class PeopleBaseinfoHistory{
 		b = updater.apply(b);
 		return new PeopleBaseinfoHistory(b.personId, b.startTime, b.endTime, b.salutationCode, b.nameFirst, b.nameMiddle, b.nameLast, b.genderCode, b.birthDay);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static PeopleBaseinfoHistory build(
@@ -388,7 +336,6 @@ public class PeopleBaseinfoHistory{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new PeopleBaseinfoHistory(b.personId, b.startTime, b.endTime, b.salutationCode, b.nameFirst, b.nameMiddle, b.nameLast, b.genderCode, b.birthDay);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<PeopleBaseinfoHistory> buildExc(

@@ -11,6 +11,7 @@ import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
+import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
@@ -77,10 +78,10 @@ public class TPeople extends AbstractTable<EPeople, People>{
 		return new InsertPeople(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Long personId) {
+	public DbWork<Long> insert(@Nullable Long personId) {
 		return insert()
 			.add(personId)
-			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
+			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
 	}
 
 	public DbWork<People> insert(People p) {

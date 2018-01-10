@@ -10,6 +10,7 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
+import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
@@ -66,22 +67,18 @@ public class TPeopleBaseinfoHistory extends AbstractTable<EPeopleBaseinfoHistory
 	public TPeopleBaseinfoHistory(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EPeopleBaseinfoHistory> getTypeClass() {
 		return EPeopleBaseinfoHistory.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TPeopleBaseinfoHistory as(String aliasName) {
 		return new TPeopleBaseinfoHistory(context, aliasName);
 	}
-
 	@Override
 	public EPeopleBaseinfoHistory all() {
 		return _all;
@@ -99,13 +96,13 @@ public class TPeopleBaseinfoHistory extends AbstractTable<EPeopleBaseinfoHistory
 		return new InsertPeopleBaseinfoHistory(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Long personId, @Nullable LocalDateTime startTime,
-								  @Nullable LocalDateTime endTime, @Nullable String salutationCode,
-								  @Nullable String nameFirst, @Nullable String nameMiddle, @Nullable String nameLast,
-								  @Nullable String genderCode, @Nullable LocalDate birthDay) {
+	public DbWork<Long> insert(@Nullable Long personId, @Nullable LocalDateTime startTime,
+							   @Nullable LocalDateTime endTime, @Nullable String salutationCode,
+							   @Nullable String nameFirst, @Nullable String nameMiddle, @Nullable String nameLast,
+							   @Nullable String genderCode, @Nullable LocalDate birthDay) {
 		return insert()
 			.add(personId, startTime, endTime, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay)
-			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
+			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
 	}
 
 	public DbWork<PeopleBaseinfoHistory> insert(PeopleBaseinfoHistory p) {

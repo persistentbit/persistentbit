@@ -11,6 +11,7 @@ import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
+import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
@@ -79,10 +80,10 @@ public class TSalutations extends AbstractTable<ESalutations, Salutations>{
 		return new InsertSalutations(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable String salutationCode, @Nullable String description) {
+	public DbWork<Object> insert(@Nullable String salutationCode, @Nullable String description) {
 		return insert()
 			.add(salutationCode, description)
-			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
+			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
 	}
 
 	public DbWork<Salutations> insert(Salutations p) {

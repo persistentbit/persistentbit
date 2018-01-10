@@ -10,6 +10,7 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
+import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
@@ -102,14 +103,14 @@ public class TGenData extends AbstractTable<EGenData, GenData>{
 		return new InsertGenData(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Integer genDataId, @Nullable Integer aInt, @Nullable Short aShort,
-								  @Nullable Long aLong, @Nullable BigDecimal aNum, @Nullable Double aDouble,
-								  @Nullable Double aReal, @Nullable Boolean aBool, @Nullable LocalDate aDate,
-								  @Nullable LocalTime aTime, @Nullable LocalDateTime aTimestamp,
-								  @Nullable String aString) {
+	public DbWork<Object> insert(@Nullable Integer genDataId, @Nullable Integer aInt, @Nullable Short aShort,
+								 @Nullable Long aLong, @Nullable BigDecimal aNum, @Nullable Double aDouble,
+								 @Nullable Double aReal, @Nullable Boolean aBool, @Nullable LocalDate aDate,
+								 @Nullable LocalTime aTime, @Nullable LocalDateTime aTimestamp,
+								 @Nullable String aString) {
 		return insert()
 			.add(genDataId, aInt, aShort, aLong, aNum, aDouble, aReal, aBool, aDate, aTime, aTimestamp, aString)
-			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
+			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
 	}
 
 	public DbWork<GenData> insert(GenData p) {

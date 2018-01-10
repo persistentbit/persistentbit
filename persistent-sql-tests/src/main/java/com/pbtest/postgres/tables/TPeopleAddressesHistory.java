@@ -10,6 +10,7 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
+import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
@@ -87,12 +88,12 @@ public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHisto
 		return new InsertPeopleAddressesHistory(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Long personId, @Nullable String addressRelationCode,
-								  @Nullable LocalDate startDate, @Nullable LocalDateTime endDate,
-								  @Nullable Long addressId) {
+	public DbWork<Long> insert(@Nullable Long personId, @Nullable String addressRelationCode,
+							   @Nullable LocalDate startDate, @Nullable LocalDateTime endDate,
+							   @Nullable Long addressId) {
 		return insert()
 			.add(personId, addressRelationCode, startDate, endDate, addressId)
-			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
+			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
 	}
 
 	public DbWork<PeopleAddressesHistory> insert(PeopleAddressesHistory p) {

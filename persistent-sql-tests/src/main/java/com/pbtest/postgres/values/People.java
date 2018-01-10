@@ -67,7 +67,7 @@ public class People{
 	@Generated
 	@Override
 	public String toString() {
-		return "People[" +
+		return "People[" + 
 			"personId=" + personId + 
 			']';
 	}

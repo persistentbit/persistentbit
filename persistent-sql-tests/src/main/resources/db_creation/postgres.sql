@@ -171,3 +171,32 @@ CREATE TABLE people_addresses_history (
   --                                                                   GROUP BY foo_key
   --                                                                   HAVING COUNT(*) > 1))
 );
+
+
+INSERT INTO salutations (salutation_code, description) VALUES
+  ('MR', 'Mister'),
+  ('MS', 'Miss');
+
+
+INSERT INTO genders (gender_code, description) VALUES
+  ('MALE', 'Male'), ('FEMALE', 'Female'), ('UNKNOWN', 'Unknown');
+
+INSERT INTO addresses (address_id, street_line_1, street_line_2, postal_code, city_name, country_code, district) VALUES
+  (1, 'Koophandelsplein 31', NULL, '9000', 'Gent', 'BE', NULL),
+  (2, 'August Van OostStreaat 1', NULL, '9050', 'Gent', 'BE', NULL),
+  (3, 'Invalidenstraat 102', NULL, '9040', 'Oostakker', 'BE', NULL),
+  (4, 'Duivelsteeg 1', NULL, '9000', 'Gent', 'BE', NULL),
+  (5, 'Baudeloo kaai ?', NULL, '9000', 'Gent', 'BE', NULL),
+  (6, 'Zandloperstraat 102', NULL, '9030', 'Mariakerke', 'BE', NULL),
+  (7, 'Herman Lovelingstraat 8', NULL, '9000', 'Nevele', 'BE', NULL),
+  (8, 'Jonkvrouw Matte straat 2', NULL, '9000', 'Gent', 'BE', NULL),
+  (9, 'Snoekstraat 77', NULL, '9000', 'Gent', 'BE', NULL),
+  (10, 'Snoekstraat 10', NULL, '9000', 'Gent', 'BE', NULL);
+
+
+INSERT INTO people (person_id)
+VALUES (1), (2);
+INSERT INTO people_baseinfo_history (person_id, start_time, end_time, salutation_code, name_first, name_middle, name_last, gender_code, birth_day)
+VALUES
+  (1, TIMESTAMP '2004-10-19 10:23:54', NULL, 'MR', 'Peter', NULL, 'Muys', 'MALE', DATE '1972-05-21'),
+  (2, TIMESTAMP '2004-10-19 10:23:54', NULL, 'MS', 'Els', NULL, 'Van Oost', 'FEMALE', DATE '1976-06-16');

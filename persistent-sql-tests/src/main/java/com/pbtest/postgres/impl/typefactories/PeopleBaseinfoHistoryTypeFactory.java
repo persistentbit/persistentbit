@@ -34,17 +34,14 @@ public class PeopleBaseinfoHistoryTypeFactory
 				, (EDate) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EPeopleBaseinfoHistory, PeopleBaseinfoHistory> getTypeFactory() {
 			return PeopleBaseinfoHistoryTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EPeopleBaseinfoHistory[" + personId + startTime + endTime + salutationCode + nameFirst + nameMiddle + nameLast + genderCode + birthDay + "]";
 		}
-
 		@Override
 		public EPeopleBaseinfoHistory getThis() {
 			return this;
@@ -54,7 +51,6 @@ public class PeopleBaseinfoHistoryTypeFactory
 	public PeopleBaseinfoHistoryTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EPeopleBaseinfoHistory, PeopleBaseinfoHistory>> buildFields() {
 		return PList.val(
@@ -71,7 +67,6 @@ public class PeopleBaseinfoHistoryTypeFactory
 			, createField(EDate.class, "birth_day", "birthDay", v -> v.getBirthDay().orElse(null), v -> v.birthDay)
 		);
 	}
-
 	@Override
 	protected PeopleBaseinfoHistory buildValue(Object[] fieldValues) {
 		return new PeopleBaseinfoHistory(
@@ -86,12 +81,10 @@ public class PeopleBaseinfoHistoryTypeFactory
 			, (LocalDate) fieldValues[8]
 		);
 	}
-
 	@Override
 	protected EPeopleBaseinfoHistoryImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EPeopleBaseinfoHistoryImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EPeopleBaseinfoHistory> getTypeClass() {
 		return EPeopleBaseinfoHistory.class;

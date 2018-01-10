@@ -329,8 +329,10 @@ public class TableTypeDef implements TypeDef{
 					fields.map(f -> f.expand(context, null)).<TableField>flatten()
 						.map(f -> f.createJavaField(context, true).orElseThrow());
 				cls = cls.addImports(insertFields.map(JField::getAllImports).flatten());
+				String autoGenClass = getPrimKeys(context).find(stf -> stf.isAutoGenKey())
+					.map(stf -> stf.getJavaTypeRef(context).getClassName()).orElse("Object");
 				cls = cls.addMethod(
-					new JMethod("insert", DbWork.class.getSimpleName() + "<Integer>")
+					new JMethod("insert", DbWork.class.getSimpleName() + "<" + autoGenClass + ">")
 						.withAccessLevel(AccessLevel.Public)
 						.addArgs(insertFields.map(JField::asArgument))
 						.addImport(DbWork.class)
@@ -342,7 +344,7 @@ public class TableTypeDef implements TypeDef{
 								".add(" + insertFields.map(JField::getName).toString(", ") + ")"
 							);
 							pw.println(".flatMap(irList-> " + Result.class
-								.getSimpleName() + ".fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));");
+								.getSimpleName() + ".fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));");
 						})
 				);
 				cls = cls.addMethod(
