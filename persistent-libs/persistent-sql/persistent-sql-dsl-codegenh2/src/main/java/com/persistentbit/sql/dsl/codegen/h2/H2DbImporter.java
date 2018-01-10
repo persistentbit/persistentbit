@@ -1,7 +1,10 @@
 package com.persistentbit.sql.dsl.codegen.h2;
 
-import com.persistentbit.sql.dsl.codegen.importer.DbImportSettings;
+import com.persistentbit.sql.dsl.codegen.config.Instance;
 import com.persistentbit.sql.dsl.codegen.importer.GenericDbImporter;
+import com.persistentbit.sql.transactions.DbTransaction;
+
+import java.util.function.Supplier;
 
 /**
  * TODOC
@@ -11,7 +14,8 @@ import com.persistentbit.sql.dsl.codegen.importer.GenericDbImporter;
  */
 public class H2DbImporter extends GenericDbImporter{
 
-	public H2DbImporter(DbImportSettings settings) {
-		super(settings);
+	public H2DbImporter(Instance instance,
+						Supplier<DbTransaction> transSup) {
+		super(instance, transSup);
 	}
 }

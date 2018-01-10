@@ -116,8 +116,9 @@ public class CreateTestDatabase{
 	static public Result<OK> rebuildAll() {
 		return rebuildMySql()
 			.flatMap(ok -> rebuildPg())
-			.flatMap(ok -> rebuildH2())
-			.flatMap(ok -> rebuildOracle());
+			//.flatMap(ok -> rebuildH2())
+			//.flatMap(ok -> rebuildOracle())
+			;
 	}
 
 

@@ -11,20 +11,26 @@ import com.persistentbit.logging.ModuleLogging;
 import com.persistentbit.logging.printing.LogPrintToString;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.connect.DbConnector;
 import com.persistentbit.sql.dsl.codegen.config.DbCodeGenConfig;
-import com.persistentbit.sql.dsl.codegen.config.DbCodeGentConfigInitalEmpty;
+import com.persistentbit.sql.dsl.codegen.config.DbCodeGenConfigInitalEmpty;
 import com.persistentbit.sql.dsl.codegen.config.Instance;
 import com.persistentbit.sql.dsl.codegen.service.DbCodeGenService;
 import com.persistentbit.sql.dsl.codegen.service.DbHandlingLevel;
+import com.persistentbit.sql.transactions.DbTransaction;
+import com.zaxxer.hikari.HikariDataSource;
+import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.plugins.annotations.ResolutionScope;
+import org.apache.maven.project.MavenProject;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.util.function.Supplier;
 
 /**
  * Generate Sql db java classes from database.
@@ -34,7 +40,10 @@ import java.nio.file.Path;
 	defaultPhase = LifecyclePhase.GENERATE_SOURCES,
 	requiresDependencyResolution = ResolutionScope.COMPILE_PLUS_RUNTIME
 )
-public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
+public class DslCodeGenPlugin extends AbstractMojo{
+
+	@Parameter(property = "project", required = true, readonly = true)
+	MavenProject project;
 
 	@Parameter(name="configfile",defaultValue = "dbimportconfig.json")
 	private String configfile;
@@ -72,7 +81,7 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 
 			File f = new File(configfile).getAbsoluteFile();
 			if(f.exists() == false || f.isFile() == false || f.canRead() == false){
-				DbCodeGenConfig initial = DbCodeGentConfigInitalEmpty.createInitialEmpty();
+				DbCodeGenConfig initial = DbCodeGenConfigInitalEmpty.createInitialEmpty();
 				log.error("No config file found at " + f.getAbsolutePath());
 				String jsonStr = JJPrinter.print(true,mapper.write(initial));
 				return Result.failure("Create a file like: " + jsonStr);
@@ -85,7 +94,7 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 			Result<DbCodeGenConfig> configRes = log.add(JJParser.parse(f, IO.utf8))
 											 .map(json -> mapper.read(json,DbCodeGenConfig.class));
 			if(configRes.isError()){
-				DbCodeGenConfig initial = DbCodeGentConfigInitalEmpty.createInitialEmpty();
+				DbCodeGenConfig initial = DbCodeGenConfigInitalEmpty.createInitialEmpty();
 				log.error("Error parsing and reading config file at  " + f.getAbsolutePath());
 				String jsonStr = JJPrinter.print(true,mapper.write(initial));
 				log.error("Example Json file: " + jsonStr);
@@ -93,67 +102,50 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 			}
 			DbCodeGenConfig config = configRes.orElseThrow();
 
-			/*for(String driver : config.getInstances().map(i -> i.getConnector().getDriverClass()).pset())
-			{
-				log.info("Registering driver " + driver);
-				getLog().info("Registering driver " + driver);
-				try
-				{
-					Class<?> dc             = Class.forName( driver );
-					Driver   driverInstance = (Driver) dc.getDeclaredConstructor().newInstance();
-					DriverManager.registerDriver(driverInstance);
-
-				}
-				catch ( Exception e )
-				{
-					return Result.failure(e);
-				}
-
-			};*/
 
 			for(Instance instance : config.getInstances()) {
-				getLog().info("Create code for instance " + instance);
-				log.info("Create code for instance " + instance);
-				DbCodeGenService service = DbCodeGenService
-					.getInstances()
-					.find(s -> s.getHandlingLevel(instance) == DbHandlingLevel.full)
-					.orElseGet(() ->
-								   DbCodeGenService
-									   .getInstances()
-									   .find(s -> s.getHandlingLevel(instance) == DbHandlingLevel.onlyGeneric)
-									   .orElse(null)
-					);
-				if(service == null) {
-					return Result.failure("Could not find service for " + instance);
-				}
-				log.info("Creating code using service " + service.getDescription());
-				getLog().info("Creating code using service " + service.getDescription());
-				PList<JJavaFile> files     = service.generateCode(instance).orElseThrow();
-				File             outputDir = new File(baseDir, instance.getCodeGen().getOutputDir());
-				if(outputDir.exists() == false) {
-					outputDir.mkdirs();
-				}
-				for(JJavaFile file : files) {
-					GeneratedJavaSource source  = file.toJavaSource();
-					Path                outFile = source.writeSource(outputDir.toPath()).orElseThrow();
-					getLog().info("Source generated: " + outFile);
 
+				try(HikariDataSource ds = new HikariDataSource()) {
+					ds.setJdbcUrl(instance.getConnector().getUrl());
+					ds.setUsername(instance.getConnector().getUserName().orElse(null));
+					ds.setPassword(instance.getConnector().getPassword().orElse(null));
+					DbConnector             connector = DbConnector.fromDataSource(ds);
+					Supplier<DbTransaction> transSup  = () -> DbTransaction.create(connector);
+
+					getLog().info("Create code for instance " + instance);
+					log.info("Create code for instance " + instance);
+					DbCodeGenService service = DbCodeGenService
+						.getInstances()
+						.find(s -> s.getHandlingLevel(transSup, instance) == DbHandlingLevel.full)
+						.orElseGet(() ->
+									   DbCodeGenService
+										   .getInstances()
+										   .find(s -> s
+											   .getHandlingLevel(transSup, instance) == DbHandlingLevel.onlyGeneric)
+										   .orElse(null)
+						);
+					if(service == null) {
+						return Result.failure("Could not find service for " + instance);
+					}
+					log.info("Creating code using service " + service.getDescription());
+					getLog().info("Creating code using service " + service.getDescription());
+
+					PList<JJavaFile> files     = service.generateCode(baseDir, transSup, instance).orElseThrow();
+					File             outputDir = new File(baseDir, instance.getCodeGen().getOutputDir());
+					if(outputDir.exists() == false) {
+						outputDir.mkdirs();
+					}
+					for(JJavaFile file : files) {
+						GeneratedJavaSource source  = file.toJavaSource();
+						Path                outFile = source.writeSource(outputDir.toPath()).orElseThrow();
+						getLog().info("Source generated: " + outFile);
+
+					}
 				}
+
+
 			}
 
-
-
-			/*
-			DbJavaGen                  javaGen     = DbJavaGen.createGenerator(options).orElseThrow();
-			PList<GeneratedJavaSource> sourceFiles = javaGen.generate().orElseThrow();
-			if(outputDirectory.exists() == false){
-				outputDirectory.mkdirs();
-			}
-			for(GeneratedJavaSource source : sourceFiles){
-				source.writeSource(outputDirectory.toPath()).orElseThrow();
-			}
-
-			*/
 
 
 			getLog().info("Done importing");
@@ -161,269 +153,7 @@ public class DslCodeGenPlugin extends AbstractDslCodeGenPlugin{
 		});
 
 
-
-			/*getLog().info("Creating connection to " + url);
-
-			Supplier<Result<Connection>> connector = DbConnector.fromUrl(driver, getUrl(),getUsername(),getPassword())
-																.orElseThrow();
-			try(Connection c = connector.get().orElseThrow()){
-				getLog().info("Connection ok to " + url);
-				;
-			}
-			Supplier<DbTransaction> transSup = ()-> DbTransaction.create(connector);
-			JavaGenTableSelection sel = new JavaGenTableSelection(transSup).addCatalogs(cat -> true)
-																		   .flatMap(s -> s.addSchemas(schema -> true)) //schema.getName().orElse("").equals("glasschema")))
-																		   .flatMap(s -> s.addTablesAndViews(t -> true))
-																		   .orElseThrow();
-
-			DbJavaGenOptions options = DbJavaGenOptions.build(b -> b
-				.setRootPackage("com.persistentbit.db.generated")
-				.setSelection(sel)
-				.setFullDbSupport(createGenericDbCode == false)
-			);
-			DbJavaGen                  javaGen     = DbJavaGen.createGenerator(connector,options).orElseThrow();
-			PList<GeneratedJavaSource> sourceFiles = javaGen.generate().orElseThrow();
-			if(outputDirectory.exists() == false){
-				outputDirectory.mkdirs();
-			}
-			for(GeneratedJavaSource source : sourceFiles){
-				source.writeSource(outputDirectory.toPath()).orElseThrow();
-			}
-
-
-		} catch(Exception e) {
-			LogPrintToString lp = new LogPrintToString(ModuleLogging.createLogFormatter());
-			lp.print(e);
-			getLog().error(lp.getLogString());
-			throw new MojoFailureException("Error while generating db code", e);
-		}
-	*/
-
 	}
 
-//
-//	@Parameter(defaultValue = "target/generated-sources", required = true)
-//	File outputDirectory;
-//
-//
-//
-//
-//	//////////////////////////// User Info ///////////////////////////////////
-//
-//
-//
-//	/**
-//	 * Database username. If not given, it will be looked up through <code>settings.xml</code>'s server with
-//	 * <code>${settingsKey}</code> as key.
-//	 *
-//	 * @since 1.0
-//	 */
-//	@Parameter( property = "username" )
-//	private String username;
-//
-//	/**
-//	 * Database password. If not given, it will be looked up through <code>settings.xml</code>'s server with
-//	 * <code>${settingsKey}</code> as key.
-//	 *
-//	 * @since 1.0
-//	 */
-//	@Parameter( property = "password" )
-//	private String password;
-//
-//
-//
-//	/**
-//	 * Additional key=value pairs separated by comma to be passed into JDBC driver.
-//	 *
-//	 * @since 1.0
-//	 */
-//	@Parameter( defaultValue = "", property = "driverProperties" )
-//	private String driverProperties;
-//
-//	/**
-//	 * @since 1.0
-//	 */
-//	@Parameter( defaultValue = "${settings}", readonly = true, required = true )
-//	private Settings settings;
-//
-//	/**
-//	 * Server's <code>id</code> in <code>settings.xml</code> to look up username and password. Defaults to
-//	 * <code>${url}</code> if not given.
-//	 *
-//	 * @since 1.0
-//	 */
-//	@Parameter( property = "settingsKey" )
-//	private String settingsKey;
-//
-//	////////////////////////////////// Database info /////////////////////////
-//	/**
-//	 * Database URL.
-//	 *
-//	 * @since 1.0-beta-1
-//	 */
-//	@Parameter( property = "url", required = true )
-//	private String url;
-//
-//
-//	@Parameter(property="driver", required = true)
-//	private String driver;
-//
-//	@Parameter(property = "createGenericDbCode", defaultValue = "true",required = false)
-//	private boolean createGenericDbCode;
-//
-//	/**
-//	 * MNG-4384
-//	 *
-//	 * @since 1.5
-//	 */
-//	@Component( role = SecDispatcher.class, hint = "default" )
-//	private SecDispatcher securityDispatcher;
-
-/*
-	public String getUsername() {
-		return username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public String getDriverProperties() {
-		return driverProperties;
-	}
-
-	public Settings getSettings() {
-		return settings;
-	}
-
-	public String getSettingsKey() {
-		return settingsKey;
-	}
-
-	public SecDispatcher getSecurityDispatcher() {
-		return securityDispatcher;
-	}
-
-	public DslCodeGenPlugin setUsername(String username) {
-		this.username = username;
-		return this;
-	}
-
-	public DslCodeGenPlugin setPassword(String password) {
-		this.password = password;
-		return this;
-	}
-
-	private void loadUserInfoFromSettings()
-		throws MojoExecutionException
-	{
-		if ( this.settingsKey == null )
-		{
-			this.settingsKey = getUrl();
-		}
-
-		if ( ( getUsername() == null || getPassword() == null ) && ( settings != null ) )
-		{
-			Server server = this.settings.getServer( this.settingsKey );
-
-			if ( server != null )
-			{
-				if ( getUsername() == null )
-				{
-					setUsername( server.getUsername() );
-				}
-
-				if ( getPassword() == null && server.getPassword() != null )
-				{
-					try
-					{
-						setPassword( securityDispatcher.decrypt( server.getPassword() ) );
-					}
-					catch ( SecDispatcherException e )
-					{
-						throw new MojoExecutionException( e.getMessage() );
-					}
-				}
-			}
-		}
-
-		if ( getUsername() == null )
-		{
-			// allow empty username
-			setUsername( "" );
-		}
-
-		if ( getPassword() == null )
-		{
-			// allow empty password
-			setPassword( "" );
-		}
-	}
-
-
-	public void execute() throws MojoExecutionException, MojoFailureException {
-		try {
-			getLog().info("Generating Database Java Code...");
-			loadUserInfoFromSettings();
-
-
-			try
-			{
-				Class<?> dc             = Class.forName( driver );
-				Driver   driverInstance = (Driver) dc.getDeclaredConstructor().newInstance();
-				DriverManager.registerDriver(driverInstance);
-				getLog().info("Registered driver: " + dc.getName());
-			}
-			catch ( ClassNotFoundException e )
-			{
-				throw new MojoExecutionException( "Driver class not found: " + driver, e );
-			}
-			catch ( Exception e )
-			{
-				throw new MojoExecutionException( "Failure loading driver: " + driver, e );
-			}
-			getLog().info("Creating connection to " + url);
-
-			Supplier<Result<Connection>> connector = DbConnector.fromUrl(driver, getUrl(),getUsername(),getPassword())
-															   .orElseThrow();
-			try(Connection c = connector.get().orElseThrow()){
-				getLog().info("Connection ok to " + url);
-				;
-			}
-			Supplier<DbTransaction> transSup = ()-> DbTransaction.create(connector);
-			JavaGenTableSelection sel = new JavaGenTableSelection(transSup).addCatalogs(cat -> true)
-					  .flatMap(s -> s.addSchemas(schema -> true)) //schema.getName().orElse("").equals("glasschema")))
-					  .flatMap(s -> s.addTablesAndViews(t -> true))
-					  .orElseThrow();
-
-			DbJavaGenOptions options = DbJavaGenOptions.build(b -> b
-				.setRootPackage("com.persistentbit.db.generated")
-				.setSelection(sel)
-				.setFullDbSupport(createGenericDbCode == false)
-			);
-			DbJavaGen                  javaGen     = DbJavaGen.createGenerator(connector,options).orElseThrow();
-			PList<GeneratedJavaSource> sourceFiles = javaGen.generate().orElseThrow();
-			if(outputDirectory.exists() == false){
-				outputDirectory.mkdirs();
-			}
-			for(GeneratedJavaSource source : sourceFiles){
-				source.writeSource(outputDirectory.toPath()).orElseThrow();
-			}
-
-
-		} catch(Exception e) {
-			LogPrintToString lp = new LogPrintToString(ModuleLogging.createLogFormatter());
-			lp.print(e);
-			getLog().error(lp.getLogString());
-			throw new MojoFailureException("Error while generating db code", e);
-		}
-
-
-	}
-*/
 
 }

@@ -8,7 +8,13 @@ import com.persistentbit.collections.PList;
  * @author petermuys
  * @since 11/12/17
  */
-public class DbCodeGentConfigInitalEmpty{
+public class DbCodeGenConfigInitalEmpty{
+
+	/**
+	 * Create an initial example DbCodeGenConfg instance.
+	 *
+	 * @return Base {@link DbCodeGenConfig} instance
+	 */
 	static public DbCodeGenConfig createInitialEmpty(){
 		Connector conH2 = Connector.build(b -> b
 			.setDriverClass("org.h2.Driver")
@@ -39,12 +45,7 @@ public class DbCodeGentConfigInitalEmpty{
 		);
 		DbCodeGenConfig config = new DbCodeGenConfig(PList.val(instance));
 
-		//System.out.println(JJPrinter.toJson(config));
 
-		/*PList<DbJavaGenOptions> options = DbCodeGenConfigLoader.load(config).orElseThrow();
-		for(DbJavaGenOptions opt : options){
-			System.out.println(opt);
-		}*/
 		return config;
 	}
 }

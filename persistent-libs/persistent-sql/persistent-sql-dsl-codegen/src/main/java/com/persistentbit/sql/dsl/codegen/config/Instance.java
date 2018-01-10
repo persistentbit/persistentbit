@@ -1,19 +1,14 @@
 package com.persistentbit.sql.dsl.codegen.config;
 
-import java.lang.SuppressWarnings;
-import com.persistentbit.javacodegen.annotations.NoGet;
-import com.persistentbit.javacodegen.annotations.NOT;
-import java.util.Objects;
-import com.persistentbit.javacodegen.annotations.Generated;
-import com.persistentbit.collections.PList;
-import java.util.function.Function;
-import com.persistentbit.string.UString;
-import com.persistentbit.javacodegen.annotations.*;
-import com.persistentbit.functions.ThrowingFunction;
-import com.persistentbit.result.Result;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.javacodegen.annotations.SET;
-import com.persistentbit.javacodegen.annotations.NoWith;
+import com.persistentbit.collections.PList;
+import com.persistentbit.functions.ThrowingFunction;
+import com.persistentbit.javacodegen.annotations.*;
+import com.persistentbit.result.Result;
+import com.persistentbit.string.UString;
+
+import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -24,34 +19,39 @@ import com.persistentbit.javacodegen.annotations.NoWith;
 @CaseClass
 public class Instance {
 	@DefaultValue("\"Db\"")
-	private  final	String	javaDbName;
-	private  final	Connector	connector;
-	private  final	PList<SchemaDef>	schemas;
-	private  final	CodeGen	codeGen;
+	private  final String               javaDbName;
+	private  final Connector            connector;
+	private  final PList<SchemaDef>     schemas;
+	private  final CodeGen              codeGen;
 	@DefaultValue("DbNameToJavaNameType.snakeToMixedCase")
-	private  final	DbNameToJavaNameType	nameConversionType;
+	private  final DbNameToJavaNameType nameConversionType;
+	@DefaultEmpty
+	private final  PList<String>        dbInitFiles;
 	
 	
 	@Generated
-	public Instance(@Nullable String javaDbName, Connector connector, PList<SchemaDef> schemas, CodeGen codeGen, @Nullable DbNameToJavaNameType nameConversionType){
+	public Instance(@Nullable String javaDbName, Connector connector, PList<SchemaDef> schemas, CodeGen codeGen,
+					@Nullable DbNameToJavaNameType nameConversionType, @Nullable PList<String> dbInitFiles) {
 			this.javaDbName = javaDbName == null ? "Db" : javaDbName;
 			this.connector = Objects.requireNonNull(connector, "connector can not be null");
 			this.schemas = Objects.requireNonNull(schemas, "schemas can not be null");
 			this.codeGen = Objects.requireNonNull(codeGen, "codeGen can not be null");
 			this.nameConversionType = nameConversionType == null ? DbNameToJavaNameType.snakeToMixedCase : nameConversionType;
+		this.dbInitFiles = dbInitFiles == null ? PList.empty() : dbInitFiles;
 	}
 	@Generated
 	public Instance(Connector connector, PList<SchemaDef> schemas, CodeGen codeGen){
-			this(null, connector, schemas, codeGen, null);
+		this(null, connector, schemas, codeGen, null, null);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3> {
-		private	String	javaDbName;
-		private	Connector	connector;
-		private	PList<SchemaDef>	schemas;
-		private	CodeGen	codeGen;
-		private	DbNameToJavaNameType	nameConversionType;
+		private String               javaDbName;
+		private Connector            connector;
+		private PList<SchemaDef>     schemas;
+		private CodeGen              codeGen;
+		private DbNameToJavaNameType nameConversionType;
+		private PList<String>        dbInitFiles;
 		
 		
 		public  Builder<_T1, _T2, _T3>	setJavaDbName(@Nullable String javaDbName){
@@ -74,6 +74,11 @@ public class Instance {
 			this.nameConversionType	=	nameConversionType;
 			return this;
 		}
+
+		public Builder<_T1, _T2, _T3> setDbInitFiles(@Nullable PList<String> dbInitFiles) {
+			this.dbInitFiles = dbInitFiles;
+			return this;
+		}
 	}
 	/**
 	 * Get the value of field {@link #javaDbName}.<br>
@@ -90,7 +95,7 @@ public class Instance {
 	 */
 	@Generated
 	public  Instance	withJavaDbName(@Nullable String javaDbName){
-		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType);
+		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType, dbInitFiles);
 	}
 	/**
 	 * Get the value of field {@link #connector}.<br>
@@ -107,7 +112,7 @@ public class Instance {
 	 */
 	@Generated
 	public  Instance	withConnector(Connector connector){
-		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType);
+		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType, dbInitFiles);
 	}
 	/**
 	 * Get the value of field {@link #schemas}.<br>
@@ -124,7 +129,7 @@ public class Instance {
 	 */
 	@Generated
 	public  Instance	withSchemas(PList<SchemaDef> schemas){
-		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType);
+		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType, dbInitFiles);
 	}
 	/**
 	 * Get the value of field {@link #codeGen}.<br>
@@ -141,7 +146,7 @@ public class Instance {
 	 */
 	@Generated
 	public  Instance	withCodeGen(CodeGen codeGen){
-		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType);
+		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType, dbInitFiles);
 	}
 	/**
 	 * Get the value of field {@link #nameConversionType}.<br>
@@ -158,7 +163,29 @@ public class Instance {
 	 */
 	@Generated
 	public  Instance	withNameConversionType(@Nullable DbNameToJavaNameType nameConversionType){
-		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType);
+		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType, dbInitFiles);
+	}
+
+	/**
+	 * Get the value of field {@link #dbInitFiles}.<br>
+	 *
+	 * @return {@link #dbInitFiles}
+	 */
+	@Generated
+	public PList<String> getDbInitFiles() {
+		return this.dbInitFiles;
+	}
+
+	/**
+	 * Create a copy of this Instance object with a new value for field {@link #dbInitFiles}.<br>
+	 *
+	 * @param dbInitFiles The new value for field {@link #dbInitFiles}
+	 *
+	 * @return A new instance of {@link Instance}
+	 */
+	@Generated
+	public Instance withDbInitFiles(@Nullable PList<String> dbInitFiles) {
+		return new Instance(javaDbName, connector, schemas, codeGen, nameConversionType, dbInitFiles);
 	}
 	@Generated
 	@Override
@@ -171,6 +198,7 @@ public class Instance {
 		if(!schemas.equals(obj.schemas)) return false;
 		if(!codeGen.equals(obj.codeGen)) return false;
 		if(!nameConversionType.equals(obj.nameConversionType)) return false;
+		if(!dbInitFiles.equals(obj.dbInitFiles)) return false;
 		return true;
 	}
 	@Generated
@@ -182,6 +210,7 @@ public class Instance {
 		result = 31 * result + (this.schemas != null ? this.schemas.hashCode() : 0);
 		result = 31 * result + (this.codeGen != null ? this.codeGen.hashCode() : 0);
 		result = 31 * result + (this.nameConversionType != null ? this.nameConversionType.hashCode() : 0);
+		result = 31 * result + (this.dbInitFiles != null ? this.dbInitFiles.hashCode() : 0);
 		return result;
 	}
 	@Generated
@@ -193,6 +222,7 @@ public class Instance {
 			", schemas=" + schemas + 
 			", codeGen=" + codeGen + 
 			", nameConversionType=" + nameConversionType + 
+			", dbInitFiles=" + dbInitFiles + 
 			']';
 	}
 	@Generated
@@ -203,18 +233,20 @@ public class Instance {
 		b.setSchemas(this.schemas);
 		b.setCodeGen(this.codeGen);
 		b.setNameConversionType(this.nameConversionType);
+		b.setDbInitFiles(this.dbInitFiles);
 		b = updater.apply(b);
-		return new Instance(b.javaDbName, b.connector, b.schemas, b.codeGen, b.nameConversionType);
+		return new Instance(b.javaDbName, b.connector, b.schemas, b.codeGen, b.nameConversionType, b.dbInitFiles);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
 	public  static Instance	build(ThrowingFunction<Builder<NOT,NOT,NOT>, Builder<SET,SET,SET>, Exception> setter){
 		Builder b = setter.toNonChecked().apply(new Builder());
-		return new Instance(b.javaDbName, b.connector, b.schemas, b.codeGen, b.nameConversionType);
+		return new Instance(b.javaDbName, b.connector, b.schemas, b.codeGen, b.nameConversionType, b.dbInitFiles);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public  static Result<Instance>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT>, Builder<SET,SET,SET>,Exception> setter){
-		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new Instance(b.javaDbName, b.connector, b.schemas, b.codeGen, b.nameConversionType));
+	public  static Result<Instance>	buildExc(ThrowingFunction<Builder<NOT,NOT,NOT>, Builder<SET, SET, SET>, Exception> setter) {
+		return Result.noExceptions(() -> setter.apply(new Builder<>()))
+			.mapExc(b -> new Instance(b.javaDbName, b.connector, b.schemas, b.codeGen, b.nameConversionType, b.dbInitFiles));
 	}
 }

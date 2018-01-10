@@ -138,6 +138,11 @@ public abstract class Result<T> implements Serializable, LoggedValue<Result<T>>{
 	 */
 	public abstract <U> Result<U> flatMap(Function<T, Result<U>> mapper);
 
+
+	public <U> Result<U> andThen(Supplier<Result<U>> thenCode) {
+		return flatMap(dontcare -> thenCode.get());
+	}
+
 	public <U> Result<U> flatMapExc(ThrowingFunction<T,Result<U>,Exception> mapper){
 		return flatMap(value -> {
 			try{

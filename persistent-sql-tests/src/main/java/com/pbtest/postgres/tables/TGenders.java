@@ -23,7 +23,7 @@ import java.util.function.Function;
 
 public class TGenders extends AbstractTable<EGenders, Genders>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "genders");
+	private final TableName _tableName = new TableName(null, "pbtest", "genders");
 	private final DbWorkP1<String, Genders> _selectById;
 	private final EGenders                  _all;
 	public final  EString                   genderCode;

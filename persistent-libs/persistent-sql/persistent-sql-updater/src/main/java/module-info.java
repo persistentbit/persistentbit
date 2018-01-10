@@ -14,6 +14,7 @@ module persistent.sql.updater {
 	requires persistent.utils;
 	requires persistent.code.annotations;
 	requires persistent.parser;
+	requires persistent.io;
 
 	exports com.persistentbit.sql.updater;
 }

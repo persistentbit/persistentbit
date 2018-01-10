@@ -24,7 +24,7 @@ import java.util.function.Function;
 
 public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHistory, PeopleAddressesHistory>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "people_addresses_history");
+	private final TableName _tableName = new TableName(null, "pbtest", "people_addresses_history");
 	private final DbWorkP2<Long, LocalDate, PeopleAddressesHistory> _selectById;
 	private final EPeopleAddressesHistory                           _all;
 	public final  ELong                                             personId;

@@ -16,12 +16,12 @@ import org.apache.maven.project.MavenProject;
 import java.io.File;
 
 /*
- * Generate packages from a ROD file
+ * Generate Java CaseClasses
  *
  * @goal generate-packages
  * @phase generate-packages
  *
- * @description Generate packages from a ROD file
+ *
  */
 @Mojo(
 	name="generate-caseclasses",
@@ -63,53 +63,7 @@ public class CaseClassMojo extends AbstractMojo{
 		}
 		project.getCompileSourceRoots()
 			.forEach(srcRoot -> getLog().info("Got src root " + srcRoot));
-		/*
-		try{
-			DependencySupplier dependencySupplier = createDependencySupplier();
 
-			//Compile the source
-			SubstemaCompiler compiler = new SubstemaCompiler(dependencySupplier);
-			//PList<RSubstema> substemas = PList.from(packages)
-			//    .map(p -> compiler.compile(p).orElseThrow());
-
-			//substemas.forEach(ss -> getLog().info(ss.toString()));
-
-			//Create output directory
-
-			project.addCompileSourceRoot(outputDirectory.getAbsolutePath());
-
-			// GENERATE JAVA
-			JavaGenOptions genOptions  =   new JavaGenOptions(true,true);
-			PList.from(packages).forEach(packageName -> {
-
-				getLog().info("Compiling package " + packageName);
-
-				Result<RSubstema> resSubstema = compiler.compile(packageName);
-
-				resSubstema.ifFailure(failure -> {
-					getLog().error(failure.getException());
-					throw new SubstemaException("Error while compiling " + packageName, failure.getException());
-				});
-
-				resSubstema.ifPresent(substema -> {
-					SubstemaJavaGen.generateAndWriteToFiles(compiler, genOptions, substema.getValue(), outputDirectory)
-						.forEach(rf -> {
-
-							rf.ifFailure(f -> {
-								getLog().error(f.getException());
-								throw new SubstemaException("Error creating file " + f);
-							});
-
-							rf.ifPresent(success -> getLog()
-								.info("Generated source in " + success.getValue().getAbsolutePath()));
-						});
-				});
-			});
-		}catch (Exception e){
-			getLog().error("General error",e);
-			throw new MojoExecutionException("Error while generating code:" + e.getMessage(),e);
-		}
-		*/
 
 	}
 

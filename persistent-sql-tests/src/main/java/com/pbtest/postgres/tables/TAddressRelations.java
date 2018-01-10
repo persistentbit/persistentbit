@@ -23,7 +23,7 @@ import java.util.function.Function;
 
 public class TAddressRelations extends AbstractTable<EAddressRelations, AddressRelations>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "address_relations");
+	private final TableName _tableName = new TableName(null, "pbtest", "address_relations");
 	private final DbWorkP1<String, AddressRelations> _selectById;
 	private final EAddressRelations                  _all;
 	public final  EString                            addressRelationCode;

@@ -1,8 +1,11 @@
 package com.persistentbit.sql.dsl.codegen.importer;
 
 import com.persistentbit.collections.PList;
+import com.persistentbit.collections.PMap;
 import com.persistentbit.collections.UPStreams;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.codegen.config.Instance;
+import com.persistentbit.sql.dsl.codegen.config.SchemaDef;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.meta.DbMetaDataImporter;
 import com.persistentbit.sql.meta.data.*;
@@ -19,20 +22,42 @@ import java.util.function.Supplier;
  */
 public class GenericDbImporter{
 
-	protected final DbImportSettings        settings;
-	protected final Supplier<DbTransaction> transSup;
-	protected       PList<DbMetaSchema>     allSchemas;
+	protected final Instance                      instance;
+	protected final Supplier<DbTransaction>       transSup;
+	protected       PMap<SchemaDef, DbMetaSchema> allSchemas;
 
 
-	public GenericDbImporter(DbImportSettings settings) {
+	/*public GenericDbImporter(DbImportSettings settings) {
 		this.settings = settings;
 		this.transSup = settings.getTransactionSupplier();
+	}*/
+	public GenericDbImporter(Instance instance, Supplier<DbTransaction> transSup) {
+		this.transSup = transSup;
+		this.instance = instance;
 	}
 
-	public Result<CgContext> importDb() {
-		return Result.function(settings).code(log -> {
 
-			//DbNameTransformer nameTransformer = settings.getNameTransformer();
+	public Result<CgContext> importDb() {
+		return Result.function(instance).code(log -> {
+
+			Result<DbMetaSchema> conSchema = log.add(DbMetaDataImporter.getSchemaFromConnection().run(transSup.get()));
+			if(conSchema.isError()) {
+				conSchema = Result.success(new DbMetaSchema(new DbMetaCatalog(null), null, null));
+			}
+			return conSchema.flatMap(cs -> getSchemasForInstance(cs))
+				.ifPresent(rs -> { allSchemas = rs.orElseThrow(); })
+				.map(allSchemas -> allSchemas.map(t -> getTablesForSchema(t._2, t._1)))
+				.flatMap(schemaTables -> UPStreams.fromSequence(schemaTables))
+				.map(schemaMetaTables -> schemaMetaTables.<DbMetaTable>flatten())
+				.map(metaTables -> metaTables.map(mtTable -> generateJavaTable(mtTable)))
+				.flatMap(rl -> Result.fromSequence(rl.list()).map(l -> PList.from(l)))
+				.map(sl -> {
+					CgContext context = new CgContext(instance);
+					sl.forEach(context::register);
+					return context;
+				});
+
+/*
 
 			return DbMetaDataImporter
 				.getAllSchemas()
@@ -45,8 +70,63 @@ public class GenericDbImporter{
 					CgContext context = new CgContext(settings.getInstance());
 					sl.forEach(context::register);
 					return context;
-				});
+				});*/
+			//throw new ToDo();
 		});
+	}
+
+	protected Optional<SchemaDef> getSchemaDef(DbMetaSchema schemaMeta) {
+		return allSchemas.find(t -> t._2.equals(schemaMeta)).map(t -> t._1);
+	}
+
+	protected Result<PList<DbMetaTable>> getTablesForSchema(DbMetaSchema schemaMeta, SchemaDef schemaDef) {
+		return Result.function(schemaMeta, schemaDef).code(log -> {
+			return DbMetaDataImporter.getTablesAndViews(schemaMeta)
+				.map(tableMetaList ->
+						 tableMetaList
+							 .filter(tableMeta ->
+										 schemaDef.getExcludeTables()
+											 .contains(tableMeta
+														   .getName()) == false))
+				.run(transSup.get());
+		});
+	}
+
+
+	protected Result<PMap<SchemaDef, DbMetaSchema>> getSchemasForInstance(DbMetaSchema connectionSchema) {
+		return Result.function(connectionSchema).code(log -> {
+			log.info("Get Schema MetaData");
+			PMap<SchemaDef, DbMetaSchema> result = PMap.empty();
+			for(SchemaDef schemaDef : instance.getSchemas()) {
+				//BUILD THE CATALOG AND SCHEMA NAME FROM THE INSTANCE SETTINGS AND THE CONNECTION SETTINGS
+				String catName = schemaDef
+					.getCatalogName()
+					.orElse(null);
+				//.orElse(connectionSchema.getCatalog().getName().orElse(null));
+				String schemaName = schemaDef
+					.getSchemaName()
+					.orElse(null);
+				//.orElse(connectionSchema.getName().orElse(null));
+				Result<DbMetaSchema> schema = DbMetaDataImporter.getSchema(catName, schemaName).run(transSup.get());
+
+				if(schema.isPresent() == false) {
+					Result<PList<DbMetaCatalog>> cats = DbMetaDataImporter.getCatalogs()
+						.map(catList -> catList.filter(cat -> cat.getName().get().equalsIgnoreCase(catName)))
+						.run(transSup.get());
+					if(cats.isPresent()) {
+						result = result.put(schemaDef, new DbMetaSchema(new DbMetaCatalog(catName), null, null));
+					}
+					else {
+						return schema.map(p -> null);
+					}
+				}
+				else {
+					result = result.put(schemaDef, schema.orElseThrow());
+				}
+			}
+			return Result.success(result);
+		});
+
 	}
 
 
@@ -249,11 +329,11 @@ public class GenericDbImporter{
 			case 1:
 				return Tuple2.of(Optional.empty(), removeNameQuotes(name));
 			case 2:
-				return Tuple2.of(allSchemas.find(s -> s.getName()
+				return Tuple2.of(allSchemas.values().find(s -> s.getName()
 					.equals(Optional.of(removeNameQuotes(split[0])))), removeNameQuotes(split[1]));
 			case 3:
 				return Tuple2.of(
-					allSchemas
+					allSchemas.values()
 						.find(s ->
 								  s.getCatalog().getName().equals(Optional.of(removeNameQuotes(split[0]))) &&
 									  s.getName().equals(Optional.of(removeNameQuotes(split[1])))

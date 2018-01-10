@@ -20,18 +20,11 @@ public class InsertPeople extends Insert<TPeople, Long>{
 		this(context, into, columnNames, PSet.empty(), "person_id", PList.empty());
 	}
 
-	private static final PList<String> columnNames =
-		PList.val("person_id", "salutation_code", "name_first", "name_middle", "name_last", "gender_code");
+	private static final PList<String> columnNames = PList.val("person_id");
 
-	public InsertPeople add(@Nullable Long personId, @Nullable String salutationCode, @Nullable String nameFirst,
-							@Nullable String nameMiddle, @Nullable String nameLast, @Nullable String genderCode) {
+	public InsertPeople add(@Nullable Long personId) {
 		Object[] row = new Object[]{
 			personId
-			, salutationCode
-			, nameFirst
-			, nameMiddle
-			, nameLast
-			, genderCode
 		};
 		return new InsertPeople(
 			this.context, this.into, this.columnNames, this.withDefaults, this.autoGenKeyName, this.rows.plus(row));
@@ -39,8 +32,7 @@ public class InsertPeople extends Insert<TPeople, Long>{
 
 	public InsertPeople add(People value) {
 		return add(
-			value.getPersonId(), value.getSalutationCode(), value.getNameFirst(), value.getNameMiddle()
-				.orElse(null), value.getNameLast(), value.getGenderCode()
+			value.getPersonId()
 		);
 	}
 }

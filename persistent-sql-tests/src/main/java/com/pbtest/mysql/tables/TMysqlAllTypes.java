@@ -22,7 +22,7 @@ import java.util.function.Function;
 
 public class TMysqlAllTypes extends AbstractTable<EMysqlAllTypes, MysqlAllTypes>{
 
-	private final TableName _tableName = new TableName("pbtest", "", "mysql_all_types");
+	private final TableName _tableName = new TableName("pbtest", null, "mysql_all_types");
 	private final EMysqlAllTypes _all;
 	public final  EBool          aBit;
 	public final  EByte          aTinyint;

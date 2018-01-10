@@ -3,20 +3,20 @@ package com.pbtest.postgres;
 import com.pbtest.postgres.expressions.*;
 import com.pbtest.postgres.tables.*;
 import com.pbtest.postgres.values.*;
-import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
+import com.persistentbit.sql.dsl.genericdb.DbGeneric;
 
-public class DbPg extends DbPostgres{
+public class DbPg extends DbGeneric{
 
 
 	public static final TGenders                genders                = new TGenders(_context);
 	public static final TPeople                 people                 = new TPeople(_context);
 	public static final TTranslationsCountry    translationsCountry    = new TTranslationsCountry(_context);
-	public static final TGenData                genData                = new TGenData(_context);
 	public static final TSalutations            salutations            = new TSalutations(_context);
 	public static final TTranslationsSalutation translationsSalutation = new TTranslationsSalutation(_context);
 	public static final TAddresses              addresses              = new TAddresses(_context);
 	public static final TProductGroups          productGroups          = new TProductGroups(_context);
 	public static final TPeopleAddressesHistory peopleAddressesHistory = new TPeopleAddressesHistory(_context);
+	public static final TPeopleBaseinfoHistory  peopleBaseinfoHistory  = new TPeopleBaseinfoHistory(_context);
 	public static final TAddressRelations       addressRelations       = new TAddressRelations(_context);
 	public static final TTranslationsGender     translationsGender     = new TTranslationsGender(_context);
 	public static final TProducts               products               = new TProducts(_context);
@@ -31,10 +31,6 @@ public class DbPg extends DbPostgres{
 
 	public static ETranslationsCountry val(TranslationsCountry value) {
 		return _context.getTypeFactory(ETranslationsCountry.class).buildVal(value);
-	}
-
-	public static EGenData val(GenData value) {
-		return _context.getTypeFactory(EGenData.class).buildVal(value);
 	}
 
 	public static ESalutations val(Salutations value) {
@@ -55,6 +51,10 @@ public class DbPg extends DbPostgres{
 
 	public static EPeopleAddressesHistory val(PeopleAddressesHistory value) {
 		return _context.getTypeFactory(EPeopleAddressesHistory.class).buildVal(value);
+	}
+
+	public static EPeopleBaseinfoHistory val(PeopleBaseinfoHistory value) {
+		return _context.getTypeFactory(EPeopleBaseinfoHistory.class).buildVal(value);
 	}
 
 	public static EAddressRelations val(AddressRelations value) {

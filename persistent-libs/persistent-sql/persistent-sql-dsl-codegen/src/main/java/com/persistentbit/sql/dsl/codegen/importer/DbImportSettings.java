@@ -23,15 +23,14 @@ import java.util.function.Supplier;
 @CaseClass
 public class DbImportSettings {
 
-	private final  Instance                instance;
-	private  final JavaGenTableSelection   tableSelection;
-	private  final Supplier<DbTransaction> transactionSupplier;
+	private final Instance                instance;
+	private final JavaGenTableSelection   tableSelection;
+	private final Supplier<DbTransaction> transactionSupplier;
 	
 	
 	@Generated
 	public DbImportSettings(Instance instance, JavaGenTableSelection tableSelection,
-							Supplier<DbTransaction> transactionSupplier
-	) {
+							Supplier<DbTransaction> transactionSupplier) {
 		this.instance = Objects.requireNonNull(instance, "instance can not be null");
 			this.tableSelection = Objects.requireNonNull(tableSelection, "tableSelection can not be null");
 			this.transactionSupplier = Objects.requireNonNull(transactionSupplier, "transactionSupplier can not be null");
@@ -60,22 +59,17 @@ public class DbImportSettings {
 			return (Builder<_T1, _T2, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #instance}.<br>
-	 *
 	 * @return {@link #instance}
 	 */
 	@Generated
 	public Instance getInstance() {
 		return this.instance;
 	}
-
 	/**
 	 * Create a copy of this DbImportSettings object with a new value for field {@link #instance}.<br>
-	 *
 	 * @param instance The new value for field {@link #instance}
-	 *
 	 * @return A new instance of {@link DbImportSettings}
 	 */
 	@Generated
@@ -96,7 +90,7 @@ public class DbImportSettings {
 	 * @return A new instance of {@link DbImportSettings}
 	 */
 	@Generated
-	public  DbImportSettings	withTableSelection(JavaGenTableSelection tableSelection) {
+	public DbImportSettings withTableSelection(JavaGenTableSelection tableSelection) {
 		return new DbImportSettings(instance, tableSelection, transactionSupplier);
 	}
 	/**
@@ -113,7 +107,7 @@ public class DbImportSettings {
 	 * @return A new instance of {@link DbImportSettings}
 	 */
 	@Generated
-	public  DbImportSettings	withTransactionSupplier(Supplier<DbTransaction> transactionSupplier) {
+	public DbImportSettings withTransactionSupplier(Supplier<DbTransaction> transactionSupplier) {
 		return new DbImportSettings(instance, tableSelection, transactionSupplier);
 	}
 	@Generated
@@ -138,15 +132,15 @@ public class DbImportSettings {
 	}
 	@Generated
 	@Override
-	public  String	toString() {
+	public String toString() {
 		return "DbImportSettings[" +
-			"instance=" + instance +
+			"instance=" + instance + 
 			", tableSelection=" + tableSelection + 
 			", transactionSupplier=" + transactionSupplier + 
 			']';
 	}
 	@Generated
-	public  DbImportSettings	updated(Function<Builder,Builder> updater) {
+	public DbImportSettings updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
 		b.setInstance(this.instance);
 		b.setTableSelection(this.tableSelection);
@@ -156,15 +150,15 @@ public class DbImportSettings {
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public static DbImportSettings build(ThrowingFunction<Builder<NOT, NOT, NOT>, Builder<SET,SET,SET>, Exception> setter){
+	public static DbImportSettings build(
+		ThrowingFunction<Builder<NOT, NOT, NOT>, Builder<SET, SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new DbImportSettings(b.instance, b.tableSelection, b.transactionSupplier);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<DbImportSettings> buildExc(
-		ThrowingFunction<Builder<NOT, NOT, NOT>, Builder<SET, SET, SET>, Exception> setter
-	) {
+		ThrowingFunction<Builder<NOT, NOT, NOT>, Builder<SET, SET, SET>, Exception> setter) {
 		return Result.noExceptions(() -> setter.apply(new Builder<>())).mapExc(b -> new DbImportSettings(b.instance, b.tableSelection, b.transactionSupplier));
 	}
 }

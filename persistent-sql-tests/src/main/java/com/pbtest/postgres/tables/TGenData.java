@@ -26,7 +26,7 @@ import java.util.function.Function;
 
 public class TGenData extends AbstractTable<EGenData, GenData>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "gen_data");
+	private final TableName _tableName = new TableName(null, "pbtest", "gen_data");
 	private final DbWorkP1<Integer, GenData> _selectById;
 	private final EGenData                   _all;
 	public final  EInt                       genDataId;

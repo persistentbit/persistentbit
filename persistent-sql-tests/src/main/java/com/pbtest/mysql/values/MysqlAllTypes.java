@@ -148,7 +148,7 @@ public class MysqlAllTypes{
 	@Generated
 	@Override
 	public String toString() {
-		return "MysqlAllTypes[" +
+		return "MysqlAllTypes[" + 
 			"aBit=" + aBit + 
 			", aTinyint=" + aTinyint + 
 			", aTinyintUnsinged=" + aTinyintUnsinged + 

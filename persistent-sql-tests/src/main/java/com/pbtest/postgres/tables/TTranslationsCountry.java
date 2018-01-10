@@ -23,7 +23,7 @@ import java.util.function.Function;
 
 public class TTranslationsCountry extends AbstractTable<ETranslationsCountry, TranslationsCountry>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "translations_country");
+	private final TableName _tableName = new TableName(null, "pbtest", "translations_country");
 	private final DbWorkP2<String, String, TranslationsCountry> _selectById;
 	private final ETranslationsCountry                          _all;
 	public final  EString                                       countryCode;

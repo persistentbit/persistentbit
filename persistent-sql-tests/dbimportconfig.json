@@ -2,6 +2,9 @@
   "instances": [
     {
       "javaDbName": "DbPg",
+      "dbInitFiles": [
+        "src/main/resources/db_creation/postgres.sql"
+      ],
       "connector": {
         "driverClass": "org.postgresql.Driver",
         "url": "jdbc:postgresql://localhost:7000/postgres",
@@ -37,7 +40,7 @@
       "schemas": [
         {
           "catalogName": "pbtest",
-          "schemaName": "",
+          "schemaName": null,
           "javaName": "pbtest",
           "tableNamePrefixes": [],
           "tableNamePostfixes": [],

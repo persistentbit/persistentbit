@@ -1,14 +1,17 @@
 package com.persistentbit.sql.dsl.codegen.postgresql;
 
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.codegen.config.Instance;
 import com.persistentbit.sql.dsl.codegen.importer.CgContext;
-import com.persistentbit.sql.dsl.codegen.importer.DbImportSettings;
 import com.persistentbit.sql.dsl.codegen.importer.GenericDbImporter;
 import com.persistentbit.sql.dsl.codegen.importer.TableField;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
 import com.persistentbit.sql.meta.data.DbMetaColumn;
 import com.persistentbit.sql.meta.data.DbMetaTable;
+import com.persistentbit.sql.transactions.DbTransaction;
+
+import java.util.function.Supplier;
 
 /**
  * TODOC
@@ -18,15 +21,17 @@ import com.persistentbit.sql.meta.data.DbMetaTable;
  */
 public class PostgresDbImporter extends GenericDbImporter{
 
-	public PostgresDbImporter(DbImportSettings settings) {
-		super(settings);
+	public PostgresDbImporter(Instance instance,
+							  Supplier<DbTransaction> transSup) {
+		super(instance, transSup);
 	}
+
 
 	@Override
 	public Result<CgContext> importDb() {
 		return super.importDb()
 			.map(cgContext -> {
-				if(settings.getInstance().getCodeGen().getGeneric() == false) {
+				if(instance.getCodeGen().getGeneric() == false) {
 					cgContext.setDbSuperClass(DbPostgres.class);
 				}
 				return cgContext;

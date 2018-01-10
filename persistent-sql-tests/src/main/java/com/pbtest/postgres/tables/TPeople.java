@@ -8,7 +8,6 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.ELong;
-import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
@@ -24,15 +23,10 @@ import java.util.function.Function;
 
 public class TPeople extends AbstractTable<EPeople, People>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "people");
+	private final TableName _tableName = new TableName(null, "pbtest", "people");
 	private final DbWorkP1<Long, People> _selectById;
 	private final EPeople                _all;
 	public final  ELong                  personId;
-	public final  EString                salutationCode;
-	public final  EString                nameFirst;
-	public final  EString                nameMiddle;
-	public final  EString                nameLast;
-	public final  EString                genderCode;
 
 
 	private TPeople(ExprContext context, String alias) {
@@ -42,11 +36,6 @@ public class TPeople extends AbstractTable<EPeople, People>{
 			.getTypeFactory(EPeople.class)
 			.buildTableField(createFullTableNameOrAlias() + ".", "", "");
 		this.personId = _all.personId;
-		this.salutationCode = _all.salutationCode;
-		this.nameFirst = _all.nameFirst;
-		this.nameMiddle = _all.nameMiddle;
-		this.nameLast = _all.nameLast;
-		this.genderCode = _all.genderCode;
 		this._selectById = query(p -> q -> {
 			Param<ELong> parampersonId = context.param(ELong.class, "personId");
 			return q
@@ -88,10 +77,9 @@ public class TPeople extends AbstractTable<EPeople, People>{
 		return new InsertPeople(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Long personId, @Nullable String salutationCode, @Nullable String nameFirst,
-								  @Nullable String nameMiddle, @Nullable String nameLast, @Nullable String genderCode) {
+	public DbWork<Integer> insert(@Nullable Long personId) {
 		return insert()
-			.add(personId, salutationCode, nameFirst, nameMiddle, nameLast, genderCode)
+			.add(personId)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
 	}
 

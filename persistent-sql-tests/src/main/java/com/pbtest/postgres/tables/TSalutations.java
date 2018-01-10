@@ -23,7 +23,7 @@ import java.util.function.Function;
 
 public class TSalutations extends AbstractTable<ESalutations, Salutations>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "salutations");
+	private final TableName _tableName = new TableName(null, "pbtest", "salutations");
 	private final DbWorkP1<String, Salutations> _selectById;
 	private final ESalutations                  _all;
 	public final  EString                       salutationCode;

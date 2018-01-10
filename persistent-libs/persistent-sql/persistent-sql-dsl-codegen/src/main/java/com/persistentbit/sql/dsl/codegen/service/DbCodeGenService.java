@@ -4,8 +4,11 @@ import com.persistentbit.collections.PList;
 import com.persistentbit.javacodegen.JJavaFile;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.codegen.config.Instance;
+import com.persistentbit.sql.transactions.DbTransaction;
 
+import java.io.File;
 import java.util.ServiceLoader;
+import java.util.function.Supplier;
 
 /**
  * Service definition for importing a database schema
@@ -16,11 +19,11 @@ import java.util.ServiceLoader;
  */
 public interface DbCodeGenService{
 
-	DbHandlingLevel getHandlingLevel(Instance instance);
+	DbHandlingLevel getHandlingLevel(Supplier<DbTransaction> transSup, Instance instance);
 
 	String getDescription();
 
-	Result<PList<JJavaFile>> generateCode(Instance instance);
+	Result<PList<JJavaFile>> generateCode(File configBasePath, Supplier<DbTransaction> transSup, Instance instance);
 
 	static PList<DbCodeGenService> getInstances() {
 

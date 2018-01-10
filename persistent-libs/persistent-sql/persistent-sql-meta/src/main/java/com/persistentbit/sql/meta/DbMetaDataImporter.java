@@ -45,6 +45,14 @@ public class DbMetaDataImporter{
 		});
 	}
 
+	public static DbWork<DbMetaSchema> getSchemaFromConnection() {
+		return DbWork.function().code(trans -> con -> log -> {
+			DbMetaCatalog cat    = new DbMetaCatalog(con.getCatalog());
+			DbMetaSchema  schema = new DbMetaSchema(cat, con.getSchema(), null);
+			return Result.success(schema);
+		});
+	}
+
 	public static DbWork<PList<DbMetaCatalog>> getCatalogs() {
 		return DbWork.function().code(trans -> con -> log ->
 			UJdbc.getList(con.getMetaData().getCatalogs(),
@@ -66,10 +74,36 @@ public class DbMetaDataImporter{
 
 	}
 
+	public static DbWork<DbMetaSchema> getSchema(@Nullable String catalogName, @Nullable String schemaName) {
+		return DbWork.function(catalogName, schemaName).code(trans -> con -> log -> {
+			Result<PList<DbMetaSchema>> foundList = UJdbc.getList(con.getMetaData().getSchemas(catalogName, schemaName),
+																  rs -> DbMetaSchema.buildExc(b -> b
+																	  .setCatalog(new DbMetaCatalog(rs.getString("TABLE_CATALOG")))
+																	  .setName(rs.getString("TABLE_SCHEM"))
+																  ).orElseThrow()
+			);
+			if(foundList.isPresent()) {
+				PList<DbMetaSchema> found = foundList.orElseThrow();
+				if(found.size() == 1) {
+					return Result.success(found.get(0));
+				}
+				PList<DbMetaSchema> all = DbMetaDataImporter.getAllSchemas().run(trans).orElse(PList.empty());
+				return Result.failure("Schema not found for '" + catalogName + "', '" + schemaName + "' in list " + all
+					.toString(", "));
+			}
+			return foundList.map(v -> null);
+		});
+	}
 
 	public static DbWork<PList<DbMetaSchema>> getAllSchemas() {
 		return DbWork.function().code(trans -> con -> log ->
-			getDatabase().run(trans)
+										  UJdbc.getList(con.getMetaData().getSchemas(null, null),
+														rs -> DbMetaSchema.buildExc(b -> b
+															.setCatalog(new DbMetaCatalog(rs.getString("TABLE_CATALOG")))
+															.setName(rs.getString("TABLE_SCHEM"))
+														).orElseThrow()
+										  )
+			/*getDatabase().run(trans)
 				.flatMap(db -> {
 					if(db.usesSchemas() == false) {
 						//This is probably mysql.
@@ -89,7 +123,8 @@ public class DbMetaDataImporter{
 											 .map(PStream::plist)
 							);
 					}
-				}));
+				})*/
+		);
 
 	}
 

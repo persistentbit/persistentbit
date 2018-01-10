@@ -202,6 +202,7 @@ public final class UString{
 	 * @param s The Non null string in camelCase
 	 *
 	 * @return The snake version of the name
+	 *
 	 * @see #snake_toCamelCase(String)
 	 */
 	public static String camelCaseTo_snake(String s) {
@@ -241,20 +242,22 @@ public final class UString{
 	/**
 	 * Convert a String to a java identifier by<br>
 	 * replace all ' ' with '_' and removing all invalid java identifier characters.<br>
+	 *
 	 * @param value The value to convert
+	 *
 	 * @return A java identifier or an empty string
 	 */
-	public static String toJavaIdentifier(String value){
+	public static String toJavaIdentifier(String value) {
 		String res = "";
-		for(int t=0; t<value.length(); t++){
+		for(int t = 0; t < value.length(); t++) {
 			char c = value.charAt(t);
-			if(c == ' '){
+			if(c == ' ') {
 				c = '_';
 			}
 			boolean include = res.isEmpty()
-					? Character.isJavaIdentifierStart(c)
-				    : Character.isJavaIdentifierPart(c);
-			if(include){
+				? Character.isJavaIdentifierStart(c)
+				: Character.isJavaIdentifierPart(c);
+			if(include) {
 				res = res + c;
 			}
 		}
@@ -294,32 +297,33 @@ public final class UString{
 	}
 
 	public static @Nullable
-	String present(@Nullable String org, int maxLength){
+	String present(@Nullable String org, int maxLength) {
 		return present(org, maxLength, "...");
 	}
 
 	public static @Nullable
 	String present(@Nullable String org, int maxLength, String continueString) {
-		if(org == null){
+		if(org == null) {
 			return null;
 		}
-		if(org.length() <=maxLength){
+		if(org.length() <= maxLength) {
 			return org;
 		}
-		String str = org.substring(0, Math.min(org.length(),maxLength-1));
+		String str = org.substring(0, Math.min(org.length(), maxLength - 1));
 
 		String kleiner = str;
-		while(kleiner.length() != 0 && "\t\n\r ".contains(kleiner.substring(kleiner.length()-1)) == false){
-			kleiner = kleiner.substring(0,kleiner.length()-1);
+		while(kleiner.length() != 0 && "\t\n\r ".contains(kleiner.substring(kleiner.length() - 1)) == false) {
+			kleiner = kleiner.substring(0, kleiner.length() - 1);
 		}
-		if(kleiner.length() == 0){
+		if(kleiner.length() == 0) {
 			kleiner = str;
 		}
 		return kleiner + continueString;
 	}
+
 	public static @Nullable
-	String presentEscaped(@Nullable String org, int maxLength){
-		String presented = present(org,maxLength);
+	String presentEscaped(@Nullable String org, int maxLength) {
+		String presented = present(org, maxLength);
 		return presented == null ? null : escapeToJavaString(presented);
 	}
 
@@ -329,19 +333,19 @@ public final class UString{
 	 *
 	 * @param longString The text to split
 	 * @param maxLength  The maximum length per line
+	 *
 	 * @return the result stream
 	 */
-	public static Collection<String> splitOnWhitespaceAndHyphen(String longString, int maxLength){
+	public static Collection<String> splitOnWhitespaceAndHyphen(String longString, int maxLength) {
 		return splitStringOnMaxLength(
-				longString,
-				"(?<=\\-)|(?<=\\s)",
-				false,
-				maxLength,
-				s -> s.trim()
+			longString,
+			"(?<=\\-)|(?<=\\s)",
+			false,
+			maxLength,
+			s -> s.trim()
 		);
 
 	}
-
 
 
 	/**
@@ -350,39 +354,42 @@ public final class UString{
 	 * This regular expression should keep te delimiter, so use something
 	 * like (?=char) orOf (?&lt;=char) as regular expression.
 	 * Example with space and '-' as delimiters: '(?&lt;=\-)|(?&lt;=\s)"
+	 *
 	 * @param longString      The String to split
 	 * @param whiteSpaceRegEx Regular Expression for finding the split locations
 	 * @param splitLongWords  Split words longer that the maximum length ?
-	 * @param maxLength The maximum length per lines
+	 * @param maxLength       The maximum length per lines
 	 * @param postProcessLine Function used for building the final line out of the constructed line. Could be used to trim the resulting line
+	 *
 	 * @return List of lines
 	 */
 	public static Collection<String> splitStringOnMaxLength(
-			String longString,
-			String whiteSpaceRegEx,
-			boolean splitLongWords,
-			int maxLength,
-			Function<String,String> postProcessLine
+		String longString,
+		String whiteSpaceRegEx,
+		boolean splitLongWords,
+		int maxLength,
+		Function<String, String> postProcessLine
 
-	){
-		Objects.requireNonNull(longString,"longString");
+	) {
+		Objects.requireNonNull(longString, "longString");
 
-		if(maxLength <1){
+		if(maxLength < 1) {
 			throw new IllegalArgumentException("maxLength must be >=1");
 		}
 
-		if(longString.length()<=maxLength){
+		if(longString.length() <= maxLength) {
 			return List.of(longString);
 		}
 
 		List<String> lines       = new ArrayList<>();
-		String        currentLine ="";
-		for(String word : longString.split(whiteSpaceRegEx)){
+		String       currentLine = "";
+		for(String word : longString.split(whiteSpaceRegEx)) {
 			String newLine          = (currentLine.isEmpty() ? word : currentLine + word);
 			String newLineProcessed = postProcessLine.apply(newLine);
-			if(newLineProcessed.length() <= maxLength){
+			if(newLineProcessed.length() <= maxLength) {
 				currentLine = newLine;
-			} else {
+			}
+			else {
 				newLineProcessed = postProcessLine.apply(currentLine);
 				if(newLineProcessed.isEmpty() == false) {
 					lines.add(newLineProcessed);
@@ -391,7 +398,7 @@ public final class UString{
 
 				if(splitLongWords) {
 					newLineProcessed = postProcessLine.apply(currentLine);
-					while (newLineProcessed.length() > maxLength) {
+					while(newLineProcessed.length() > maxLength) {
 						lines.add(postProcessLine.apply(currentLine.substring(0, maxLength)));
 						currentLine = currentLine.substring(maxLength);
 						newLineProcessed = postProcessLine.apply(currentLine);
@@ -399,41 +406,42 @@ public final class UString{
 				}
 			}
 		}
-		if(currentLine.isEmpty() == false){
+		if(currentLine.isEmpty() == false) {
 			lines.add(currentLine);
 		}
 		return lines;
 	}
 
-	public static String deleteWhitespace(String str){
+	public static String deleteWhitespace(String str) {
 		Objects.requireNonNull(str);
 		int cnt = str.length();
-		if(cnt == 0){
+		if(cnt == 0) {
 			return str;
 		}
-		char[] dest = new char[cnt];
-		int resultLength = 0;
-		for(int i=0; i<cnt; i++){
-			if (!Character.isWhitespace(str.charAt(i))) {
+		char[] dest         = new char[cnt];
+		int    resultLength = 0;
+		for(int i = 0; i < cnt; i++) {
+			if(!Character.isWhitespace(str.charAt(i))) {
 				dest[resultLength++] = str.charAt(i);
 			}
 		}
-		if(resultLength == cnt){
+		if(resultLength == cnt) {
 			return str;
 		}
-		return new String(dest,0,resultLength);
+		return new String(dest, 0, resultLength);
 	}
 
 
 	/**
 	 * Convert a String to a Searchable version without accents,spaces, all uppercasel
+	 *
 	 * @param normalString The String to convert
+	 *
 	 * @return The Searchable version.
 	 */
-	public static String createSearchableString(String normalString)
-	{
+	public static String createSearchableString(String normalString) {
 		Objects.requireNonNull(normalString, "omschrijving");
-		if(normalString.trim().length() == 0){
+		if(normalString.trim().length() == 0) {
 			return "";
 		}
 		String alfaKey;
@@ -453,11 +461,10 @@ public final class UString{
 		alfaKey = alfaKey.replaceAll("\360", "d");
 
 		char[] normalized = Normalizer.normalize(alfaKey, Normalizer.Form.NFD).toCharArray();
-		if (normalized.length > alfaKey.length())//accented letters vervangen door gewone letters (bv é -> e)
+		if(normalized.length > alfaKey.length())//accented letters vervangen door gewone letters (bv é -> e)
 		{
 			StringBuilder sb = new StringBuilder();
-			for (int i = 0; i < normalized.length; i++)
-			{
+			for(int i = 0; i < normalized.length; i++) {
 				String str = Character.toString(normalized[i]);
 				str = str.replaceAll("\\W", "");//de accented vervangen door een lege string
 				sb.append(str);
@@ -475,13 +482,22 @@ public final class UString{
 		return join(joinWith, List.of(textParts));
 	}
 
+	/**
+	 * Join multiple strings together.
+	 *
+	 * @param joinWith  The separator between lines
+	 * @param textParts The Lines
+	 *
+	 * @return Lines joined using joinWith as one string.
+	 */
 	public static String join(String joinWith, Iterable<String> textParts) {
-		StringBuilder res = new StringBuilder();
-		boolean first = true;
-		for(String item : textParts){
-			if(first){
+		StringBuilder res   = new StringBuilder();
+		boolean       first = true;
+		for(String item : textParts) {
+			if(first) {
 				first = false;
-			} else {
+			}
+			else {
 				res.append(joinWith);
 			}
 			res.append(item);
@@ -489,17 +505,39 @@ public final class UString{
 		return res.toString();
 	}
 
+	/**
+	 * Join lines using the platform nl string
+	 *
+	 * @param textParts The lines to join
+	 *
+	 * @return Lines joined with nl
+	 *
+	 * @see #join(String, Iterable)
+	 * @see #joinLines(Iterable)
+	 * @see #join(String, Iterable)
+	 */
 	public static String joinLines(String... textParts) {
 		return join(NL, textParts);
 	}
 
+	/**
+	 * Join lines using the platform nl string
+	 *
+	 * @param textParts The lines to join
+	 *
+	 * @return Lines joined with nl
+	 *
+	 * @see #join(String, Iterable)
+	 * @see #joinLines(Iterable)
+	 * @see #join(String, Iterable)
+	 */
 	public static String joinLines(Iterable<String> textParts) {
 		return join(NL, textParts);
 	}
 
-	public static int countCharOccurrence(String text, char c){
+	public static int countCharOccurrence(String text, char c) {
 		int count = 0;
-		int len = Objects.requireNonNull(text).length();
+		int len   = Objects.requireNonNull(text).length();
 		for(int i = 0; i < len; i++) {
 			if(text.charAt(i) == c) {
 				count++;
@@ -508,21 +546,23 @@ public final class UString{
 		return count;
 	}
 
-	public static Function<String, String> replaceDelimited(String regExLeft, String regExName, String regExRight, Function<String,String> newContentSupplier){
-		String fullMatch = "(?:" + regExLeft + ")" + "((" + regExName +"){1}?)"+ "(?:" + regExRight + ")";
-		return UNamed.namedFunction("replaceDelimited(" + regExLeft + ", " + regExName + ", " + regExRight + ")", source -> {
-			String result = source;
-			while(true){
-				Matcher m = Pattern.compile(fullMatch, Pattern.MULTILINE).matcher(result);
-				if(m.find() == false){
-					break;
+	public static Function<String, String> replaceDelimited(String regExLeft, String regExName, String regExRight,
+															Function<String, String> newContentSupplier) {
+		String fullMatch = "(?:" + regExLeft + ")" + "((" + regExName + "){1}?)" + "(?:" + regExRight + ")";
+		return UNamed
+			.namedFunction("replaceDelimited(" + regExLeft + ", " + regExName + ", " + regExRight + ")", source -> {
+				String result = source;
+				while(true) {
+					Matcher m = Pattern.compile(fullMatch, Pattern.MULTILINE).matcher(result);
+					if(m.find() == false) {
+						break;
+					}
+					result = result.substring(0, m.start())
+						+ newContentSupplier.apply(m.group(2))
+						+ result.substring(m.end());
 				}
-				result = result.substring(0,m.start())
-					+ newContentSupplier.apply(m.group(2))
-					+ result.substring(m.end());
-			}
-			return result;
-		});
+				return result;
+			});
 
 
 	}

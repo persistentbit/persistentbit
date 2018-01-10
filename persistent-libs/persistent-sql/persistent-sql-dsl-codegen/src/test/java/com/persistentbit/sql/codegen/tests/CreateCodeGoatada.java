@@ -72,7 +72,7 @@ public class CreateCodeGoatada{
 		DbNameTransformer nameTransformer = DbCodeGenConfigLoader.createNameTransformer(instance).orElseThrow();
 		DbImportSettings importSettings =
 			new DbImportSettings(instance, tableSelection, newTrans);
-		GenericDbImporter importer = new GenericDbImporter(importSettings);
+		GenericDbImporter importer = new GenericDbImporter(instance, newTrans);
 		Result<CgContext> context  = importer.importDb();
 		ModuleLogging.consoleLogPrint.print(context.getLog());
 		System.out.println("Got context: " + context);

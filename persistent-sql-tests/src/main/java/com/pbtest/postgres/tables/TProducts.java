@@ -25,7 +25,7 @@ import java.util.function.Function;
 
 public class TProducts extends AbstractTable<EProducts, Products>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "products");
+	private final TableName _tableName = new TableName(null, "pbtest", "products");
 	private final DbWorkP1<Integer, Products> _selectById;
 	private final EProducts                   _all;
 	public final  EInt                        productId;

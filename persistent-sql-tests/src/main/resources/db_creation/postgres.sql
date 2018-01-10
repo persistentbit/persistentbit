@@ -59,7 +59,7 @@ END; $$
 LANGUAGE plpgsql;
 !!
 
-
+DELIMITER ;
 -- People with history
 
 --- ISO-639-1 2 char language code
@@ -171,5 +171,3 @@ CREATE TABLE people_addresses_history (
   --                                                                   GROUP BY foo_key
   --                                                                   HAVING COUNT(*) > 1))
 );
-
--->>

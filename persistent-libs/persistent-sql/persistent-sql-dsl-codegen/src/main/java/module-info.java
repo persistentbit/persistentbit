@@ -19,6 +19,8 @@ module persistent.sql.dsl.codegen {
 	requires persistent.utils;
 	requires java.sql;
 	requires persistent.sql.connect;
+	requires persistent.sql.updater;
+	requires persistent.io;
 
 	exports com.persistentbit.sql.dsl.codegen.config;
 	exports com.persistentbit.sql.dsl.codegen.service;

@@ -24,7 +24,7 @@ import java.util.function.Function;
 
 public class TAddresses extends AbstractTable<EAddresses, Addresses>{
 
-	private final TableName _tableName = new TableName("postgres", "pbtest", "addresses");
+	private final TableName _tableName = new TableName(null, "pbtest", "addresses");
 	private final DbWorkP1<Long, Addresses> _selectById;
 	private final EAddresses                _all;
 	public final  ELong                     addressId;

@@ -189,7 +189,7 @@ public class PeopleAddressesHistory{
 			"personId=" + personId +
 			", addressRelationCode=" + (addressRelationCode == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(addressRelationCode), 32, "...") + '\"') +
-			", startDate=" + startDate +
+			", startDate=" + startDate + 
 			", endDate=" + endDate + 
 			", addressId=" + addressId + 
 			']';
