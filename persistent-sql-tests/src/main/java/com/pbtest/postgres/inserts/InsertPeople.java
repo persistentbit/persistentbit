@@ -23,8 +23,8 @@ public class InsertPeople extends Insert<TPeople, Long>{
 	private static final PList<String> columnNames =
 		PList.val("person_id", "salutation_code", "name_first", "name_middle", "name_last", "gender_code");
 
-	public InsertPeople add(@Nullable Long personId, @Nullable Object salutationCode, @Nullable String nameFirst,
-							@Nullable String nameMiddle, @Nullable String nameLast, @Nullable Object genderCode) {
+	public InsertPeople add(@Nullable Long personId, @Nullable String salutationCode, @Nullable String nameFirst,
+							@Nullable String nameMiddle, @Nullable String nameLast, @Nullable String genderCode) {
 		Object[] row = new Object[]{
 			personId
 			, salutationCode

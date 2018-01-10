@@ -20,14 +20,14 @@ public class Addresses{
 	private final String streetLine2;
 	private final String postalCode;
 	private final String cityName;
-	private final Object countryCode;
+	private final String countryCode;
 	@Nullable
 	private final String district;
-
-
+	
+	
 	@Generated
 	public Addresses(long addressId, String streetLine1, @Nullable String streetLine2, String postalCode,
-					 String cityName, Object countryCode, @Nullable String district) {
+					 String cityName, String countryCode, @Nullable String district) {
 		this.addressId = Objects.requireNonNull(addressId, "addressId can not be null");
 		this.streetLine1 = Objects.requireNonNull(streetLine1, "streetLine1 can not be null");
 		this.streetLine2 = streetLine2;
@@ -36,12 +36,10 @@ public class Addresses{
 		this.countryCode = Objects.requireNonNull(countryCode, "countryCode can not be null");
 		this.district = district;
 	}
-
 	@Generated
-	public Addresses(long addressId, String streetLine1, String postalCode, String cityName, Object countryCode) {
+	public Addresses(long addressId, String streetLine1, String postalCode, String cityName, String countryCode) {
 		this(addressId, streetLine1, null, postalCode, cityName, countryCode, null);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4, _T5>{
@@ -51,7 +49,7 @@ public class Addresses{
 		private String streetLine2;
 		private String postalCode;
 		private String cityName;
-		private Object countryCode;
+		private String countryCode;
 		private String district;
 
 
@@ -80,7 +78,7 @@ public class Addresses{
 			return (Builder<_T1, _T2, _T3, SET, _T5>) this;
 		}
 
-		public Builder<_T1, _T2, _T3, _T4, SET> setCountryCode(Object countryCode) {
+		public Builder<_T1, _T2, _T3, _T4, SET> setCountryCode(String countryCode) {
 			this.countryCode = countryCode;
 			return (Builder<_T1, _T2, _T3, _T4, SET>) this;
 		}
@@ -90,161 +88,125 @@ public class Addresses{
 			return this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #addressId}.<br>
-	 *
 	 * @return {@link #addressId}
 	 */
 	@Generated
 	public long getAddressId() {
 		return this.addressId;
 	}
-
 	/**
 	 * Create a copy of this Addresses object with a new value for field {@link #addressId}.<br>
-	 *
 	 * @param addressId The new value for field {@link #addressId}
-	 *
 	 * @return A new instance of {@link Addresses}
 	 */
 	@Generated
 	public Addresses withAddressId(long addressId) {
 		return new Addresses(addressId, streetLine1, streetLine2, postalCode, cityName, countryCode, district);
 	}
-
 	/**
 	 * Get the value of field {@link #streetLine1}.<br>
-	 *
 	 * @return {@link #streetLine1}
 	 */
 	@Generated
 	public String getStreetLine1() {
 		return this.streetLine1;
 	}
-
 	/**
 	 * Create a copy of this Addresses object with a new value for field {@link #streetLine1}.<br>
-	 *
 	 * @param streetLine1 The new value for field {@link #streetLine1}
-	 *
 	 * @return A new instance of {@link Addresses}
 	 */
 	@Generated
 	public Addresses withStreetLine1(String streetLine1) {
 		return new Addresses(addressId, streetLine1, streetLine2, postalCode, cityName, countryCode, district);
 	}
-
 	/**
 	 * Get the value of field {@link #streetLine2}.<br>
-	 *
 	 * @return {@link #streetLine2}
 	 */
 	@Generated
 	public Optional<String> getStreetLine2() {
 		return Optional.ofNullable(this.streetLine2);
 	}
-
 	/**
 	 * Create a copy of this Addresses object with a new value for field {@link #streetLine2}.<br>
-	 *
 	 * @param streetLine2 The new value for field {@link #streetLine2}
-	 *
 	 * @return A new instance of {@link Addresses}
 	 */
 	@Generated
 	public Addresses withStreetLine2(@Nullable String streetLine2) {
 		return new Addresses(addressId, streetLine1, streetLine2, postalCode, cityName, countryCode, district);
 	}
-
 	/**
 	 * Get the value of field {@link #postalCode}.<br>
-	 *
 	 * @return {@link #postalCode}
 	 */
 	@Generated
 	public String getPostalCode() {
 		return this.postalCode;
 	}
-
 	/**
 	 * Create a copy of this Addresses object with a new value for field {@link #postalCode}.<br>
-	 *
 	 * @param postalCode The new value for field {@link #postalCode}
-	 *
 	 * @return A new instance of {@link Addresses}
 	 */
 	@Generated
 	public Addresses withPostalCode(String postalCode) {
 		return new Addresses(addressId, streetLine1, streetLine2, postalCode, cityName, countryCode, district);
 	}
-
 	/**
 	 * Get the value of field {@link #cityName}.<br>
-	 *
 	 * @return {@link #cityName}
 	 */
 	@Generated
 	public String getCityName() {
 		return this.cityName;
 	}
-
 	/**
 	 * Create a copy of this Addresses object with a new value for field {@link #cityName}.<br>
-	 *
 	 * @param cityName The new value for field {@link #cityName}
-	 *
 	 * @return A new instance of {@link Addresses}
 	 */
 	@Generated
 	public Addresses withCityName(String cityName) {
 		return new Addresses(addressId, streetLine1, streetLine2, postalCode, cityName, countryCode, district);
 	}
-
 	/**
 	 * Get the value of field {@link #countryCode}.<br>
-	 *
 	 * @return {@link #countryCode}
 	 */
 	@Generated
-	public Object getCountryCode() {
+	public String getCountryCode() {
 		return this.countryCode;
 	}
-
 	/**
 	 * Create a copy of this Addresses object with a new value for field {@link #countryCode}.<br>
-	 *
 	 * @param countryCode The new value for field {@link #countryCode}
-	 *
 	 * @return A new instance of {@link Addresses}
 	 */
 	@Generated
-	public Addresses withCountryCode(Object countryCode) {
+	public Addresses withCountryCode(String countryCode) {
 		return new Addresses(addressId, streetLine1, streetLine2, postalCode, cityName, countryCode, district);
 	}
-
 	/**
 	 * Get the value of field {@link #district}.<br>
-	 *
 	 * @return {@link #district}
 	 */
 	@Generated
 	public Optional<String> getDistrict() {
 		return Optional.ofNullable(this.district);
 	}
-
 	/**
 	 * Create a copy of this Addresses object with a new value for field {@link #district}.<br>
-	 *
 	 * @param district The new value for field {@link #district}
-	 *
 	 * @return A new instance of {@link Addresses}
 	 */
 	@Generated
 	public Addresses withDistrict(@Nullable String district) {
 		return new Addresses(addressId, streetLine1, streetLine2, postalCode, cityName, countryCode, district);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -260,7 +222,6 @@ public class Addresses{
 		if(district != null ? !district.equals(obj.district) : obj.district != null) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -274,7 +235,6 @@ public class Addresses{
 		result = 31 * result + (this.district != null ? this.district.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -288,12 +248,12 @@ public class Addresses{
 			.present(UString.escapeToJavaString(postalCode), 32, "...") + '\"') +
 			", cityName=" + (cityName == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(cityName), 32, "...") + '\"') +
-			", countryCode=" + countryCode +
+			", countryCode=" + (countryCode == null ? "null" : '\"' + UString
+			.present(UString.escapeToJavaString(countryCode), 32, "...") + '\"') +
 			", district=" + (district == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(district), 32, "...") + '\"') +
 			']';
 	}
-
 	@Generated
 	public Addresses updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -307,7 +267,6 @@ public class Addresses{
 		b = updater.apply(b);
 		return new Addresses(b.addressId, b.streetLine1, b.streetLine2, b.postalCode, b.cityName, b.countryCode, b.district);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Addresses build(
@@ -315,7 +274,6 @@ public class Addresses{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Addresses(b.addressId, b.streetLine1, b.streetLine2, b.postalCode, b.cityName, b.countryCode, b.district);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<Addresses> buildExc(

@@ -22,7 +22,7 @@ public class InsertGenders extends Insert<TGenders, Void>{
 
 	private static final PList<String> columnNames = PList.val("gender_code", "description");
 
-	public InsertGenders add(@Nullable Object genderCode, @Nullable String description) {
+	public InsertGenders add(@Nullable String genderCode, @Nullable String description) {
 		Object[] row = new Object[]{
 			genderCode
 			, description

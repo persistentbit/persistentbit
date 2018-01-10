@@ -2,12 +2,11 @@ package com.pbtest.mysql.impl.typefactories;
 
 import com.pbtest.mysql.expressions.EMysqlAllTypes;
 import com.pbtest.mysql.values.MysqlAllTypes;
-import com.persistentbit.collections.PByteList;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
-import com.persistentbit.sql.dsl.expressions.EByteList;
+import com.persistentbit.sql.dsl.expressions.EByte;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructTypeImplMixin;
@@ -24,8 +23,8 @@ public class MysqlAllTypesTypeFactory extends AbstractStructureTypeFactory<EMysq
 		public EMysqlAllTypesImpl(Iterator<DExpr> iter) {
 			super(
 				(EBool) iter.next()
-				, (EByteList) iter.next()
-				, (EByteList) iter.next()
+				, (EByte) iter.next()
+				, (EByte) iter.next()
 				, (EBool) iter.next()
 			);
 		}
@@ -50,8 +49,8 @@ public class MysqlAllTypesTypeFactory extends AbstractStructureTypeFactory<EMysq
 	protected PList<StructureField<EMysqlAllTypes, MysqlAllTypes>> buildFields() {
 		return PList.val(
 			createField(EBool.class, "a_bit", "aBit", v -> v.getABit(), v -> v.aBit)
-			, createField(EByteList.class, "a_tinyint", "aTinyint", v -> v.getATinyint(), v -> v.aTinyint)
-			, createField(EByteList.class, "a_tinyint_unsinged", "aTinyintUnsinged", v -> v
+			, createField(EByte.class, "a_tinyint", "aTinyint", v -> v.getATinyint(), v -> v.aTinyint)
+			, createField(EByte.class, "a_tinyint_unsinged", "aTinyintUnsinged", v -> v
 				.getATinyintUnsinged(), v -> v.aTinyintUnsinged)
 			, createField(EBool.class, "a_bool", "aBool", v -> v.getABool(), v -> v.aBool)
 		);
@@ -60,8 +59,8 @@ public class MysqlAllTypesTypeFactory extends AbstractStructureTypeFactory<EMysq
 	protected MysqlAllTypes buildValue(Object[] fieldValues) {
 		return new MysqlAllTypes(
 			(Boolean) fieldValues[0]
-			, (PByteList) fieldValues[1]
-			, (PByteList) fieldValues[2]
+			, (Byte) fieldValues[1]
+			, (Byte) fieldValues[2]
 			, (Boolean) fieldValues[3]
 		);
 	}

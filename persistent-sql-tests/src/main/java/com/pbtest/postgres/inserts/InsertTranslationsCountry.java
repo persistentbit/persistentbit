@@ -22,7 +22,7 @@ public class InsertTranslationsCountry extends Insert<TTranslationsCountry, Void
 
 	private static final PList<String> columnNames = PList.val("country_code", "language_code", "name");
 
-	public InsertTranslationsCountry add(@Nullable Object countryCode, @Nullable Object languageCode,
+	public InsertTranslationsCountry add(@Nullable String countryCode, @Nullable String languageCode,
 										 @Nullable String name) {
 		Object[] row = new Object[]{
 			countryCode

@@ -22,7 +22,7 @@ public class InsertAddressRelations extends Insert<TAddressRelations, Void>{
 
 	private static final PList<String> columnNames = PList.val("address_relation_code", "description");
 
-	public InsertAddressRelations add(@Nullable Object addressRelationCode, @Nullable String description) {
+	public InsertAddressRelations add(@Nullable String addressRelationCode, @Nullable String description) {
 		Object[] row = new Object[]{
 			addressRelationCode
 			, description

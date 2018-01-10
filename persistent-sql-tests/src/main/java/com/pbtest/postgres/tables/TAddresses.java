@@ -8,7 +8,6 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.ELong;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -33,7 +32,7 @@ public class TAddresses extends AbstractTable<EAddresses, Addresses>{
 	public final  EString                   streetLine2;
 	public final  EString                   postalCode;
 	public final  EString                   cityName;
-	public final  EObject                   countryCode;
+	public final  EString                   countryCode;
 	public final  EString                   district;
 
 
@@ -62,22 +61,18 @@ public class TAddresses extends AbstractTable<EAddresses, Addresses>{
 	public TAddresses(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EAddresses> getTypeClass() {
 		return EAddresses.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TAddresses as(String aliasName) {
 		return new TAddresses(context, aliasName);
 	}
-
 	@Override
 	public EAddresses all() {
 		return _all;
@@ -96,7 +91,7 @@ public class TAddresses extends AbstractTable<EAddresses, Addresses>{
 	}
 
 	public DbWork<Integer> insert(@Nullable Long addressId, @Nullable String streetLine1, @Nullable String streetLine2,
-								  @Nullable String postalCode, @Nullable String cityName, @Nullable Object countryCode,
+								  @Nullable String postalCode, @Nullable String cityName, @Nullable String countryCode,
 								  @Nullable String district) {
 		return insert()
 			.add(addressId, streetLine1, streetLine2, postalCode, cityName, countryCode, district)

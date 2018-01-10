@@ -7,7 +7,6 @@ import com.pbtest.postgres.values.Genders;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -25,9 +24,9 @@ import java.util.function.Function;
 public class TGenders extends AbstractTable<EGenders, Genders>{
 
 	private final TableName _tableName = new TableName("postgres", "pbtest", "genders");
-	private final DbWorkP1<Object, Genders> _selectById;
+	private final DbWorkP1<String, Genders> _selectById;
 	private final EGenders                  _all;
-	public final  EObject                   genderCode;
+	public final  EString                   genderCode;
 	public final  EString                   description;
 
 
@@ -40,7 +39,7 @@ public class TGenders extends AbstractTable<EGenders, Genders>{
 		this.genderCode = _all.genderCode;
 		this.description = _all.description;
 		this._selectById = query(p -> q -> {
-			Param<EObject> paramgenderCode = context.param(EObject.class, "genderCode");
+			Param<EString> paramgenderCode = context.param(EString.class, "genderCode");
 			return q
 				.where(this.genderCode.eq(paramgenderCode.getExpr()))
 				.selection(all())
@@ -51,22 +50,18 @@ public class TGenders extends AbstractTable<EGenders, Genders>{
 	public TGenders(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EGenders> getTypeClass() {
 		return EGenders.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TGenders as(String aliasName) {
 		return new TGenders(context, aliasName);
 	}
-
 	@Override
 	public EGenders all() {
 		return _all;
@@ -84,7 +79,7 @@ public class TGenders extends AbstractTable<EGenders, Genders>{
 		return new InsertGenders(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Object genderCode, @Nullable String description) {
+	public DbWork<Integer> insert(@Nullable String genderCode, @Nullable String description) {
 		return insert()
 			.add(genderCode, description)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
@@ -114,7 +109,7 @@ public class TGenders extends AbstractTable<EGenders, Genders>{
 			.where(this.genderCode.eq(e.genderCode));
 	}
 
-	public DbWork<Genders> selectById(Object genderCode) {
+	public DbWork<Genders> selectById(String genderCode) {
 		return _selectById.with(genderCode);
 	}
 
@@ -122,7 +117,7 @@ public class TGenders extends AbstractTable<EGenders, Genders>{
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(Object genderCode) {
+	public DbWork<Integer> deleteById(String genderCode) {
 		return delete()
 			.where(this.genderCode.eq(genderCode));
 	}

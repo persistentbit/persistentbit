@@ -3,7 +3,6 @@ package com.pbtest.mysql.inserts;
 import com.pbtest.mysql.tables.TMysqlAllTypes;
 import com.pbtest.mysql.values.MysqlAllTypes;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PByteList;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PSet;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -23,8 +22,8 @@ public class InsertMysqlAllTypes extends Insert<TMysqlAllTypes, Void>{
 
 	private static final PList<String> columnNames = PList.val("a_bit", "a_tinyint", "a_tinyint_unsinged", "a_bool");
 
-	public InsertMysqlAllTypes add(@Nullable Boolean aBit, @Nullable PByteList aTinyint,
-								   @Nullable PByteList aTinyintUnsinged, @Nullable Boolean aBool) {
+	public InsertMysqlAllTypes add(@Nullable Boolean aBit, @Nullable Byte aTinyint, @Nullable Byte aTinyintUnsinged,
+								   @Nullable Boolean aBool) {
 		Object[] row = new Object[]{
 			aBit
 			, aTinyint

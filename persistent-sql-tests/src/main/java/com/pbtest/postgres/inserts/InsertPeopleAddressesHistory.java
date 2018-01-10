@@ -26,7 +26,7 @@ public class InsertPeopleAddressesHistory extends Insert<TPeopleAddressesHistory
 	private static final PList<String> columnNames =
 		PList.val("person_id", "address_relation_code", "start_date", "end_date", "address_id");
 
-	public InsertPeopleAddressesHistory add(@Nullable Long personId, @Nullable Object addressRelationCode,
+	public InsertPeopleAddressesHistory add(@Nullable Long personId, @Nullable String addressRelationCode,
 											@Nullable LocalDate startDate, @Nullable LocalDateTime endDate,
 											@Nullable Long addressId) {
 		Object[] row = new Object[]{

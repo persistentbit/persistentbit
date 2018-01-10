@@ -5,7 +5,6 @@ import com.pbtest.postgres.values.Salutations;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
@@ -21,21 +20,18 @@ public class SalutationsTypeFactory extends AbstractStructureTypeFactory<ESaluta
 
 		public ESalutationsImpl(Iterator<DExpr> iter) {
 			super(
-				(EObject) iter.next()
+				(EString) iter.next()
 				, (EString) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<ESalutations, Salutations> getTypeFactory() {
 			return SalutationsTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "ESalutations[" + salutationCode + description + "]";
 		}
-
 		@Override
 		public ESalutations getThis() {
 			return this;
@@ -45,29 +41,25 @@ public class SalutationsTypeFactory extends AbstractStructureTypeFactory<ESaluta
 	public SalutationsTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<ESalutations, Salutations>> buildFields() {
 		return PList.val(
-			createField(EObject.class, "salutation_code", "salutationCode", v -> v
+			createField(EString.class, "salutation_code", "salutationCode", v -> v
 				.getSalutationCode(), v -> v.salutationCode)
 			, createField(EString.class, "description", "description", v -> v.getDescription(), v -> v.description)
 		);
 	}
-
 	@Override
 	protected Salutations buildValue(Object[] fieldValues) {
 		return new Salutations(
-			(Object) fieldValues[0]
+			(String) fieldValues[0]
 			, (String) fieldValues[1]
 		);
 	}
-
 	@Override
 	protected ESalutationsImpl createExpression(PStream<DExpr> fieldValues) {
 		return new ESalutationsImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<ESalutations> getTypeClass() {
 		return ESalutations.class;

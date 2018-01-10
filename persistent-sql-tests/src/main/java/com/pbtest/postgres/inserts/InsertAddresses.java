@@ -24,7 +24,7 @@ public class InsertAddresses extends Insert<TAddresses, Long>{
 		.val("address_id", "street_line_1", "street_line_2", "postal_code", "city_name", "country_code", "district");
 
 	public InsertAddresses add(@Nullable Long addressId, @Nullable String streetLine1, @Nullable String streetLine2,
-							   @Nullable String postalCode, @Nullable String cityName, @Nullable Object countryCode,
+							   @Nullable String postalCode, @Nullable String cityName, @Nullable String countryCode,
 							   @Nullable String district) {
 		Object[] row = new Object[]{
 			addressId

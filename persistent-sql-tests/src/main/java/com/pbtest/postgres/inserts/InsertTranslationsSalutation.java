@@ -22,7 +22,7 @@ public class InsertTranslationsSalutation extends Insert<TTranslationsSalutation
 
 	private static final PList<String> columnNames = PList.val("salutation_code", "language_code", "description");
 
-	public InsertTranslationsSalutation add(@Nullable Object salutationCode, @Nullable Object languageCode,
+	public InsertTranslationsSalutation add(@Nullable String salutationCode, @Nullable String languageCode,
 											@Nullable String description) {
 		Object[] row = new Object[]{
 			salutationCode

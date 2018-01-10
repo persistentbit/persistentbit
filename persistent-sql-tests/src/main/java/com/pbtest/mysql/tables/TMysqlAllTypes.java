@@ -5,11 +5,10 @@ import com.pbtest.mysql.impl.typefactories.MysqlAllTypesTypeFactory;
 import com.pbtest.mysql.inserts.InsertMysqlAllTypes;
 import com.pbtest.mysql.values.MysqlAllTypes;
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PByteList;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.EBool;
-import com.persistentbit.sql.dsl.expressions.EByteList;
+import com.persistentbit.sql.dsl.expressions.EByte;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
 import com.persistentbit.sql.dsl.statements.select.Query;
@@ -26,8 +25,8 @@ public class TMysqlAllTypes extends AbstractTable<EMysqlAllTypes, MysqlAllTypes>
 	private final TableName _tableName = new TableName("pbtest", "", "mysql_all_types");
 	private final EMysqlAllTypes _all;
 	public final  EBool          aBit;
-	public final  EByteList      aTinyint;
-	public final  EByteList      aTinyintUnsinged;
+	public final  EByte          aTinyint;
+	public final  EByte          aTinyintUnsinged;
 	public final  EBool          aBool;
 
 
@@ -75,8 +74,8 @@ public class TMysqlAllTypes extends AbstractTable<EMysqlAllTypes, MysqlAllTypes>
 		return new InsertMysqlAllTypes(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Boolean aBit, @Nullable PByteList aTinyint,
-								  @Nullable PByteList aTinyintUnsinged, @Nullable Boolean aBool) {
+	public DbWork<Integer> insert(@Nullable Boolean aBit, @Nullable Byte aTinyint, @Nullable Byte aTinyintUnsinged,
+								  @Nullable Boolean aBool) {
 		return insert()
 			.add(aBit, aTinyint, aTinyintUnsinged, aBool)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));

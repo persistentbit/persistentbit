@@ -22,7 +22,7 @@ public class InsertTranslationsGender extends Insert<TTranslationsGender, Void>{
 
 	private static final PList<String> columnNames = PList.val("gender_code", "language_code", "description");
 
-	public InsertTranslationsGender add(@Nullable Object genderCode, @Nullable Object languageCode,
+	public InsertTranslationsGender add(@Nullable String genderCode, @Nullable String languageCode,
 										@Nullable String description) {
 		Object[] row = new Object[]{
 			genderCode

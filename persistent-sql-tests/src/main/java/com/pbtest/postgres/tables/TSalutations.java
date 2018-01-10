@@ -7,7 +7,6 @@ import com.pbtest.postgres.values.Salutations;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -25,9 +24,9 @@ import java.util.function.Function;
 public class TSalutations extends AbstractTable<ESalutations, Salutations>{
 
 	private final TableName _tableName = new TableName("postgres", "pbtest", "salutations");
-	private final DbWorkP1<Object, Salutations> _selectById;
+	private final DbWorkP1<String, Salutations> _selectById;
 	private final ESalutations                  _all;
-	public final  EObject                       salutationCode;
+	public final  EString                       salutationCode;
 	public final  EString                       description;
 
 
@@ -40,7 +39,7 @@ public class TSalutations extends AbstractTable<ESalutations, Salutations>{
 		this.salutationCode = _all.salutationCode;
 		this.description = _all.description;
 		this._selectById = query(p -> q -> {
-			Param<EObject> paramsalutationCode = context.param(EObject.class, "salutationCode");
+			Param<EString> paramsalutationCode = context.param(EString.class, "salutationCode");
 			return q
 				.where(this.salutationCode.eq(paramsalutationCode.getExpr()))
 				.selection(all())
@@ -51,22 +50,18 @@ public class TSalutations extends AbstractTable<ESalutations, Salutations>{
 	public TSalutations(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<ESalutations> getTypeClass() {
 		return ESalutations.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TSalutations as(String aliasName) {
 		return new TSalutations(context, aliasName);
 	}
-
 	@Override
 	public ESalutations all() {
 		return _all;
@@ -84,7 +79,7 @@ public class TSalutations extends AbstractTable<ESalutations, Salutations>{
 		return new InsertSalutations(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Object salutationCode, @Nullable String description) {
+	public DbWork<Integer> insert(@Nullable String salutationCode, @Nullable String description) {
 		return insert()
 			.add(salutationCode, description)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
@@ -114,7 +109,7 @@ public class TSalutations extends AbstractTable<ESalutations, Salutations>{
 			.where(this.salutationCode.eq(e.salutationCode));
 	}
 
-	public DbWork<Salutations> selectById(Object salutationCode) {
+	public DbWork<Salutations> selectById(String salutationCode) {
 		return _selectById.with(salutationCode);
 	}
 
@@ -122,7 +117,7 @@ public class TSalutations extends AbstractTable<ESalutations, Salutations>{
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(Object salutationCode) {
+	public DbWork<Integer> deleteById(String salutationCode) {
 		return delete()
 			.where(this.salutationCode.eq(salutationCode));
 	}

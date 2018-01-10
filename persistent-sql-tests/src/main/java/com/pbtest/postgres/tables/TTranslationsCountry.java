@@ -7,7 +7,6 @@ import com.pbtest.postgres.values.TranslationsCountry;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -25,10 +24,10 @@ import java.util.function.Function;
 public class TTranslationsCountry extends AbstractTable<ETranslationsCountry, TranslationsCountry>{
 
 	private final TableName _tableName = new TableName("postgres", "pbtest", "translations_country");
-	private final DbWorkP2<Object, Object, TranslationsCountry> _selectById;
+	private final DbWorkP2<String, String, TranslationsCountry> _selectById;
 	private final ETranslationsCountry                          _all;
-	public final  EObject                                       countryCode;
-	public final  EObject                                       languageCode;
+	public final  EString                                       countryCode;
+	public final  EString                                       languageCode;
 	public final  EString                                       name;
 
 
@@ -42,8 +41,8 @@ public class TTranslationsCountry extends AbstractTable<ETranslationsCountry, Tr
 		this.languageCode = _all.languageCode;
 		this.name = _all.name;
 		this._selectById = query(p -> q -> {
-			Param<EObject> paramcountryCode  = context.param(EObject.class, "countryCode");
-			Param<EObject> paramlanguageCode = context.param(EObject.class, "languageCode");
+			Param<EString> paramcountryCode  = context.param(EString.class, "countryCode");
+			Param<EString> paramlanguageCode = context.param(EString.class, "languageCode");
 			return q
 				.where(this.countryCode.eq(paramcountryCode.getExpr())
 						   .and(this.languageCode.eq(paramlanguageCode.getExpr())))
@@ -55,22 +54,18 @@ public class TTranslationsCountry extends AbstractTable<ETranslationsCountry, Tr
 	public TTranslationsCountry(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<ETranslationsCountry> getTypeClass() {
 		return ETranslationsCountry.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TTranslationsCountry as(String aliasName) {
 		return new TTranslationsCountry(context, aliasName);
 	}
-
 	@Override
 	public ETranslationsCountry all() {
 		return _all;
@@ -88,7 +83,7 @@ public class TTranslationsCountry extends AbstractTable<ETranslationsCountry, Tr
 		return new InsertTranslationsCountry(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Object countryCode, @Nullable Object languageCode, @Nullable String name) {
+	public DbWork<Integer> insert(@Nullable String countryCode, @Nullable String languageCode, @Nullable String name) {
 		return insert()
 			.add(countryCode, languageCode, name)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
@@ -118,7 +113,7 @@ public class TTranslationsCountry extends AbstractTable<ETranslationsCountry, Tr
 			.where(this.countryCode.eq(e.countryCode).and(this.languageCode.eq(e.languageCode)));
 	}
 
-	public DbWork<TranslationsCountry> selectById(Object countryCode, Object languageCode) {
+	public DbWork<TranslationsCountry> selectById(String countryCode, String languageCode) {
 		return _selectById.with(countryCode, languageCode);
 	}
 
@@ -126,7 +121,7 @@ public class TTranslationsCountry extends AbstractTable<ETranslationsCountry, Tr
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(Object countryCode, Object languageCode) {
+	public DbWork<Integer> deleteById(String countryCode, String languageCode) {
 		return delete()
 			.where(this.countryCode.eq(countryCode).and(this.languageCode.eq(languageCode)));
 	}

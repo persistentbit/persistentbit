@@ -13,25 +13,24 @@ import java.util.function.Function;
 
 public class Genders{
 
-	private final Object genderCode;
+	private final String genderCode;
 	private final String description;
-
-
+	
+	
 	@Generated
-	public Genders(Object genderCode, String description) {
+	public Genders(String genderCode, String description) {
 		this.genderCode = Objects.requireNonNull(genderCode, "genderCode can not be null");
 		this.description = Objects.requireNonNull(description, "description can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2>{
 
-		private Object genderCode;
+		private String genderCode;
 		private String description;
 
 
-		public Builder<SET, _T2> setGenderCode(Object genderCode) {
+		public Builder<SET, _T2> setGenderCode(String genderCode) {
 			this.genderCode = genderCode;
 			return (Builder<SET, _T2>) this;
 		}
@@ -41,51 +40,40 @@ public class Genders{
 			return (Builder<_T1, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #genderCode}.<br>
-	 *
 	 * @return {@link #genderCode}
 	 */
 	@Generated
-	public Object getGenderCode() {
+	public String getGenderCode() {
 		return this.genderCode;
 	}
-
 	/**
 	 * Create a copy of this Genders object with a new value for field {@link #genderCode}.<br>
-	 *
 	 * @param genderCode The new value for field {@link #genderCode}
-	 *
 	 * @return A new instance of {@link Genders}
 	 */
 	@Generated
-	public Genders withGenderCode(Object genderCode) {
+	public Genders withGenderCode(String genderCode) {
 		return new Genders(genderCode, description);
 	}
-
 	/**
 	 * Get the value of field {@link #description}.<br>
-	 *
 	 * @return {@link #description}
 	 */
 	@Generated
 	public String getDescription() {
 		return this.description;
 	}
-
 	/**
 	 * Create a copy of this Genders object with a new value for field {@link #description}.<br>
-	 *
 	 * @param description The new value for field {@link #description}
-	 *
 	 * @return A new instance of {@link Genders}
 	 */
 	@Generated
 	public Genders withDescription(String description) {
 		return new Genders(genderCode, description);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -96,7 +84,6 @@ public class Genders{
 		if(!description.equals(obj.description)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -105,17 +92,16 @@ public class Genders{
 		result = 31 * result + (this.description != null ? this.description.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
 		return "Genders[" +
-			"genderCode=" + genderCode +
+			"genderCode=" + (genderCode == null ? "null" : '\"' + UString
+			.present(UString.escapeToJavaString(genderCode), 32, "...") + '\"') +
 			", description=" + (description == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(description), 32, "...") + '\"') +
 			']';
 	}
-
 	@Generated
 	public Genders updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -124,14 +110,12 @@ public class Genders{
 		b = updater.apply(b);
 		return new Genders(b.genderCode, b.description);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Genders build(ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Genders(b.genderCode, b.description);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<Genders> buildExc(ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {

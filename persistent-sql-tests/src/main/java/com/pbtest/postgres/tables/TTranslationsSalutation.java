@@ -7,7 +7,6 @@ import com.pbtest.postgres.values.TranslationsSalutation;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -25,10 +24,10 @@ import java.util.function.Function;
 public class TTranslationsSalutation extends AbstractTable<ETranslationsSalutation, TranslationsSalutation>{
 
 	private final TableName _tableName = new TableName("postgres", "pbtest", "translations_salutation");
-	private final DbWorkP2<Object, Object, TranslationsSalutation> _selectById;
+	private final DbWorkP2<String, String, TranslationsSalutation> _selectById;
 	private final ETranslationsSalutation                          _all;
-	public final  EObject                                          salutationCode;
-	public final  EObject                                          languageCode;
+	public final  EString                                          salutationCode;
+	public final  EString                                          languageCode;
 	public final  EString                                          description;
 
 
@@ -42,8 +41,8 @@ public class TTranslationsSalutation extends AbstractTable<ETranslationsSalutati
 		this.languageCode = _all.languageCode;
 		this.description = _all.description;
 		this._selectById = query(p -> q -> {
-			Param<EObject> paramsalutationCode = context.param(EObject.class, "salutationCode");
-			Param<EObject> paramlanguageCode   = context.param(EObject.class, "languageCode");
+			Param<EString> paramsalutationCode = context.param(EString.class, "salutationCode");
+			Param<EString> paramlanguageCode   = context.param(EString.class, "languageCode");
 			return q
 				.where(this.salutationCode.eq(paramsalutationCode.getExpr())
 						   .and(this.languageCode.eq(paramlanguageCode.getExpr())))
@@ -55,22 +54,18 @@ public class TTranslationsSalutation extends AbstractTable<ETranslationsSalutati
 	public TTranslationsSalutation(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<ETranslationsSalutation> getTypeClass() {
 		return ETranslationsSalutation.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TTranslationsSalutation as(String aliasName) {
 		return new TTranslationsSalutation(context, aliasName);
 	}
-
 	@Override
 	public ETranslationsSalutation all() {
 		return _all;
@@ -88,7 +83,7 @@ public class TTranslationsSalutation extends AbstractTable<ETranslationsSalutati
 		return new InsertTranslationsSalutation(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Object salutationCode, @Nullable Object languageCode,
+	public DbWork<Integer> insert(@Nullable String salutationCode, @Nullable String languageCode,
 								  @Nullable String description) {
 		return insert()
 			.add(salutationCode, languageCode, description)
@@ -119,7 +114,7 @@ public class TTranslationsSalutation extends AbstractTable<ETranslationsSalutati
 			.where(this.salutationCode.eq(e.salutationCode).and(this.languageCode.eq(e.languageCode)));
 	}
 
-	public DbWork<TranslationsSalutation> selectById(Object salutationCode, Object languageCode) {
+	public DbWork<TranslationsSalutation> selectById(String salutationCode, String languageCode) {
 		return _selectById.with(salutationCode, languageCode);
 	}
 
@@ -127,7 +122,7 @@ public class TTranslationsSalutation extends AbstractTable<ETranslationsSalutati
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(Object salutationCode, Object languageCode) {
+	public DbWork<Integer> deleteById(String salutationCode, String languageCode) {
 		return delete()
 			.where(this.salutationCode.eq(salutationCode).and(this.languageCode.eq(languageCode)));
 	}

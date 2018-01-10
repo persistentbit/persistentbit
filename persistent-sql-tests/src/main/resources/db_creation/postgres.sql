@@ -63,19 +63,19 @@ LANGUAGE plpgsql;
 -- People with history
 
 --- ISO-639-1 2 char language code
-CREATE DOMAIN lang_iso_code AS VARCHAR(2)
+CREATE DOMAIN pbtest.lang_iso_code AS VARCHAR(2)
   CHECK ( value SIMILAR TO '[a-z][a-z]');
 
-CREATE DOMAIN gender_code AS VARCHAR(10);
-CREATE DOMAIN salutation_code AS VARCHAR(10);
+CREATE DOMAIN pbtest.gender_code AS VARCHAR(10);
+CREATE DOMAIN pbtest.salutation_code AS VARCHAR(10);
 
-CREATE TABLE genders (
+CREATE TABLE pbtest.genders (
   gender_code GENDER_CODE NOT NULL,
   PRIMARY KEY (gender_code),
 
   description VARCHAR     NOT NULL
 );
-CREATE TABLE translations_gender (
+CREATE TABLE pbtest.translations_gender (
   gender_code   GENDER_CODE   NOT NULL REFERENCES genders (gender_code)
   ON DELETE CASCADE ON UPDATE CASCADE,
   language_code LANG_ISO_CODE NOT NULL,
@@ -83,14 +83,14 @@ CREATE TABLE translations_gender (
 
   description   VARCHAR       NOT NULL
 );
-CREATE TABLE salutations (
+CREATE TABLE pbtest.salutations (
   salutation_code SALUTATION_CODE NOT NULL,
   PRIMARY KEY (salutation_code),
 
   description     VARCHAR         NOT NULL
 );
 
-CREATE TABLE translations_salutation (
+CREATE TABLE pbtest.translations_salutation (
   salutation_code SALUTATION_CODE NOT NULL REFERENCES salutations (salutation_code)
   ON DELETE CASCADE ON UPDATE CASCADE,
   language_code   LANG_ISO_CODE   NOT NULL,
@@ -100,25 +100,25 @@ CREATE TABLE translations_salutation (
 );
 
 -- country code: ISO 3166-1
-CREATE DOMAIN country_iso_code AS VARCHAR(2)
+CREATE DOMAIN pbtest.country_iso_code AS VARCHAR(2)
   CHECK (value SIMILAR TO '[A-Z][A-Z]');
 
-CREATE TABLE translations_country (
+CREATE TABLE pbtest.translations_country (
   country_code  COUNTRY_ISO_CODE NOT NULL,
   language_code LANG_ISO_CODE    NOT NULL,
   name          VARCHAR          NOT NULL,
   PRIMARY KEY (country_code, language_code)
 );
 
-CREATE DOMAIN address_relation_code AS VARCHAR(10);
+CREATE DOMAIN pbtest.address_relation_code AS VARCHAR(10);
 
-CREATE TABLE address_relations (
+CREATE TABLE pbtest.address_relations (
   address_relation_code ADDRESS_RELATION_CODE NOT NULL,
   PRIMARY KEY (address_relation_code),
   description           VARCHAR               NOT NULL
 );
 
-CREATE TABLE addresses (
+CREATE TABLE pbtest.addresses (
   address_id    BIGSERIAL        NOT NULL PRIMARY KEY,
   street_line_1 VARCHAR          NOT NULL,
   street_line_2 VARCHAR          NULL,

@@ -1,7 +1,6 @@
 package com.pbtest.mysql.values;
 
 import com.persistentbit.code.annotations.Nullable;
-import com.persistentbit.collections.PByteList;
 import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NOT;
@@ -13,14 +12,14 @@ import java.util.function.Function;
 
 public class MysqlAllTypes{
 
-	private final boolean   aBit;
-	private final PByteList aTinyint;
-	private final PByteList aTinyintUnsinged;
-	private final boolean   aBool;
+	private final boolean aBit;
+	private final byte    aTinyint;
+	private final byte    aTinyintUnsinged;
+	private final boolean aBool;
 	
 	
 	@Generated
-	public MysqlAllTypes(boolean aBit, PByteList aTinyint, PByteList aTinyintUnsinged, boolean aBool) {
+	public MysqlAllTypes(boolean aBit, byte aTinyint, byte aTinyintUnsinged, boolean aBool) {
 		this.aBit = Objects.requireNonNull(aBit, "aBit can not be null");
 		this.aTinyint = Objects.requireNonNull(aTinyint, "aTinyint can not be null");
 		this.aTinyintUnsinged = Objects.requireNonNull(aTinyintUnsinged, "aTinyintUnsinged can not be null");
@@ -30,10 +29,10 @@ public class MysqlAllTypes{
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3, _T4>{
 
-		private boolean   aBit;
-		private PByteList aTinyint;
-		private PByteList aTinyintUnsinged;
-		private boolean   aBool;
+		private boolean aBit;
+		private byte    aTinyint;
+		private byte    aTinyintUnsinged;
+		private boolean aBool;
 
 
 		public Builder<SET, _T2, _T3, _T4> setABit(boolean aBit) {
@@ -41,12 +40,12 @@ public class MysqlAllTypes{
 			return (Builder<SET, _T2, _T3, _T4>) this;
 		}
 
-		public Builder<_T1, SET, _T3, _T4> setATinyint(PByteList aTinyint) {
+		public Builder<_T1, SET, _T3, _T4> setATinyint(byte aTinyint) {
 			this.aTinyint = aTinyint;
 			return (Builder<_T1, SET, _T3, _T4>) this;
 		}
 
-		public Builder<_T1, _T2, SET, _T4> setATinyintUnsinged(PByteList aTinyintUnsinged) {
+		public Builder<_T1, _T2, SET, _T4> setATinyintUnsinged(byte aTinyintUnsinged) {
 			this.aTinyintUnsinged = aTinyintUnsinged;
 			return (Builder<_T1, _T2, SET, _T4>) this;
 		}
@@ -78,7 +77,7 @@ public class MysqlAllTypes{
 	 * @return {@link #aTinyint}
 	 */
 	@Generated
-	public PByteList getATinyint() {
+	public byte getATinyint() {
 		return this.aTinyint;
 	}
 	/**
@@ -87,7 +86,7 @@ public class MysqlAllTypes{
 	 * @return A new instance of {@link MysqlAllTypes}
 	 */
 	@Generated
-	public MysqlAllTypes withATinyint(PByteList aTinyint) {
+	public MysqlAllTypes withATinyint(byte aTinyint) {
 		return new MysqlAllTypes(aBit, aTinyint, aTinyintUnsinged, aBool);
 	}
 	/**
@@ -95,7 +94,7 @@ public class MysqlAllTypes{
 	 * @return {@link #aTinyintUnsinged}
 	 */
 	@Generated
-	public PByteList getATinyintUnsinged() {
+	public byte getATinyintUnsinged() {
 		return this.aTinyintUnsinged;
 	}
 	/**
@@ -104,7 +103,7 @@ public class MysqlAllTypes{
 	 * @return A new instance of {@link MysqlAllTypes}
 	 */
 	@Generated
-	public MysqlAllTypes withATinyintUnsinged(PByteList aTinyintUnsinged) {
+	public MysqlAllTypes withATinyintUnsinged(byte aTinyintUnsinged) {
 		return new MysqlAllTypes(aBit, aTinyint, aTinyintUnsinged, aBool);
 	}
 	/**
@@ -131,8 +130,8 @@ public class MysqlAllTypes{
 		if(o instanceof MysqlAllTypes == false) return false;
 		MysqlAllTypes obj = (MysqlAllTypes) o;
 		if(aBit != obj.aBit) return false;
-		if(!aTinyint.equals(obj.aTinyint)) return false;
-		if(!aTinyintUnsinged.equals(obj.aTinyintUnsinged)) return false;
+		if(aTinyint != obj.aTinyint) return false;
+		if(aTinyintUnsinged != obj.aTinyintUnsinged) return false;
 		if(aBool != obj.aBool) return false;
 		return true;
 	}
@@ -141,8 +140,8 @@ public class MysqlAllTypes{
 	public int hashCode() {
 		int result;
 		result = (this.aBit ? 1 : 0);
-		result = 31 * result + (this.aTinyint != null ? this.aTinyint.hashCode() : 0);
-		result = 31 * result + (this.aTinyintUnsinged != null ? this.aTinyintUnsinged.hashCode() : 0);
+		result = 31 * result + (int) this.aTinyint;
+		result = 31 * result + (int) this.aTinyintUnsinged;
 		result = 31 * result + (this.aBool ? 1 : 0);
 		return result;
 	}
@@ -151,7 +150,7 @@ public class MysqlAllTypes{
 	public String toString() {
 		return "MysqlAllTypes[" +
 			"aBit=" + aBit +
-			", aTinyint=" + aTinyint +
+			", aTinyint=" + aTinyint + 
 			", aTinyintUnsinged=" + aTinyintUnsinged + 
 			", aBool=" + aBool + 
 			']';

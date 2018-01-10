@@ -156,7 +156,7 @@ public class Products{
 			"productId=" + productId +
 			", productName=" + (productName == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(productName), 32, "...") + '\"') +
-			", price=" + price +
+			", price=" + price + 
 			", groupId=" + groupId + 
 			']';
 	}

@@ -7,7 +7,6 @@ import com.pbtest.postgres.values.TranslationsGender;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -25,10 +24,10 @@ import java.util.function.Function;
 public class TTranslationsGender extends AbstractTable<ETranslationsGender, TranslationsGender>{
 
 	private final TableName _tableName = new TableName("postgres", "pbtest", "translations_gender");
-	private final DbWorkP2<Object, Object, TranslationsGender> _selectById;
+	private final DbWorkP2<String, String, TranslationsGender> _selectById;
 	private final ETranslationsGender                          _all;
-	public final  EObject                                      genderCode;
-	public final  EObject                                      languageCode;
+	public final  EString                                      genderCode;
+	public final  EString                                      languageCode;
 	public final  EString                                      description;
 
 
@@ -42,8 +41,8 @@ public class TTranslationsGender extends AbstractTable<ETranslationsGender, Tran
 		this.languageCode = _all.languageCode;
 		this.description = _all.description;
 		this._selectById = query(p -> q -> {
-			Param<EObject> paramgenderCode   = context.param(EObject.class, "genderCode");
-			Param<EObject> paramlanguageCode = context.param(EObject.class, "languageCode");
+			Param<EString> paramgenderCode   = context.param(EString.class, "genderCode");
+			Param<EString> paramlanguageCode = context.param(EString.class, "languageCode");
 			return q
 				.where(this.genderCode.eq(paramgenderCode.getExpr())
 						   .and(this.languageCode.eq(paramlanguageCode.getExpr())))
@@ -55,22 +54,18 @@ public class TTranslationsGender extends AbstractTable<ETranslationsGender, Tran
 	public TTranslationsGender(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<ETranslationsGender> getTypeClass() {
 		return ETranslationsGender.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TTranslationsGender as(String aliasName) {
 		return new TTranslationsGender(context, aliasName);
 	}
-
 	@Override
 	public ETranslationsGender all() {
 		return _all;
@@ -88,7 +83,7 @@ public class TTranslationsGender extends AbstractTable<ETranslationsGender, Tran
 		return new InsertTranslationsGender(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Object genderCode, @Nullable Object languageCode,
+	public DbWork<Integer> insert(@Nullable String genderCode, @Nullable String languageCode,
 								  @Nullable String description) {
 		return insert()
 			.add(genderCode, languageCode, description)
@@ -119,7 +114,7 @@ public class TTranslationsGender extends AbstractTable<ETranslationsGender, Tran
 			.where(this.genderCode.eq(e.genderCode).and(this.languageCode.eq(e.languageCode)));
 	}
 
-	public DbWork<TranslationsGender> selectById(Object genderCode, Object languageCode) {
+	public DbWork<TranslationsGender> selectById(String genderCode, String languageCode) {
 		return _selectById.with(genderCode, languageCode);
 	}
 
@@ -127,7 +122,7 @@ public class TTranslationsGender extends AbstractTable<ETranslationsGender, Tran
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(Object genderCode, Object languageCode) {
+	public DbWork<Integer> deleteById(String genderCode, String languageCode) {
 		return delete()
 			.where(this.genderCode.eq(genderCode).and(this.languageCode.eq(languageCode)));
 	}

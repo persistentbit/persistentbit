@@ -7,7 +7,6 @@ import com.pbtest.postgres.values.AddressRelations;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -25,9 +24,9 @@ import java.util.function.Function;
 public class TAddressRelations extends AbstractTable<EAddressRelations, AddressRelations>{
 
 	private final TableName _tableName = new TableName("postgres", "pbtest", "address_relations");
-	private final DbWorkP1<Object, AddressRelations> _selectById;
+	private final DbWorkP1<String, AddressRelations> _selectById;
 	private final EAddressRelations                  _all;
-	public final  EObject                            addressRelationCode;
+	public final  EString                            addressRelationCode;
 	public final  EString                            description;
 
 
@@ -40,7 +39,7 @@ public class TAddressRelations extends AbstractTable<EAddressRelations, AddressR
 		this.addressRelationCode = _all.addressRelationCode;
 		this.description = _all.description;
 		this._selectById = query(p -> q -> {
-			Param<EObject> paramaddressRelationCode = context.param(EObject.class, "addressRelationCode");
+			Param<EString> paramaddressRelationCode = context.param(EString.class, "addressRelationCode");
 			return q
 				.where(this.addressRelationCode.eq(paramaddressRelationCode.getExpr()))
 				.selection(all())
@@ -51,22 +50,18 @@ public class TAddressRelations extends AbstractTable<EAddressRelations, AddressR
 	public TAddressRelations(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EAddressRelations> getTypeClass() {
 		return EAddressRelations.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TAddressRelations as(String aliasName) {
 		return new TAddressRelations(context, aliasName);
 	}
-
 	@Override
 	public EAddressRelations all() {
 		return _all;
@@ -84,7 +79,7 @@ public class TAddressRelations extends AbstractTable<EAddressRelations, AddressR
 		return new InsertAddressRelations(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Object addressRelationCode, @Nullable String description) {
+	public DbWork<Integer> insert(@Nullable String addressRelationCode, @Nullable String description) {
 		return insert()
 			.add(addressRelationCode, description)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
@@ -114,7 +109,7 @@ public class TAddressRelations extends AbstractTable<EAddressRelations, AddressR
 			.where(this.addressRelationCode.eq(e.addressRelationCode));
 	}
 
-	public DbWork<AddressRelations> selectById(Object addressRelationCode) {
+	public DbWork<AddressRelations> selectById(String addressRelationCode) {
 		return _selectById.with(addressRelationCode);
 	}
 
@@ -122,7 +117,7 @@ public class TAddressRelations extends AbstractTable<EAddressRelations, AddressR
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(Object addressRelationCode) {
+	public DbWork<Integer> deleteById(String addressRelationCode) {
 		return delete()
 			.where(this.addressRelationCode.eq(addressRelationCode));
 	}

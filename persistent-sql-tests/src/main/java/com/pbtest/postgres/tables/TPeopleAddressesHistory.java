@@ -28,7 +28,7 @@ public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHisto
 	private final DbWorkP2<Long, LocalDate, PeopleAddressesHistory> _selectById;
 	private final EPeopleAddressesHistory                           _all;
 	public final  ELong                                             personId;
-	public final  EObject                                           addressRelationCode;
+	public final  EString                                           addressRelationCode;
 	public final  EDate                                             startDate;
 	public final  EDateTime                                         endDate;
 	public final  ELong                                             addressId;
@@ -58,22 +58,18 @@ public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHisto
 	public TPeopleAddressesHistory(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EPeopleAddressesHistory> getTypeClass() {
 		return EPeopleAddressesHistory.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TPeopleAddressesHistory as(String aliasName) {
 		return new TPeopleAddressesHistory(context, aliasName);
 	}
-
 	@Override
 	public EPeopleAddressesHistory all() {
 		return _all;
@@ -91,7 +87,7 @@ public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHisto
 		return new InsertPeopleAddressesHistory(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Long personId, @Nullable Object addressRelationCode,
+	public DbWork<Integer> insert(@Nullable Long personId, @Nullable String addressRelationCode,
 								  @Nullable LocalDate startDate, @Nullable LocalDateTime endDate,
 								  @Nullable Long addressId) {
 		return insert()

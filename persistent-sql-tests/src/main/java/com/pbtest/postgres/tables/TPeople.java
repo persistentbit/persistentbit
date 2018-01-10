@@ -8,7 +8,6 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.ELong;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -29,11 +28,11 @@ public class TPeople extends AbstractTable<EPeople, People>{
 	private final DbWorkP1<Long, People> _selectById;
 	private final EPeople                _all;
 	public final  ELong                  personId;
-	public final  EObject                salutationCode;
+	public final  EString                salutationCode;
 	public final  EString                nameFirst;
 	public final  EString                nameMiddle;
 	public final  EString                nameLast;
-	public final  EObject                genderCode;
+	public final  EString                genderCode;
 
 
 	private TPeople(ExprContext context, String alias) {
@@ -60,22 +59,18 @@ public class TPeople extends AbstractTable<EPeople, People>{
 	public TPeople(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EPeople> getTypeClass() {
 		return EPeople.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TPeople as(String aliasName) {
 		return new TPeople(context, aliasName);
 	}
-
 	@Override
 	public EPeople all() {
 		return _all;
@@ -93,8 +88,8 @@ public class TPeople extends AbstractTable<EPeople, People>{
 		return new InsertPeople(context, this);
 	}
 
-	public DbWork<Integer> insert(@Nullable Long personId, @Nullable Object salutationCode, @Nullable String nameFirst,
-								  @Nullable String nameMiddle, @Nullable String nameLast, @Nullable Object genderCode) {
+	public DbWork<Integer> insert(@Nullable Long personId, @Nullable String salutationCode, @Nullable String nameFirst,
+								  @Nullable String nameMiddle, @Nullable String nameLast, @Nullable String genderCode) {
 		return insert()
 			.add(personId, salutationCode, nameFirst, nameMiddle, nameLast, genderCode)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(ir -> ir.getUpdateCount())));
