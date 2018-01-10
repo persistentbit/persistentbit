@@ -3,7 +3,7 @@ DROP SCHEMA IF EXISTS pbtest CASCADE;
 CREATE SCHEMA pbtest;
 
 -->>create
-SET search_path TO pbtest;
+SET search_path TO pbtest, public;
 
 -- Window functions test
 CREATE TABLE product_groups (
@@ -129,12 +129,24 @@ CREATE TABLE pbtest.addresses (
 );
 
 CREATE TABLE people (
-  person_id       BIGSERIAL       NOT NULL PRIMARY KEY,
-  salutation_code SALUTATION_CODE NOT NULL REFERENCES salutations (salutation_code) ON UPDATE CASCADE,
-  name_first      VARCHAR         NOT NULL,
-  name_middle     VARCHAR         NULL,
-  name_last       VARCHAR         NOT NULL,
-  gender_code     GENDER_CODE     NOT NULL REFERENCES genders (gender_code) ON UPDATE CASCADE
+  person_id BIGSERIAL NOT NULL,
+  PRIMARY KEY (person_id)
+
+);
+
+CREATE TABLE people_baseinfo_history (
+  person_id       BIGSERIAL                           NOT NULL REFERENCES people (person_id) ON DELETE CASCADE,
+  start_time      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  PRIMARY KEY (person_id, start_time),
+  end_time        TIMESTAMP,
+  CONSTRAINT people_base_start_before_end CHECK (start_time < end_time),
+
+  salutation_code SALUTATION_CODE                     NOT NULL REFERENCES salutations (salutation_code) ON UPDATE CASCADE,
+  name_first      VARCHAR                             NOT NULL,
+  name_middle     VARCHAR                             NULL,
+  name_last       VARCHAR                             NOT NULL,
+  gender_code     GENDER_CODE                         NOT NULL REFERENCES genders (gender_code) ON UPDATE CASCADE,
+  birth_day       DATE                                NULL
 );
 
 
@@ -145,10 +157,8 @@ CREATE TABLE people_addresses_history (
   PRIMARY KEY (person_id, start_date),
   end_date              TIMESTAMP,
   address_id            BIGINT                    NOT NULL REFERENCES addresses,
-  CONSTRAINT people_adr_started_before_ended CHECK ( start_date < end_date),
-  CONSTRAINT people_adr_end_time_open_interval CHECK (end_date =
-                                                      CAST(end_date AS DATE) +
-                                                      INTERVAL '23 hours 59 minutes 59.9999999 seconds')
+  CONSTRAINT people_adr_started_before_ended CHECK ( start_date < end_date)
+
   -- ,
   --   CONSTRAINT people_adr_no_date_overlaps CHECK (NOT EXISTS(SELECT *
   --                                                            FROM people_addresses AS H1, Calendar AS C1

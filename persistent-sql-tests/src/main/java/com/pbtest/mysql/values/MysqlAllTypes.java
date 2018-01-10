@@ -149,7 +149,7 @@ public class MysqlAllTypes{
 	@Override
 	public String toString() {
 		return "MysqlAllTypes[" +
-			"aBit=" + aBit +
+			"aBit=" + aBit + 
 			", aTinyint=" + aTinyint + 
 			", aTinyintUnsinged=" + aTinyintUnsinged + 
 			", aBool=" + aBool + 

@@ -119,7 +119,11 @@
 
                 </dependencies>
             </plugin>
-
+            <plugin>
+                <groupId>com.persistentbit</groupId>
+                <artifactId>persistent-javacodegen-maven-plugin</artifactId>
+                <version>${project.version}</version>
+            </plugin>
         </plugins>
     </build>
 
