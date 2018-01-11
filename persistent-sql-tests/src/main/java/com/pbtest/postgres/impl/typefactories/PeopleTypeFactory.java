@@ -5,12 +5,15 @@ import com.pbtest.postgres.values.People;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.expressions.DExpr;
+import com.persistentbit.sql.dsl.expressions.EDate;
 import com.persistentbit.sql.dsl.expressions.ELong;
+import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructTypeImplMixin;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructureField;
 
+import java.time.LocalDate;
 import java.util.Iterator;
 
 public class PeopleTypeFactory extends AbstractStructureTypeFactory<EPeople, People>{
@@ -21,6 +24,12 @@ public class PeopleTypeFactory extends AbstractStructureTypeFactory<EPeople, Peo
 		public EPeopleImpl(Iterator<DExpr> iter) {
 			super(
 				(ELong) iter.next()
+				, (EString) iter.next()
+				, (EString) iter.next()
+				, (EString) iter.next()
+				, (EString) iter.next()
+				, (EString) iter.next()
+				, (EDate) iter.next()
 			);
 		}
 		@Override
@@ -29,7 +38,7 @@ public class PeopleTypeFactory extends AbstractStructureTypeFactory<EPeople, Peo
 		}
 		@Override
 		public String toString() {
-			return "EPeople[" + personId + "]";
+			return "EPeople[" + personId + salutationCode + nameFirst + nameMiddle + nameLast + genderCode + birthDay + "]";
 		}
 		@Override
 		public EPeople getThis() {
@@ -44,12 +53,26 @@ public class PeopleTypeFactory extends AbstractStructureTypeFactory<EPeople, Peo
 	protected PList<StructureField<EPeople, People>> buildFields() {
 		return PList.val(
 			createField(ELong.class, "person_id", "personId", v -> v.getPersonId(), v -> v.personId)
+			, createField(EString.class, "salutation_code", "salutationCode", v -> v
+				.getSalutationCode(), v -> v.salutationCode)
+			, createField(EString.class, "name_first", "nameFirst", v -> v.getNameFirst(), v -> v.nameFirst)
+			, createField(EString.class, "name_middle", "nameMiddle", v -> v.getNameMiddle()
+				.orElse(null), v -> v.nameMiddle)
+			, createField(EString.class, "name_last", "nameLast", v -> v.getNameLast(), v -> v.nameLast)
+			, createField(EString.class, "gender_code", "genderCode", v -> v.getGenderCode(), v -> v.genderCode)
+			, createField(EDate.class, "birth_day", "birthDay", v -> v.getBirthDay().orElse(null), v -> v.birthDay)
 		);
 	}
 	@Override
 	protected People buildValue(Object[] fieldValues) {
 		return new People(
 			(Long) fieldValues[0]
+			, (String) fieldValues[1]
+			, (String) fieldValues[2]
+			, (String) fieldValues[3]
+			, (String) fieldValues[4]
+			, (String) fieldValues[5]
+			, (LocalDate) fieldValues[6]
 		);
 	}
 	@Override

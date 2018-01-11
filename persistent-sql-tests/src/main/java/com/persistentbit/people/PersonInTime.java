@@ -20,18 +20,16 @@ import java.util.function.Function;
  */
 @CaseClass
 public class PersonInTime{
-
 	@DefaultValue("1L")
 	private final long                 id;
 	@Nullable
-	private final PersonBaseInfo       baseInfo;
+	private final Person               baseInfo;
 	@DefaultEmpty
 	private final PList<PersonAddress> addresses;
 	
 	
 	@Generated
-	public PersonInTime(@Nullable Long id, @Nullable PersonBaseInfo baseInfo,
-						@Nullable PList<PersonAddress> addresses) {
+	public PersonInTime(@Nullable Long id, @Nullable Person baseInfo, @Nullable PList<PersonAddress> addresses) {
 		this.id = id == null ? 1L : id;
 		this.baseInfo = baseInfo;
 		this.addresses = addresses == null ? PList.empty() : addresses;
@@ -45,7 +43,7 @@ public class PersonInTime{
 	static public class Builder{
 
 		private long                 id;
-		private PersonBaseInfo       baseInfo;
+		private Person               baseInfo;
 		private PList<PersonAddress> addresses;
 
 
@@ -54,7 +52,7 @@ public class PersonInTime{
 			return this;
 		}
 
-		public Builder setBaseInfo(@Nullable PersonBaseInfo baseInfo) {
+		public Builder setBaseInfo(@Nullable Person baseInfo) {
 			this.baseInfo = baseInfo;
 			return this;
 		}
@@ -86,7 +84,7 @@ public class PersonInTime{
 	 * @return {@link #baseInfo}
 	 */
 	@Generated
-	public Optional<PersonBaseInfo> getBaseInfo() {
+	public Optional<Person> getBaseInfo() {
 		return Optional.ofNullable(this.baseInfo);
 	}
 	/**
@@ -95,20 +93,17 @@ public class PersonInTime{
 	 * @return A new instance of {@link PersonInTime}
 	 */
 	@Generated
-	public PersonInTime withBaseInfo(@Nullable PersonBaseInfo baseInfo) {
+	public PersonInTime withBaseInfo(@Nullable Person baseInfo) {
 		return new PersonInTime(id, baseInfo, addresses);
 	}
-
 	/**
 	 * Get the value of field {@link #addresses}.<br>
-	 *
 	 * @return {@link #addresses}
 	 */
 	@Generated
 	public PList<PersonAddress> getAddresses() {
 		return this.addresses;
 	}
-
 	/**
 	 * Create a copy of this PersonInTime object with a new value for field {@link #addresses}.<br>
 	 * @param addresses The new value for field {@link #addresses}
@@ -120,7 +115,7 @@ public class PersonInTime{
 	}
 	@Generated
 	@Override
-	public boolean equals(@Nullable Object o){
+	public boolean equals(@Nullable Object o) {
 		if(this == o) return true;
 		if(o instanceof PersonInTime == false) return false;
 		PersonInTime obj = (PersonInTime) o;
@@ -143,13 +138,12 @@ public class PersonInTime{
 	public String toString() {
 		return "PersonInTime[" +
 			"id=" + id +
-			", baseInfo=" + baseInfo +
+			", baseInfo=" + baseInfo + 
 			", addresses=" + addresses + 
 			']';
 	}
-
 	@Generated
-	public PersonInTime updated(Function<Builder, Builder> updater){
+	public PersonInTime updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
 		b.setId(this.id);
 		b.setBaseInfo(this.baseInfo);
@@ -159,7 +153,7 @@ public class PersonInTime{
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public static PersonInTime build(ThrowingFunction<Builder, Builder, Exception> setter){
+	public static PersonInTime build(ThrowingFunction<Builder, Builder, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new PersonInTime(b.id, b.baseInfo, b.addresses);
 	}

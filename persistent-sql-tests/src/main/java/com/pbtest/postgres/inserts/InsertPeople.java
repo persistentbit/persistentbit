@@ -8,6 +8,8 @@ import com.persistentbit.collections.PSet;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.insert.Insert;
 
+import java.time.LocalDate;
+
 public class InsertPeople extends Insert<TPeople, Long>{
 
 
@@ -20,11 +22,20 @@ public class InsertPeople extends Insert<TPeople, Long>{
 		this(context, into, columnNames, PSet.empty(), "person_id", PList.empty());
 	}
 
-	private static final PList<String> columnNames = PList.val("person_id");
+	private static final PList<String> columnNames =
+		PList.val("person_id", "salutation_code", "name_first", "name_middle", "name_last", "gender_code", "birth_day");
 
-	public InsertPeople add(@Nullable Long personId) {
+	public InsertPeople add(@Nullable Long personId, @Nullable String salutationCode, @Nullable String nameFirst,
+							@Nullable String nameMiddle, @Nullable String nameLast, @Nullable String genderCode,
+							@Nullable LocalDate birthDay) {
 		Object[] row = new Object[]{
 			personId
+			, salutationCode
+			, nameFirst
+			, nameMiddle
+			, nameLast
+			, genderCode
+			, birthDay
 		};
 		return new InsertPeople(
 			this.context, this.into, this.columnNames, this.withDefaults, this.autoGenKeyName, this.rows.plus(row));
@@ -32,7 +43,8 @@ public class InsertPeople extends Insert<TPeople, Long>{
 
 	public InsertPeople add(People value) {
 		return add(
-			value.getPersonId()
+			value.getPersonId(), value.getSalutationCode(), value.getNameFirst(), value.getNameMiddle()
+				.orElse(null), value.getNameLast(), value.getGenderCode(), value.getBirthDay().orElse(null)
 		);
 	}
 }

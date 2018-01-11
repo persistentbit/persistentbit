@@ -8,10 +8,9 @@ import com.persistentbit.collections.PSet;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.insert.Insert;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-public class InsertPeopleAddressesHistory extends Insert<TPeopleAddressesHistory, Long>{
+public class InsertPeopleAddressesHistory extends Insert<TPeopleAddressesHistory, Void>{
 
 
 	public InsertPeopleAddressesHistory(ExprContext context, TPeopleAddressesHistory into, PList<String> columnNames,
@@ -20,21 +19,21 @@ public class InsertPeopleAddressesHistory extends Insert<TPeopleAddressesHistory
 	}
 
 	public InsertPeopleAddressesHistory(ExprContext context, TPeopleAddressesHistory into) {
-		this(context, into, columnNames, PSet.empty(), "person_id", PList.empty());
+		this(context, into, columnNames, PSet.empty(), null, PList.empty());
 	}
 
 	private static final PList<String> columnNames =
-		PList.val("person_id", "address_relation_code", "start_date", "end_date", "address_id");
+		PList.val("person_id", "address_relation_code", "address_id", "start_time", "end_time");
 
 	public InsertPeopleAddressesHistory add(@Nullable Long personId, @Nullable String addressRelationCode,
-											@Nullable LocalDate startDate, @Nullable LocalDateTime endDate,
-											@Nullable Long addressId) {
+											@Nullable Long addressId, @Nullable LocalDateTime startTime,
+											@Nullable LocalDateTime endTime) {
 		Object[] row = new Object[]{
 			personId
 			, addressRelationCode
-			, startDate
-			, endDate
 			, addressId
+			, startTime
+			, endTime
 		};
 		return new InsertPeopleAddressesHistory(
 			this.context, this.into, this.columnNames, this.withDefaults, this.autoGenKeyName, this.rows.plus(row));
@@ -42,8 +41,8 @@ public class InsertPeopleAddressesHistory extends Insert<TPeopleAddressesHistory
 
 	public InsertPeopleAddressesHistory add(PeopleAddressesHistory value) {
 		return add(
-			value.getPersonId(), value.getAddressRelationCode(), value.getStartDate(), value.getEndDate()
-				.orElse(null), value.getAddressId()
+			value.getPersonId(), value.getAddressRelationCode(), value.getAddressId(), value.getStartTime(), value
+				.getEndTime().orElse(null)
 		);
 	}
 }

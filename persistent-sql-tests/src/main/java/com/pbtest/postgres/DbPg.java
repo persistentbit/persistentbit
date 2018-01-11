@@ -10,13 +10,14 @@ public class DbPg extends DbGeneric{
 
 	public static final TGenders                genders                = new TGenders(_context);
 	public static final TPeople                 people                 = new TPeople(_context);
+	public static final TPeopleAddresses        peopleAddresses        = new TPeopleAddresses(_context);
 	public static final TTranslationsCountry    translationsCountry    = new TTranslationsCountry(_context);
 	public static final TSalutations            salutations            = new TSalutations(_context);
 	public static final TTranslationsSalutation translationsSalutation = new TTranslationsSalutation(_context);
 	public static final TAddresses              addresses              = new TAddresses(_context);
 	public static final TProductGroups          productGroups          = new TProductGroups(_context);
+	public static final TPeopleHistory          peopleHistory          = new TPeopleHistory(_context);
 	public static final TPeopleAddressesHistory peopleAddressesHistory = new TPeopleAddressesHistory(_context);
-	public static final TPeopleBaseinfoHistory  peopleBaseinfoHistory  = new TPeopleBaseinfoHistory(_context);
 	public static final TAddressRelations       addressRelations       = new TAddressRelations(_context);
 	public static final TTranslationsGender     translationsGender     = new TTranslationsGender(_context);
 	public static final TProducts               products               = new TProducts(_context);
@@ -27,6 +28,10 @@ public class DbPg extends DbGeneric{
 
 	public static EPeople val(People value) {
 		return _context.getTypeFactory(EPeople.class).buildVal(value);
+	}
+
+	public static EPeopleAddresses val(PeopleAddresses value) {
+		return _context.getTypeFactory(EPeopleAddresses.class).buildVal(value);
 	}
 
 	public static ETranslationsCountry val(TranslationsCountry value) {
@@ -49,12 +54,12 @@ public class DbPg extends DbGeneric{
 		return _context.getTypeFactory(EProductGroups.class).buildVal(value);
 	}
 
-	public static EPeopleAddressesHistory val(PeopleAddressesHistory value) {
-		return _context.getTypeFactory(EPeopleAddressesHistory.class).buildVal(value);
+	public static EPeopleHistory val(PeopleHistory value) {
+		return _context.getTypeFactory(EPeopleHistory.class).buildVal(value);
 	}
 
-	public static EPeopleBaseinfoHistory val(PeopleBaseinfoHistory value) {
-		return _context.getTypeFactory(EPeopleBaseinfoHistory.class).buildVal(value);
+	public static EPeopleAddressesHistory val(PeopleAddressesHistory value) {
+		return _context.getTypeFactory(EPeopleAddressesHistory.class).buildVal(value);
 	}
 
 	public static EAddressRelations val(AddressRelations value) {

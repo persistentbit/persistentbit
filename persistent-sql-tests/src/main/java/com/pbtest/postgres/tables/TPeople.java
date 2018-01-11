@@ -7,7 +7,9 @@ import com.pbtest.postgres.values.People;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.expressions.EDate;
 import com.persistentbit.sql.dsl.expressions.ELong;
+import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
@@ -20,6 +22,7 @@ import com.persistentbit.sql.dsl.tables.AbstractTable;
 import com.persistentbit.sql.dsl.tables.TableName;
 import com.persistentbit.sql.work.DbWork;
 
+import java.time.LocalDate;
 import java.util.function.Function;
 
 public class TPeople extends AbstractTable<EPeople, People>{
@@ -28,6 +31,12 @@ public class TPeople extends AbstractTable<EPeople, People>{
 	private final DbWorkP1<Long, People> _selectById;
 	private final EPeople                _all;
 	public final  ELong                  personId;
+	public final  EString                salutationCode;
+	public final  EString                nameFirst;
+	public final  EString                nameMiddle;
+	public final  EString                nameLast;
+	public final  EString                genderCode;
+	public final  EDate                  birthDay;
 
 
 	private TPeople(ExprContext context, String alias) {
@@ -37,6 +46,12 @@ public class TPeople extends AbstractTable<EPeople, People>{
 			.getTypeFactory(EPeople.class)
 			.buildTableField(createFullTableNameOrAlias() + ".", "", "");
 		this.personId = _all.personId;
+		this.salutationCode = _all.salutationCode;
+		this.nameFirst = _all.nameFirst;
+		this.nameMiddle = _all.nameMiddle;
+		this.nameLast = _all.nameLast;
+		this.genderCode = _all.genderCode;
+		this.birthDay = _all.birthDay;
 		this._selectById = query(p -> q -> {
 			Param<ELong> parampersonId = context.param(ELong.class, "personId");
 			return q
@@ -78,9 +93,11 @@ public class TPeople extends AbstractTable<EPeople, People>{
 		return new InsertPeople(context, this);
 	}
 
-	public DbWork<Long> insert(@Nullable Long personId) {
+	public DbWork<Long> insert(@Nullable Long personId, @Nullable String salutationCode, @Nullable String nameFirst,
+							   @Nullable String nameMiddle, @Nullable String nameLast, @Nullable String genderCode,
+							   @Nullable LocalDate birthDay) {
 		return insert()
-			.add(personId)
+			.add(personId, salutationCode, nameFirst, nameMiddle, nameLast, genderCode, birthDay)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
 	}
 

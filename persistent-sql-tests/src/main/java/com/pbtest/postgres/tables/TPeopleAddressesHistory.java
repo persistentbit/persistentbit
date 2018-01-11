@@ -7,32 +7,34 @@ import com.pbtest.postgres.values.PeopleAddressesHistory;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.expressions.*;
+import com.persistentbit.sql.dsl.expressions.EDateTime;
+import com.persistentbit.sql.dsl.expressions.ELong;
+import com.persistentbit.sql.dsl.expressions.EString;
+import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
 import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
-import com.persistentbit.sql.dsl.statements.work.DbWorkP2;
+import com.persistentbit.sql.dsl.statements.work.DbWorkP3;
 import com.persistentbit.sql.dsl.tables.AbstractTable;
 import com.persistentbit.sql.dsl.tables.TableName;
 import com.persistentbit.sql.work.DbWork;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.function.Function;
 
 public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHistory, PeopleAddressesHistory>{
 
 	private final TableName _tableName = new TableName(null, "pbtest", "people_addresses_history");
-	private final DbWorkP2<Long, LocalDate, PeopleAddressesHistory> _selectById;
-	private final EPeopleAddressesHistory                           _all;
-	public final  ELong                                             personId;
-	public final  EString                                           addressRelationCode;
-	public final  EDate                                             startDate;
-	public final  EDateTime                                         endDate;
-	public final  ELong                                             addressId;
+	private final DbWorkP3<Long, String, LocalDateTime, PeopleAddressesHistory> _selectById;
+	private final EPeopleAddressesHistory                                       _all;
+	public final  ELong                                                         personId;
+	public final  EString                                                       addressRelationCode;
+	public final  ELong                                                         addressId;
+	public final  EDateTime                                                     startTime;
+	public final  EDateTime                                                     endTime;
 
 
 	private TPeopleAddressesHistory(ExprContext context, String alias) {
@@ -43,16 +45,19 @@ public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHisto
 			.buildTableField(createFullTableNameOrAlias() + ".", "", "");
 		this.personId = _all.personId;
 		this.addressRelationCode = _all.addressRelationCode;
-		this.startDate = _all.startDate;
-		this.endDate = _all.endDate;
 		this.addressId = _all.addressId;
+		this.startTime = _all.startTime;
+		this.endTime = _all.endTime;
 		this._selectById = query(p -> q -> {
-			Param<ELong> parampersonId  = context.param(ELong.class, "personId");
-			Param<EDate> paramstartDate = context.param(EDate.class, "startDate");
+			Param<ELong>     parampersonId            = context.param(ELong.class, "personId");
+			Param<EString>   paramaddressRelationCode = context.param(EString.class, "addressRelationCode");
+			Param<EDateTime> paramstartTime           = context.param(EDateTime.class, "startTime");
 			return q
-				.where(this.personId.eq(parampersonId.getExpr()).and(this.startDate.eq(paramstartDate.getExpr())))
+				.where(this.personId.eq(parampersonId.getExpr())
+						   .and(this.addressRelationCode.eq(paramaddressRelationCode.getExpr()))
+						   .and(this.startTime.eq(paramstartTime.getExpr())))
 				.selection(all())
-				.one(parampersonId, paramstartDate);
+				.one(parampersonId, paramaddressRelationCode, paramstartTime);
 		});
 	}
 
@@ -88,11 +93,11 @@ public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHisto
 		return new InsertPeopleAddressesHistory(context, this);
 	}
 
-	public DbWork<Long> insert(@Nullable Long personId, @Nullable String addressRelationCode,
-							   @Nullable LocalDate startDate, @Nullable LocalDateTime endDate,
-							   @Nullable Long addressId) {
+	public DbWork<Object> insert(@Nullable Long personId, @Nullable String addressRelationCode,
+								 @Nullable Long addressId, @Nullable LocalDateTime startTime,
+								 @Nullable LocalDateTime endTime) {
 		return insert()
-			.add(personId, addressRelationCode, startDate, endDate, addressId)
+			.add(personId, addressRelationCode, addressId, startTime, endTime)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
 	}
 
@@ -117,19 +122,22 @@ public class TPeopleAddressesHistory extends AbstractTable<EPeopleAddressesHisto
 		EPeopleAddressesHistory e = val(value);
 		return update()
 			.set(all(), e)
-			.where(this.personId.eq(e.personId).and(this.startDate.eq(e.startDate)));
+			.where(this.personId.eq(e.personId).and(this.addressRelationCode.eq(e.addressRelationCode))
+					   .and(this.startTime.eq(e.startTime)));
 	}
 
-	public DbWork<PeopleAddressesHistory> selectById(long personId, LocalDate startDate) {
-		return _selectById.with(personId, startDate);
+	public DbWork<PeopleAddressesHistory> selectById(long personId, String addressRelationCode,
+													 LocalDateTime startTime) {
+		return _selectById.with(personId, addressRelationCode, startTime);
 	}
 
 	public Delete delete() {
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(long personId, LocalDate startDate) {
+	public DbWork<Integer> deleteById(long personId, String addressRelationCode, LocalDateTime startTime) {
 		return delete()
-			.where(this.personId.eq(personId).and(this.startDate.eq(startDate)));
+			.where(this.personId.eq(personId).and(this.addressRelationCode.eq(addressRelationCode))
+					   .and(this.startTime.eq(startTime)));
 	}
 }

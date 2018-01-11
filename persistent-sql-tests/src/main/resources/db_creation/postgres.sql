@@ -129,48 +129,121 @@ CREATE TABLE pbtest.addresses (
 );
 
 CREATE TABLE people (
-  person_id BIGSERIAL NOT NULL,
-  PRIMARY KEY (person_id)
-
+  person_id       BIGSERIAL       NOT NULL,
+  PRIMARY KEY (person_id),
+  salutation_code SALUTATION_CODE NOT NULL REFERENCES salutations (salutation_code) ON UPDATE CASCADE,
+  name_first      VARCHAR         NOT NULL,
+  name_middle     VARCHAR         NULL,
+  name_last       VARCHAR         NOT NULL,
+  gender_code     GENDER_CODE     NOT NULL REFERENCES genders (gender_code) ON UPDATE CASCADE,
+  birth_day       DATE            NULL
 );
 
-CREATE TABLE people_baseinfo_history (
-  person_id       BIGSERIAL                           NOT NULL REFERENCES people (person_id) ON DELETE CASCADE,
-  start_time      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  PRIMARY KEY (person_id, start_time),
-  end_time        TIMESTAMP,
-  CONSTRAINT people_base_start_before_end CHECK (start_time < end_time),
-
+CREATE TABLE people_history (
+  person_id       BIGINT                              NOT NULL REFERENCES PEOPLE (person_id) ON DELETE CASCADE,
   salutation_code SALUTATION_CODE                     NOT NULL REFERENCES salutations (salutation_code) ON UPDATE CASCADE,
   name_first      VARCHAR                             NOT NULL,
   name_middle     VARCHAR                             NULL,
   name_last       VARCHAR                             NOT NULL,
   gender_code     GENDER_CODE                         NOT NULL REFERENCES genders (gender_code) ON UPDATE CASCADE,
-  birth_day       DATE                                NULL
+  birth_day       DATE                                NULL,
+
+  start_time      TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  end_time        TIMESTAMP,
+  CONSTRAINT people_base_start_before_end CHECK (start_time < end_time OR end_time IS NULL),
+  PRIMARY KEY (person_id, start_time)
+);
+
+DELIMITER !!
+CREATE OR REPLACE FUNCTION trigger_on_people()
+  RETURNS TRIGGER LANGUAGE plpgsql
+AS $function$
+DECLARE
+  pointInTime TIMESTAMP;
+BEGIN
+  pointInTime = current_timestamp;
+  UPDATE people_history
+  SET end_time = pointInTime
+  WHERE end_time IS NULL AND person_id = new.person_id;
+  IF tg_op = 'DELETE'
+  THEN
+    INSERT INTO people_history
+      SELECT
+        old.*,
+        pointInTime,
+        NULL;
+    RETURN old;
+  ELSE
+    INSERT INTO people_history
+      SELECT
+        new.*,
+        pointInTime,
+        NULL;
+    RETURN new;
+  END IF;
+END; $function$!!
+DELIMITER;
+
+CREATE TRIGGER history_trigger_on_people
+  AFTER INSERT OR UPDATE OR DELETE
+  ON people
+  FOR EACH ROW
+EXECUTE PROCEDURE trigger_on_people();
+
+
+CREATE TABLE people_addresses (
+  person_id             BIGSERIAL             NOT NULL REFERENCES people (person_id) ON DELETE CASCADE,
+  address_relation_code ADDRESS_RELATION_CODE NOT NULL REFERENCES address_relations (address_relation_code) ON UPDATE CASCADE,
+  address_id            BIGINT                NOT NULL REFERENCES addresses,
+  PRIMARY KEY (person_id, address_relation_code)
 );
 
 
 CREATE TABLE people_addresses_history (
-  person_id             BIGSERIAL                 NOT NULL REFERENCES people (person_id) ON DELETE CASCADE,
-  address_relation_code ADDRESS_RELATION_CODE     NOT NULL REFERENCES address_relations (address_relation_code) ON UPDATE CASCADE,
-  start_date            DATE DEFAULT CURRENT_DATE NOT NULL,
-  PRIMARY KEY (person_id, start_date),
-  end_date              TIMESTAMP,
-  address_id            BIGINT                    NOT NULL REFERENCES addresses,
-  CONSTRAINT people_adr_started_before_ended CHECK ( start_date < end_date)
-
-  -- ,
-  --   CONSTRAINT people_adr_no_date_overlaps CHECK (NOT EXISTS(SELECT *
-  --                                                            FROM people_addresses AS H1, Calendar AS C1
-  --                                                            WHERE C1.cal_date BETWEEN H1.start_date AND H1.end_date
-  --                                                            GROUP BY people_addresses
-  --                                                            HAVING COUNT(*) > 1)),
-  --   CONSTRAINT people_adr_only_one_current_status CHECK (NOT EXISTS(SELECT *
-  --                                                                   FROM people_addresses AS H1
-  --                                                                   WHERE H1.end_date IS NULL
-  --                                                                   GROUP BY foo_key
-  --                                                                   HAVING COUNT(*) > 1))
+  person_id             BIGINT                              NOT NULL REFERENCES people (person_id) ON DELETE CASCADE,
+  address_relation_code ADDRESS_RELATION_CODE               NOT NULL REFERENCES address_relations (address_relation_code) ON UPDATE CASCADE,
+  address_id            BIGINT                              NOT NULL REFERENCES addresses,
+  start_time            TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  end_time              TIMESTAMP,
+  PRIMARY KEY (person_id, address_relation_code, start_time),
+  CONSTRAINT people_adr_started_before_ended CHECK ( (start_time < end_time) OR end_time IS NULL)
 );
+
+DELIMITER !!
+CREATE OR REPLACE FUNCTION trigger_on_people_addresses()
+  RETURNS TRIGGER LANGUAGE plpgsql
+AS $function$
+DECLARE
+  pointInTime TIMESTAMP;
+BEGIN
+  pointInTime = current_timestamp;
+  UPDATE people_addresses_history
+  SET end_time = pointInTime
+  WHERE end_time IS NULL AND person_id = new.person_id AND address_relation_code = new.address_relation_code;
+  IF tg_op = 'DELETE'
+  THEN
+    INSERT INTO people_addresses_history
+      SELECT
+        old.*,
+        pointInTime,
+        NULL;
+    RETURN old;
+  ELSE
+    INSERT INTO people_addresses_history
+      SELECT
+        new.*,
+        pointInTime,
+        NULL;
+    RETURN new;
+  END IF;
+END; $function$!!
+DELIMITER;
+
+CREATE TRIGGER history_trigger_on_people_addresses
+  AFTER INSERT OR UPDATE OR DELETE
+  ON people_addresses
+  FOR EACH ROW
+EXECUTE PROCEDURE trigger_on_people_addresses();
 
 
 INSERT INTO salutations (salutation_code, description) VALUES
@@ -194,9 +267,58 @@ INSERT INTO addresses (address_id, street_line_1, street_line_2, postal_code, ci
   (10, 'Snoekstraat 10', NULL, '9000', 'Gent', 'BE', NULL);
 
 
-INSERT INTO people (person_id)
-VALUES (1), (2);
-INSERT INTO people_baseinfo_history (person_id, start_time, end_time, salutation_code, name_first, name_middle, name_last, gender_code, birth_day)
+INSERT INTO people (person_id, salutation_code, name_first, name_middle, name_last, gender_code, birth_day)
 VALUES
-  (1, TIMESTAMP '2004-10-19 10:23:54', NULL, 'MR', 'Peter', NULL, 'Muys', 'MALE', DATE '1972-05-21'),
-  (2, TIMESTAMP '2004-10-19 10:23:54', NULL, 'MS', 'Els', NULL, 'Van Oost', 'FEMALE', DATE '1976-06-16');
+  (1, 'MR', 'Peter', NULL, 'Muys', 'UNKNOWN', DATE '1972-05-21'),
+  (2, 'MS', 'Els', NULL, 'Van Oost', 'FEMALE', DATE '1976-06-16');
+
+UPDATE people
+SET gender_code = 'MALE'
+WHERE person_id = 1;
+
+INSERT INTO address_relations (address_relation_code, description) VALUES
+  ('HOME', 'Home address'),
+  ('WORK', 'Work address'),
+  ('DELIVERY', 'Delivery address');
+
+INSERT INTO people_addresses (person_id, address_relation_code, address_id)
+VALUES (1, 'HOME', 1);
+
+UPDATE people_addresses
+SET address_id = 2
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 3
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 4
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 5
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 6
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 7
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 8
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 9
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 10
+WHERE person_id = 1 AND address_relation_code = 'HOME';
+
+INSERT INTO people_addresses (person_id, address_relation_code, address_id)
+VALUES (2, 'HOME', 10);
+
+UPDATE people_addresses
+SET address_id = 9
+WHERE person_id = 2 AND address_relation_code = 'HOME';
+UPDATE people_addresses
+SET address_id = 10
+WHERE person_id = 2 AND address_relation_code = 'HOME';
+

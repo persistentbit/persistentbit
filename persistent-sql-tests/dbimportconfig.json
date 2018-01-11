@@ -63,6 +63,7 @@
         "userName": "sa",
         "password": null
       },
+      "dbInitFiles": null,
       "schemas": [
         {
           "catalogName": "DEFAULT",
