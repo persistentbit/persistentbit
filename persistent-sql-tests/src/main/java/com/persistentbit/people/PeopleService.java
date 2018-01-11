@@ -3,11 +3,13 @@ package com.persistentbit.people;
 import com.persistentbit.result.OK;
 import com.persistentbit.result.Result;
 import com.persistentbit.sql.transactions.DbTransaction;
+import com.persistentbit.utils.exceptions.ToDo;
 
 import java.time.LocalDateTime;
 import java.util.function.Supplier;
 
-import static com.pbtest.postgres.DbPg.*;
+import static com.pbtest.postgres.DbPg.peopleBaseinfoHistory;
+import static com.pbtest.postgres.DbPg.val;
 
 /**
  * TODOC
@@ -24,12 +26,13 @@ public class PeopleService{
 	}
 
 	public Result<PersonInTime> createNewPerson(LocalDateTime pointInTime, PersonBaseInfo baseInfo) {
-		return people.insert((Long) null)
-			.run(transSup.get());
+		//return people.insert((Long) null)
+		//	.run(transSup.get());
+		throw new ToDo();
 	}
 
 	public Result<OK> updatePersonBaseInfo(PersonBaseInfo baseInfoInTime) {
-
+		throw new ToDo();
 	}
 
 	public Result<PersonBaseInfo> getPersonBaseInfo(long personId, LocalDateTime time) {
@@ -45,9 +48,10 @@ public class PeopleService{
 				.setMiddleName(s.getNameMiddle().orElse(null))
 				.setLastName(s.getNameLast())
 				.setBirthDay(s.getBirthDay().orElse(null))
-				.setGender(s.getGenderCode())
+				//.setGender(s.getGenderCode())
+				.setGender(PersonGender.unknown)
 				.setPersonId(s.getPersonId())
-				.setPointInTime(time)
+				//.setPointInTime(time)
 				.setSallutationCode(s.getSalutationCode())
 			));
 	}

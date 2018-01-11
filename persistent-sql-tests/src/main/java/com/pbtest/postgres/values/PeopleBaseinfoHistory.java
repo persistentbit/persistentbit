@@ -28,8 +28,8 @@ public class PeopleBaseinfoHistory{
 	private final String        genderCode;
 	@Nullable
 	private final LocalDate     birthDay;
-
-
+	
+	
 	@Generated
 	public PeopleBaseinfoHistory(long personId, LocalDateTime startTime, @Nullable LocalDateTime endTime,
 								 String salutationCode, String nameFirst, @Nullable String nameMiddle, String nameLast,
