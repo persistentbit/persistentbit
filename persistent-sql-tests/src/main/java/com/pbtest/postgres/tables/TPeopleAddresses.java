@@ -57,22 +57,18 @@ public class TPeopleAddresses extends AbstractTable<EPeopleAddresses, PeopleAddr
 	public TPeopleAddresses(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EPeopleAddresses> getTypeClass() {
 		return EPeopleAddresses.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TPeopleAddresses as(String aliasName) {
 		return new TPeopleAddresses(context, aliasName);
 	}
-
 	@Override
 	public EPeopleAddresses all() {
 		return _all;

@@ -36,6 +36,9 @@ public class GenericDbImporter{
 		this.instance = instance;
 	}
 
+	protected CgContext createContext(Instance instance) {
+		return new CgContext(instance);
+	}
 
 	public Result<CgContext> importDb() {
 		return Result.function(instance).code(log -> {
@@ -52,7 +55,7 @@ public class GenericDbImporter{
 				.map(metaTables -> metaTables.map(mtTable -> generateJavaTable(mtTable)))
 				.flatMap(rl -> Result.fromSequence(rl.list()).map(l -> PList.from(l)))
 				.map(sl -> {
-					CgContext context = new CgContext(instance);
+					CgContext context = createContext(instance);
 					sl.forEach(context::register);
 					return context;
 				});

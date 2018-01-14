@@ -68,22 +68,18 @@ public class TPeopleHistory extends AbstractTable<EPeopleHistory, PeopleHistory>
 	public TPeopleHistory(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<EPeopleHistory> getTypeClass() {
 		return EPeopleHistory.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TPeopleHistory as(String aliasName) {
 		return new TPeopleHistory(context, aliasName);
 	}
-
 	@Override
 	public EPeopleHistory all() {
 		return _all;

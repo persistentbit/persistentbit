@@ -7,12 +7,18 @@ import com.persistentbit.sql.dsl.codegen.importer.GenericDbImporter;
 import com.persistentbit.sql.dsl.codegen.importer.TableField;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.Interval;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EInterval;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EIntervalTypeFactory;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EUUID;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EUUIDTypeFactory;
 import com.persistentbit.sql.dsl.postgres.rt.statements.PgQuery;
 import com.persistentbit.sql.dsl.postgres.rt.statements.impl.PgQueryImpl;
 import com.persistentbit.sql.meta.data.DbMetaColumn;
 import com.persistentbit.sql.meta.data.DbMetaTable;
 import com.persistentbit.sql.transactions.DbTransaction;
 
+import java.util.UUID;
 import java.util.function.Supplier;
 
 /**
@@ -28,18 +34,36 @@ public class PostgresDbImporter extends GenericDbImporter{
 		super(instance, transSup);
 	}
 
+	@Override
+	protected CgContext createContext(Instance instance) {
+		CgContext context = new CgContext(instance);
+		if(instance.getCodeGen().getGeneric() == false) {
+			context.setDbSuperClass(DbPostgres.class);
+		}
+		context.setQueryImplClass(PgQueryImpl.class);
+		context.setQueryInterfaceClass(PgQuery.class);
+		context.register(EUUID.class, UUID.class, EUUIDTypeFactory.class);
+		context.register(EInterval.class, Interval.class, EIntervalTypeFactory.class);
+		return context;
+	}
+
 
 	@Override
-	public Result<CgContext> importDb() {
-		return super.importDb()
-			.map(cgContext -> {
-				if(instance.getCodeGen().getGeneric() == false) {
-					cgContext.setDbSuperClass(DbPostgres.class);
-				}
-				cgContext.setQueryImplClass(PgQueryImpl.class);
-				cgContext.setQueryInterfaceClass(PgQuery.class);
-				return cgContext;
-			});
+	protected Result<TableField> createObjectField(DbMetaTable table, DbMetaColumn column) {
+		return createField(EObject.class, table, column);
+		//return Result.failure("Array objects not yet implemented for " + table.name + " " + column.getName());
+	}
+
+	@Override
+	protected Result<TableField> createOtherField(DbMetaTable table, DbMetaColumn column) {
+		switch(column.getType().getDbTypeName().orElse(null)) {
+			case "uuid":
+				return createField(EUUID.class, table, column);
+			case "interval":
+				return createField(EInterval.class, table, column);
+			default:
+				return createField(EObject.class, table, column);
+		}
 	}
 
 	@Override
@@ -92,6 +116,7 @@ public class PostgresDbImporter extends GenericDbImporter{
 					itemCls = ETime.class;
 					break;
 				case "_interval":
+					itemCls = EInterval.class;
 					//element = new DbJavaFieldCustomObject(column, javaName, Interval.class);
 					break;
 				case "_bool":
@@ -119,7 +144,7 @@ public class PostgresDbImporter extends GenericDbImporter{
 					break;
 
 				case "_uuid":
-					//element = new DbJavaFieldCustomObject(column, javaName, UUID.class);
+					itemCls = EUUID.class;
 					break;
 				case "_xml":
 					//element = new DbJavaFieldCustomObject(column, javaName, Xml.class);

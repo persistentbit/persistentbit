@@ -33,17 +33,14 @@ public class PeopleHistoryTypeFactory extends AbstractStructureTypeFactory<EPeop
 				, (EDateTime) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EPeopleHistory, PeopleHistory> getTypeFactory() {
 			return PeopleHistoryTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EPeopleHistory[" + personId + salutationCode + nameFirst + nameMiddle + nameLast + genderCode + birthDay + startTime + endTime + "]";
 		}
-
 		@Override
 		public EPeopleHistory getThis() {
 			return this;
@@ -53,7 +50,6 @@ public class PeopleHistoryTypeFactory extends AbstractStructureTypeFactory<EPeop
 	public PeopleHistoryTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EPeopleHistory, PeopleHistory>> buildFields() {
 		return PList.val(
@@ -70,7 +66,6 @@ public class PeopleHistoryTypeFactory extends AbstractStructureTypeFactory<EPeop
 			, createField(EDateTime.class, "end_time", "endTime", v -> v.getEndTime().orElse(null), v -> v.endTime)
 		);
 	}
-
 	@Override
 	protected PeopleHistory buildValue(Object[] fieldValues) {
 		return new PeopleHistory(
@@ -85,12 +80,10 @@ public class PeopleHistoryTypeFactory extends AbstractStructureTypeFactory<EPeop
 			, (LocalDateTime) fieldValues[8]
 		);
 	}
-
 	@Override
 	protected EPeopleHistoryImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EPeopleHistoryImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EPeopleHistory> getTypeClass() {
 		return EPeopleHistory.class;

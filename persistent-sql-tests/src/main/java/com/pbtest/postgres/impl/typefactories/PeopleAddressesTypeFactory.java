@@ -27,17 +27,14 @@ public class PeopleAddressesTypeFactory extends AbstractStructureTypeFactory<EPe
 				, (ELong) iter.next()
 			);
 		}
-
 		@Override
 		public AbstractStructureTypeFactory<EPeopleAddresses, PeopleAddresses> getTypeFactory() {
 			return PeopleAddressesTypeFactory.this;
 		}
-
 		@Override
 		public String toString() {
 			return "EPeopleAddresses[" + personId + addressRelationCode + addressId + "]";
 		}
-
 		@Override
 		public EPeopleAddresses getThis() {
 			return this;
@@ -47,7 +44,6 @@ public class PeopleAddressesTypeFactory extends AbstractStructureTypeFactory<EPe
 	public PeopleAddressesTypeFactory(ExprContext context) {
 		super(context);
 	}
-
 	@Override
 	protected PList<StructureField<EPeopleAddresses, PeopleAddresses>> buildFields() {
 		return PList.val(
@@ -57,7 +53,6 @@ public class PeopleAddressesTypeFactory extends AbstractStructureTypeFactory<EPe
 			, createField(ELong.class, "address_id", "addressId", v -> v.getAddressId(), v -> v.addressId)
 		);
 	}
-
 	@Override
 	protected PeopleAddresses buildValue(Object[] fieldValues) {
 		return new PeopleAddresses(
@@ -66,12 +61,10 @@ public class PeopleAddressesTypeFactory extends AbstractStructureTypeFactory<EPe
 			, (Long) fieldValues[2]
 		);
 	}
-
 	@Override
 	protected EPeopleAddressesImpl createExpression(PStream<DExpr> fieldValues) {
 		return new EPeopleAddressesImpl(fieldValues.iterator());
 	}
-
 	@Override
 	public Class<EPeopleAddresses> getTypeClass() {
 		return EPeopleAddresses.class;

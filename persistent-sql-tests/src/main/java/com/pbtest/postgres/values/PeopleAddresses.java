@@ -16,15 +16,14 @@ public class PeopleAddresses{
 	private final long   personId;
 	private final String addressRelationCode;
 	private final long   addressId;
-
-
+	
+	
 	@Generated
 	public PeopleAddresses(long personId, String addressRelationCode, long addressId) {
 		this.personId = Objects.requireNonNull(personId, "personId can not be null");
 		this.addressRelationCode = Objects.requireNonNull(addressRelationCode, "addressRelationCode can not be null");
 		this.addressId = Objects.requireNonNull(addressId, "addressId can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2, _T3>{
@@ -49,73 +48,57 @@ public class PeopleAddresses{
 			return (Builder<_T1, _T2, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #personId}.<br>
-	 *
 	 * @return {@link #personId}
 	 */
 	@Generated
 	public long getPersonId() {
 		return this.personId;
 	}
-
 	/**
 	 * Create a copy of this PeopleAddresses object with a new value for field {@link #personId}.<br>
-	 *
 	 * @param personId The new value for field {@link #personId}
-	 *
 	 * @return A new instance of {@link PeopleAddresses}
 	 */
 	@Generated
 	public PeopleAddresses withPersonId(long personId) {
 		return new PeopleAddresses(personId, addressRelationCode, addressId);
 	}
-
 	/**
 	 * Get the value of field {@link #addressRelationCode}.<br>
-	 *
 	 * @return {@link #addressRelationCode}
 	 */
 	@Generated
 	public String getAddressRelationCode() {
 		return this.addressRelationCode;
 	}
-
 	/**
 	 * Create a copy of this PeopleAddresses object with a new value for field {@link #addressRelationCode}.<br>
-	 *
 	 * @param addressRelationCode The new value for field {@link #addressRelationCode}
-	 *
 	 * @return A new instance of {@link PeopleAddresses}
 	 */
 	@Generated
 	public PeopleAddresses withAddressRelationCode(String addressRelationCode) {
 		return new PeopleAddresses(personId, addressRelationCode, addressId);
 	}
-
 	/**
 	 * Get the value of field {@link #addressId}.<br>
-	 *
 	 * @return {@link #addressId}
 	 */
 	@Generated
 	public long getAddressId() {
 		return this.addressId;
 	}
-
 	/**
 	 * Create a copy of this PeopleAddresses object with a new value for field {@link #addressId}.<br>
-	 *
 	 * @param addressId The new value for field {@link #addressId}
-	 *
 	 * @return A new instance of {@link PeopleAddresses}
 	 */
 	@Generated
 	public PeopleAddresses withAddressId(long addressId) {
 		return new PeopleAddresses(personId, addressRelationCode, addressId);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -127,7 +110,6 @@ public class PeopleAddresses{
 		if(addressId != obj.addressId) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -137,7 +119,6 @@ public class PeopleAddresses{
 		result = 31 * result + (int) (this.addressId ^ (this.addressId >>> 32));
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -145,10 +126,9 @@ public class PeopleAddresses{
 			"personId=" + personId +
 			", addressRelationCode=" + (addressRelationCode == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(addressRelationCode), 32, "...") + '\"') +
-			", addressId=" + addressId +
+			", addressId=" + addressId + 
 			']';
 	}
-
 	@Generated
 	public PeopleAddresses updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -158,7 +138,6 @@ public class PeopleAddresses{
 		b = updater.apply(b);
 		return new PeopleAddresses(b.personId, b.addressRelationCode, b.addressId);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static PeopleAddresses build(
@@ -166,7 +145,6 @@ public class PeopleAddresses{
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new PeopleAddresses(b.personId, b.addressRelationCode, b.addressId);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<PeopleAddresses> buildExc(

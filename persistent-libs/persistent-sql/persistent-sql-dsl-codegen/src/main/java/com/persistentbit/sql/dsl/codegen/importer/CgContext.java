@@ -15,6 +15,7 @@ import com.persistentbit.sql.dsl.codegen.config.SchemaDef;
 import com.persistentbit.sql.dsl.codegen.config.TableDef;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.expressions.impl.ExprTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.numbers.*;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.*;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTimeTypeFactory;
@@ -79,6 +80,11 @@ public class CgContext{
 		//register(new SimpleTypeDef(EBitList.class, PBitList.class, EBitList));
 		register(new SimpleTypeDef(EByteList.class, PByteList.class, EByteListTypeFactory.class));
 
+	}
+
+	public <E1 extends DExpr<J1>, J1> CgContext register(Class<E1> exprClass, Class<J1> javaCls,
+														 Class<? extends ExprTypeFactory<E1, J1>> classTypeFactory) {
+		return register(new SimpleTypeDef(exprClass, javaCls, classTypeFactory));
 	}
 
 	public Class getQueryInterfaceClass() {

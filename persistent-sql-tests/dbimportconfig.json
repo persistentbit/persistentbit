@@ -3,7 +3,8 @@
     {
       "javaDbName": "DbPg",
       "dbInitFiles": [
-        "src/main/resources/db_creation/postgres.sql"
+        "src/main/resources/db_creation/postgres.sql",
+        "src/main/resources/db_creation/postgres_blog.sql"
       ],
       "connector": {
         "driverClass": "org.postgresql.Driver",

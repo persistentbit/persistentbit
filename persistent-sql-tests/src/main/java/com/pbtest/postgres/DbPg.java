@@ -20,6 +20,7 @@ public class DbPg extends DbPostgres{
 	public static final TPeopleAddressesHistory peopleAddressesHistory = new TPeopleAddressesHistory(_context);
 	public static final TAddressRelations       addressRelations       = new TAddressRelations(_context);
 	public static final TTranslationsGender     translationsGender     = new TTranslationsGender(_context);
+	public static final TCustomTypes            customTypes            = new TCustomTypes(_context);
 	public static final TProducts               products               = new TProducts(_context);
 
 	public static EGenders val(Genders value) {
@@ -68,6 +69,10 @@ public class DbPg extends DbPostgres{
 
 	public static ETranslationsGender val(TranslationsGender value) {
 		return _context.getTypeFactory(ETranslationsGender.class).buildVal(value);
+	}
+
+	public static ECustomTypes val(CustomTypes value) {
+		return _context.getTypeFactory(ECustomTypes.class).buildVal(value);
 	}
 
 	public static EProducts val(Products value) {

@@ -4,6 +4,10 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.genericdb.DbGeneric;
 import com.persistentbit.sql.dsl.orderby.OrderBy;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EInterval;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EIntervalTypeFactory;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EUUID;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EUUIDTypeFactory;
 import com.persistentbit.sql.dsl.postgres.rt.windowover.WindowOver;
 
 import java.util.function.Function;
@@ -17,6 +21,10 @@ import java.util.function.Function;
 public class DbPostgres extends DbGeneric{
 
 
+	static {
+		_context.registerType(EUUID.class, EUUIDTypeFactory.class);
+		_context.registerType(EInterval.class, EIntervalTypeFactory.class);
+	}
 
 
 	public static EInt ascii(EString string) {

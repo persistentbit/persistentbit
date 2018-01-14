@@ -5,6 +5,12 @@ CREATE SCHEMA pbtest;
 -->>create
 SET search_path TO pbtest, public;
 
+-- Postgres custom types test
+CREATE TABLE custom_types (
+  t_uuid     UUID     NOT NULL PRIMARY KEY,
+  t_interval INTERVAL NOT NULL
+);
+
 -- Window functions test
 CREATE TABLE product_groups (
   group_id   SERIAL PRIMARY KEY,
