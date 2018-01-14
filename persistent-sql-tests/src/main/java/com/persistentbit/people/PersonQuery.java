@@ -18,7 +18,6 @@ import java.util.function.Function;
  */
 @CaseClass
 public class PersonQuery{
-
 	@Nullable
 	private final Long   id;
 	@Nullable
@@ -27,8 +26,8 @@ public class PersonQuery{
 	private final String lastName;
 	@Nullable
 	private final String fullName;
-
-
+	
+	
 	@Generated
 	public PersonQuery(@Nullable Long id, @Nullable String firstName, @Nullable String lastName,
 					   @Nullable String fullName) {
@@ -37,12 +36,10 @@ public class PersonQuery{
 		this.lastName = lastName;
 		this.fullName = fullName;
 	}
-
 	@Generated
 	public PersonQuery() {
 		this(null, null, null, null);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder{
@@ -73,95 +70,74 @@ public class PersonQuery{
 			return this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #id}.<br>
-	 *
 	 * @return {@link #id}
 	 */
 	@Generated
 	public Optional<Long> getId() {
 		return Optional.ofNullable(this.id);
 	}
-
 	/**
 	 * Create a copy of this PersonQuery object with a new value for field {@link #id}.<br>
-	 *
 	 * @param id The new value for field {@link #id}
-	 *
 	 * @return A new instance of {@link PersonQuery}
 	 */
 	@Generated
 	public PersonQuery withId(@Nullable Long id) {
 		return new PersonQuery(id, firstName, lastName, fullName);
 	}
-
 	/**
 	 * Get the value of field {@link #firstName}.<br>
-	 *
 	 * @return {@link #firstName}
 	 */
 	@Generated
 	public Optional<String> getFirstName() {
 		return Optional.ofNullable(this.firstName);
 	}
-
 	/**
 	 * Create a copy of this PersonQuery object with a new value for field {@link #firstName}.<br>
-	 *
 	 * @param firstName The new value for field {@link #firstName}
-	 *
 	 * @return A new instance of {@link PersonQuery}
 	 */
 	@Generated
 	public PersonQuery withFirstName(@Nullable String firstName) {
 		return new PersonQuery(id, firstName, lastName, fullName);
 	}
-
 	/**
 	 * Get the value of field {@link #lastName}.<br>
-	 *
 	 * @return {@link #lastName}
 	 */
 	@Generated
 	public Optional<String> getLastName() {
 		return Optional.ofNullable(this.lastName);
 	}
-
 	/**
 	 * Create a copy of this PersonQuery object with a new value for field {@link #lastName}.<br>
-	 *
 	 * @param lastName The new value for field {@link #lastName}
-	 *
 	 * @return A new instance of {@link PersonQuery}
 	 */
 	@Generated
 	public PersonQuery withLastName(@Nullable String lastName) {
 		return new PersonQuery(id, firstName, lastName, fullName);
 	}
-
 	/**
 	 * Get the value of field {@link #fullName}.<br>
-	 *
 	 * @return {@link #fullName}
 	 */
 	@Generated
 	public Optional<String> getFullName() {
 		return Optional.ofNullable(this.fullName);
 	}
-
 	/**
 	 * Create a copy of this PersonQuery object with a new value for field {@link #fullName}.<br>
-	 *
 	 * @param fullName The new value for field {@link #fullName}
-	 *
 	 * @return A new instance of {@link PersonQuery}
 	 */
 	@Generated
 	public PersonQuery withFullName(@Nullable String fullName) {
 		return new PersonQuery(id, firstName, lastName, fullName);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -174,7 +150,6 @@ public class PersonQuery{
 		if(fullName != null ? !fullName.equals(obj.fullName) : obj.fullName != null) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -185,7 +160,6 @@ public class PersonQuery{
 		result = 31 * result + (this.fullName != null ? this.fullName.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
@@ -199,7 +173,6 @@ public class PersonQuery{
 			.present(UString.escapeToJavaString(fullName), 32, "...") + '\"') +
 			']';
 	}
-
 	@Generated
 	public PersonQuery updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -210,14 +183,12 @@ public class PersonQuery{
 		b = updater.apply(b);
 		return new PersonQuery(b.id, b.firstName, b.lastName, b.fullName);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static PersonQuery build(ThrowingFunction<Builder, Builder, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new PersonQuery(b.id, b.firstName, b.lastName, b.fullName);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<PersonQuery> buildExc(ThrowingFunction<Builder, Builder, Exception> setter) {

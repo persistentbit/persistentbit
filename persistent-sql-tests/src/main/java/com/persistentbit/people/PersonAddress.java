@@ -131,7 +131,7 @@ public class PersonAddress{
 	public String toString() {
 		return "PersonAddress[" +
 			"personId=" + personId +
-			", relationCode=" + relationCode +
+			", relationCode=" + relationCode + 
 			", address=" + address + 
 			']';
 	}

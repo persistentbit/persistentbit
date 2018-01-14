@@ -137,7 +137,7 @@ public class PersonInTime{
 	@Override
 	public String toString() {
 		return "PersonInTime[" +
-			"id=" + id +
+			"id=" + id + 
 			", baseInfo=" + baseInfo + 
 			", addresses=" + addresses + 
 			']';

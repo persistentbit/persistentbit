@@ -48,39 +48,11 @@ public class DbCodeGenServiceProviderGeneric implements DbCodeGenService{
 											  .map(path -> initDb(new File(baseConfigPath, path), transSup))
 			)
 				//IMPORT THE DB
-				.andThen(() -> new GenericDbImporter(instance, transSup).importDb())
+				.andThen(() -> importDb(instance, transSup))
 				//GENERATE THE RESULT
 				.flatMap(CgContext::generateAll);
 
 		});
-
-
-		/*
-		return Result.function(instance)
-			.code(log ->
-					  createTransSupplier(instance.getConnector())
-						  .flatMap(transSup -> {
-							  log.info("Getting selection ");
-							  JavaGenTableSelection tableSelection = DbCodeGenConfigLoader
-								  .createTableSelection(transSup, instance)
-								  .orElseThrow();
-							  log.info("Creating name transformer");
-							  DbNameTransformer nameTransformer = DbCodeGenConfigLoader
-								  .createNameTransformer(instance)
-								  .orElseThrow();
-							  log.info("Creating import settings");
-							  DbImportSettings importSettings =
-								  new DbImportSettings(
-									  instance,
-									  tableSelection,
-									  //nameTransformer,
-									  transSup
-									  //instance.getCodeGen().getRootPackage(),
-									  //instance.getCodeGen().getGeneric()
-								  );
-							  return importDb(importSettings)
-								  .flatMap(CgContext::generateAll);
-						  }));*/
 	}
 
 

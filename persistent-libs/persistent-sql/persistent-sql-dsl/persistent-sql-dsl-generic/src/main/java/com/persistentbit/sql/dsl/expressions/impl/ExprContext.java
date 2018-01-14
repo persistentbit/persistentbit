@@ -14,7 +14,7 @@ import com.persistentbit.sql.dsl.expressions.impl.typeimpl.others.ESelectionType
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples.*;
 import com.persistentbit.sql.dsl.genericdb.GenericBinOps;
 import com.persistentbit.sql.dsl.genericdb.GenericTypeFactories;
-import com.persistentbit.sql.dsl.statements.select.impl.TypedSelection1Impl;
+import com.persistentbit.sql.dsl.statements.select.impl.SelectionImpl;
 import com.persistentbit.sql.dsl.tables.Table;
 import com.persistentbit.sql.dsl.tables.TableImpl;
 import com.persistentbit.sql.utils.rowreader.RowReader;
@@ -289,7 +289,7 @@ public class ExprContext{
 		return (E1) ((ExprTypeImpl) exampleExpr).buildVal(value);
 	}
 
-	public <E1 extends DExpr<J1>, J1> ESelection<J1> createESelection(TypedSelection1Impl<?, J1> selection1) {
+	public <E1 extends DExpr<J1>, J1> ESelection<J1> createESelection(SelectionImpl<?, J1> selection1) {
 		ESelectionTypeFactory tf = (ESelectionTypeFactory) getTypeFactory(ESelection.class);
 		return tf.create(selection1);
 	}

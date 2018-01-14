@@ -10,6 +10,7 @@ import com.persistentbit.javacodegen.annotations.SET;
 import com.persistentbit.result.Result;
 
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 
 /**
@@ -29,33 +30,38 @@ public class Person{
 	
 	
 	@Generated
-	public Person(long personId, PersonBaseInfo baseInfo, PList<PersonAddress> addresses) {
+	public Person(long personId, @Nullable PersonBaseInfo baseInfo, @Nullable PList<PersonAddress> addresses) {
 		this.personId = Objects.requireNonNull(personId, "personId can not be null");
-		this.baseInfo = Objects.requireNonNull(baseInfo, "baseInfo can not be null");
-		this.addresses = Objects.requireNonNull(addresses, "addresses can not be null");
+		this.baseInfo = baseInfo;
+		this.addresses = addresses;
+	}
+
+	@Generated
+	public Person(long personId) {
+		this(personId, null, null);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder<_T1, _T2, _T3>{
+	static public class Builder<_T1>{
 
 		private long                 personId;
 		private PersonBaseInfo       baseInfo;
 		private PList<PersonAddress> addresses;
 
 
-		public Builder<SET, _T2, _T3> setPersonId(long personId) {
+		public Builder<SET> setPersonId(long personId) {
 			this.personId = personId;
-			return (Builder<SET, _T2, _T3>) this;
+			return (Builder<SET>) this;
 		}
 
-		public Builder<_T1, SET, _T3> setBaseInfo(PersonBaseInfo baseInfo) {
+		public Builder<_T1> setBaseInfo(@Nullable PersonBaseInfo baseInfo) {
 			this.baseInfo = baseInfo;
-			return (Builder<_T1, SET, _T3>) this;
+			return this;
 		}
 
-		public Builder<_T1, _T2, SET> setAddresses(PList<PersonAddress> addresses) {
+		public Builder<_T1> setAddresses(@Nullable PList<PersonAddress> addresses) {
 			this.addresses = addresses;
-			return (Builder<_T1, _T2, SET>) this;
+			return this;
 		}
 	}
 	/**
@@ -80,8 +86,8 @@ public class Person{
 	 * @return {@link #baseInfo}
 	 */
 	@Generated
-	public PersonBaseInfo getBaseInfo() {
-		return this.baseInfo;
+	public Optional<PersonBaseInfo> getBaseInfo() {
+		return Optional.ofNullable(this.baseInfo);
 	}
 	/**
 	 * Create a copy of this Person object with a new value for field {@link #baseInfo}.<br>
@@ -89,7 +95,7 @@ public class Person{
 	 * @return A new instance of {@link Person}
 	 */
 	@Generated
-	public Person withBaseInfo(PersonBaseInfo baseInfo) {
+	public Person withBaseInfo(@Nullable PersonBaseInfo baseInfo) {
 		return new Person(personId, baseInfo, addresses);
 	}
 	/**
@@ -97,8 +103,8 @@ public class Person{
 	 * @return {@link #addresses}
 	 */
 	@Generated
-	public PList<PersonAddress> getAddresses() {
-		return this.addresses;
+	public Optional<PList<PersonAddress>> getAddresses() {
+		return Optional.ofNullable(this.addresses);
 	}
 	/**
 	 * Create a copy of this Person object with a new value for field {@link #addresses}.<br>
@@ -106,7 +112,7 @@ public class Person{
 	 * @return A new instance of {@link Person}
 	 */
 	@Generated
-	public Person withAddresses(PList<PersonAddress> addresses) {
+	public Person withAddresses(@Nullable PList<PersonAddress> addresses) {
 		return new Person(personId, baseInfo, addresses);
 	}
 	@Generated
@@ -116,8 +122,8 @@ public class Person{
 		if(o instanceof Person == false) return false;
 		Person obj = (Person) o;
 		if(personId != obj.personId) return false;
-		if(!baseInfo.equals(obj.baseInfo)) return false;
-		if(!addresses.equals(obj.addresses)) return false;
+		if(baseInfo != null ? !baseInfo.equals(obj.baseInfo) : obj.baseInfo != null) return false;
+		if(addresses != null ? !addresses.equals(obj.addresses) : obj.addresses != null) return false;
 		return true;
 	}
 	@Generated
@@ -134,7 +140,7 @@ public class Person{
 	public String toString() {
 		return "Person[" +
 			"personId=" + personId +
-			", baseInfo=" + baseInfo +
+			", baseInfo=" + baseInfo + 
 			", addresses=" + addresses + 
 			']';
 	}
@@ -149,14 +155,13 @@ public class Person{
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public static Person build(ThrowingFunction<Builder<NOT, NOT, NOT>, Builder<SET, SET, SET>, Exception> setter) {
+	public static Person build(ThrowingFunction<Builder<NOT>, Builder<SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new Person(b.personId, b.baseInfo, b.addresses);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	public static Result<Person> buildExc(
-		ThrowingFunction<Builder<NOT, NOT, NOT>, Builder<SET, SET, SET>, Exception> setter) {
+	public static Result<Person> buildExc(ThrowingFunction<Builder<NOT>, Builder<SET>, Exception> setter) {
 		return Result.noExceptions(() -> setter.apply(new Builder<>()))
 			.mapExc(b -> new Person(b.personId, b.baseInfo, b.addresses));
 	}

@@ -152,7 +152,7 @@ public class TypesTest{
 
 
 		TPerson menchen = person.as("menchen");
-		TypedSelection1<EPerson, Person> sel1 =
+		Selection<EPerson, Person> sel1 =
 			menchen.query()
 				.where(
 					menchen.id.gt(1234l)

@@ -14,4 +14,6 @@ module persistent.sql.dsl.postgres.rt {
 	exports com.persistentbit.sql.dsl.postgres.rt.customtypes;
 	exports com.persistentbit.sql.dsl.postgres.rt;
 	exports com.persistentbit.sql.dsl.postgres.rt.windowover;
+	exports com.persistentbit.sql.dsl.postgres.rt.statements;
+	exports com.persistentbit.sql.dsl.postgres.rt.statements.impl;
 }

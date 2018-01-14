@@ -9,7 +9,7 @@ import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.ESelection;
 import com.persistentbit.sql.dsl.expressions.impl.*;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
-import com.persistentbit.sql.dsl.statements.select.impl.TypedSelection1Impl;
+import com.persistentbit.sql.dsl.statements.select.impl.SelectionImpl;
 import com.persistentbit.utils.exceptions.ToDo;
 
 import java.util.function.Function;
@@ -89,7 +89,7 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 	}
 
 
-	public ESelection<J>	create(TypedSelection1Impl<?,J> selection){
+	public ESelection<J> create(SelectionImpl<?, J> selection) {
 		SqlWithParams sql = SqlWithParams.sql("(").add(selection.toSql()).add(")");
 		return new ESelectionImpl<>(selection.getJdbcConverter(),this,sql);
 	}

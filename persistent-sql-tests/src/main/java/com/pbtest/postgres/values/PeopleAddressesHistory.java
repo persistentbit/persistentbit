@@ -123,44 +123,34 @@ public class PeopleAddressesHistory{
 	public PeopleAddressesHistory withAddressId(long addressId) {
 		return new PeopleAddressesHistory(personId, addressRelationCode, addressId, startTime, endTime);
 	}
-
 	/**
 	 * Get the value of field {@link #startTime}.<br>
-	 *
 	 * @return {@link #startTime}
 	 */
 	@Generated
 	public LocalDateTime getStartTime() {
 		return this.startTime;
 	}
-
 	/**
 	 * Create a copy of this PeopleAddressesHistory object with a new value for field {@link #startTime}.<br>
-	 *
 	 * @param startTime The new value for field {@link #startTime}
-	 *
 	 * @return A new instance of {@link PeopleAddressesHistory}
 	 */
 	@Generated
 	public PeopleAddressesHistory withStartTime(LocalDateTime startTime) {
 		return new PeopleAddressesHistory(personId, addressRelationCode, addressId, startTime, endTime);
 	}
-
 	/**
 	 * Get the value of field {@link #endTime}.<br>
-	 *
 	 * @return {@link #endTime}
 	 */
 	@Generated
 	public Optional<LocalDateTime> getEndTime() {
 		return Optional.ofNullable(this.endTime);
 	}
-
 	/**
 	 * Create a copy of this PeopleAddressesHistory object with a new value for field {@link #endTime}.<br>
-	 *
 	 * @param endTime The new value for field {@link #endTime}
-	 *
 	 * @return A new instance of {@link PeopleAddressesHistory}
 	 */
 	@Generated
@@ -180,10 +170,9 @@ public class PeopleAddressesHistory{
 		if(endTime != null ? !endTime.equals(obj.endTime) : obj.endTime != null) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
-	public int	hashCode(){
+	public int hashCode() {
 		int result;
 		result = (int) (this.personId ^ (this.personId>>> 32));
 		result = 31 * result + (this.addressRelationCode != null ? this.addressRelationCode.hashCode() : 0);
@@ -192,19 +181,18 @@ public class PeopleAddressesHistory{
 		result = 31 * result + (this.endTime != null ? this.endTime.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
 		return "PeopleAddressesHistory[" +
 			"personId=" + personId +
-			", addressRelationCode=" + (addressRelationCode == null ? "null" : '\"' + UString.present(UString.escapeToJavaString(addressRelationCode), 32, "...") + '\"') +
+			", addressRelationCode=" + (addressRelationCode == null ? "null" : '\"' + UString
+			.present(UString.escapeToJavaString(addressRelationCode), 32, "...") + '\"') +
 			", addressId=" + addressId +
 			", startTime=" + startTime +
-			", endTime=" + endTime +
+			", endTime=" + endTime + 
 			']';
 	}
-
 	@Generated
 	public  PeopleAddressesHistory	updated(Function<Builder,Builder> updater){
 		Builder b = new Builder();
@@ -216,15 +204,13 @@ public class PeopleAddressesHistory{
 		b = updater.apply(b);
 		return new PeopleAddressesHistory(b.personId, b.addressRelationCode, b.addressId, b.startTime, b.endTime);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static PeopleAddressesHistory build(
-		ThrowingFunction<Builder<NOT,NOT,NOT,NOT>, Builder<SET,SET,SET, SET>, Exception> setter) {
+		ThrowingFunction<Builder<NOT, NOT, NOT, NOT>, Builder<SET, SET, SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new PeopleAddressesHistory(b.personId, b.addressRelationCode, b.addressId, b.startTime, b.endTime);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<PeopleAddressesHistory> buildExc(

@@ -34,23 +34,22 @@ public class PersonBaseInfo{
 	
 	
 	@Generated
-	public PersonBaseInfo(String firstName, @Nullable String middleName, String lastName, LocalDate birthDay,
+	public PersonBaseInfo(String firstName, @Nullable String middleName, String lastName, @Nullable LocalDate birthDay,
 						  PersonGender gender, String sallutationCode) {
 		this.firstName = Objects.requireNonNull(firstName, "firstName can not be null");
 		this.middleName = middleName;
 		this.lastName = Objects.requireNonNull(lastName, "lastName can not be null");
-		this.birthDay = Objects.requireNonNull(birthDay, "birthDay can not be null");
+		this.birthDay = birthDay;
 		this.gender = Objects.requireNonNull(gender, "gender can not be null");
 		this.sallutationCode = Objects.requireNonNull(sallutationCode, "sallutationCode can not be null");
 	}
 	@Generated
-	public PersonBaseInfo(String firstName, String lastName, LocalDate birthDay, PersonGender gender,
-						  String sallutationCode) {
-		this(firstName, null, lastName, birthDay, gender, sallutationCode);
+	public PersonBaseInfo(String firstName, String lastName, PersonGender gender, String sallutationCode) {
+		this(firstName, null, lastName, null, gender, sallutationCode);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
-	static public class Builder<_T1, _T2, _T3, _T4, _T5>{
+	static public class Builder<_T1, _T2, _T3, _T4>{
 
 		private String       firstName;
 		private String       middleName;
@@ -60,34 +59,34 @@ public class PersonBaseInfo{
 		private String       sallutationCode;
 
 
-		public Builder<SET, _T2, _T3, _T4, _T5> setFirstName(String firstName) {
+		public Builder<SET, _T2, _T3, _T4> setFirstName(String firstName) {
 			this.firstName = firstName;
-			return (Builder<SET, _T2, _T3, _T4, _T5>) this;
+			return (Builder<SET, _T2, _T3, _T4>) this;
 		}
 
-		public Builder<_T1, _T2, _T3, _T4, _T5> setMiddleName(@Nullable String middleName) {
+		public Builder<_T1, _T2, _T3, _T4> setMiddleName(@Nullable String middleName) {
 			this.middleName = middleName;
 			return this;
 		}
 
-		public Builder<_T1, SET, _T3, _T4, _T5> setLastName(String lastName) {
+		public Builder<_T1, SET, _T3, _T4> setLastName(String lastName) {
 			this.lastName = lastName;
-			return (Builder<_T1, SET, _T3, _T4, _T5>) this;
+			return (Builder<_T1, SET, _T3, _T4>) this;
 		}
 
-		public Builder<_T1, _T2, SET, _T4, _T5> setBirthDay(LocalDate birthDay) {
+		public Builder<_T1, _T2, _T3, _T4> setBirthDay(@Nullable LocalDate birthDay) {
 			this.birthDay = birthDay;
-			return (Builder<_T1, _T2, SET, _T4, _T5>) this;
+			return this;
 		}
 
-		public Builder<_T1, _T2, _T3, SET, _T5> setGender(PersonGender gender) {
+		public Builder<_T1, _T2, SET, _T4> setGender(PersonGender gender) {
 			this.gender = gender;
-			return (Builder<_T1, _T2, _T3, SET, _T5>) this;
+			return (Builder<_T1, _T2, SET, _T4>) this;
 		}
 
-		public Builder<_T1, _T2, _T3, _T4, SET> setSallutationCode(String sallutationCode) {
+		public Builder<_T1, _T2, _T3, SET> setSallutationCode(String sallutationCode) {
 			this.sallutationCode = sallutationCode;
-			return (Builder<_T1, _T2, _T3, _T4, SET>) this;
+			return (Builder<_T1, _T2, _T3, SET>) this;
 		}
 	}
 	/**
@@ -146,8 +145,8 @@ public class PersonBaseInfo{
 	 * @return {@link #birthDay}
 	 */
 	@Generated
-	public LocalDate getBirthDay() {
-		return this.birthDay;
+	public Optional<LocalDate> getBirthDay() {
+		return Optional.ofNullable(this.birthDay);
 	}
 	/**
 	 * Create a copy of this PersonBaseInfo object with a new value for field {@link #birthDay}.<br>
@@ -155,7 +154,7 @@ public class PersonBaseInfo{
 	 * @return A new instance of {@link PersonBaseInfo}
 	 */
 	@Generated
-	public PersonBaseInfo withBirthDay(LocalDate birthDay) {
+	public PersonBaseInfo withBirthDay(@Nullable LocalDate birthDay) {
 		return new PersonBaseInfo(firstName, middleName, lastName, birthDay, gender, sallutationCode);
 	}
 	/**
@@ -201,7 +200,7 @@ public class PersonBaseInfo{
 		if(!firstName.equals(obj.firstName)) return false;
 		if(middleName != null ? !middleName.equals(obj.middleName) : obj.middleName != null) return false;
 		if(!lastName.equals(obj.lastName)) return false;
-		if(!birthDay.equals(obj.birthDay)) return false;
+		if(birthDay != null ? !birthDay.equals(obj.birthDay) : obj.birthDay != null) return false;
 		if(!gender.equals(obj.gender)) return false;
 		if(!sallutationCode.equals(obj.sallutationCode)) return false;
 		return true;
@@ -249,14 +248,14 @@ public class PersonBaseInfo{
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static PersonBaseInfo build(
-		ThrowingFunction<Builder<NOT, NOT, NOT, NOT, NOT>, Builder<SET, SET, SET, SET, SET>, Exception> setter) {
+		ThrowingFunction<Builder<NOT, NOT, NOT, NOT>, Builder<SET, SET, SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new PersonBaseInfo(b.firstName, b.middleName, b.lastName, b.birthDay, b.gender, b.sallutationCode);
 	}
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<PersonBaseInfo> buildExc(
-		ThrowingFunction<Builder<NOT, NOT, NOT, NOT, NOT>, Builder<SET, SET, SET, SET, SET>, Exception> setter) {
+		ThrowingFunction<Builder<NOT, NOT, NOT, NOT>, Builder<SET, SET, SET, SET>, Exception> setter) {
 		return Result.noExceptions(() -> setter.apply(new Builder<>()))
 			.mapExc(b -> new PersonBaseInfo(b.firstName, b.middleName, b.lastName, b.birthDay, b.gender, b.sallutationCode));
 	}

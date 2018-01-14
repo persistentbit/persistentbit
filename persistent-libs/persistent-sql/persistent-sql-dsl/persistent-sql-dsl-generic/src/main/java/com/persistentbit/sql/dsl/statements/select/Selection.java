@@ -18,7 +18,7 @@ import com.persistentbit.sql.work.DbWork;
  * @author petermuys
  * @since 27/11/17
  */
-public interface TypedSelection1
+public interface Selection
 	<
 		E1 extends DExpr<J1>, J1
 		>{

@@ -11,7 +11,7 @@ import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.statements.SqlStatement;
-import com.persistentbit.sql.dsl.statements.select.TypedSelection1;
+import com.persistentbit.sql.dsl.statements.select.Selection;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP1;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP2;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP3;
@@ -28,16 +28,16 @@ import java.sql.ResultSet;
  * @author petermuys
  * @since 28/11/17
  */
-public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelection1<E1, J1>, SqlStatement{
+public class SelectionImpl<E1 extends DExpr<J1>, J1> implements Selection<E1, J1>, SqlStatement{
 
-	final QueryImpl query;
-	final E1 col1;
+	final QueryCtx queryCtx;
+	final E1       col1;
 
 	final ExprContext context;
 
-	public TypedSelection1Impl(QueryImpl query, E1 col1) {
-		this.query = query;
-		this.context = query.qc.context;
+	public SelectionImpl(QueryCtx queryCtx, E1 col1) {
+		this.queryCtx = queryCtx;
+		this.context = queryCtx.context;
 		this.col1 = col1;
 	}
 
@@ -46,20 +46,20 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 	}
 
 	@Override
-	public SqlWithParams toSql() {
+	public final SqlWithParams toSql() {
 		return toSql(null);
 	}
 
 	protected SqlWithParams toSql(String preFixAlias) {
 		E1     colAsSelection = context.toSqlSelection(col1, preFixAlias);
-		String from           = query.qc.from.map(t -> context.getFromTableName(t)).toString(", ");
+		String from           = queryCtx.from.map(t -> context.getFromTableName(t)).toString(", ");
 
 		SqlWithParams joins =
 			SqlWithParams
 				.empty
-				.add(query.qc.joins.map(j -> j.toSql()), System.lineSeparator());
+				.add(queryCtx.joins.map(j -> j.toSql()), System.lineSeparator());
 		SqlWithParams res = SqlWithParams.sql("SELECT ");
-		if(query.qc.distinct) {
+		if(queryCtx.distinct) {
 			res = res.add(" DISTINCT ");
 		}
 		res = res.add(context.toSql(colAsSelection));
@@ -67,10 +67,10 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 		res = res.add(" FROM " + from);
 		res = res.add(SqlWithParams.nl);
 		res = res.add(joins);
-		if(query.qc.where != null){
-			res = res.add(" WHERE ").add(context.toSql(query.qc.where));
+		if(queryCtx.where != null) {
+			res = res.add(" WHERE ").add(context.toSql(queryCtx.where));
 		}
-		PList<GroupByDef> groupByList = query.qc.groupBy;
+		PList<GroupByDef> groupByList = queryCtx.groupBy;
 		if(groupByList.isEmpty() == false) {
 			res = res.add(SqlWithParams.nl);
 			if(groupByList.size() > 1) {
@@ -98,16 +98,16 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 				res = res.add(") ");
 			}
 
-			if(query.qc.having != null) {
+			if(queryCtx.having != null) {
 				res = res.add(SqlWithParams.nl);
-				res = res.add("HAVING ").add(context.toSql(query.qc.having));
+				res = res.add("HAVING ").add(context.toSql(queryCtx.having));
 			}
 		}
-		res = res.add(context.toSql(query.qc.orderBy));
+		res = res.add(context.toSql(queryCtx.orderBy));
 
 
-		if(query.qc.limitAndOffset != null) {
-			Tuple2<ELong, ELong> t = query.qc.limitAndOffset;
+		if(queryCtx.limitAndOffset != null) {
+			Tuple2<ELong, ELong> t = queryCtx.limitAndOffset;
 			res = res.add(SqlWithParams.nl).add(" LIMIT ").add(context.toSql(t._1));
 			if(t._2 != null) {
 				res = res.add(" OFFSET ").add(context.toSql(t._2));
@@ -118,7 +118,7 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 
 	@Override
 	public SubQuery1<E1, J1> asSubQuery(String name) {
-		return new SubQuery1<>(this,name);
+		return new SubQuery1<>(this, name);
 	}
 
 	@Override
@@ -132,31 +132,32 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 	}
 
 
-	private DbWork<PList<J1>> buildList(PMap<String,Object> args){
+	private DbWork<PList<J1>> buildList(PMap<String, Object> args) {
 		SqlWithParams           sql         = toSql();
-		PList<DExpr>            expanded    = query.qc.context.expand(col1);
-		ExprTypeJdbcConvert<J1> jdbcConvert = query.qc.context.getJdbcConverter(col1);
+		PList<DExpr>            expanded    = queryCtx.context.expand(col1);
+		ExprTypeJdbcConvert<J1> jdbcConvert = queryCtx.context.getJdbcConverter(col1);
 		return DbWork.function(args).code(trans -> con -> log -> {
 			log.info("Sql:" + sql);
-			try(PreparedStatement stat = con.prepareStatement(sql.getSql())){
-				sql.setParams(args,stat);
-				try(ResultSet rs = stat.executeQuery()){
+			try(PreparedStatement stat = con.prepareStatement(sql.getSql())) {
+				sql.setParams(args, stat);
+				try(ResultSet rs = stat.executeQuery()) {
 					PList<J1> res = PList.empty();
-					while(rs.next()){
-						res = res.plus(jdbcConvert.read(1,rs));
+					while(rs.next()) {
+						res = res.plus(jdbcConvert.read(1, rs));
 					}
 					return Result.success(res);
 				}
 			}
 		});
 	}
-	private DbWork<J1> buildOne(PMap<String,Object> args){
+
+	private DbWork<J1> buildOne(PMap<String, Object> args) {
 		return buildList(args)
 			.flatMap(l -> {
-				if(l.isEmpty()){
+				if(l.isEmpty()) {
 					return Result.empty("Expected one record");
 				}
-				if(l.size()>1){
+				if(l.size() > 1) {
 					return Result.failure("Expected one record, got " + l.size());
 				}
 				return Result.result(l.headOpt().orElse(null));
@@ -177,13 +178,14 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 
 	@Override
 	public <P1 extends DExpr<PJ1>, PJ1> DbWorkP1<PJ1, PList<J1>> list(Param<P1> p1) {
-		return arg1 -> buildList(PMap.val(p1.getName(),arg1));
+		return arg1 -> buildList(PMap.val(p1.getName(), arg1));
 	}
 
 	@Override
-	public <P1 extends DExpr<PJ1>, PJ1, P2 extends DExpr<PJ2>, PJ2> DbWorkP2<PJ1, PJ2, PList<J1>> list(Param<P1> p1, Param<P2> p2
+	public <P1 extends DExpr<PJ1>, PJ1, P2 extends DExpr<PJ2>, PJ2> DbWorkP2<PJ1, PJ2, PList<J1>> list(Param<P1> p1,
+																									   Param<P2> p2
 	) {
-		return (arg1,arg2) -> buildList(PMap.val(p1.getName(),arg1,p2.getName(),arg2));
+		return (arg1, arg2) -> buildList(PMap.val(p1.getName(), arg1, p2.getName(), arg2));
 	}
 
 	@Override
@@ -206,13 +208,14 @@ public class TypedSelection1Impl<E1 extends DExpr<J1>, J1> implements TypedSelec
 
 	@Override
 	public <P1 extends DExpr<PJ1>, PJ1> DbWorkP1<PJ1, J1> one(Param<P1> p1) {
-		return arg1 -> buildOne(PMap.val(p1.getName(),arg1));
+		return arg1 -> buildOne(PMap.val(p1.getName(), arg1));
 	}
 
 	@Override
-	public <P1 extends DExpr<PJ1>, PJ1, P2 extends DExpr<PJ2>, PJ2> DbWorkP2<PJ1, PJ2, J1> one(Param<P1> p1, Param<P2> p2
+	public <P1 extends DExpr<PJ1>, PJ1, P2 extends DExpr<PJ2>, PJ2> DbWorkP2<PJ1, PJ2, J1> one(Param<P1> p1,
+																							   Param<P2> p2
 	) {
-		return (arg1,arg2) -> buildOne(PMap.val(p1.getName(),arg1,p2.getName(),arg2));
+		return (arg1, arg2) -> buildOne(PMap.val(p1.getName(), arg1, p2.getName(), arg2));
 	}
 
 	@Override

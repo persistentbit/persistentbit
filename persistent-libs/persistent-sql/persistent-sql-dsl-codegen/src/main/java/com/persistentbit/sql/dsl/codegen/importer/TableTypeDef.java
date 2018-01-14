@@ -8,7 +8,6 @@ import com.persistentbit.result.Result;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
-import com.persistentbit.sql.dsl.statements.insert.Insert;
 import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
@@ -288,13 +287,14 @@ public class TableTypeDef implements TypeDef{
 				);
 				//CREATE QUERY
 				cls = cls.addMethod(
-					new JMethod("query", Query.class.getSimpleName())
+					new JMethod("query", context.getQueryInterfaceClass().getSimpleName())
 						.withAccessLevel(AccessLevel.Public)
 						.withCode(pw -> {
-							pw.println("return new QueryImpl(context, PList.val(this));");
+							pw.println("return new " + context.getQueryImplClass()
+								.getSimpleName() + "(context, PList.val(this));");
 						})
-						.addImport(Query.class)
-						.addImport(QueryImpl.class)
+						.addImport(context.getQueryImplClass())
+						.addImport(context.getQueryInterfaceClass())
 						.addImport(PList.class)
 				);
 				cls = cls.addMethod(
@@ -442,9 +442,10 @@ public class TableTypeDef implements TypeDef{
 			TypeRef                    tableRef     = context.createTableTypeRef(tableName);
 			Optional<SimpleTableField> autoGenField = getPrimKeys(context).find(pk -> pk.isAutoGenKey());
 			JClass cls = new JClass(insertRef.getClassName())
-				.extendsDef("Insert<" + tableRef.getClassName() + ", " + autoGenField
+				.extendsDef(context.getInsertImplClass().getSimpleName() + "<" + tableRef
+					.getClassName() + ", " + autoGenField
 					.map(tf -> tf.getJavaTypeRef(context).getClassName()).orElse("Void") + ">")
-				.addImport(Insert.class)
+				.addImport(context.getInsertImplClass())
 				.addImports(tableRef.getImports(context));
 
 			PStream<SimpleTableField> expanded = getExpandedFields(context);

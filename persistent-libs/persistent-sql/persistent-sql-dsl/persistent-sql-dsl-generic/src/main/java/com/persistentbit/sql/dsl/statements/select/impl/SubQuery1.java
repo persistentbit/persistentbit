@@ -16,11 +16,12 @@ import com.persistentbit.sql.work.DbWork;
  * @since 1/12/17
  */
 public class SubQuery1<E1 extends DExpr<J1>,J1> implements TableImpl<E1,J1>{
-	private final TypedSelection1Impl<E1,J1> orgSelection;
-	private final String name;
-	public final E1 v1;
 
-	public SubQuery1(TypedSelection1Impl<E1, J1> orgSelection, String name) {
+	private final SelectionImpl<E1, J1> orgSelection;
+	private final String                name;
+	public final  E1                    v1;
+
+	public SubQuery1(SelectionImpl<E1, J1> orgSelection, String name) {
 		this.orgSelection = orgSelection;
 		this.name = name;
 		ExprContext	context = orgSelection.context;

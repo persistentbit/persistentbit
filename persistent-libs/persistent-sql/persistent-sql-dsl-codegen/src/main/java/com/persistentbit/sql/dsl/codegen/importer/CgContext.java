@@ -21,6 +21,10 @@ import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTimeTypeFac
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.EDateTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.time.ETimeTypeFactory;
 import com.persistentbit.sql.dsl.genericdb.DbGeneric;
+import com.persistentbit.sql.dsl.statements.insert.Insert;
+import com.persistentbit.sql.dsl.statements.select.Query;
+import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
+import com.persistentbit.sql.dsl.statements.update.Update;
 import com.persistentbit.string.UString;
 
 import java.math.BigDecimal;
@@ -44,11 +48,20 @@ public class CgContext{
 	private final String   dbClassName;
 	private PMap<TypeRef, TypeDef> defs         = PMap.empty();
 	private Class                  dbSuperClass = DbGeneric.class;
+	private Class queryImplClass;
+	private Class queryInterfaceClass;
+	private Class insertImplClass;
+	private Class updateImplClass;
+
 
 	public CgContext(Instance instance) {
 		this.instance = instance;
 		this.basePackage = instance.getCodeGen().getRootPackage();
 		this.dbClassName = instance.getJavaDbName();
+		this.queryImplClass = QueryImpl.class;
+		this.queryInterfaceClass = Query.class;
+		this.insertImplClass = Insert.class;
+		this.updateImplClass = Update.class;
 		register(new SimpleTypeDef(EObject.class, Object.class, EObjectTypeFactory.class));
 		register(new SimpleTypeDef(EBool.class, Boolean.class, EBoolTypeFactory.class));
 		register(new SimpleTypeDef(EByte.class, Byte.class, EByteTypeFactory.class));
@@ -68,6 +81,41 @@ public class CgContext{
 
 	}
 
+	public Class getQueryInterfaceClass() {
+		return queryInterfaceClass;
+	}
+
+	public CgContext setQueryInterfaceClass(Class queryInterfaceClass) {
+		this.queryInterfaceClass = queryInterfaceClass;
+		return this;
+	}
+
+	public Class getQueryImplClass() {
+		return queryImplClass;
+	}
+
+	public CgContext setQueryImplClass(Class queryImplClass) {
+		this.queryImplClass = queryImplClass;
+		return this;
+	}
+
+	public Class getInsertImplClass() {
+		return insertImplClass;
+	}
+
+	public CgContext setInsertImplClass(Class insertImplClass) {
+		this.insertImplClass = insertImplClass;
+		return this;
+	}
+
+	public Class getUpdateImplClass() {
+		return updateImplClass;
+	}
+
+	public CgContext setUpdateImplClass(Class updateImplClass) {
+		this.updateImplClass = updateImplClass;
+		return this;
+	}
 
 	public String getBasePackage() {
 		return basePackage;

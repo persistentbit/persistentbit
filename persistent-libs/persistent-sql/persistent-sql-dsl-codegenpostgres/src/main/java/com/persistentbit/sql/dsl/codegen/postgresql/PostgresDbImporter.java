@@ -7,6 +7,8 @@ import com.persistentbit.sql.dsl.codegen.importer.GenericDbImporter;
 import com.persistentbit.sql.dsl.codegen.importer.TableField;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
+import com.persistentbit.sql.dsl.postgres.rt.statements.PgQuery;
+import com.persistentbit.sql.dsl.postgres.rt.statements.impl.PgQueryImpl;
 import com.persistentbit.sql.meta.data.DbMetaColumn;
 import com.persistentbit.sql.meta.data.DbMetaTable;
 import com.persistentbit.sql.transactions.DbTransaction;
@@ -34,6 +36,8 @@ public class PostgresDbImporter extends GenericDbImporter{
 				if(instance.getCodeGen().getGeneric() == false) {
 					cgContext.setDbSuperClass(DbPostgres.class);
 				}
+				cgContext.setQueryImplClass(PgQueryImpl.class);
+				cgContext.setQueryInterfaceClass(PgQuery.class);
 				return cgContext;
 			});
 	}

@@ -322,3 +322,12 @@ UPDATE people_addresses
 SET address_id = 10
 WHERE person_id = 2 AND address_relation_code = 'HOME';
 
+INSERT INTO translations_gender (gender_code, language_code, description)
+VALUES
+  ('MALE', 'nl', 'Man'),
+  ('FEMALE', 'nl', 'Vrouw'),
+  ('UNKNOWN', 'nl', 'Onbekend'),
+  ('MALE', 'en', 'Male'),
+  ('FEMALE', 'en', 'Female'),
+  ('UNKNOWN', 'en', 'Unknown');
+
