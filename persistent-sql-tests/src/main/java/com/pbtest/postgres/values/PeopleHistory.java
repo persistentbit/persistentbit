@@ -310,7 +310,7 @@ public class PeopleHistory{
 			", genderCode=" + (genderCode == null ? "null" : '\"' + UString
 			.present(UString.escapeToJavaString(genderCode), 32, "...") + '\"') +
 			", birthDay=" + birthDay +
-			", startTime=" + startTime +
+			", startTime=" + startTime + 
 			", endTime=" + endTime + 
 			']';
 	}

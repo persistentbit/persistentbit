@@ -1,12 +1,13 @@
 package com.pbtest.postgres.tables;
 
-import com.pbtest.postgres.expressions.EGenders;
-import com.pbtest.postgres.impl.typefactories.GendersTypeFactory;
-import com.pbtest.postgres.inserts.InsertGenders;
-import com.pbtest.postgres.values.Genders;
+import com.pbtest.postgres.expressions.EAnimals;
+import com.pbtest.postgres.impl.typefactories.AnimalsTypeFactory;
+import com.pbtest.postgres.inserts.InsertAnimals;
+import com.pbtest.postgres.values.Animals;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.expressions.EInt;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -22,49 +23,55 @@ import com.persistentbit.sql.work.DbWork;
 
 import java.util.function.Function;
 
-public class TGenders extends AbstractTable<EGenders, Genders>{
+public class TAnimals extends AbstractTable<EAnimals, Animals>{
 
-	private final TableName _tableName = new TableName(null, "pbtest", "genders");
-	private final DbWorkP1<String, Genders> _selectById;
-	private final EGenders                  _all;
-	public final  EString                   genderCode;
-	public final  EString                   description;
+	private final TableName _tableName = new TableName(null, "pbtest", "animals");
+	private final DbWorkP1<Integer, Animals> _selectById;
+	private final EAnimals                   _all;
+	public final  EInt                       id;
+	public final  EString                    type;
+	public final  EString                    name;
 
 
-	private TGenders(ExprContext context, String alias) {
+	private TAnimals(ExprContext context, String alias) {
 		super(context, alias);
-		context.registerType(EGenders.class, GendersTypeFactory.class);
+		context.registerType(EAnimals.class, AnimalsTypeFactory.class);
 		this._all = context
-			.getTypeFactory(EGenders.class)
+			.getTypeFactory(EAnimals.class)
 			.buildTableField(createFullTableNameOrAlias() + ".", "", "");
-		this.genderCode = _all.genderCode;
-		this.description = _all.description;
+		this.id = _all.id;
+		this.type = _all.type;
+		this.name = _all.name;
 		this._selectById = query(p -> q -> {
-			Param<EString> paramgenderCode = context.param(EString.class, "genderCode");
+			Param<EInt> paramid = context.param(EInt.class, "id");
 			return q
-				.where(this.genderCode.eq(paramgenderCode.getExpr()))
+				.where(this.id.eq(paramid.getExpr()))
 				.selection(all())
-				.one(paramgenderCode);
+				.one(paramid);
 		});
 	}
 
-	public TGenders(ExprContext context) {
+	public TAnimals(ExprContext context) {
 		this(context, null);
 	}
+
 	@Override
-	public Class<EGenders> getTypeClass() {
-		return EGenders.class;
+	public Class<EAnimals> getTypeClass() {
+		return EAnimals.class;
 	}
+
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
+
 	@Override
-	public TGenders as(String aliasName) {
-		return new TGenders(context, aliasName);
+	public TAnimals as(String aliasName) {
+		return new TAnimals(context, aliasName);
 	}
+
 	@Override
-	public EGenders all() {
+	public EAnimals all() {
 		return _all;
 	}
 
@@ -72,21 +79,21 @@ public class TGenders extends AbstractTable<EGenders, Genders>{
 		return new QueryImpl(context, PList.val(this));
 	}
 
-	public <R> R query(Function<EGenders, Function<Query, R>> builder) {
+	public <R> R query(Function<EAnimals, Function<Query, R>> builder) {
 		return builder.apply(all()).apply(query());
 	}
 
-	public InsertGenders insert() {
-		return new InsertGenders(context, this);
+	public InsertAnimals insert() {
+		return new InsertAnimals(context, this);
 	}
 
-	public DbWork<Object> insert(@Nullable String genderCode, @Nullable String description) {
+	public DbWork<Integer> insert(@Nullable Integer id, @Nullable String type, @Nullable String name) {
 		return insert()
-			.add(genderCode, description)
+			.add(id, type, name)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
 	}
 
-	public DbWork<Genders> insert(Genders p) {
+	public DbWork<Animals> insert(Animals p) {
 		return insert().add(p)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt())
 				.flatMap(ir ->
@@ -95,31 +102,31 @@ public class TGenders extends AbstractTable<EGenders, Genders>{
 								 : Result.success(p)));
 	}
 
-	public EGenders val(Genders value) {
-		return context.getTypeFactory(EGenders.class).buildVal(value);
+	public EAnimals val(Animals value) {
+		return context.getTypeFactory(EAnimals.class).buildVal(value);
 	}
 
 	public Update update() {
 		return new Update(context, this);
 	}
 
-	public DbWork<Integer> update(Genders value) {
-		EGenders e = val(value);
+	public DbWork<Integer> update(Animals value) {
+		EAnimals e = val(value);
 		return update()
 			.set(all(), e)
-			.where(this.genderCode.eq(e.genderCode));
+			.where(this.id.eq(e.id));
 	}
 
-	public DbWork<Genders> selectById(String genderCode) {
-		return _selectById.with(genderCode);
+	public DbWork<Animals> selectById(int id) {
+		return _selectById.with(id);
 	}
 
 	public Delete delete() {
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(String genderCode) {
+	public DbWork<Integer> deleteById(int id) {
 		return delete()
-			.where(this.genderCode.eq(genderCode));
+			.where(this.id.eq(id));
 	}
 }

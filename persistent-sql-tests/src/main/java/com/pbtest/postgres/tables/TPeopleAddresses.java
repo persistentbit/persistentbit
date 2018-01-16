@@ -11,11 +11,10 @@ import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.postgres.rt.statements.PgQuery;
-import com.persistentbit.sql.dsl.postgres.rt.statements.impl.PgQueryImpl;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
 import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
+import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP2;
 import com.persistentbit.sql.dsl.tables.AbstractTable;
@@ -74,8 +73,8 @@ public class TPeopleAddresses extends AbstractTable<EPeopleAddresses, PeopleAddr
 		return _all;
 	}
 
-	public PgQuery query() {
-		return new PgQueryImpl(context, PList.val(this));
+	public Query query() {
+		return new QueryImpl(context, PList.val(this));
 	}
 
 	public <R> R query(Function<EPeopleAddresses, Function<Query, R>> builder) {

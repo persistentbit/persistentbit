@@ -2,16 +2,15 @@ package com.pbtest.postgres.expressions;
 
 import com.pbtest.postgres.values.CustomTypes;
 import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EInterval;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EUUID;
+import com.persistentbit.sql.dsl.expressions.EObject;
 
 public abstract class ECustomTypes implements DExpr<CustomTypes>{
 
-	public final EUUID     tUuid;
-	public final EInterval tInterval;
+	public final EObject tUuid;
+	public final EObject tInterval;
 
 
-	public ECustomTypes(EUUID tUuid, EInterval tInterval) {
+	public ECustomTypes(EObject tUuid, EObject tInterval) {
 		this.tUuid = tUuid;
 		this.tInterval = tInterval;
 	}

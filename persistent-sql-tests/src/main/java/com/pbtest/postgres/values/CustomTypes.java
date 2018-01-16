@@ -6,87 +6,73 @@ import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NOT;
 import com.persistentbit.javacodegen.annotations.SET;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.Interval;
 
 import java.util.Objects;
-import java.util.UUID;
 import java.util.function.Function;
 
 public class CustomTypes{
 
-	private final UUID     tUuid;
-	private final Interval tInterval;
-
-
+	private final Object tUuid;
+	private final Object tInterval;
+	
+	
 	@Generated
-	public CustomTypes(UUID tUuid, Interval tInterval) {
+	public CustomTypes(Object tUuid, Object tInterval) {
 		this.tUuid = Objects.requireNonNull(tUuid, "tUuid can not be null");
 		this.tInterval = Objects.requireNonNull(tInterval, "tInterval can not be null");
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2>{
 
-		private UUID     tUuid;
-		private Interval tInterval;
+		private Object tUuid;
+		private Object tInterval;
 
 
-		public Builder<SET, _T2> setTUuid(UUID tUuid) {
+		public Builder<SET, _T2> setTUuid(Object tUuid) {
 			this.tUuid = tUuid;
 			return (Builder<SET, _T2>) this;
 		}
 
-		public Builder<_T1, SET> setTInterval(Interval tInterval) {
+		public Builder<_T1, SET> setTInterval(Object tInterval) {
 			this.tInterval = tInterval;
 			return (Builder<_T1, SET>) this;
 		}
 	}
-
 	/**
 	 * Get the value of field {@link #tUuid}.<br>
-	 *
 	 * @return {@link #tUuid}
 	 */
 	@Generated
-	public UUID getTUuid() {
+	public Object getTUuid() {
 		return this.tUuid;
 	}
-
 	/**
 	 * Create a copy of this CustomTypes object with a new value for field {@link #tUuid}.<br>
-	 *
 	 * @param tUuid The new value for field {@link #tUuid}
-	 *
 	 * @return A new instance of {@link CustomTypes}
 	 */
 	@Generated
-	public CustomTypes withTUuid(UUID tUuid) {
+	public CustomTypes withTUuid(Object tUuid) {
 		return new CustomTypes(tUuid, tInterval);
 	}
-
 	/**
 	 * Get the value of field {@link #tInterval}.<br>
-	 *
 	 * @return {@link #tInterval}
 	 */
 	@Generated
-	public Interval getTInterval() {
+	public Object getTInterval() {
 		return this.tInterval;
 	}
-
 	/**
 	 * Create a copy of this CustomTypes object with a new value for field {@link #tInterval}.<br>
-	 *
 	 * @param tInterval The new value for field {@link #tInterval}
-	 *
 	 * @return A new instance of {@link CustomTypes}
 	 */
 	@Generated
-	public CustomTypes withTInterval(Interval tInterval) {
+	public CustomTypes withTInterval(Object tInterval) {
 		return new CustomTypes(tUuid, tInterval);
 	}
-
 	@Generated
 	@Override
 	public boolean equals(@Nullable Object o) {
@@ -97,7 +83,6 @@ public class CustomTypes{
 		if(!tInterval.equals(obj.tInterval)) return false;
 		return true;
 	}
-
 	@Generated
 	@Override
 	public int hashCode() {
@@ -106,16 +91,14 @@ public class CustomTypes{
 		result = 31 * result + (this.tInterval != null ? this.tInterval.hashCode() : 0);
 		return result;
 	}
-
 	@Generated
 	@Override
 	public String toString() {
 		return "CustomTypes[" +
 			"tUuid=" + tUuid +
-			", tInterval=" + tInterval +
+			", tInterval=" + tInterval + 
 			']';
 	}
-
 	@Generated
 	public CustomTypes updated(Function<Builder, Builder> updater) {
 		Builder b = new Builder();
@@ -124,14 +107,12 @@ public class CustomTypes{
 		b = updater.apply(b);
 		return new CustomTypes(b.tUuid, b.tInterval);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static CustomTypes build(ThrowingFunction<Builder<NOT, NOT>, Builder<SET, SET>, Exception> setter) {
 		Builder b = setter.toNonChecked().apply(new Builder());
 		return new CustomTypes(b.tUuid, b.tInterval);
 	}
-
 	@Generated
 	@SuppressWarnings("unchecked")
 	public static Result<CustomTypes> buildExc(

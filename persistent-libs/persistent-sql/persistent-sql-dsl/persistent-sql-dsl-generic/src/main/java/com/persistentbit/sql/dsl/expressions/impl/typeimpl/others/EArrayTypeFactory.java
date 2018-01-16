@@ -88,7 +88,7 @@ public class EArrayTypeFactory<I1 extends DExpr<JI1>, JI1>
 		@Override
 		public ExprTypeJdbcConvert<ImmutableArray<JI1>> getJdbcConverter() {
 
-			return new ExprTypeJdbcConvert<ImmutableArray<JI1>>(){
+			return new ExprTypeJdbcConvert<>(){
 				@Override
 				public void setParam(int index, PreparedStatement stat, ImmutableArray<JI1> value) throws SQLException {
 					if(value == null) {

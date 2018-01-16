@@ -3,9 +3,9 @@ package com.pbtest.postgres;
 import com.pbtest.postgres.expressions.*;
 import com.pbtest.postgres.tables.*;
 import com.pbtest.postgres.values.*;
-import com.persistentbit.sql.dsl.postgres.rt.DbPostgres;
+import com.persistentbit.sql.dsl.genericdb.DbGeneric;
 
-public class DbPg extends DbPostgres{
+public class DbPg extends DbGeneric{
 
 
 	public static final TGenders                genders                = new TGenders(_context);

@@ -7,32 +7,28 @@ import com.pbtest.postgres.values.CustomTypes;
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.Param;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.Interval;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EInterval;
-import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EUUID;
-import com.persistentbit.sql.dsl.postgres.rt.statements.PgQuery;
-import com.persistentbit.sql.dsl.postgres.rt.statements.impl.PgQueryImpl;
 import com.persistentbit.sql.dsl.statements.delete.Delete;
 import com.persistentbit.sql.dsl.statements.insert.InsertResult;
 import com.persistentbit.sql.dsl.statements.select.Query;
+import com.persistentbit.sql.dsl.statements.select.impl.QueryImpl;
 import com.persistentbit.sql.dsl.statements.update.Update;
 import com.persistentbit.sql.dsl.statements.work.DbWorkP1;
 import com.persistentbit.sql.dsl.tables.AbstractTable;
 import com.persistentbit.sql.dsl.tables.TableName;
 import com.persistentbit.sql.work.DbWork;
 
-import java.util.UUID;
 import java.util.function.Function;
 
 public class TCustomTypes extends AbstractTable<ECustomTypes, CustomTypes>{
 
 	private final TableName _tableName = new TableName(null, "pbtest", "custom_types");
-	private final DbWorkP1<UUID, CustomTypes> _selectById;
-	private final ECustomTypes                _all;
-	public final  EUUID                       tUuid;
-	public final  EInterval                   tInterval;
+	private final DbWorkP1<Object, CustomTypes> _selectById;
+	private final ECustomTypes                  _all;
+	public final  EObject                       tUuid;
+	public final  EObject                       tInterval;
 
 
 	private TCustomTypes(ExprContext context, String alias) {
@@ -44,7 +40,7 @@ public class TCustomTypes extends AbstractTable<ECustomTypes, CustomTypes>{
 		this.tUuid = _all.tUuid;
 		this.tInterval = _all.tInterval;
 		this._selectById = query(p -> q -> {
-			Param<EUUID> paramtUuid = context.param(EUUID.class, "tUuid");
+			Param<EObject> paramtUuid = context.param(EObject.class, "tUuid");
 			return q
 				.where(this.tUuid.eq(paramtUuid.getExpr()))
 				.selection(all())
@@ -55,29 +51,25 @@ public class TCustomTypes extends AbstractTable<ECustomTypes, CustomTypes>{
 	public TCustomTypes(ExprContext context) {
 		this(context, null);
 	}
-
 	@Override
 	public Class<ECustomTypes> getTypeClass() {
 		return ECustomTypes.class;
 	}
-
 	@Override
 	protected TableName getTableName() {
 		return _tableName;
 	}
-
 	@Override
 	public TCustomTypes as(String aliasName) {
 		return new TCustomTypes(context, aliasName);
 	}
-
 	@Override
 	public ECustomTypes all() {
 		return _all;
 	}
 
-	public PgQuery query() {
-		return new PgQueryImpl(context, PList.val(this));
+	public Query query() {
+		return new QueryImpl(context, PList.val(this));
 	}
 
 	public <R> R query(Function<ECustomTypes, Function<Query, R>> builder) {
@@ -88,7 +80,7 @@ public class TCustomTypes extends AbstractTable<ECustomTypes, CustomTypes>{
 		return new InsertCustomTypes(context, this);
 	}
 
-	public DbWork<Object> insert(@Nullable UUID tUuid, @Nullable Interval tInterval) {
+	public DbWork<Object> insert(@Nullable Object tUuid, @Nullable Object tInterval) {
 		return insert()
 			.add(tUuid, tInterval)
 			.flatMap(irList -> Result.fromOpt(irList.headOpt().map(InsertResult::getAutoGenKey)));
@@ -118,7 +110,7 @@ public class TCustomTypes extends AbstractTable<ECustomTypes, CustomTypes>{
 			.where(this.tUuid.eq(e.tUuid));
 	}
 
-	public DbWork<CustomTypes> selectById(UUID tUuid) {
+	public DbWork<CustomTypes> selectById(Object tUuid) {
 		return _selectById.with(tUuid);
 	}
 
@@ -126,7 +118,7 @@ public class TCustomTypes extends AbstractTable<ECustomTypes, CustomTypes>{
 		return new Delete(context, this);
 	}
 
-	public DbWork<Integer> deleteById(UUID tUuid) {
+	public DbWork<Integer> deleteById(Object tUuid) {
 		return delete()
 			.where(this.tUuid.eq(tUuid));
 	}
