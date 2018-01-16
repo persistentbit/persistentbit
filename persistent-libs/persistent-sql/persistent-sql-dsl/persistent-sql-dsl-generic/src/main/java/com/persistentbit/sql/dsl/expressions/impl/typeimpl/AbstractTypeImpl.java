@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
@@ -61,7 +61,7 @@ public abstract class AbstractTypeImpl<E extends DExpr<J>, J> implements ExprTyp
 	}
 
 	@Override
-	public SqlWithParams toSql() {
+	public Sql toSql() {
 		return getTypeStrategy()._toSql(this);
 	}
 

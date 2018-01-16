@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
 /**
@@ -12,7 +12,7 @@ import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 public interface TypeStrategy<J>{
 
 
-	SqlWithParams _toSql(AbstractTypeImpl impl);
+	Sql _toSql(AbstractTypeImpl impl);
 
 
 	String _createAliasName(AbstractTypeImpl impl, String aliasPrefix);

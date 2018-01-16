@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprTypeImpl;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
@@ -40,7 +40,7 @@ public interface StructTypeImplMixin<E extends DExpr<J>, J> extends ExprTypeImpl
 	}
 
 	@Override
-	default SqlWithParams toSql() {
+	default Sql toSql() {
 		return getTypeFactory().toSql(getThis());
 	}
 

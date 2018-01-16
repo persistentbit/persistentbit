@@ -3,7 +3,7 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.EList;
@@ -62,7 +62,7 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 	}
 
 	@Override
-	public EList buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
+	public EList buildCustomSql(Supplier<Sql> sqlSupplier) {
 		throw new ToDo();
 	}
 
@@ -123,7 +123,7 @@ public class EListTypeFactory implements ExprTypeFactory<EList, PList<DExpr>>{
 		}
 
 		@Override
-		public SqlWithParams toSql() {
+		public Sql toSql() {
 			throw new ToDo();
 		}
 

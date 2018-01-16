@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.statements;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 
 /**
  * TODOC
@@ -9,5 +9,6 @@ import com.persistentbit.sql.dsl.SqlWithParams;
  * @since 19/12/17
  */
 public interface SqlStatement{
-	SqlWithParams	toSql();
+
+	Sql toSql();
 }

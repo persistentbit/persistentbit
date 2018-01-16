@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
 /**
@@ -16,8 +16,8 @@ public class AliasTypeStrategy<J> extends AbstractTypeStrategy<J>{
 		this.alias = alias;
 	}
 	@Override
-	public SqlWithParams _toSql(AbstractTypeImpl impl) {
-		return SqlWithParams.sql(alias);
+	public Sql _toSql(AbstractTypeImpl impl) {
+		return Sql.sql(alias);
 	}
 
 	@Override

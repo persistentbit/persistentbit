@@ -3,7 +3,7 @@ package com.persistentbit.sql.dsl.statements.update;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
@@ -61,8 +61,8 @@ public class Update implements DbWork<Integer>{
 	@Override
 	public Result<Integer> run(DbTransaction transaction) {
 		return Result.function().code(log -> {
-			SqlWithParams sql   = SqlWithParams.sql("UPDATE " + context.getFromTableName(table) + " SET ");
-			boolean       first = true;
+			Sql     sql   = Sql.sql("UPDATE " + context.getFromTableName(table) + " SET ");
+			boolean first = true;
 			for(DExpr expr : setExpr) {
 				if(first == false) {
 					sql = sql.add(", ");
@@ -70,7 +70,7 @@ public class Update implements DbWork<Integer>{
 				first = false;
 				sql = sql.add(context.toSql(expr));
 			}
-			SqlWithParams finalSql = sql.add(" WHERE ").add(context.toSql(where));
+			Sql finalSql = sql.add(" WHERE ").add(context.toSql(where));
 			return transaction.run(con -> {
 
 				try(PreparedStatement stat = con.prepareStatement(finalSql.getSql())) {

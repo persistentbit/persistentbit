@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.postgres.rt.windowover;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.assql.SqlConvertibleImpl;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 
@@ -13,7 +13,7 @@ import com.persistentbit.sql.dsl.expressions.DExpr;
 public interface FrameStart extends SqlConvertibleImpl{
 
 	static FrameStart unboundedPreceding() {
-		return context -> SqlWithParams.sql("UNBOUNDED PRECEDING");
+		return context -> Sql.sql("UNBOUNDED PRECEDING");
 	}
 
 	static FrameStart preceding(DExpr<?> expr) {
@@ -21,7 +21,7 @@ public interface FrameStart extends SqlConvertibleImpl{
 	}
 
 	static FrameStart currentRow() {
-		return context -> SqlWithParams.sql("CURRENT ROW");
+		return context -> Sql.sql("CURRENT ROW");
 	}
 
 	static FrameStart following(DExpr<?> expr) {
@@ -29,6 +29,6 @@ public interface FrameStart extends SqlConvertibleImpl{
 	}
 
 	static FrameStart unboundedFollowing() {
-		return context -> SqlWithParams.sql("UNBOUNDED FOLLOWING");
+		return context -> Sql.sql("UNBOUNDED FOLLOWING");
 	}
 }

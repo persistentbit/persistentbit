@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.postgres.rt.statements.impl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.postgres.rt.statements.PgQuery;
 import com.persistentbit.sql.dsl.tables.Table;
 
@@ -48,8 +48,8 @@ public class PgSelectFor{
 		return query.with_for_what(this);
 	}
 
-	public SqlWithParams toSql() {
-		SqlWithParams sql = SqlWithParams.sql(forWhat + " ");
+	public Sql toSql() {
+		Sql sql = Sql.sql(forWhat + " ");
 		if(tables.isEmpty() == false) {
 			sql =
 				sql.add(" OF " + tables.map(t -> query.getQueryCtx().getContext().getFromTableName(t)).toString(", "));

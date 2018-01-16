@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl;
 
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PMap;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
@@ -76,7 +76,7 @@ public abstract class AbstractTypeFactory<E extends DExpr<J>, J> implements Expr
 	}
 
 	@Override
-	public E buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
+	public E buildCustomSql(Supplier<Sql> sqlSupplier) {
 		return buildWithStrategy(new CustomSqlTypeStrategy<>(sqlSupplier));
 	}
 

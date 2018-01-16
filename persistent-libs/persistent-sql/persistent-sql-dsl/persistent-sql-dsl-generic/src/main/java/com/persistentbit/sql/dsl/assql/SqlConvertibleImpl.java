@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.assql;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 
 /**
@@ -12,5 +12,5 @@ import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 @FunctionalInterface
 public interface SqlConvertibleImpl extends SqlConvertible{
 
-	SqlWithParams toSql(ExprContext context);
+	Sql toSql(ExprContext context);
 }

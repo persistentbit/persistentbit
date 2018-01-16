@@ -4,7 +4,7 @@ import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.collections.PStream;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
@@ -82,7 +82,7 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 	}
 
 	@Override
-	public E buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
+	public E buildCustomSql(Supplier<Sql> sqlSupplier) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -207,11 +207,11 @@ public abstract class AbstractStructureTypeFactory<E extends DExpr<J>, J> implem
 
 
 	@SuppressWarnings("unchecked")
-	public SqlWithParams toSql(E expr) {
-		PStream<SqlWithParams> sql =
+	public Sql toSql(E expr) {
+		PStream<Sql> sql =
 			fields.map(sf -> context.toSql(sf.expressionGetter.apply(expr)));
 		if(sql.isEmpty()) {
-			return SqlWithParams.empty;
+			return Sql.empty;
 		}
 		return sql.tail().fold(sql.head(), (a, b) -> a.add(", ").add(b));
 

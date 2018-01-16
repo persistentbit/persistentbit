@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.expressions.impl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 
@@ -26,7 +26,7 @@ public interface ExprTypeImpl<E extends DExpr<J>,J> extends DExpr<J>{
 
 	PList<DExpr> expand();
 
-	SqlWithParams toSql();
+	Sql toSql();
 
 	ExprTypeJdbcConvert<J> getJdbcConverter();
 
@@ -38,7 +38,7 @@ public interface ExprTypeImpl<E extends DExpr<J>,J> extends DExpr<J>{
 		return getTypeFactory().buildBinOp(left, op, right);
 	}
 
-	default E buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
+	default E buildCustomSql(Supplier<Sql> sqlSupplier) {
 		return getTypeFactory().buildCustomSql(sqlSupplier);
 	}
 

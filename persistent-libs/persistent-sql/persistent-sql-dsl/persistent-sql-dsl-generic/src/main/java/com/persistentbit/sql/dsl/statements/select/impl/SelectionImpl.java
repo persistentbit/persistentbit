@@ -3,7 +3,7 @@ package com.persistentbit.sql.dsl.statements.select.impl;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.ELong;
 import com.persistentbit.sql.dsl.expressions.ESelection;
@@ -46,33 +46,33 @@ public class SelectionImpl<E1 extends DExpr<J1>, J1> implements Selection<E1, J1
 	}
 
 	@Override
-	public final SqlWithParams toSql() {
+	public final Sql toSql() {
 		return toSql(null);
 	}
 
-	protected SqlWithParams toSql(String preFixAlias) {
+	protected Sql toSql(String preFixAlias) {
 		E1     colAsSelection = context.toSqlSelection(col1, preFixAlias);
 		String from           = queryCtx.from.map(t -> context.getFromTableName(t)).toString(", ");
 
-		SqlWithParams joins =
-			SqlWithParams
+		Sql joins =
+			Sql
 				.empty
 				.add(queryCtx.joins.map(j -> j.toSql()), System.lineSeparator());
-		SqlWithParams res = SqlWithParams.sql("SELECT ");
+		Sql res = Sql.sql("SELECT ");
 		if(queryCtx.distinct) {
 			res = res.add(" DISTINCT ");
 		}
 		res = res.add(context.toSql(colAsSelection));
-		res = res.add(SqlWithParams.nl);
+		res = res.add(Sql.nl);
 		res = res.add(" FROM " + from);
-		res = res.add(SqlWithParams.nl);
+		res = res.add(Sql.nl);
 		res = res.add(joins);
 		if(queryCtx.where != null) {
 			res = res.add(" WHERE ").add(context.toSql(queryCtx.where));
 		}
 		PList<GroupByDef> groupByList = queryCtx.groupBy;
 		if(groupByList.isEmpty() == false) {
-			res = res.add(SqlWithParams.nl);
+			res = res.add(Sql.nl);
 			if(groupByList.size() > 1) {
 				res = res.add(" GROUP BY GROUPING SETS(");
 			}
@@ -99,7 +99,7 @@ public class SelectionImpl<E1 extends DExpr<J1>, J1> implements Selection<E1, J1
 			}
 
 			if(queryCtx.having != null) {
-				res = res.add(SqlWithParams.nl);
+				res = res.add(Sql.nl);
 				res = res.add("HAVING ").add(context.toSql(queryCtx.having));
 			}
 		}
@@ -108,7 +108,7 @@ public class SelectionImpl<E1 extends DExpr<J1>, J1> implements Selection<E1, J1
 
 		if(queryCtx.limitAndOffset != null) {
 			Tuple2<ELong, ELong> t = queryCtx.limitAndOffset;
-			res = res.add(SqlWithParams.nl).add(" LIMIT ").add(context.toSql(t._1));
+			res = res.add(Sql.nl).add(" LIMIT ").add(context.toSql(t._1));
 			if(t._2 != null) {
 				res = res.add(" OFFSET ").add(context.toSql(t._2));
 			}
@@ -133,7 +133,7 @@ public class SelectionImpl<E1 extends DExpr<J1>, J1> implements Selection<E1, J1
 
 
 	private DbWork<PList<J1>> buildList(PMap<String, Object> args) {
-		SqlWithParams           sql         = toSql();
+		Sql                     sql         = toSql();
 		PList<DExpr>            expanded    = queryCtx.context.expand(col1);
 		ExprTypeJdbcConvert<J1> jdbcConvert = queryCtx.context.getJdbcConverter(col1);
 		return DbWork.function(args).code(trans -> con -> log -> {

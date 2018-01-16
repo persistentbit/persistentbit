@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.postgres.rt.windowover.impl;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.assql.SqlConvertibleImpl;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -49,8 +49,8 @@ public class WindowOverImpl implements WindowOver, SqlConvertibleImpl{
 	}
 
 	@Override
-	public SqlWithParams toSql(ExprContext context) {
-		return SqlWithParams
+	public Sql toSql(ExprContext context) {
+		return Sql
 			.sql(partitions.isEmpty() ? "" : "PARTITION BY ")
 			.add(partitions.map(p -> context.toSql(p)), ", ")
 			.add(" ").add(context.toSql(orderBy))

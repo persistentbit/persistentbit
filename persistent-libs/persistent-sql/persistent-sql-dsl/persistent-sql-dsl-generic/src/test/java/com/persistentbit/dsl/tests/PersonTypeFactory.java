@@ -2,7 +2,7 @@ package com.persistentbit.dsl.tests;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EDateTime;
 import com.persistentbit.sql.dsl.expressions.ELong;
@@ -92,7 +92,7 @@ public class PersonTypeFactory extends AbstractStructureTypeFactory<EPerson, Per
 		}
 
 		@Override
-		public SqlWithParams toSql() {
+		public Sql toSql() {
 			return null;
 		}
 

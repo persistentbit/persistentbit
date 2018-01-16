@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.statements.select.impl;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -71,7 +71,7 @@ public class JoinImpl<QIMPL extends Query> implements Join{
 		return queryAddJoin.apply(this);
 	}
 
-	public SqlWithParams toSql() {
+	public Sql toSql() {
 		String res = "";
 		switch(type) {
 			case full:
@@ -90,7 +90,7 @@ public class JoinImpl<QIMPL extends Query> implements Join{
 				throw new IllegalArgumentException(type.toString());
 
 		}
-		SqlWithParams result = SqlWithParams
+		Sql result = Sql
 			.nl
 			.add(res)
 			.add(getExprContext().getFromTableName(selectable));

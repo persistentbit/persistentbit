@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.tables;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.work.DbWork;
@@ -33,17 +33,17 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 
 
 	@Override
-	public SqlWithParams getFromName(String defaultCatalog, String defaultSchema) {
-		SqlWithParams res = createFullTableName(defaultCatalog,defaultSchema);
+	public Sql getFromName(String defaultCatalog, String defaultSchema) {
+		Sql res = createFullTableName(defaultCatalog, defaultSchema);
 		if(alias != null){
 			res = res.add(" " + alias);
 		}
 		return res;
 	}
 
-	protected SqlWithParams createFullTableNameOrAlias() {
+	protected Sql createFullTableNameOrAlias() {
 		if(alias != null){
-			return SqlWithParams.sql(alias);
+			return Sql.sql(alias);
 		}
 		return createFullTableName(context.getDefaultCatalogName().orElse(null),context.getDefaultSchemaName().orElse(null));
 	}
@@ -53,7 +53,7 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 		return query().selection(all()).list();
 	}
 
-	protected SqlWithParams createFullTableName(String defaultCatalog, String defaultSchema) {
+	protected Sql createFullTableName(String defaultCatalog, String defaultSchema) {
 		String catName = getTableName().getCatalogName().orElse("");
 		if(defaultCatalog != null){
 			if(catName.equals(defaultCatalog)){
@@ -72,7 +72,7 @@ public abstract class AbstractTable<EALL extends DExpr<J>,J> implements TableImp
 		if(schemaName.isEmpty() == false){
 			schemaName += ".";
 		}
-		return SqlWithParams.sql(catName + schemaName + getTableName().getTableName());
+		return Sql.sql(catName + schemaName + getTableName().getTableName());
 	}
 
 

@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
 /**
@@ -32,8 +32,8 @@ public class TableColumnTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	}
 
 	@Override
-	public SqlWithParams _toSql(AbstractTypeImpl impl) {
-		return SqlWithParams.sql(fieldSelectionName);
+	public Sql _toSql(AbstractTypeImpl impl) {
+		return Sql.sql(fieldSelectionName);
 	}
 
 

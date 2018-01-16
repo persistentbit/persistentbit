@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
 import com.persistentbit.collections.PMap;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.impl.PrepStatParam;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
@@ -25,7 +25,7 @@ public class ValTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 
 	@Override
-	public SqlWithParams _toSql(AbstractTypeImpl impl) {
+	public Sql _toSql(AbstractTypeImpl impl) {
 		ExprTypeJdbcConvert jdbcConvert = impl.getJdbcConverter();
 		PrepStatParam stat = new PrepStatParam(){
 			@Override
@@ -40,7 +40,7 @@ public class ValTypeStrategy<J> extends AbstractTypeStrategy<J>{
 				return value == null ? "null" : value.toString();
 			}
 		};
-		return SqlWithParams.param(stat);
+		return Sql.param(stat);
 	}
 
 	@Override

@@ -2,7 +2,7 @@ package com.persistentbit.dsl.tests;
 
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EString;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -79,7 +79,7 @@ public class AddressTypeFactory extends AbstractStructureTypeFactory<EAddress, A
 		}
 
 		@Override
-		public SqlWithParams toSql() {
+		public Sql toSql() {
 			return null;
 		}
 

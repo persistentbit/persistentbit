@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.BinOpOperator;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -30,10 +30,10 @@ public class BinOpTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
 
 	@Override
-	public SqlWithParams _toSql(AbstractTypeImpl impl) {
-		ExprContext   context  = impl.getContext();
-		SqlWithParams sqlLeft  = context.toSql(left);
-		SqlWithParams sqlRight = context.toSql(right);
+	public Sql _toSql(AbstractTypeImpl impl) {
+		ExprContext context  = impl.getContext();
+		Sql         sqlLeft  = context.toSql(left);
+		Sql         sqlRight = context.toSql(right);
 		return context.getBinOpSqlBuilder(operator)
 			.apply(left,sqlLeft,right,sqlRight);
 	}

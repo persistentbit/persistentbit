@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.genericdb;
 
 import com.persistentbit.collections.PByteList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.*;
 import com.persistentbit.sql.dsl.expressions.impl.Case;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
@@ -322,28 +322,28 @@ public class DbGeneric{
 	// SCALAR FUNCTIONS
 
 	public static final EDate     current_date      =
-		_context.customSql(EDate.class, () -> SqlWithParams.sql("CURRENT_DATE"));
+		_context.customSql(EDate.class, () -> Sql.sql("CURRENT_DATE"));
 	public static final ETime     current_time      =
-		_context.customSql(ETime.class, () -> SqlWithParams.sql("CURRENT_TIME"));
+		_context.customSql(ETime.class, () -> Sql.sql("CURRENT_TIME"));
 	public static final EDateTime current_timestamp =
-		_context.customSql(EDateTime.class, () -> SqlWithParams.sql("CURRENT_TIMESTAMP"));
+		_context.customSql(EDateTime.class, () -> Sql.sql("CURRENT_TIMESTAMP"));
 	public static final EString   current_user      =
-		_context.customSql(EString.class, () -> SqlWithParams.sql("CURRENT_USER"));
+		_context.customSql(EString.class, () -> Sql.sql("CURRENT_USER"));
 	public static final EString   session_user      =
-		_context.customSql(EString.class, () -> SqlWithParams.sql("SESSION_USER"));
+		_context.customSql(EString.class, () -> Sql.sql("SESSION_USER"));
 	public static final EString   system_user       =
-		_context.customSql(EString.class, () -> SqlWithParams.sql("SYSTEM_USER"));
+		_context.customSql(EString.class, () -> Sql.sql("SYSTEM_USER"));
 
 	public static final <E1 extends DExpr<J>, J> E1 cast(DExpr expr, Class<E1> asType) {
 		return _context.customSql(asType, () ->
-			SqlWithParams.sql("CAST(").add(_context.toSql(expr)).add(" AS ").add(_context.getDefaultDbTypeName(asType))
+			Sql.sql("CAST(").add(_context.toSql(expr)).add(" AS ").add(_context.getDefaultDbTypeName(asType))
 				.add(")")
 		);
 	}
 
 	public static final <E1 extends DExpr<J>, J> E1 cast(DExpr expr, Class<E1> asType, int length) {
 		return _context.customSql(asType, () ->
-			SqlWithParams.sql("CAST(").add(_context.toSql(expr)).add(" AS ").add(_context.getDefaultDbTypeName(asType))
+			Sql.sql("CAST(").add(_context.toSql(expr)).add(" AS ").add(_context.getDefaultDbTypeName(asType))
 				.add("(" + length + "))")
 		);
 	}

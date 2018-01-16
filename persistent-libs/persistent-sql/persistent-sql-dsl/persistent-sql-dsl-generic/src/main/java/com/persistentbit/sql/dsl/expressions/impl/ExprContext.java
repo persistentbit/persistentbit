@@ -4,7 +4,7 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.assql.SqlConvertible;
 import com.persistentbit.sql.dsl.assql.SqlConvertibleImpl;
 import com.persistentbit.sql.dsl.expressions.*;
@@ -37,13 +37,13 @@ public class ExprContext{
 	@FunctionalInterface
 	public interface BinOpSqlBuilder{
 
-		SqlWithParams apply(DExpr left, SqlWithParams sqlLeft, DExpr right, SqlWithParams sqlRight);
+		Sql apply(DExpr left, Sql sqlLeft, DExpr right, Sql sqlRight);
 	}
 
 	@FunctionalInterface
 	public interface SingleOpSqlBuilder{
 
-		SqlWithParams apply(DExpr expr, SqlWithParams sql);
+		Sql apply(DExpr expr, Sql sql);
 	}
 
 	@FunctionalInterface
@@ -146,7 +146,7 @@ public class ExprContext{
 			sql.add("IS NOT NULL")
 		);
 		addSingleOpBuilder(SingleOpOperator.opNot, (expr, sql) ->
-			SqlWithParams.sql("NOT ").add(sql)
+			Sql.sql("NOT ").add(sql)
 		);
 	}
 
@@ -217,11 +217,11 @@ public class ExprContext{
 		return ((ExprTypeImpl<E, J>) typeExpr).buildBinOp(left, operator, right);
 	}
 
-	public <E extends DExpr<J>, J> E customSql(Class<E> resultTypeClass, Supplier<SqlWithParams> sqlSupplier) {
+	public <E extends DExpr<J>, J> E customSql(Class<E> resultTypeClass, Supplier<Sql> sqlSupplier) {
 		return get(resultTypeClass).buildCustomSql(sqlSupplier);
 	}
 
-	public <E extends DExpr<J>, J> E customSql(E typeExpr, Supplier<SqlWithParams> sqlSupplier) {
+	public <E extends DExpr<J>, J> E customSql(E typeExpr, Supplier<Sql> sqlSupplier) {
 		return ((ExprTypeImpl<E, J>) typeExpr).buildCustomSql(sqlSupplier);
 	}
 
@@ -324,7 +324,7 @@ public class ExprContext{
 	public EBool isNotNull(DExpr expr) { return booleanSingleOp(expr, SingleOpOperator.opIsNotNull);}
 
 
-	public SqlWithParams toSql(DExpr expr) {
+	public Sql toSql(DExpr expr) {
 		return ((ExprTypeImpl) expr).toSql();
 	}
 
@@ -345,7 +345,7 @@ public class ExprContext{
 		return ((ExprTypeImpl) expr).getTypeFactory();
 	}
 
-	public SqlWithParams getFromTableName(Table table) {
+	public Sql getFromTableName(Table table) {
 		TableImpl impl = (TableImpl) table;
 		return impl.getFromName(defaultCatalogName, defaultSchemaName);
 	}
@@ -470,7 +470,7 @@ public class ExprContext{
 		return ((ExprTypeImpl<E1, J1>) typeExpr).buildCall(callName, params);
 	}
 
-	public SqlWithParams toSql(SqlConvertible sqlConvertible) {
+	public Sql toSql(SqlConvertible sqlConvertible) {
 		return ((SqlConvertibleImpl) sqlConvertible).toSql(this);
 	}
 }

@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.expressions.impl;
 
 import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.tuples.Tuple2;
@@ -49,8 +49,8 @@ public class Case{
 		}
 
 		public E end() {
-			Lazy<SqlWithParams> sqlSupl = Lazy.code(() -> {
-				SqlWithParams sql = SqlWithParams.sql("CASE");
+			Lazy<Sql> sqlSupl = Lazy.code(() -> {
+				Sql sql = Sql.sql("CASE");
 				for(Tuple2<EBool, E> item : items) {
 					sql = sql.add(" WHEN ")
 						.add(context.toSql(item._1))

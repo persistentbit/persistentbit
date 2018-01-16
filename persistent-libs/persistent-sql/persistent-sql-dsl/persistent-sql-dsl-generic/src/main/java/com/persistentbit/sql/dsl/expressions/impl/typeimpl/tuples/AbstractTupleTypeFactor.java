@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.tuples;
 
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.ETuple2;
@@ -171,8 +171,8 @@ public abstract class AbstractTupleTypeFactor<E extends AbstractTupleTypeFactor.
 		}
 
 		@Override
-		public SqlWithParams toSql() {
-			SqlWithParams res = SqlWithParams.empty;
+		public Sql toSql() {
+			Sql res = Sql.empty;
 			for(int t = 0; t < items.length; t++) {
 				if(t != 0) {
 					res = res.add(", ");

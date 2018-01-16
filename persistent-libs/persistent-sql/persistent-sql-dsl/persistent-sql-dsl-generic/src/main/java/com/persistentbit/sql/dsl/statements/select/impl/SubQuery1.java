@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.statements.select.impl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.statements.select.Query;
@@ -28,8 +28,8 @@ public class SubQuery1<E1 extends DExpr<J1>,J1> implements TableImpl<E1,J1>{
 		this.v1 = context.buildAlias(orgSelection.col1, name + "." + "v1_");
 	}
 
-	public SqlWithParams	toSql() {
-		return SqlWithParams
+	public Sql toSql() {
+		return Sql
 				   .sql("(")
 			.add(orgSelection.toSql("v1_"))
 			.add(") AS " + name);
@@ -54,7 +54,7 @@ public class SubQuery1<E1 extends DExpr<J1>,J1> implements TableImpl<E1,J1>{
 	}
 
 	@Override
-	public SqlWithParams getFromName(String defaultCatalog, String defaultSchema) {
+	public Sql getFromName(String defaultCatalog, String defaultSchema) {
 		return toSql();
 	}
 

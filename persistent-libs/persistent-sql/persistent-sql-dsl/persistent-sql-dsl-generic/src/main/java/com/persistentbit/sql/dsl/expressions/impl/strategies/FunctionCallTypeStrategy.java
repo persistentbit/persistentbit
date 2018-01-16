@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
@@ -23,15 +23,15 @@ public class FunctionCallTypeStrategy<J> extends AbstractTypeStrategy<J>{
 	}
 
 	@Override
-	public SqlWithParams _toSql(AbstractTypeImpl impl) {
-		SqlWithParams sql        = SqlWithParams.sql(callName + "(");
-		boolean       first      = true;
-		boolean       prevString = false;
+	public Sql _toSql(AbstractTypeImpl impl) {
+		Sql     sql        = Sql.sql(callName + "(");
+		boolean first      = true;
+		boolean prevString = false;
 		for(Object obj : arguments) {
 			DExpr expr = obj instanceof DExpr ? (DExpr) obj : null;
 			if(expr == null) {
-				if(obj instanceof SqlWithParams) {
-					sql = sql.add((SqlWithParams) obj);
+				if(obj instanceof Sql) {
+					sql = sql.add((Sql) obj);
 				}
 				else {
 					//use it as a string

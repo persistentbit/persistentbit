@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.orderby.impl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.assql.SqlConvertibleImpl;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.orderby.OrderBy;
@@ -30,14 +30,14 @@ public class OrderByImpl implements OrderBy, SqlConvertibleImpl{
 		return new OrderByImpl(items.plus(orderByItem));
 	}
 
-	public SqlWithParams toSql(ExprContext context) {
+	public Sql toSql(ExprContext context) {
 		if(items.isEmpty()) {
-			return SqlWithParams.empty;
+			return Sql.empty;
 		}
-		return SqlWithParams.sql("ORDER BY ").add(items.map(i -> orderByItemToSql(i, context)), ", ");
+		return Sql.sql("ORDER BY ").add(items.map(i -> orderByItemToSql(i, context)), ", ");
 	}
 
-	private SqlWithParams orderByItemToSql(OrderByItem item, ExprContext context) {
+	private Sql orderByItemToSql(OrderByItem item, ExprContext context) {
 		return context
 			.toSql(item.getExpr())
 			.add(" " + item.getDir().name());

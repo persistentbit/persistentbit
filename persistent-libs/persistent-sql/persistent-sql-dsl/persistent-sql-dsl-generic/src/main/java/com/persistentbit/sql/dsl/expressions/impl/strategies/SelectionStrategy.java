@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
@@ -21,7 +21,7 @@ public class SelectionStrategy<E extends DExpr<J>,J> extends AbstractTypeStrateg
 	}
 
 	@Override
-	public SqlWithParams _toSql(AbstractTypeImpl impl) {
+	public Sql _toSql(AbstractTypeImpl impl) {
 		return impl.getContext().toSql(expr)
 			.add(alias);
 	}

@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
 
 import java.util.function.Supplier;
@@ -13,16 +13,16 @@ import java.util.function.Supplier;
  */
 public class CustomSqlTypeStrategy<J> extends AbstractTypeStrategy<J>{
 
-	private final Supplier<SqlWithParams> sqlSupplier;
+	private final Supplier<Sql> sqlSupplier;
 
-	public CustomSqlTypeStrategy(Supplier<SqlWithParams> sqlSupplier) {
+	public CustomSqlTypeStrategy(Supplier<Sql> sqlSupplier) {
 
 		this.sqlSupplier = sqlSupplier;
 	}
 
 
 	@Override
-	public SqlWithParams _toSql(AbstractTypeImpl impl) {
+	public Sql _toSql(AbstractTypeImpl impl) {
 		return sqlSupplier.get();
 	}
 

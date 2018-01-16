@@ -1,6 +1,6 @@
 package com.persistentbit.sql.dsl.expressions.impl.strategies;
 
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.SingleOpOperator;
@@ -26,9 +26,9 @@ public class SingleOpTypeStrategy<T> extends AbstractTypeStrategy<T>{
 
 
 	@Override
-	public SqlWithParams _toSql(AbstractTypeImpl impl) {
-		ExprContext   context = impl.getContext();
-		SqlWithParams sql = context.toSql(expr);
+	public Sql _toSql(AbstractTypeImpl impl) {
+		ExprContext context = impl.getContext();
+		Sql         sql     = context.toSql(expr);
 		return context.getSingleOpSqlBuilder(operator)
 			.apply(expr,sql);
 	}

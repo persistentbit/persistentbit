@@ -2,7 +2,7 @@ package com.persistentbit.sql.dsl.statements.delete;
 
 import com.persistentbit.collections.PMap;
 import com.persistentbit.result.Result;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.tables.Table;
@@ -38,8 +38,8 @@ public class Delete{
 
 	public DbWork<Integer> where(EBool where) {
 		return DbWork.function().code(trans -> con -> log -> {
-			SqlWithParams sql =
-				SqlWithParams.sql("DELETE FROM " + context.getFromTableName(table) + " WHERE ")
+			Sql sql =
+				Sql.sql("DELETE FROM " + context.getFromTableName(table) + " WHERE ")
 					.add(context.toSql(where));
 			log.info("Exec SQL:" + sql);
 

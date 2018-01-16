@@ -3,7 +3,7 @@ package com.persistentbit.sql.dsl.expressions.impl.typeimpl.others;
 import com.persistentbit.collections.ImmutableArray;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.expressions.EArray;
 import com.persistentbit.sql.dsl.expressions.ESelection;
@@ -62,7 +62,7 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 	}
 
 	@Override
-	public ESelection<J> buildCustomSql(Supplier<SqlWithParams> sqlSupplier) {
+	public ESelection<J> buildCustomSql(Supplier<Sql> sqlSupplier) {
 		throw new UnsupportedOperationException("ESubQuery");
 	}
 
@@ -90,16 +90,17 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 
 
 	public ESelection<J> create(SelectionImpl<?, J> selection) {
-		SqlWithParams sql = SqlWithParams.sql("(").add(selection.toSql()).add(")");
+		Sql sql = Sql.sql("(").add(selection.toSql()).add(")");
 		return new ESelectionImpl<>(selection.getJdbcConverter(),this,sql);
 	}
 
 	static public class ESelectionImpl<J1> implements ExprTypeImpl<DExpr<J1>,J1>, ESelection<J1>{
-		private final ExprTypeFactory<?,J1> typeFactory;
-		private final SqlWithParams sql;
+
+		private final ExprTypeFactory<?, J1>  typeFactory;
+		private final Sql                     sql;
 		private final ExprTypeJdbcConvert<J1> jdbcConverter;
 
-		public ESelectionImpl(ExprTypeJdbcConvert<J1> jdbcConverter, ExprTypeFactory<?, J1> typeFactory, SqlWithParams sql) {
+		public ESelectionImpl(ExprTypeJdbcConvert<J1> jdbcConverter, ExprTypeFactory<?, J1> typeFactory, Sql sql) {
 			this.jdbcConverter = jdbcConverter;
 			this.typeFactory = typeFactory;
 			this.sql = sql;
@@ -108,7 +109,7 @@ public class ESelectionTypeFactory<J> implements ExprTypeFactory<ESelection<J>, 
 			return jdbcConverter;
 		}
 
-		public SqlWithParams toSql() {
+		public Sql toSql() {
 			return sql;
 		}
 

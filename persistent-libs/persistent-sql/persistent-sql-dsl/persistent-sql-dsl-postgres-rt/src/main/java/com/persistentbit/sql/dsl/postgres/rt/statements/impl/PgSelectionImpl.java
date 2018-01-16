@@ -1,7 +1,7 @@
 package com.persistentbit.sql.dsl.postgres.rt.statements.impl;
 
 import com.persistentbit.collections.PList;
-import com.persistentbit.sql.dsl.SqlWithParams;
+import com.persistentbit.sql.dsl.Sql;
 import com.persistentbit.sql.dsl.expressions.DExpr;
 import com.persistentbit.sql.dsl.statements.select.impl.QueryCtx;
 import com.persistentbit.sql.dsl.statements.select.impl.SelectionImpl;
@@ -22,8 +22,8 @@ public class PgSelectionImpl<E1 extends DExpr<J1>, J1> extends SelectionImpl<E1,
 	}
 
 	@Override
-	protected SqlWithParams toSql(String preFixAlias) {
-		SqlWithParams sql = super.toSql(preFixAlias);
+	protected Sql toSql(String preFixAlias) {
+		Sql sql = super.toSql(preFixAlias);
 		if(selectFor.isEmpty()) {
 			return sql;
 		}
