@@ -3,10 +3,10 @@ package com.persistentbit.sql.dsl;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PMap;
 import com.persistentbit.collections.PStream;
-import com.persistentbit.sql.dsl.expressions.impl.PrepStatParam;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.function.Function;
 
 /**
  * TODOC
@@ -16,6 +16,62 @@ import java.sql.SQLException;
  */
 public class Sql{
 
+	@FunctionalInterface
+	public interface
+
+	private final String                                                                                         sql;
+	private final PList<Function<PMap<String, Object>, Function<PreparedStatement, Function<Integer, Integer>>>> params;
+
+	private Sql(String sql,
+				PList<Function<PMap<String, Object>, Function<PreparedStatement, Function<Integer, Integer>>>> params) {
+		this.sql = sql;
+		this.params = params;
+	}
+
+	static public final Sql empty = new Sql("", PList.empty());
+
+	static public final Sql sql(String sqlString) {
+		return new Sql(sqlString, PList.empty());
+	}
+
+	static public final Sql nl = sql(System.lineSeparator());
+
+
+	public Sql add(String sql) {
+		return new Sql(this.sql + sql, params);
+	}
+
+	public Sql add(Function<PMap<String, Object>, Function<PreparedStatement, Function<Integer, Integer>>> param) {
+		return new Sql(sql + "?", params.plus(param));
+	}
+
+	public Sql add(Sql other) {
+		return new Sql(this.sql + other.sql, this.params.plusAll(other.params));
+	}
+
+	public Sql add(PStream<Sql> collection, String sep) {
+		if(collection.isEmpty()) {
+			return this;
+		}
+		return add(collection.tail().fold(collection.headOpt().get(), (a, b) -> a.add(sep).add(b)));
+
+	}
+
+	public String toString() {
+		return sql;
+	}
+
+	public String getSql() {
+		return sql;
+	}
+
+	public void setParams(PMap<String, Object> extParams, PreparedStatement stat) throws SQLException {
+		int t = 1;
+		for(Item i : items) {
+			t = i.setParams(extParams, stat, t);
+		}
+	}
+	/*
 	static private abstract class Item{
 
 		abstract int setParams(PMap<String, Object> extParams, PreparedStatement stat, int index) throws SQLException;
@@ -135,5 +191,5 @@ public class Sql{
 		return items.map(Item::toSqlString).fold("", (a, b) -> a + b);
 	}
 
-
+*/
 }
