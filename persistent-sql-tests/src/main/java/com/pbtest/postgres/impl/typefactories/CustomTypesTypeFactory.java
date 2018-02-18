@@ -5,13 +5,16 @@ import com.pbtest.postgres.values.CustomTypes;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PStream;
 import com.persistentbit.sql.dsl.expressions.DExpr;
-import com.persistentbit.sql.dsl.expressions.EObject;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractStructureTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructTypeImplMixin;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.StructureField;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.Interval;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EInterval;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.expressions.EUUID;
 
 import java.util.Iterator;
+import java.util.UUID;
 
 public class CustomTypesTypeFactory extends AbstractStructureTypeFactory<ECustomTypes, CustomTypes>{
 
@@ -20,8 +23,8 @@ public class CustomTypesTypeFactory extends AbstractStructureTypeFactory<ECustom
 
 		public ECustomTypesImpl(Iterator<DExpr> iter) {
 			super(
-				(EObject) iter.next()
-				, (EObject) iter.next()
+				(EUUID) iter.next()
+				, (EInterval) iter.next()
 			);
 		}
 		@Override
@@ -44,15 +47,15 @@ public class CustomTypesTypeFactory extends AbstractStructureTypeFactory<ECustom
 	@Override
 	protected PList<StructureField<ECustomTypes, CustomTypes>> buildFields() {
 		return PList.val(
-			createField(EObject.class, "t_uuid", "tUuid", v -> v.getTUuid(), v -> v.tUuid)
-			, createField(EObject.class, "t_interval", "tInterval", v -> v.getTInterval(), v -> v.tInterval)
+			createField(EUUID.class, "t_uuid", "tUuid", v -> v.getTUuid(), v -> v.tUuid)
+			, createField(EInterval.class, "t_interval", "tInterval", v -> v.getTInterval(), v -> v.tInterval)
 		);
 	}
 	@Override
 	protected CustomTypes buildValue(Object[] fieldValues) {
 		return new CustomTypes(
-			(Object) fieldValues[0]
-			, (Object) fieldValues[1]
+			(UUID) fieldValues[0]
+			, (Interval) fieldValues[1]
 		);
 	}
 	@Override

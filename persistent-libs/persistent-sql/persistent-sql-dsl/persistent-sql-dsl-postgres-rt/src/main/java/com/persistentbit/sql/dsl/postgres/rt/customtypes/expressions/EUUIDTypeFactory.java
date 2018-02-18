@@ -4,9 +4,9 @@ import com.persistentbit.sql.dsl.expressions.EBool;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
 import com.persistentbit.sql.dsl.expressions.impl.jdbc.ExprTypeJdbcConvert;
 import com.persistentbit.sql.dsl.expressions.impl.strategies.TypeStrategy;
+import com.persistentbit.sql.dsl.expressions.impl.strategies.ValTypeStrategy;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeFactory;
 import com.persistentbit.sql.dsl.expressions.impl.typeimpl.AbstractTypeImpl;
-import com.persistentbit.sql.dsl.expressions.impl.typeimpl.TypeImplComparableMixin;
 
 import java.util.UUID;
 
@@ -39,8 +39,7 @@ public class EUUIDTypeFactory extends AbstractTypeFactory<EUUID, UUID>{
 		return new EUUIDTypeFactory.EUUIDImpl(strategy);
 	}
 
-	private class EUUIDImpl extends AbstractTypeImpl<EUUID, UUID> implements EUUID,
-		TypeImplComparableMixin<EUUID, UUID>{
+	private class EUUIDImpl extends AbstractTypeImpl<EUUID, UUID> implements EUUID{
 
 		public EUUIDImpl(TypeStrategy<UUID> typeStrategy) {
 			super(typeStrategy);
@@ -65,11 +64,16 @@ public class EUUIDTypeFactory extends AbstractTypeFactory<EUUID, UUID>{
 			return getExprContext().notEq(this, other);
 		}
 
+		@Override
+		public EBool eq(UUID value) {
+			return eq(new EUUIDImpl(new ValTypeStrategy<>(value)));
+		}
 
 		@Override
-		public EUUID getThis() {
-			return this;
+		public EBool notEq(UUID value) {
+			return notEq(new EUUIDImpl(new ValTypeStrategy<>(value)));
 		}
+
 
 		@Override
 		public EBool isNull() {

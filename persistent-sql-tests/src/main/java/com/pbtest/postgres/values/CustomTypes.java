@@ -6,18 +6,20 @@ import com.persistentbit.javacodegen.annotations.Generated;
 import com.persistentbit.javacodegen.annotations.NOT;
 import com.persistentbit.javacodegen.annotations.SET;
 import com.persistentbit.result.Result;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.Interval;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Function;
 
 public class CustomTypes{
 
-	private final Object tUuid;
-	private final Object tInterval;
+	private final UUID     tUuid;
+	private final Interval tInterval;
 	
 	
 	@Generated
-	public CustomTypes(Object tUuid, Object tInterval) {
+	public CustomTypes(UUID tUuid, Interval tInterval) {
 		this.tUuid = Objects.requireNonNull(tUuid, "tUuid can not be null");
 		this.tInterval = Objects.requireNonNull(tInterval, "tInterval can not be null");
 	}
@@ -25,16 +27,16 @@ public class CustomTypes{
 	@SuppressWarnings("unchecked")
 	static public class Builder<_T1, _T2>{
 
-		private Object tUuid;
-		private Object tInterval;
+		private UUID     tUuid;
+		private Interval tInterval;
 
 
-		public Builder<SET, _T2> setTUuid(Object tUuid) {
+		public Builder<SET, _T2> setTUuid(UUID tUuid) {
 			this.tUuid = tUuid;
 			return (Builder<SET, _T2>) this;
 		}
 
-		public Builder<_T1, SET> setTInterval(Object tInterval) {
+		public Builder<_T1, SET> setTInterval(Interval tInterval) {
 			this.tInterval = tInterval;
 			return (Builder<_T1, SET>) this;
 		}
@@ -44,7 +46,7 @@ public class CustomTypes{
 	 * @return {@link #tUuid}
 	 */
 	@Generated
-	public Object getTUuid() {
+	public UUID getTUuid() {
 		return this.tUuid;
 	}
 	/**
@@ -53,7 +55,7 @@ public class CustomTypes{
 	 * @return A new instance of {@link CustomTypes}
 	 */
 	@Generated
-	public CustomTypes withTUuid(Object tUuid) {
+	public CustomTypes withTUuid(UUID tUuid) {
 		return new CustomTypes(tUuid, tInterval);
 	}
 	/**
@@ -61,7 +63,7 @@ public class CustomTypes{
 	 * @return {@link #tInterval}
 	 */
 	@Generated
-	public Object getTInterval() {
+	public Interval getTInterval() {
 		return this.tInterval;
 	}
 	/**
@@ -70,7 +72,7 @@ public class CustomTypes{
 	 * @return A new instance of {@link CustomTypes}
 	 */
 	@Generated
-	public CustomTypes withTInterval(Object tInterval) {
+	public CustomTypes withTInterval(Interval tInterval) {
 		return new CustomTypes(tUuid, tInterval);
 	}
 	@Generated
@@ -95,7 +97,7 @@ public class CustomTypes{
 	@Override
 	public String toString() {
 		return "CustomTypes[" +
-			"tUuid=" + tUuid +
+			"tUuid=" + tUuid + 
 			", tInterval=" + tInterval + 
 			']';
 	}

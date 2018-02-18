@@ -15,5 +15,14 @@ public interface EUUID extends DExpr<UUID>{
 
 	EBool eq(EUUID other);
 
+	EBool eq(UUID value);
+
+
 	EBool notEq(EUUID other);
+
+	EBool notEq(UUID value);
+
+	EBool isNull();
+
+	EBool isNotNull();
 }

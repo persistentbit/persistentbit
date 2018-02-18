@@ -53,10 +53,6 @@ abstract class AbstractPStreamDirect<T, IMP extends PStream<T>> extends Abstract
 		};
 	}
 
-	@Override
-	public Iterator<T> iterator() {
-		return null;
-	}
 
 	@Override
 	public PStream<T> sorted() {

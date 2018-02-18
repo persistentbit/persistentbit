@@ -1,10 +1,10 @@
 package com.persistentbit.collections;
 
 
-import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.doc.annotations.DSupport;
 import com.persistentbit.doc.annotations.DUsedByClass;
 import com.persistentbit.doc.annotations.DUsesClass;
+import com.persistentbit.functions.ThrowingFunction;
 import com.persistentbit.tuples.Tuple2;
 
 import java.util.*;
@@ -649,6 +649,7 @@ public interface PStream<T> extends Iterable<T>{
 	 * @throws IllegalStateException when the stream was empty
 	 */
 	PStream<T> tail();
+
 
 	/**
 	 * Get the biggest item in this PStream

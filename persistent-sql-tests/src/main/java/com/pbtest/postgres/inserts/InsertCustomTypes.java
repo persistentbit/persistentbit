@@ -6,7 +6,10 @@ import com.persistentbit.code.annotations.Nullable;
 import com.persistentbit.collections.PList;
 import com.persistentbit.collections.PSet;
 import com.persistentbit.sql.dsl.expressions.impl.ExprContext;
+import com.persistentbit.sql.dsl.postgres.rt.customtypes.Interval;
 import com.persistentbit.sql.dsl.statements.insert.Insert;
+
+import java.util.UUID;
 
 public class InsertCustomTypes extends Insert<TCustomTypes, Void>{
 
@@ -22,7 +25,7 @@ public class InsertCustomTypes extends Insert<TCustomTypes, Void>{
 
 	private static final PList<String> columnNames = PList.val("t_uuid", "t_interval");
 
-	public InsertCustomTypes add(@Nullable Object tUuid, @Nullable Object tInterval) {
+	public InsertCustomTypes add(@Nullable UUID tUuid, @Nullable Interval tInterval) {
 		Object[] row = new Object[]{
 			tUuid
 			, tInterval
